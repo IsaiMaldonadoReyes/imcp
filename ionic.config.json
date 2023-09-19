@@ -1,0 +1,7 @@
+{
+  "name": "imcp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
