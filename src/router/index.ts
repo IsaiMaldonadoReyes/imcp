@@ -1,39 +1,56 @@
-import { createRouter, createWebHistory } from '@ionic/vue-router';
-import { RouteRecordRaw } from 'vue-router';
-import TabsPage from '../views/TabsPage.vue'
+import { createRouter, createWebHistory } from "@ionic/vue-router";
+import { RouteRecordRaw } from "vue-router";
+import TabsPage from "../views/TabsPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    redirect: '/tabs/tab1'
+    path: "/login",
+    component: () => import("@/views/login.vue"),
   },
   {
-    path: '/tabs/',
+    path: "/reset",
+    name: "resetPassword",
+    component: () => import("@/views/ResetPassword.vue"),
+  },
+  {
+    path: "/",
+    redirect: "/login",
+  },
+  {
+    path: "/tabs/",
     component: TabsPage,
     children: [
       {
-        path: '',
-        redirect: '/tabs/tab1'
+        path: "",
+        redirect: "/tabs/dashboard",
       },
       {
-        path: 'tab1',
-        component: () => import('@/views/Tab1Page.vue')
+        path: "dashboard",
+        component: () => import("@/views/dashboard/Dashboard.vue"),
       },
       {
-        path: 'tab2',
-        component: () => import('@/views/Tab2Page.vue')
+        path: "certificado",
+        component: () => import("@/views/certificado/CertificadoEstatus.vue"),
       },
       {
-        path: 'tab3',
-        component: () => import('@/views/Tab3Page.vue')
-      }
-    ]
-  }
-]
+        path: "emitidos",
+        component: () => import("@/views/certificado/CertificadoEmitidos.vue"),
+      },
+      {
+        path: "cuenta",
+        component: () => import("@/views/cuenta/MiCuenta.vue"),
+      },
+      {
+        path: "avisos",
+        component: () => import("@/views/capacitacionExterna/AvisoCapacitacion.vue"),
+      },
+    ],
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
