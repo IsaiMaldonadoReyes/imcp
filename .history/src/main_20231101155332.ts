@@ -16,8 +16,6 @@ import { store } from "./store";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
-import 'vuetify/dist/vuetify.css'
-
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/vue/css/core.css";
 

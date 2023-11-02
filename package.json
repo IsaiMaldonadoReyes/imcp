@@ -21,6 +21,7 @@
     "@capacitor/status-bar": "5.0.6",
     "@ionic/vue": "^7.0.0",
     "@ionic/vue-router": "^7.0.0",
+    "@mdi/font": "^7.3.67",
     "axios": "^1.6.0",
     "ionicons": "^7.0.0",
     "sweetalert2": "^11.9.0",

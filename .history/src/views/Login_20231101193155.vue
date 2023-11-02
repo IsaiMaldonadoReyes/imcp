@@ -1,11 +1,13 @@
 <template>
-  <ion-page>
-    <v-container class="">
-      <v-responsive class="mx-auto" max-width="344">
-        <v-text-field clearable label="Last name" variant="outlined"></v-text-field>
-      </v-responsive>
-    </v-container>
-    <!--ion-item>
+  <ion-page v-ion-theme="'light'">
+      <v-container class="d-flex align-center justify-center fill-height fluid">
+        <v-card color="#1E2022" elevation="16" class="">
+          <v-row>
+        <v-col cols="12" lg="6"></v-col>
+      <v-row>
+      </v-card>
+      </v-container>
+      <!--ion-item>
         <ion-label class="float-label" position="floating"> Nombre </ion-label>
         <ion-input v-model="form.nombre" id="nombre" required></ion-input>
       </ion-item>
@@ -39,6 +41,9 @@
 
       <ion-button @click="resetPassword">Recuperar contraseña</ion-button>
       <ion-button @click="setOpen">Click Me</ion-button-->
+
+     
+    
   </ion-page>
 </template>
 

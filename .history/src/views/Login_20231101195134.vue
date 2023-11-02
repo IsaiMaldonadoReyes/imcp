@@ -1,11 +1,47 @@
 <template>
-  <ion-page>
-    <v-container class="">
-      <v-responsive class="mx-auto" max-width="344">
-        <v-text-field clearable label="Last name" variant="outlined"></v-text-field>
-      </v-responsive>
-    </v-container>
-    <!--ion-item>
+  <ion-page v-ion-theme="'light'">
+      <v-container class="">
+        
+         
+              <v-card color="#285697" elevation="0" >
+                <v-row
+                  class="d-flex align-center justify-center"
+                  style="height: 50%"
+                >
+                  <v-col cols="12" lg="12" md="12" sm="12">
+                    <v-form>
+                      <v-card-text>
+                        <v-text-field
+                          outlined
+                          clearable
+                          label="Email"
+                          color="white"
+                        />
+                        <v-text-field
+                          name="input-10-1"
+                          label="Contraseña"
+                          hint="Ingresa al menos 8 caracteres"
+                          counter
+                          outlined
+                          clearable
+                          
+                          color="white"
+                        />
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="white"  class="primary--text">
+                          ENTRAR
+                          <v-icon right>mdi-arrow-right-circle</v-icon>
+                        </v-btn>
+                      </v-card-actions>
+                    </v-form>
+                  </v-col>
+                </v-row>
+              </v-card>
+          
+      </v-container>
+      <!--ion-item>
         <ion-label class="float-label" position="floating"> Nombre </ion-label>
         <ion-input v-model="form.nombre" id="nombre" required></ion-input>
       </ion-item>
@@ -39,6 +75,9 @@
 
       <ion-button @click="resetPassword">Recuperar contraseña</ion-button>
       <ion-button @click="setOpen">Click Me</ion-button-->
+
+     
+    
   </ion-page>
 </template>
 

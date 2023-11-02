@@ -1,10 +1,6 @@
 <template>
   <ion-page>
-    <v-container class="">
-      <v-responsive class="mx-auto" max-width="344">
-        <v-text-field clearable label="Last name" variant="outlined"></v-text-field>
-      </v-responsive>
-    </v-container>
+    <v-text-field label="Label" variant="outlined"></v-text-field>
     <!--ion-item>
         <ion-label class="float-label" position="floating"> Nombre </ion-label>
         <ion-input v-model="form.nombre" id="nombre" required></ion-input>

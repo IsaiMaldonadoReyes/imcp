@@ -2,7 +2,10 @@
   <ion-page>
     <v-container class="">
       <v-responsive class="mx-auto" max-width="344">
-        <v-text-field clearable label="Last name" variant="outlined"></v-text-field>
+        <v-text-field
+          
+          label="Last name"
+        ></v-text-field>
       </v-responsive>
     </v-container>
     <!--ion-item>

@@ -1,9 +1,23 @@
 <template>
-  <ion-page>
+  <ion-page v-ion-theme="'light'">
     <v-container class="">
-      <v-responsive class="mx-auto" max-width="344">
-        <v-text-field clearable label="Last name" variant="outlined"></v-text-field>
-      </v-responsive>
+      <v-card color="#285697" elevation="0">
+        <v-form>
+          <v-text-field variant="outlined" clearable label="Email" color="white" />
+          <v-text-field
+            label="Contraseña"
+            variant="outlined"
+            clearable
+            type="input"
+            color="white"
+          />
+          <v-spacer></v-spacer>
+          <v-btn color="white" class="primary--text">
+            ENTRAR
+            <v-icon right>mdi-arrow-right-circle</v-icon>
+          </v-btn>
+        </v-form>
+      </v-card>
     </v-container>
     <!--ion-item>
         <ion-label class="float-label" position="floating"> Nombre </ion-label>

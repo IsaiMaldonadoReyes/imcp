@@ -1,8 +1,13 @@
 <template>
-  <ion-page>
+  <ion-page v-ion-theme="'light'">
     <v-container class="">
       <v-responsive class="mx-auto" max-width="344">
-        <v-text-field clearable label="Last name" variant="outlined"></v-text-field>
+        <v-text-field
+          
+          clearable
+          hide-details="auto"
+          label="Last name"
+        ></v-text-field>
       </v-responsive>
     </v-container>
     <!--ion-item>
