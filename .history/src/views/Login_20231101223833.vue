@@ -7,21 +7,9 @@
       <v-img src="../assets/images/logotipo.svg"></v-img>
       <v-label class="ma-4 text-h5 nunito-bold">Acceso al Sistema</v-label>
       <v-responsive class="mx-4" max-width="344">
-        <v-text-field
-          class="nunito-bold"
-          clearable
-          label="RFC"
-          rounded="lg"
-          variant="solo"
-        ></v-text-field>
-        <v-text-field
-          class="nunito-bold"
-          clearable
-          label="Contraseña"
-          rounded="lg"
-          variant="solo"
-        ></v-text-field>
-        <v-btn class="nunito-bold" color="#C6092F" block rounded="lg" size="x-large">ENTRAR</v-btn>
+        <v-text-field  class="nunito-bold" clearable label="RFC" rounded="lg" variant="solo"></v-text-field>
+        <v-text-field color="primary" class="nunito-bold" clearable label="Contraseña" rounded="lg" variant="solo"></v-text-field>
+        <v-btn color="#C6092F" block rounded="lg" size="x-large">ENTRAR</v-btn>
       </v-responsive>
     </v-container>
     <!--ion-item>
