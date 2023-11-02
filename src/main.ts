@@ -6,7 +6,7 @@ import { IonicVue } from "@ionic/vue";
 
 //import { registerPlugins } from "@/plugins";
 
-import vuetify from './plugins/vuetify'
+import vuetify from "./plugins/vuetify";
 
 import axios from "axios";
 import VueAxios from "vue-axios";
