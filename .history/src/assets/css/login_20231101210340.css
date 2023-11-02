@@ -1,0 +1,6 @@
+body {
+    background: url("../images/back.jpg") no-repeat,
+        url("../images/esquina_inferior_derecha.png") bottom right no-repeat,
+        url("../images/esquina_superior_izquierda.png") top left no-repeat;
+    background-size: auto, cover, 50%;
+}

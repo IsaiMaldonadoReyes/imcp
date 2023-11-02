@@ -1,0 +1,5 @@
+body {
+    background: url('../images/back.jpg') no-repeat, 
+              url('../images/ezquina_inferior_derecha.png') bottom right no-repeat, 
+              url('../images/ezquina_superior_izquierda.png') top left no-repeat;
+}

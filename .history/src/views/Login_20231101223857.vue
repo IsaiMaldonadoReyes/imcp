@@ -21,7 +21,7 @@
           rounded="lg"
           variant="solo"
         ></v-text-field>
-        <v-btn class="nunito-bold" color="#C6092F" block rounded="lg" size="x-large">ENTRAR</v-btn>
+        <v-btn color="#C6092F" block rounded="lg" size="x-large">ENTRAR</v-btn>
       </v-responsive>
     </v-container>
     <!--ion-item>

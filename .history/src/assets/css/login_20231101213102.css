@@ -1,0 +1,32 @@
+body{
+    background-color: #E9EDEE;
+}
+
+.imagen1, .imagen2, .imagen3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+  }
+  
+  .imagen1 {
+    background: url("../images/back.jpg");
+    z-index: 1;
+    background-size: 100%;
+    background-position: 100% 20%;
+  }
+  
+  .imagen2 {
+    background: url("../images/esquina_inferior_derecha.png") bottom right no-repeat;
+    z-index: 2;
+    background-size: 20%;
+  }
+  
+  .imagen3 {
+    background: url("../images/esquina_superior_izquierda.png") top left no-repeat;
+    z-index: 3;
+    background-size: 20%;
+  }
+  
