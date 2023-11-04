@@ -1,0 +1,56 @@
+/* Establecer la imagen de fondo */
+ion-page {
+    background-image: url('../images/back.jpg');
+    background-size: cover;
+    /* Ajusta el tamaño de la imagen para cubrir completamente el contenedor */
+    background-repeat: no-repeat;
+    /* Evita que la imagen se repita */
+    background-attachment: fixed;
+    /* Fija la imagen de fondo */
+    background-position: center;
+    /* Centra la imagen en el contenedor */
+    z-index: -3;
+}
+
+.imagen2,
+.imagen3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+}
+
+.imagen2 {
+    background: url("../images/esquina_inferior_derecha.png") bottom right no-repeat;
+    z-index: -2;
+    background-size: 20%;
+}
+
+.imagen3 {
+    background: url("../images/esquina_superior_izquierda.png") top left no-repeat;
+    z-index: -1;
+    background-size: 20%;
+}
+
+
+/* Estilos para tabletas en modo vertical */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+
+    /* Agrega estilos específicos para tabletas en modo vertical aquí */
+    .tablet-input {
+        max-width: 90%;
+        /* Ajusta el ancho máximo según tus necesidades */
+    }
+}
+
+/* Estilos para tabletas en modo horizontal */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+    /* Agrega estilos específicos para tabletas en modo horizontal aquí */
+    .tablet-input {
+        max-width: 80%;
+        /* Ajusta el ancho máximo según tus necesidades */
+    }
+}
