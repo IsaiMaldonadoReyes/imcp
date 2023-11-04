@@ -38,15 +38,15 @@
       </v-col>
       <v-col cols="12" lg="12" md="12" sm="12" class="px-10" align="right">
         <v-btn
+          @click="redirectLogin"
           class="text-caption text-disabled ms-1 text-capitalize"
           color="#C6092F"
           rounded="lg"
           size="x-small"
           style="font-weight: bold"
           variant="plain"
-          @click="redirectLogin"
         >
-          Ir a acceso al sistema
+          Ir a login
         </v-btn>
       </v-col>
       <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
