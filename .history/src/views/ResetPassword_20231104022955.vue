@@ -46,7 +46,7 @@
           variant="plain"
           @click="redirectLogin"
         >
-          Ir a acceso al sistema
+          Ir a login
         </v-btn>
       </v-col>
       <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
