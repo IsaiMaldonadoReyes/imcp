@@ -100,7 +100,7 @@ export default defineComponent({
         } else {
           const alert = await alertController.create({
             header: "Inicio de sesión",
-            message: "Usuario y/o contraseña invalidos",
+            message: "Usuario y/o contraseña inválidos",
             buttons: ["OK"],
           });
 
