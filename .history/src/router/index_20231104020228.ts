@@ -5,7 +5,7 @@ import TabsPage from "../views/TabsPage.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/login",
-    name: "login",
+    name: "login"
     component: () => import("@/views/login.vue"),
   },
   {

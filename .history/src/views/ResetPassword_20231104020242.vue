@@ -37,7 +37,7 @@
         />
       </v-col>
       <v-col cols="12" lg="12" md="12" sm="12" class="px-10" align="right">
-        <v-btn
+        <span
           @click="redirectLogin"
           block
           class="text-caption text-disabled ms-1 text-capitalize text-end"
@@ -48,7 +48,7 @@
           variant="plain"
         >
           Ir a login
-        </v-btn>
+        </span>
       </v-col>
       <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
         <v-btn
