@@ -7,10 +7,9 @@
       <v-img src="../assets/images/logotipo.svg"></v-img>
       <v-label class="ma-4 text-h5 nunito-bold">Acceso al Sistema</v-label>
       <v-text-field class="nunito-bold ion-margin tablet-input" label="RFC" rounded="lg" variant="solo"
-        v-model="form.email"></v-text-field>
-      <v-text-field class="nunito-bold ion-margin tablet-input" label="Contraseña" rounded="lg" variant="solo"
-        v-model="form.password" type="password"></v-text-field>
-      <ion-button @click="login" class="nunito-bold ion-margin" expand="full" color="danger">ENTRAR</ion-button>
+        v-model="form.rfc"></v-text-field>
+
+      <ion-button @click="sendPassword()" class="nunito-bold ion-margin" expand="full" color="danger">ENTRAR</ion-button>
 
     </ion-content>
   </ion-page>
@@ -18,38 +17,44 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { IonPage, IonContent, IonButton } from '@ionic/vue';
+import { IonPage, IonContent, IonButton, alertController } from '@ionic/vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+
+import { useSessionStore } from '../store/session';
 
 export default defineComponent({
   setup() {
+    const session = useSessionStore();
+
     const router = useRouter();
-    const store = useStore();
-    const form = ref({
-      email: '',
-      password: '',
-    });
 
-    const login = async () => {
-      if (form.value.email === 'SOTJ841111Q39' && form.value.password === 'temporal') {
-        // Aquí puedes despachar la acción de inicio de sesión en Vuex si es necesario
-        // await store.dispatch('login', form.value);
+    async function sendPassword() {
+      const rfc = form.value.rfc;
+      try {
+        //await session.resetPassword(rfc);
 
-        // Navegar a la página de inicio de sesión exitosa o a donde desees
-        router.push({ name: 'dashboard' });
-      } else {
-        // Muestra una alerta de error en el inicio de sesión
-        // Puedes usar la función de alerta de Ionic o alguna otra personalización
-        console.log('Usuario y/o contraseña no válidos');
+        const alert = await alertController.create({
+          header: 'Recuperación de contraseña',
+          message: 'Se ha enviado un correo para la recuperación de su contraseña',
+          buttons: ['OK'],
+        });
+
+        await alert.present();
+
+      } catch (error) {
+        console.log(error);
       }
-    };
+    }
+
+    const form = ref({ rfc: '' });
 
     return {
       form,
-      login,
-    };
+      sendPassword
+    }
+
   },
+
 });
 </script>
 
