@@ -1,34 +1,14 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
-      <v-data-iterator
-        v-model:items-per-page="itemsPerPage"
-        v-model:page="page"
-        :items="desserts"
-        :search="search"
-        :sort-by="sortBy"
-      >
+      <v-data-iterator v-model:items-per-page="itemsPerPage" v-model:page="page" :items="desserts" :search="search">
         <template v-slot:header>
           <v-toolbar dark color="blue-darken-3" class="px-2 mb-2">
-            <v-text-field
-              v-model="search"
-              clearable
-              hide-details
-              prepend-inner-icon="mdi-magnify"
-              placeholder="Search"
-              variant="solo"
-              density="comfortable"
-            ></v-text-field>
+            <v-text-field v-model="search" clearable hide-details prepend-inner-icon="mdi-magnify" placeholder="Search"
+              variant="solo" density="comfortable"></v-text-field>
             <v-spacer></v-spacer>
-            <v-select
-              v-model="sortKey"
-              hide-details
-              :items="keys"
-              :item-value="(item) => item.toLowerCase()"
-              prepend-inner-icon="mdi-sort"
-              label="Sort by"
-              density="comfortable"
-            ></v-select>
+            <v-select v-model="sortKey" hide-details :items="keys" :item-value="(item) => item.toLowerCase()"
+              prepend-inner-icon="mdi-sort" label="Sort by" density="comfortable"></v-select>
             <v-spacer></v-spacer>
             <v-btn-toggle v-model="sortOrder" mandatory>
               <v-btn color="blue" value="asc">
@@ -47,14 +27,7 @@
 
         <template v-slot:default="props">
           <v-row>
-            <v-col
-              v-for="item in props.items"
-              :key="item.name"
-              cols="12"
-              sm="6"
-              md="4"
-              lg="3"
-            >
+            <v-col v-for="item in props.items" cols="12" sm="6" md="4" lg="3">
               <v-card>
                 <v-card-title class="subheading font-weight-bold">
                   {{ item.raw.name }}
@@ -63,13 +36,9 @@
                 <v-divider></v-divider>
 
                 <v-list density="compact">
-                  <v-list-item
-                    v-for="(key, index) in filteredKeys"
-                    :key="index"
-                    :title="key"
+                  <v-list-item v-for="(key, index) in filteredKeys" :key="index" :title="key"
                     :subtitle="String(item.raw[key.toLowerCase()])"
-                    :class="{ 'text-blue': sortKey === key.toLowerCase() }"
-                  ></v-list-item>
+                    :class="{ 'text-blue': sortKey === key.toLowerCase() }"></v-list-item>
                 </v-list>
               </v-card>
             </v-col>
@@ -81,23 +50,13 @@
             <span class="grey--text">Items per page</span>
             <v-menu>
               <template v-slot:activator="{ props }">
-                <v-btn
-                  variant="text"
-                  color="primary"
-                  class="ml-2"
-                  append-icon="mdi-chevron-down"
-                  v-bind="props"
-                >
+                <v-btn variant="text" color="primary" class="ml-2" append-icon="mdi-chevron-down" v-bind="props">
                   {{ itemsPerPage }}
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item
-                  v-for="(number, index) in itemsPerPageArray"
-                  :key="index"
-                  :title="number"
-                  @click="itemsPerPage = number"
-                ></v-list-item>
+                <v-list-item v-for="(number, index) in itemsPerPageArray" :key="index" :title="number"
+                  @click="itemsPerPage = number"></v-list-item>
               </v-list>
             </v-menu>
 
