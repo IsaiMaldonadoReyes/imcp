@@ -8,12 +8,12 @@
         <v-img
           class="logo"
           max-height="90px"
-          max-width="300px"
+          max-width="290px"
           src="../assets/images/logotipo.svg"
         />
       </v-col>
     </v-row>
-    <v-row dense align="center">
+    <v-row>
       <v-col
         class="d-flex justify-center align-center pb-10"
         cols="12"
@@ -21,31 +21,19 @@
         md="12"
         sm="12"
       >
-        <v-label style="font-size: 28px; font-weight: bold">Acceso al Sistema</v-label>
+        <v-label style="font-size: 28px; font-weight: bold">
+          Recuperar contraseña
+        </v-label>
       </v-col>
       <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
         <v-text-field
-          :rules="[rules.required]"
           v-model="form.rfc"
+          :rules="[rules.required]"
           clearable
           label="RFC"
           rounded="lg"
           style="font-weight: bold"
           variant="solo"
-        />
-      </v-col>
-      <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
-        <v-text-field
-          :append-inner-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-          :rules="[rules.required]"
-          :type="show1 ? 'text' : 'password'"
-          v-model="form.password"
-          clearable
-          label="Contraseña"
-          rounded="lg"
-          style="font-weight: bold"
-          variant="solo"
-          @click:append-inner="show1 = !show1"
         />
       </v-col>
       <v-col cols="12" lg="12" md="12" sm="12" class="px-10" align="right">
@@ -56,9 +44,9 @@
           size="x-small"
           style="font-weight: bold"
           variant="plain"
-          @click="resetPassword"
+          @click="redirectLogin"
         >
-          Recuperar contraseña
+          Ir a acceso al sistema
         </v-btn>
       </v-col>
       <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
@@ -68,9 +56,9 @@
           rounded="lg"
           size="x-large"
           style="font-weight: bold"
-          @click="login"
+          @click="sendPassword"
         >
-          ENTRAR
+          ENVIAR
         </v-btn>
       </v-col>
     </v-row>
@@ -78,9 +66,10 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, ref } from "vue";
 import { alertController } from "@ionic/vue";
-import { defineComponent, ref, inject } from "vue";
 import { useRouter } from "vue-router";
+
 import { useSessionStore } from "../store/session";
 
 export default defineComponent({
@@ -89,39 +78,29 @@ export default defineComponent({
 
     const router = useRouter();
 
-    async function login() {
+    async function sendPassword() {
+      const rfc = form.value.rfc;
       try {
-        //await session.login(form.value);
-        console.log(form.value.rfc);
-        console.log(form.value.password);
-        if (form.value.rfc == "SOTJ841111Q39" && form.value.password == "temporal") {
-          //correcto
-        } else {
-          const alert = await alertController.create({
-            header: "Inicio de sesión",
-            message: "Usuario y/o contraseña inválidos",
-            buttons: ["OK"],
-          });
+        //await session.resetPassword(rfc);
 
-          await alert.present();
-        }
+        const alert = await alertController.create({
+          header: "Recuperación de contraseña",
+          message: "Se ha enviado un correo para la recuperación de su contraseña",
+          buttons: ["OK"],
+        });
+
+        await alert.present();
       } catch (error) {
         console.log(error);
       }
     }
 
-    function resetPassword() {
-      //router.push({ name: "resetPassword" });
-      window.location.href = "/resetPassword";
-      //router.push("/resetPassword");
+    function redirectLogin() {
+      //router.push({ name: "login" });
+      window.location.href = "/login";
     }
 
-    const form = ref({
-      rfc: "",
-      password: "",
-    });
-
-    const show1 = ref(false);
+    const form = ref({ rfc: "" });
 
     const rules = {
       required: (v: string) => !!v || "Este campo es requerido",
@@ -129,14 +108,14 @@ export default defineComponent({
 
     return {
       form,
-      login,
-      resetPassword,
-      show1,
+      sendPassword,
+      redirectLogin,
       rules,
     };
   },
 });
 </script>
+
 <style>
 @import "../assets/css/login.css";
 </style>

@@ -7,7 +7,7 @@
       <v-col cols="12" lg="12" md="12" sm="12" align="center">
         <v-img
           class="logo"
-          max-height="90px"
+          max-height="50px"
           max-width="300px"
           src="../assets/images/logotipo.svg"
         />
@@ -113,7 +113,6 @@ export default defineComponent({
     function resetPassword() {
       //router.push({ name: "resetPassword" });
       window.location.href = "/resetPassword";
-      //router.push("/resetPassword");
     }
 
     const form = ref({
