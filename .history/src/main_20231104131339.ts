@@ -5,7 +5,7 @@ import App from "./App.vue";
 import router from "./router";
 
 
-import "./fonts/fonts.css";
+import "fonts/fonts.css";
 
 import { IonicVue } from "@ionic/vue";
 import vuetify from "./plugins/vuetify";

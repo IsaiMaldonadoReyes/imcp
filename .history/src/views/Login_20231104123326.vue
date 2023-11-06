@@ -15,7 +15,7 @@
     </v-row>
     <v-row dense align="center">
       <v-col
-        class="d-flex justify-center align-center pb-10"
+        class="d-flex justify-center align-center pb-6"
         cols="12"
         lg="12"
         md="12"
@@ -113,7 +113,6 @@ export default defineComponent({
     function resetPassword() {
       //router.push({ name: "resetPassword" });
       window.location.href = "/resetPassword";
-      //router.push("/resetPassword");
     }
 
     const form = ref({

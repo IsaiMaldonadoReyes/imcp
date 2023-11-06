@@ -112,8 +112,8 @@ export default defineComponent({
 
     function resetPassword() {
       //router.push({ name: "resetPassword" });
-      window.location.href = "/resetPassword";
-      //router.push("/resetPassword");
+      //window.location.href = "/resetPassword";
+      router.push("/resetPassword");
     }
 
     const form = ref({
