@@ -189,14 +189,6 @@ export default defineComponent({
 
     const icon = ref(null);
 
-    // Función para cambiar el color del SVG
-    const changeSVGColor = (newColor: string) => {
-      if (icon.value) {
-        const svgDocument = icon.value.contentDocument;
-        icon.value.style.fill = `brightness(0) sepia(1) hue-rotate(${newColor}deg)`;
-      }
-    };
-
     return {
       ellipse,
       helpCircle,
@@ -207,7 +199,6 @@ export default defineComponent({
       message,
       hints,
       icon,
-      changeSVGColor,
     };
   },
 });
@@ -253,11 +244,4 @@ export default defineComponent({
   background-size: 7%;
 }
 
-.custom-icon .st0 {
-  width: 100%;
-  height: 100%;
-  fill: currentColor; /* Esto asumirá el color actual del elemento padre, en este caso, el color de v-icon */
-}
-
-@import url("../assets/images/ico.svg");
 </style>
