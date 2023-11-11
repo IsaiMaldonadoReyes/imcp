@@ -34,8 +34,8 @@
 
           <v-img
             class="logo"
-            height="90px"
-            width="90px"
+            max-height="90px"
+            max-width="300px"
             src="../assets/images/logotipo.svg"
           />
 
@@ -108,8 +108,6 @@
             </v-badge>
           </v-btn>
 
-          <v-icon icon="icon-icon_circulo_verde" size="30"></v-icon>
-
           <!--v-btn class="text-none" icon color="#AAAAAA" variant="outlined">
             <v-badge content="2" color="#B01F24">
               <v-icon color="#AAAAAA">mdi-bell</v-icon>
@@ -148,11 +146,9 @@
         </ion-tab-button>
 
         <ion-tab-button tab="avisos" href="/tabs/avisos">
-          <!--i class="mdi-account-outline" icon="mdi-account-outline"></i-->
-          <v-icon size="80">
-            <svg ref="icon" class="v-icon"><use xlink:href="../assets/images/ico.svg#ico-m"></use></svg>
+          <v-icon size="100" class="icon-container">
+            <img ref="icon" src="../assets/images/menu_m.svg" class="icon-svg" />
           </v-icon>
-
           <!--ion-label>Capacitaciones externas</ion-label-->
         </ion-tab-button>
       </ion-tab-bar>
@@ -192,10 +188,11 @@ export default defineComponent({
     // Función para cambiar el color del SVG
     const changeSVGColor = (newColor: string) => {
       if (icon.value) {
-        const svgDocument = icon.value.contentDocument;
-        icon.value.style.fill = `brightness(0) sepia(1) hue-rotate(${newColor}deg)`;
+        icon.value.style.filter = `brightness(0) sepia(1) hue-rotate(${newColor}deg)`;
       }
     };
+
+    
 
     return {
       ellipse,
@@ -214,11 +211,6 @@ export default defineComponent({
 </script>
 
 <style>
-.v-icon {
-  /* Aplica el color del v-icon al SVG */
-  fill: currentColor;
-}
-
 .icon-container {
   color: red; /* Define el color deseado para el v-icon */
 }
@@ -258,6 +250,4 @@ export default defineComponent({
   height: 100%;
   fill: currentColor; /* Esto asumirá el color actual del elemento padre, en este caso, el color de v-icon */
 }
-
-@import url("../assets/images/ico.svg");
 </style>

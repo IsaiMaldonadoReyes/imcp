@@ -32,7 +32,7 @@
           <div class="back" />
           <div class="esquina-tl-toolbar" />
 
-          <v-img
+          <img
             class="logo"
             height="90px"
             width="90px"

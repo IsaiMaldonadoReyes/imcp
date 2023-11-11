@@ -32,7 +32,7 @@
           <div class="back" />
           <div class="esquina-tl-toolbar" />
 
-          <v-img
+          <img
             class="logo"
             height="90px"
             width="90px"
@@ -108,7 +108,22 @@
             </v-badge>
           </v-btn>
 
+          
           <v-icon icon="icon-icon_circulo_verde" size="30"></v-icon>
+          <div class="glyph fs1">
+            <div class="clearfix bshadow0 pbs">
+                <span class="icon-icon_circulo_verde"></span>
+                <span class="mls"> icon-icon_circulo_verde</span>
+            </div>
+            <fieldset class="fs0 size1of1 clearfix hidden-false">
+                <input type="text" readonly value="e907" class="unit size1of2" />
+                <input type="text" maxlength="1" readonly value="&#xe907;" class="unitRight size1of2 talign-right" />
+            </fieldset>
+            <div class="fs0 bshadow0 clearfix hidden-true">
+                <span class="unit pvs fgc1">liga: </span>
+                <input type="text" readonly value="" class="liga unitRight" />
+            </div>
+        </div>
 
           <!--v-btn class="text-none" icon color="#AAAAAA" variant="outlined">
             <v-badge content="2" color="#B01F24">
@@ -149,10 +164,9 @@
 
         <ion-tab-button tab="avisos" href="/tabs/avisos">
           <!--i class="mdi-account-outline" icon="mdi-account-outline"></i-->
-          <v-icon size="80">
-            <svg ref="icon" class="v-icon"><use xlink:href="../assets/images/ico.svg#ico-m"></use></svg>
+          <v-icon size="100" icon="icon-menu_micuenta">
+           
           </v-icon>
-
           <!--ion-label>Capacitaciones externas</ion-label-->
         </ion-tab-button>
       </ion-tab-bar>
@@ -214,11 +228,6 @@ export default defineComponent({
 </script>
 
 <style>
-.v-icon {
-  /* Aplica el color del v-icon al SVG */
-  fill: currentColor;
-}
-
 .icon-container {
   color: red; /* Define el color deseado para el v-icon */
 }
@@ -259,5 +268,5 @@ export default defineComponent({
   fill: currentColor; /* Esto asumirá el color actual del elemento padre, en este caso, el color de v-icon */
 }
 
-@import url("../assets/images/ico.svg");
+@import url("../assets/css/icomoon/style.css");
 </style>

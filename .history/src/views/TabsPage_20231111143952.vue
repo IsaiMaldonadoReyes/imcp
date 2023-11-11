@@ -34,8 +34,8 @@
 
           <v-img
             class="logo"
-            height="90px"
-            width="90px"
+            max-height="90px"
+            max-width="300px"
             src="../assets/images/logotipo.svg"
           />
 
@@ -108,8 +108,6 @@
             </v-badge>
           </v-btn>
 
-          <v-icon icon="icon-icon_circulo_verde" size="30"></v-icon>
-
           <!--v-btn class="text-none" icon color="#AAAAAA" variant="outlined">
             <v-badge content="2" color="#B01F24">
               <v-icon color="#AAAAAA">mdi-bell</v-icon>
@@ -148,11 +146,35 @@
         </ion-tab-button>
 
         <ion-tab-button tab="avisos" href="/tabs/avisos">
-          <!--i class="mdi-account-outline" icon="mdi-account-outline"></i-->
-          <v-icon size="80">
-            <svg ref="icon" class="v-icon"><use xlink:href="../assets/images/ico.svg#ico-m"></use></svg>
-          </v-icon>
+          <v-icon size="100" class="icon-container" @click="changeSVGColor">
+            <!--img ref="icon" src="../assets/images/menu_m.svg" class="icon-svg" /-->
 
+            <svg
+              ref="icon"
+              version="1.1"
+              id="Layer_1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              x="0px"
+              y="0px"
+              viewBox="0 0 283.5 283.5"
+              style="enable-background: new 0 0 283.5 283.5"
+              xml:space="preserve"
+            >
+              <g>
+                <path
+                  class="st0"
+                  d="M141.7,94.9c-26,0-47.2,21.2-47.2,47.2s21.2,47.2,47.2,47.2s47.2-21.2,47.2-47.2S167.7,94.9,141.7,94.9z
+		 M141.7,180.3c-21,0-38.1-17.1-38.1-38.1s17.1-38.1,38.1-38.1s38.1,17.1,38.1,38.1S162.7,180.3,141.7,180.3z"
+                />
+                <polygon
+                  class="st0"
+                  points="142.1,141.1 132,122.9 123.3,122.9 123.3,157.9 132,157.9 132,137.6 142.1,155.8 152.2,137.6 
+		152.2,157.9 160.9,157.9 160.9,122.9 152.2,122.9 	"
+                />
+              </g>
+            </svg>
+          </v-icon>
           <!--ion-label>Capacitaciones externas</ion-label-->
         </ion-tab-button>
       </ion-tab-bar>
@@ -192,7 +214,6 @@ export default defineComponent({
     // Función para cambiar el color del SVG
     const changeSVGColor = (newColor: string) => {
       if (icon.value) {
-        const svgDocument = icon.value.contentDocument;
         icon.value.style.fill = `brightness(0) sepia(1) hue-rotate(${newColor}deg)`;
       }
     };
@@ -214,11 +235,6 @@ export default defineComponent({
 </script>
 
 <style>
-.v-icon {
-  /* Aplica el color del v-icon al SVG */
-  fill: currentColor;
-}
-
 .icon-container {
   color: red; /* Define el color deseado para el v-icon */
 }
@@ -258,6 +274,4 @@ export default defineComponent({
   height: 100%;
   fill: currentColor; /* Esto asumirá el color actual del elemento padre, en este caso, el color de v-icon */
 }
-
-@import url("../assets/images/ico.svg");
 </style>

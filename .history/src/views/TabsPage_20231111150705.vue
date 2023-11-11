@@ -32,7 +32,7 @@
           <div class="back" />
           <div class="esquina-tl-toolbar" />
 
-          <v-img
+          <img
             class="logo"
             height="90px"
             width="90px"
@@ -108,8 +108,6 @@
             </v-badge>
           </v-btn>
 
-          <v-icon icon="icon-icon_circulo_verde" size="30"></v-icon>
-
           <!--v-btn class="text-none" icon color="#AAAAAA" variant="outlined">
             <v-badge content="2" color="#B01F24">
               <v-icon color="#AAAAAA">mdi-bell</v-icon>
@@ -148,11 +146,10 @@
         </ion-tab-button>
 
         <ion-tab-button tab="avisos" href="/tabs/avisos">
-          <!--i class="mdi-account-outline" icon="mdi-account-outline"></i-->
-          <v-icon size="80">
-            <svg ref="icon" class="v-icon"><use xlink:href="../assets/images/ico.svg#ico-m"></use></svg>
+          <i class="mdi-account-outline" icon="mdi-account-outline"></i>
+          <v-icon size="100" icon="mdi-account-outline">
+           
           </v-icon>
-
           <!--ion-label>Capacitaciones externas</ion-label-->
         </ion-tab-button>
       </ion-tab-bar>
@@ -214,11 +211,6 @@ export default defineComponent({
 </script>
 
 <style>
-.v-icon {
-  /* Aplica el color del v-icon al SVG */
-  fill: currentColor;
-}
-
 .icon-container {
   color: red; /* Define el color deseado para el v-icon */
 }
@@ -259,5 +251,5 @@ export default defineComponent({
   fill: currentColor; /* Esto asumirá el color actual del elemento padre, en este caso, el color de v-icon */
 }
 
-@import url("../assets/images/ico.svg");
+@import url("../assets/css/icomoon/style.css");
 </style>

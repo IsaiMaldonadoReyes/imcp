@@ -32,7 +32,7 @@
           <div class="back" />
           <div class="esquina-tl-toolbar" />
 
-          <v-img
+          <img
             class="logo"
             height="90px"
             width="90px"
@@ -149,7 +149,7 @@
 
         <ion-tab-button tab="avisos" href="/tabs/avisos">
           <!--i class="mdi-account-outline" icon="mdi-account-outline"></i-->
-          <v-icon size="80">
+          <v-icon size="80" color="red">
             <svg ref="icon" class="v-icon"><use xlink:href="../assets/images/ico.svg#ico-m"></use></svg>
           </v-icon>
 
