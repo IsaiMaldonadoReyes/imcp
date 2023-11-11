@@ -1,25 +1,17 @@
 import { defineStore } from 'pinia';
 import axios from "axios";
 
-export const useSessionStore = defineStore({
-    id: 'session',
+export const usePagoStore = defineStore({
+    id: 'pago',
     state: () => ({
-        auth: false,
-        object: {},
+        object: null,
         responseMessage: null
     }),
     actions: {
         async login(credentials: any) {
-            // desarrollo
-            this.auth = true;
-            this.userInformation(credentials.email);
-
-            // test
-            /* 
             await axios.post("/login", credentials)
                 .then((response) => {
                     if (response.data.type === "success") {
-                        this.auth = true;
 
                         this.userInformation(credentials.email);
                     }
@@ -30,7 +22,6 @@ export const useSessionStore = defineStore({
 
                 })
                 .finally(() => { });
-                */
         },
         async resetPassword(rfc: string) {
             await axios.post("/api/resetPassword/" + rfc)
@@ -43,17 +34,9 @@ export const useSessionStore = defineStore({
                 .finally(() => { });
         },
         async logout() {
-            this.auth = false;
-            this.object = {};
+            this.object = null;
         },
         async userInformation(rfc: string) {
-            // desarrollo
-            this.object = {
-                nombre: 'Rogerio Juan Bosco Casas', rfc: 'RJCA781002-HR7'
-            };
-
-            // test
-            /*
             await axios.post("/api/userInformation/" + rfc)
                 .then((response) => {
                     this.object = response.data;
@@ -62,7 +45,6 @@ export const useSessionStore = defineStore({
 
                 })
                 .finally(() => { });
-                */
         },
 
     }
