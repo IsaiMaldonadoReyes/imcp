@@ -199,6 +199,14 @@ export default defineComponent({
 
     const icon = ref(null);
 
+    // Función para cambiar el color del SVG
+    const changeSVGColor = (newColor: string) => {
+      if (icon.value) {
+        const svgDocument = icon.value.contentDocument;
+        icon.value.style.fill = `brightness(0) sepia(1) hue-rotate(${newColor}deg)`;
+      }
+    };
+
     return {
       ellipse,
       helpCircle,
@@ -209,6 +217,7 @@ export default defineComponent({
       message,
       hints,
       icon,
+      changeSVGColor,
     };
   },
 });
@@ -257,3 +266,6 @@ ion-tab-button.tab-selected {
   z-index: -1;
   background-size: 7%;
 }
+
+@import url("../assets/images/ico.svg");
+</style>

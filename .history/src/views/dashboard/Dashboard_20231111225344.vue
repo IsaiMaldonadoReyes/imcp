@@ -1,23 +1,17 @@
 <template>
-  <ion-page >
-    <ion-content :fullscreen="true" >
-      <v-container class="mt-10">
-        <v-card class="mx-auto my-8">
-          <v-card-item>
-            <v-card-title class="text-uppercase" style="white-space: normal">{{
-              title
-            }}</v-card-title>
-            <v-card-subtitle class="text-capitalize">{{ subtitle }}</v-card-subtitle>
-          </v-card-item>
+  <ion-page>
+    <v-card class="mx-auto my-8" max-width="344" elevation="16">
+      <v-card-item>
+        <v-card-title> Card title </v-card-title>
+        <v-card-subtitle> Card subtitle secondary text </v-card-subtitle>
+      </v-card-item>
 
-          <v-card-text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua.
-          </v-card-text>
-          <BarChart :ref="barChartRef" v-bind="barChartProps" />
-        </v-card>
-      </v-container>
-    </ion-content>
+      <v-card-text>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+        incididunt ut labore et dolore magna aliqua.
+      </v-card-text>
+      <BarChart :ref="barChartRef" v-bind="barChartProps" />
+    </v-card>
   </ion-page>
 </template>
 
@@ -38,8 +32,6 @@ export default defineComponent({
     const data2 = [10, 20];
     const data3 = [50, 30];
     const barChartRef = ref();
-    const title = ref("Estatus de capacitación anual");
-    const subtitle = ref("Sector Gubernamental");
 
     const chartData = computed(() => ({
       labels: ["Esperado", "Obtenido"],
@@ -103,12 +95,11 @@ export default defineComponent({
       options,
     });
 
-    return { barChartProps, barChartRef, options, title, subtitle };
+    return { barChartProps, barChartRef, options };
   },
 });
 </script>
 
-<style scoped lang="scss">
-$card-title-padding-top: 40px;
-$card-title-word-wrap: break-word;
+<style>
+@import "../../assets/css/login.css";
 </style>

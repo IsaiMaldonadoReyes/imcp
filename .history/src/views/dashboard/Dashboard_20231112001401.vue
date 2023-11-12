@@ -1,5 +1,5 @@
 <template>
-  <ion-page >
+  <ion-page style="background-color: #ff0000;">
     <ion-content :fullscreen="true" >
       <v-container class="mt-10">
         <v-card class="mx-auto my-8">

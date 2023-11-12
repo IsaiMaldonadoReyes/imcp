@@ -199,6 +199,14 @@ export default defineComponent({
 
     const icon = ref(null);
 
+    // Función para cambiar el color del SVG
+    const changeSVGColor = (newColor: string) => {
+      if (icon.value) {
+        const svgDocument = icon.value.contentDocument;
+        icon.value.style.fill = `brightness(0) sepia(1) hue-rotate(${newColor}deg)`;
+      }
+    };
+
     return {
       ellipse,
       helpCircle,
@@ -209,16 +217,13 @@ export default defineComponent({
       message,
       hints,
       icon,
+      changeSVGColor,
     };
   },
 });
 </script>
 
 <style>
-
-ion-router-outlet{
-  --ion-background-color: #eee;
-}
 ion-tab-button.tab-selected {
   --color-selected: #b20000; /* Cambia el color del texto para la pestaña activa */
   --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */
@@ -257,3 +262,6 @@ ion-tab-button.tab-selected {
   z-index: -1;
   background-size: 7%;
 }
+
+@import url("../assets/images/ico.svg");
+</style>

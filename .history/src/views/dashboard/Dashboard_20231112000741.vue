@@ -1,12 +1,10 @@
 <template>
-  <ion-page >
-    <ion-content :fullscreen="true" >
-      <v-container class="mt-10">
-        <v-card class="mx-auto my-8">
-          <v-card-item>
-            <v-card-title class="text-uppercase" style="white-space: normal">{{
-              title
-            }}</v-card-title>
+  <ion-page>
+    <ion-content :fullscreen="true">
+      <v-container class="px-5 pt-10">
+        <v-card class="mx-auto my-8" max-width="344">
+          <v-card-item >
+            <v-card-title class="text-uppercase" style="white-space: normal;">{{ title }}</v-card-title>
             <v-card-subtitle class="text-capitalize">{{ subtitle }}</v-card-subtitle>
           </v-card-item>
 

@@ -1,12 +1,10 @@
 <template>
-  <ion-page >
-    <ion-content :fullscreen="true" >
-      <v-container class="mt-10">
-        <v-card class="mx-auto my-8">
+  <ion-page>
+    <ion-content :fullscreen="true">
+      <v-container class="px-5 pt-10 px-md-16 py-md-10 px-lg-16 py-lg-10">
+        <v-card class="mx-auto my-8" max-width="344">
           <v-card-item>
-            <v-card-title class="text-uppercase" style="white-space: normal">{{
-              title
-            }}</v-card-title>
+            <v-card-title class="text-uppercase">{{ title }}</v-card-title>
             <v-card-subtitle class="text-capitalize">{{ subtitle }}</v-card-subtitle>
           </v-card-item>
 
@@ -108,7 +106,6 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-$card-title-padding-top: 40px;
-$card-title-word-wrap: break-word;
+<style>
+@import "../../assets/css/login.css";
 </style>

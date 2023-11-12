@@ -1,0 +1,28 @@
+<!-- *NOTA: Para agregar más íconos únicamente copiar el código que se encuentra dentro de las
+etiquetas SVG de tu .svg dentro de las etiquetas SYMBOL y copiar la propiedad viewBox para que el
+vector se pueda redimensionar. :D -->
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+    x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"
+    xml:space="preserve" width="512px" height="512px"> 
+    <style type="text/css">
+        <![CDATA[  
+            /* this is hiding all the nested svg elements unless they are the target*/
+            svg > svg:not(:target) {
+                display: none;
+            }
+        ]]> 
+    </style>
+
+    <!-- ::ico-menu-m:: -->
+    <symbol  viewBox="0 0 283.5 283.5"  id="ico-menu-m">
+        <g><path class="st0" d="M141.7,94.9c-26,0-47.2,21.2-47.2,47.2s21.2,47.2,47.2,47.2s47.2-21.2,47.2-47.2S167.7,94.9,141.7,94.9zM141.7,180.3c-21,0-38.1-17.1-38.1-38.1s17.1-38.1,38.1-38.1s38.1,17.1,38.1,38.1S162.7,180.3,141.7,180.3z"/><polygon class="st0" points="142.1,141.1 132,122.9 123.3,122.9 123.3,157.9 132,157.9 132,137.6 142.1,155.8 152.2,137.6 152.2,157.9 160.9,157.9 160.9,122.9 152.2,122.9 	"/></g>
+    </symbol>
+    <svg version="1.1" id="svg-menu-m" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 225 225" fill="#1569B0">
+        <use xlink:href ="#ico-menu-m"/>
+    </svg>
+
+
+    
+    
+</svg>

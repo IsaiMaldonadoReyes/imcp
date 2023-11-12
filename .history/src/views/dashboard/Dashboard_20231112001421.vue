@@ -1,6 +1,6 @@
 <template>
   <ion-page >
-    <ion-content :fullscreen="true" >
+    <ion-content :fullscreen="true" style="background-color: #ff0000;">
       <v-container class="mt-10">
         <v-card class="mx-auto my-8">
           <v-card-item>
