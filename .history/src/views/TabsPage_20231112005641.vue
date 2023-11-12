@@ -123,7 +123,7 @@
         </v-app-bar>
       </v-layout>
     </ion-header>
-    <ion-content style="">
+    <ion-content style="background-image: url('../assets/images/back.jpg')">
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
         <ion-tab-bar slot="bottom">
@@ -182,7 +182,6 @@ import {
   IonIcon,
   IonPage,
   IonRouterOutlet,
-  IonContent,
 } from "@ionic/vue";
 import { ellipse, helpCircle, square, triangle } from "ionicons/icons";
 import { defineComponent, ref, inject } from "vue";
@@ -195,7 +194,6 @@ export default defineComponent({
     IonIcon,
     IonPage,
     IonRouterOutlet,
-    IonContent,
   },
   setup() {
     const fav = ref(true);
@@ -222,15 +220,19 @@ export default defineComponent({
 
 <style>
 ion-content {
-  /**--ion-background-color: url("../assets/images/back.jpg");**/
-  --ion-background-color: #EEEEEE;
+  --background-color: red;
+   width: 100%;
+    height: 100%;
+    object-fit: cover; /* Escala la imagen para llenar el contenedor sin distorsionarla */
+    
+    position: absolute; /* Permite ajustar la ubicación de la parte recortada */
+    top: 0; /* Ajusta la posición vertical (puedes cambiarlo según tus necesidades) */
+    left: 0; /* Ajusta la posición horizontal (puedes cambiarlo según tus necesidades) */
 }
-
 ion-tab-button.tab-selected {
   --color-selected: #b20000; /* Cambia el color del texto para la pestaña activa */
   --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */
 }
-
 .v-icon {
   /* Aplica el color del v-icon al SVG */
   fill: currentColor;

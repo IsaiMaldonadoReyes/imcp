@@ -19,7 +19,7 @@
         <v-card>
           <v-list
             bg-color="transparent"
-            class="d-flex flex-column-reverse justify-end"
+            class="d-flex flex-column-reverse"
             density="compact"
           >
             <v-list-item v-for="(rating, i) in 3" :key="i" title="Puntaje principal">
@@ -31,7 +31,7 @@
                 rounded
               ></v-progress-linear>
 
-              <template v-slot:append>
+              <template v-slot:ap>
                 <div class="rating-values">
                   <span > 18/20 </span>
                 </div>

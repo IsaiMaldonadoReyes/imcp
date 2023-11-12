@@ -15,30 +15,6 @@
             <BarChart :ref="barChartRef" v-bind="barChartProps" />
           </v-card-text>
         </v-card>
-
-        <v-card>
-          <v-list
-            bg-color="transparent"
-            class="d-flex flex-column-reverse justify-end"
-            density="compact"
-          >
-            <v-list-item v-for="(rating, i) in 3" :key="i" title="Puntaje principal">
-              <v-progress-linear
-                :model-value="80"
-                class="mx-n5"
-                color="#B20000"
-                height="20"
-                rounded
-              ></v-progress-linear>
-
-              <template v-slot:append>
-                <div class="rating-values">
-                  <span > 18/20 </span>
-                </div>
-              </template>
-            </v-list-item>
-          </v-list>
-        </v-card>
       </v-container>
     </ion-content>
   </ion-page>

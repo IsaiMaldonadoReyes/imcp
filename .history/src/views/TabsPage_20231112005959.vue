@@ -222,15 +222,14 @@ export default defineComponent({
 
 <style>
 ion-content {
-  /**--ion-background-color: url("../assets/images/back.jpg");**/
-  --ion-background-color: #EEEEEE;
+  background-image: url("../assets/images/back.jpg");
+  background-color: #b20000;
 }
 
 ion-tab-button.tab-selected {
   --color-selected: #b20000; /* Cambia el color del texto para la pestaña activa */
   --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */
 }
-
 .v-icon {
   /* Aplica el color del v-icon al SVG */
   fill: currentColor;
