@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { alertController } from "@ionic/vue";
-import { defineComponent, ref, inject } from "vue";
+import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useSessionStore } from "../store/session";
 
@@ -99,17 +99,17 @@ export default defineComponent({
     const show1 = ref(false);
 
     const rules = {
-      required: (v: string) => !!v || "Este campo es requerido",
       validRFC: (v: string) => rfcRegex.test(v) || "RFC no válido",
+      required: (v: string) => !!v || "Este campo es requerido",
     };
 
     return {
       form,
-      show1,
       rules,
+      show1,
+      convertToUpperCase,
       login,
       resetPassword,
-      convertToUpperCase
     };
   },
 });
