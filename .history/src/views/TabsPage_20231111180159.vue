@@ -31,14 +31,13 @@
         <v-app-bar color="#EBEFF0" elevation="1">
           <div class="back" />
           <div class="esquina-tl-toolbar" />
-          <v-app-bar-title>
-            <v-img
-              class="logo"
-              max-height="100%"
-              max-width="200px"
-              src="../assets/images/logotipo.svg"
-            />
-          </v-app-bar-title>
+
+          <v-img
+            class="logo"
+            height="90px"
+            width="90px"
+            src="../assets/images/logotipo.svg"
+          />
 
           <v-spacer></v-spacer>
 
@@ -109,6 +108,8 @@
             </v-badge>
           </v-btn>
 
+          <v-icon icon="icon-icon_circulo_verde" size="30"></v-icon>
+
           <!--v-btn class="text-none" icon color="#AAAAAA" variant="outlined">
             <v-badge content="2" color="#B01F24">
               <v-icon color="#AAAAAA">mdi-bell</v-icon>
@@ -124,46 +125,41 @@
       </v-layout>
     </ion-header>
     <ion-tabs>
-      <ion-router-outlet style="background-color: #ff0000;"></ion-router-outlet>
+      <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="dashboard" href="/tabs/dashboard">
-          <v-icon size="30">
-            <svg ref="icon" class="v-icon">
-              <use xlink:href="../assets/images/ico.svg#ico-dashboard"></use>
-            </svg>
-          </v-icon>
-        </ion-tab-button>
-
-        <ion-tab-button tab="emitidos" href="/tabs/emitidos">
-          <v-icon size="30">
-            <svg ref="icon" class="v-icon">
-              <use xlink:href="../assets/images/ico.svg#ico-certificados"></use>
-            </svg>
-          </v-icon>
+          <v-icon size="32" icon="mdi-chart-pie-outline"></v-icon>
+          <!--ion-label>Dashboard</ion-label-->
         </ion-tab-button>
 
         <ion-tab-button tab="certificado" href="/tabs/certificado">
-          <v-icon size="30">
-            <svg ref="icon" class="v-icon">
-              <use xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"></use>
-            </svg>
-          </v-icon>
+          <v-icon size="32" icon="mdi-format-list-bulleted"></v-icon>
+          <!--ion-label>Certificados Estatus</ion-label-->
+        </ion-tab-button>
+
+        <ion-tab-button tab="emitidos" href="/tabs/emitidos">
+          <v-icon size="32" icon="mdi-check-decagram-outline"></v-icon>
+          <!--ion-label>Certificados emitidos</ion-label-->
         </ion-tab-button>
 
         <ion-tab-button tab="cuenta" href="/tabs/cuenta">
-          <v-icon size="30">
+          <v-icon size="32" icon="mdi-account-outline">
             <svg ref="icon" class="v-icon">
               <use xlink:href="../assets/images/ico.svg#ico-menu-micuenta"></use>
             </svg>
           </v-icon>
+          <!--ion-label>Mi cuenta</ion-label-->
         </ion-tab-button>
 
         <ion-tab-button tab="avisos" href="/tabs/avisos">
-          <v-icon size="30">
+          <!--i class="mdi-account-outline" icon="mdi-account-outline"></i-->
+          <v-icon size="80">
             <svg ref="icon" class="v-icon">
               <use xlink:href="../assets/images/ico.svg#ico-menu-m"></use>
             </svg>
           </v-icon>
+
+          <!--ion-label>Capacitaciones externas</ion-label-->
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
@@ -224,17 +220,13 @@ export default defineComponent({
 </script>
 
 <style>
-
-ion-router-outlet{
-  --ion-background-color: #eee;
-}
-ion-tab-button.tab-selected {
-  --color-selected: #b20000; /* Cambia el color del texto para la pestaña activa */
-  --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */
-}
 .v-icon {
   /* Aplica el color del v-icon al SVG */
   fill: currentColor;
+}
+
+.icon-container {
+  color: red; /* Define el color deseado para el v-icon */
 }
 
 .small-dot .v-badge__badge {
@@ -265,6 +257,12 @@ ion-tab-button.tab-selected {
   background: url("../assets/images/esquina_superior_izquierda.png") top left no-repeat;
   z-index: -1;
   background-size: 7%;
+}
+
+.custom-icon .st0 {
+  width: 100%;
+  height: 100%;
+  fill: currentColor; /* Esto asumirá el color actual del elemento padre, en este caso, el color de v-icon */
 }
 
 @import url("../assets/images/ico.svg");

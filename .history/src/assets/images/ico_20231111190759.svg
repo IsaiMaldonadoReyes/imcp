@@ -1,0 +1,42 @@
+<!-- *NOTA: Para agregar más íconos únicamente copiar el código que se encuentra dentro de las
+etiquetas SVG de tu .svg dentro de las etiquetas SYMBOL y copiar la propiedad viewBox para que el
+vector se pueda redimensionar. :D -->
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+    x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"
+    xml:space="preserve" width="512px" height="512px"> 
+    <style type="text/css">
+        <![CDATA[  
+            /* this is hiding all the nested svg elements unless they are the target*/
+            svg > svg:not(:target) {
+                display: none;
+            }
+        ]]> 
+    </style>
+
+    <!-- ::ico-dashboard:: -->
+    <symbol viewBox="0 50 283.5 110"  id="ico-dashboard">
+        <path class="st0" d="M53.8,5.8C27.8,5.8,6.6,27,6.6,53s21.2,47.2,47.2,47.2S101,79,101,53S79.8,5.8,53.8,5.8z M91.6,48.5H58.3V15.2C75.7,17.2,89.6,31.1,91.6,48.5z M53.8,91.1c-21,0-38.1-17.1-38.1-38.1c0-19.5,14.7-35.6,33.6-37.9v42.4h42.4C89.4,76.4,73.3,91.1,53.8,91.1z"/>
+    </symbol>
+    <svg version="1.1" id="svg-dashboard" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 225 225" fill="#1569B0">
+        <use xlink:href ="#ico-dashboard"/>
+    </svg>
+
+    <!-- ::ico-menu-m:: -->
+    <symbol viewBox="0 0 283.5 283.5"  id="ico-menu-m">
+        <g><path class="st0" d="M141.7,94.9c-26,0-47.2,21.2-47.2,47.2s21.2,47.2,47.2,47.2s47.2-21.2,47.2-47.2S167.7,94.9,141.7,94.9zM141.7,180.3c-21,0-38.1-17.1-38.1-38.1s17.1-38.1,38.1-38.1s38.1,17.1,38.1,38.1S162.7,180.3,141.7,180.3z"/><polygon class="st0" points="142.1,141.1 132,122.9 123.3,122.9 123.3,157.9 132,157.9 132,137.6 142.1,155.8 152.2,137.6 152.2,157.9 160.9,157.9 160.9,122.9 152.2,122.9 	"/></g>
+    </symbol>
+    <svg version="1.1" id="svg-menu-m" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 225 225" fill="#1569B0">
+        <use xlink:href ="#ico-menu-m"/>
+    </svg>
+
+    <!-- ::ico-menu-micuenta:: -->
+    <symbol viewBox="0 0 283.5 283.5"  id="ico-menu-micuenta">
+        <g><g><path class="st0" d="M141.8,138.4c-12.4,0-22.5-10.1-22.5-22.5s10.1-22.5,22.5-22.5s22.5,10.1,22.5,22.5S154.2,138.4,141.8,138.4z M141.8,99.9c-8.8,0-16,7.2-16,16s7.2,16,16,16s16-7.2,16-16S150.6,99.9,141.8,99.9z"/></g><g><path class="st0" d="M181.3,190.2h-6.5c0-23.6-10.2-34.1-33.1-34.1c-23.2,0-34.1,10.8-34.1,34.1h-6.5c0-26.9,13.7-40.6,40.6-40.6C168.4,149.6,181.3,162.9,181.3,190.2z"/></g></g>
+    </symbol>
+    <svg version="1.1" id="svg-menu-micuenta" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 225 225" fill="#1569B0">
+        <use xlink:href ="#ico-menu-micuenta"/>
+    </svg>
+    
+    
+</svg>

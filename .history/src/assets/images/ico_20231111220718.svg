@@ -16,6 +16,7 @@ vector se pueda redimensionar. :D -->
 
     <!-- ::ico-certificados:: -->
     <symbol viewBox="0 0 512 512"  id="ico-certificados">
+        
         <g>
             <circle class="st0" cx="36.7" cy="93.2" r="36.7"/>
             <path class="st0" d="M168.4,130h306.9c20.3,0,36.7-16.4,36.7-36.7s-16.4-36.7-36.7-36.7H168.4c-20.3,0-36.7,16.4-36.7,36.7
@@ -70,15 +71,19 @@ vector se pueda redimensionar. :D -->
     </svg>
 
     <!-- ::ico-menu-m:: -->
-    <symbol viewBox="0 0 512 512"  id="ico-menu-m">
+    <symbol viewBox="0 0 283.5 283.5"  id="ico-menu-m">
         <g>
-            <path class="st0" d="M256,0C115,0,0,115,0,256s115,256,256,256s256-115,256-256S397,0,256,0z M256,463.2
-                c-113.9,0-206.6-92.7-206.6-206.6S142.1,49.9,256,49.9s206.6,92.7,206.6,206.6S369.9,463.2,256,463.2z"/>
-            <polygon class="st0" points="258.2,250.6 203.4,151.9 156.2,151.9 156.2,341.7 203.4,341.7 203.4,231.6 258.2,330.3 312.9,231.6 
-                312.9,341.7 360.1,341.7 360.1,151.9 312.9,151.9 	"/>
+            <g>
+                <path d="M141.7,94.9c-26,0-47.2,21.2-47.2,47.2s21.2,47.2,47.2,47.2s47.2-21.2,47.2-47.2S167.7,94.9,141.7,94.9z M141.7,180.3
+                    c-21,0-38.1-17.1-38.1-38.1s17.1-38.1,38.1-38.1s38.1,17.1,38.1,38.1S162.7,180.3,141.7,180.3z"/>
+            </g>
+            <g>
+                <polygon points="142.1,141.1 132,122.9 123.3,122.9 123.3,157.9 132,157.9 132,137.6 142.1,155.8 152.2,137.6 152.2,157.9 
+                    160.9,157.9 160.9,122.9 152.2,122.9 		"/>
+            </g>
         </g>
     </symbol>
-    <svg version="1.1" id="svg-menu-m" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" fill="#1569B0">
+    <svg version="1.1" id="svg-menu-m" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 225 225" fill="#1569B0">
         <use xlink:href ="#ico-menu-m"/>
     </svg>
 
@@ -98,4 +103,6 @@ vector se pueda redimensionar. :D -->
     <svg version="1.1" id="svg-menu-micuenta" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" fill="#1569B0">
         <use xlink:href ="#ico-menu-micuenta"/>
     </svg>
+    
+    
 </svg>

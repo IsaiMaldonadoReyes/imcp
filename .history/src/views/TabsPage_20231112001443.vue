@@ -224,10 +224,6 @@ export default defineComponent({
 </script>
 
 <style>
-
-ion-router-outlet{
-  --ion-background-color: #eee;
-}
 ion-tab-button.tab-selected {
   --color-selected: #b20000; /* Cambia el color del texto para la pestaña activa */
   --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */

@@ -16,6 +16,7 @@ vector se pueda redimensionar. :D -->
 
     <!-- ::ico-certificados:: -->
     <symbol viewBox="0 0 512 512"  id="ico-certificados">
+        
         <g>
             <circle class="st0" cx="36.7" cy="93.2" r="36.7"/>
             <path class="st0" d="M168.4,130h306.9c20.3,0,36.7-16.4,36.7-36.7s-16.4-36.7-36.7-36.7H168.4c-20.3,0-36.7,16.4-36.7,36.7
@@ -98,4 +99,6 @@ vector se pueda redimensionar. :D -->
     <svg version="1.1" id="svg-menu-micuenta" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" fill="#1569B0">
         <use xlink:href ="#ico-menu-micuenta"/>
     </svg>
+    
+    
 </svg>

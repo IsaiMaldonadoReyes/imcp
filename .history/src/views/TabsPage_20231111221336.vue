@@ -34,8 +34,8 @@
           <v-app-bar-title>
             <v-img
               class="logo"
-              max-height="100%"
-              max-width="200px"
+              height="90px"
+              width="90px"
               src="../assets/images/logotipo.svg"
             />
           </v-app-bar-title>
@@ -109,6 +109,8 @@
             </v-badge>
           </v-btn>
 
+          <v-icon icon="icon-icon_circulo_verde" size="30"></v-icon>
+
           <!--v-btn class="text-none" icon color="#AAAAAA" variant="outlined">
             <v-badge content="2" color="#B01F24">
               <v-icon color="#AAAAAA">mdi-bell</v-icon>
@@ -124,7 +126,7 @@
       </v-layout>
     </ion-header>
     <ion-tabs>
-      <ion-router-outlet style="background-color: #ff0000;"></ion-router-outlet>
+      <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="dashboard" href="/tabs/dashboard">
           <v-icon size="30">
@@ -224,14 +226,6 @@ export default defineComponent({
 </script>
 
 <style>
-
-ion-router-outlet{
-  --ion-background-color: #eee;
-}
-ion-tab-button.tab-selected {
-  --color-selected: #b20000; /* Cambia el color del texto para la pestaña activa */
-  --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */
-}
 .v-icon {
   /* Aplica el color del v-icon al SVG */
   fill: currentColor;

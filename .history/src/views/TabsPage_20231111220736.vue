@@ -31,14 +31,13 @@
         <v-app-bar color="#EBEFF0" elevation="1">
           <div class="back" />
           <div class="esquina-tl-toolbar" />
-          <v-app-bar-title>
-            <v-img
-              class="logo"
-              max-height="100%"
-              max-width="200px"
-              src="../assets/images/logotipo.svg"
-            />
-          </v-app-bar-title>
+
+          <v-img
+            class="logo"
+            height="90px"
+            width="90px"
+            src="../assets/images/logotipo.svg"
+          />
 
           <v-spacer></v-spacer>
 
@@ -109,6 +108,8 @@
             </v-badge>
           </v-btn>
 
+          <v-icon icon="icon-icon_circulo_verde" size="30"></v-icon>
+
           <!--v-btn class="text-none" icon color="#AAAAAA" variant="outlined">
             <v-badge content="2" color="#B01F24">
               <v-icon color="#AAAAAA">mdi-bell</v-icon>
@@ -124,7 +125,7 @@
       </v-layout>
     </ion-header>
     <ion-tabs>
-      <ion-router-outlet style="background-color: #ff0000;"></ion-router-outlet>
+      <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="dashboard" href="/tabs/dashboard">
           <v-icon size="30">
@@ -224,17 +225,13 @@ export default defineComponent({
 </script>
 
 <style>
-
-ion-router-outlet{
-  --ion-background-color: #eee;
-}
-ion-tab-button.tab-selected {
-  --color-selected: #b20000; /* Cambia el color del texto para la pestaña activa */
-  --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */
-}
 .v-icon {
   /* Aplica el color del v-icon al SVG */
   fill: currentColor;
+}
+
+.icon-container {
+  color: red; /* Define el color deseado para el v-icon */
 }
 
 .small-dot .v-badge__badge {
@@ -265,6 +262,12 @@ ion-tab-button.tab-selected {
   background: url("../assets/images/esquina_superior_izquierda.png") top left no-repeat;
   z-index: -1;
   background-size: 7%;
+}
+
+.custom-icon .st0 {
+  width: 100%;
+  height: 100%;
+  fill: currentColor; /* Esto asumirá el color actual del elemento padre, en este caso, el color de v-icon */
 }
 
 @import url("../assets/images/ico.svg");
