@@ -19,10 +19,10 @@
         <v-card>
           <v-list
             bg-color="transparent"
-            class="d-flex flex-column-reverse justify-end"
+            class="d-flex flex-column-reverse"
             density="compact"
           >
-            <v-list-item v-for="(rating, i) in 3" :key="i" title="Puntaje principal">
+            <v-list-item v-for="(rating, i) in 3" :key="i" title="Rogerio Juan Bosco Casas">
               <v-progress-linear
                 :model-value="80"
                 class="mx-n5"
@@ -31,9 +31,11 @@
                 rounded
               ></v-progress-linear>
 
+              
+
               <template v-slot:append>
                 <div class="rating-values">
-                  <span > 18/20 </span>
+                  <span class="d-flex justify-end"> 18/20 </span>
                 </div>
               </template>
             </v-list-item>

@@ -222,7 +222,7 @@ export default defineComponent({
 
 <style>
 ion-content {
-  /**--ion-background-color: url("../assets/images/back.jpg");**/
+  /**--ion-background-color: url("../assets/images/back.jpg");*/
   --ion-background-color: #EEEEEE;
 }
 

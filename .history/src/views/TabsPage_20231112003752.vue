@@ -123,54 +123,50 @@
         </v-app-bar>
       </v-layout>
     </ion-header>
-    <ion-content style="">
-      <ion-tabs>
-        <ion-router-outlet></ion-router-outlet>
-        <ion-tab-bar slot="bottom">
-          <ion-tab-button tab="dashboard" href="/tabs/dashboard">
-            <v-icon size="30">
-              <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-dashboard"></use>
-              </svg>
-            </v-icon>
-          </ion-tab-button>
+    <ion-tabs>
+      <ion-router-outlet style="background-color: #ff0000"></ion-router-outlet>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="dashboard" href="/tabs/dashboard">
+          <v-icon size="30">
+            <svg ref="icon" class="v-icon">
+              <use xlink:href="../assets/images/ico.svg#ico-dashboard"></use>
+            </svg>
+          </v-icon>
+        </ion-tab-button>
 
-          <ion-tab-button tab="emitidos" href="/tabs/emitidos">
-            <v-icon size="30">
-              <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-certificados"></use>
-              </svg>
-            </v-icon>
-          </ion-tab-button>
+        <ion-tab-button tab="emitidos" href="/tabs/emitidos">
+          <v-icon size="30">
+            <svg ref="icon" class="v-icon">
+              <use xlink:href="../assets/images/ico.svg#ico-certificados"></use>
+            </svg>
+          </v-icon>
+        </ion-tab-button>
 
-          <ion-tab-button tab="certificado" href="/tabs/certificado">
-            <v-icon size="30">
-              <svg ref="icon" class="v-icon">
-                <use
-                  xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"
-                ></use>
-              </svg>
-            </v-icon>
-          </ion-tab-button>
+        <ion-tab-button tab="certificado" href="/tabs/certificado">
+          <v-icon size="30">
+            <svg ref="icon" class="v-icon">
+              <use xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"></use>
+            </svg>
+          </v-icon>
+        </ion-tab-button>
 
-          <ion-tab-button tab="cuenta" href="/tabs/cuenta">
-            <v-icon size="30">
-              <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-menu-micuenta"></use>
-              </svg>
-            </v-icon>
-          </ion-tab-button>
+        <ion-tab-button tab="cuenta" href="/tabs/cuenta">
+          <v-icon size="30">
+            <svg ref="icon" class="v-icon">
+              <use xlink:href="../assets/images/ico.svg#ico-menu-micuenta"></use>
+            </svg>
+          </v-icon>
+        </ion-tab-button>
 
-          <ion-tab-button tab="avisos" href="/tabs/avisos">
-            <v-icon size="30">
-              <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-menu-m"></use>
-              </svg>
-            </v-icon>
-          </ion-tab-button>
-        </ion-tab-bar>
-      </ion-tabs>
-    </ion-content>
+        <ion-tab-button tab="avisos" href="/tabs/avisos">
+          <v-icon size="30">
+            <svg ref="icon" class="v-icon">
+              <use xlink:href="../assets/images/ico.svg#ico-menu-m"></use>
+            </svg>
+          </v-icon>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
   </ion-page>
 </template>
 
@@ -182,7 +178,6 @@ import {
   IonIcon,
   IonPage,
   IonRouterOutlet,
-  IonContent,
 } from "@ionic/vue";
 import { ellipse, helpCircle, square, triangle } from "ionicons/icons";
 import { defineComponent, ref, inject } from "vue";
@@ -195,7 +190,6 @@ export default defineComponent({
     IonIcon,
     IonPage,
     IonRouterOutlet,
-    IonContent,
   },
   setup() {
     const fav = ref(true);
@@ -221,16 +215,13 @@ export default defineComponent({
 </script>
 
 <style>
-ion-content {
-  /**--ion-background-color: url("../assets/images/back.jpg");**/
-  --ion-background-color: #EEEEEE;
+ion-router-outlet {
+  background: url("../assets/images/back.jpg") !important;
 }
-
 ion-tab-button.tab-selected {
   --color-selected: #b20000; /* Cambia el color del texto para la pestaña activa */
   --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */
 }
-
 .v-icon {
   /* Aplica el color del v-icon al SVG */
   fill: currentColor;

@@ -1,43 +1,23 @@
 <template>
   <ion-page>
-    <ion-content :fullscreen="true">
-      <v-container>
-        <v-card class="mx-auto" elevation="0" color="transparent">
+    <ion-content
+      :fullscreen="true"
+     
+    >
+      <v-container class="mt-10">
+        <v-card class="mx-auto my-8">
           <v-card-item>
             <v-card-title class="text-uppercase" style="white-space: normal">{{
               title
             }}</v-card-title>
             <v-card-subtitle class="text-capitalize">{{ subtitle }}</v-card-subtitle>
           </v-card-item>
-        </v-card>
-        <v-card class="mx-auto my-4" elevation="0" rounded="lg">
+
           <v-card-text>
-            <BarChart :ref="barChartRef" v-bind="barChartProps" />
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua.
           </v-card-text>
-        </v-card>
-
-        <v-card>
-          <v-list
-            bg-color="transparent"
-            class="d-flex flex-column-reverse justify-end"
-            density="compact"
-          >
-            <v-list-item v-for="(rating, i) in 3" :key="i" title="Puntaje principal">
-              <v-progress-linear
-                :model-value="80"
-                class="mx-n5"
-                color="#B20000"
-                height="20"
-                rounded
-              ></v-progress-linear>
-
-              <template v-slot:append>
-                <div class="rating-values">
-                  <span > 18/20 </span>
-                </div>
-              </template>
-            </v-list-item>
-          </v-list>
+          <BarChart :ref="barChartRef" v-bind="barChartProps" />
         </v-card>
       </v-container>
     </ion-content>
@@ -71,19 +51,19 @@ export default defineComponent({
           label: "Principales",
           data: data,
           borderColor: "cyan",
-          backgroundColor: "rgba(178, 0, 0, 0.6)",
+          backgroundColor: "rgba(255, 0, 0, 0.5)",
         },
         {
           label: "Otros cursos",
           data: data2,
           borderColor: "cyan",
-          backgroundColor: "rgba(89, 89, 89, 0.6)",
+          backgroundColor: "rgba(0, 0, 128, 0.5)",
         },
         {
           label: "Ética",
           data: data3,
           borderColor: "cyan",
-          backgroundColor: "rgba(166, 166, 166, 0.6)",
+          backgroundColor: "rgba(0, 128, 0, 0.5)",
         },
       ],
     }));
@@ -93,7 +73,7 @@ export default defineComponent({
       plugins: {
         title: {
           display: true,
-          text: "Porcentaje de alcance Norma DCP",
+          text: "Puntos",
         },
       },
       responsive: true,
@@ -131,4 +111,15 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+ion-content {
+  background-image: url("../../assets/images/back.jpg"); /* Ajusta la ruta y nombre del archivo de tu imagen */
+  background-size: cover; /* Ajusta la propiedad según tus necesidades */
+  background-position: center center; /* Ajusta la propiedad según tus necesidades */
+  background-repeat: no-repeat;
+  /* Puedes agregar más propiedades según sea necesario para personalizar el fondo */
+}
+
+$card-title-padding-top: 40px;
+$card-title-word-wrap: break-word;
+</style>

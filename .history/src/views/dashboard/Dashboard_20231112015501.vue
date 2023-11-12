@@ -19,7 +19,7 @@
         <v-card>
           <v-list
             bg-color="transparent"
-            class="d-flex flex-column-reverse justify-end"
+            class="d-flex flex-column-reverse"
             density="compact"
           >
             <v-list-item v-for="(rating, i) in 3" :key="i" title="Puntaje principal">

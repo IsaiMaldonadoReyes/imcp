@@ -123,7 +123,15 @@
         </v-app-bar>
       </v-layout>
     </ion-header>
-    <ion-content style="">
+    <ion-content
+      style="background-image: url('../assets/images/back.jpg')  width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+    position: absolute;
+    top: 0;
+    left: 0; "
+    >
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
         <ion-tab-bar slot="bottom">
@@ -222,15 +230,12 @@ export default defineComponent({
 
 <style>
 ion-content {
-  /**--ion-background-color: url("../assets/images/back.jpg");**/
-  --ion-background-color: #EEEEEE;
+  --background-color: red;
 }
-
 ion-tab-button.tab-selected {
   --color-selected: #b20000; /* Cambia el color del texto para la pestaña activa */
   --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */
 }
-
 .v-icon {
   /* Aplica el color del v-icon al SVG */
   fill: currentColor;
