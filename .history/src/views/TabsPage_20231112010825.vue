@@ -222,8 +222,7 @@ export default defineComponent({
 
 <style>
 ion-content {
-  /**--ion-background-color: url("../assets/images/back.jpg");**/
-  --ion-background-color: #EEEEEE;
+  --ion-background-color: url("../assets/images/back.jpg") ;
 }
 
 ion-tab-button.tab-selected {

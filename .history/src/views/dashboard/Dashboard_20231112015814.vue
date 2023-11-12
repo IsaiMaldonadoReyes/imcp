@@ -33,7 +33,7 @@
 
               <template v-slot:append>
                 <div class="rating-values">
-                  <span > 18/20 </span>
+                  <span class="d-flex align-end justify-end"> 18/20 </span>
                 </div>
               </template>
             </v-list-item>
