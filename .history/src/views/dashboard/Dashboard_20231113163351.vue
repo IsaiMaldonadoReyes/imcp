@@ -88,7 +88,7 @@
             variant="flat"
             rounded="lg"
           >
-            Desglose de puntos
+            Desgloce de puntos
           </v-btn>
         </v-card>
       </v-container>

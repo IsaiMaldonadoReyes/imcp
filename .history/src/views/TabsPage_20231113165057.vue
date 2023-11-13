@@ -31,11 +31,18 @@
         <v-app-bar color="#EBEFF0" elevation="1">
           <div class="back" />
           <div class="esquina-tl-toolbar" />
-          <v-img class="ml-4 logo" width="35%" src="../assets/images/logotipo.svg" />
+          <v-app-bar-title>
+            <v-img
+              class="logo"
+              max-height="100%"
+              max-width="200px"
+              src="../assets/images/logotipo.svg"
+            />
+          </v-app-bar-title>
 
           <v-spacer></v-spacer>
 
-          <v-list bg-color="transparent" density="compact" max-width="200px">
+          <v-list bg-color="transparent"  density="compact">
             <v-list-item title="Rogerio Juan Bosco Casas" subtitle="RFC RJCA781002-HR7">
               <template v-slot:append>
                 <div class="text-center">
@@ -53,8 +60,8 @@
                       <v-list>
                         <v-list-item
                           prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg"
-                          title="Rogerio Juan Bosco Casas"
-                          subtitle="RFC RJCA781002-HR7"
+                          title="John Leider"
+                          subtitle="Founder of Vuetify"
                         >
                         </v-list-item>
                       </v-list>
@@ -96,9 +103,9 @@
             </v-list-item>
           </v-list>
 
-          <v-btn class="text-none" color="#B20000" icon variant="outlined" size="large">
+          <v-btn class="text-none" color="#B20000" icon variant="outlined" size="normal">
             <v-badge class="small-dot" content="2" text-color="#ffffff" location="center">
-              <v-icon color="#B20000" size="x-large">mdi-bell</v-icon>
+              <v-icon color="#B20000" size="normal">mdi-bell</v-icon>
             </v-badge>
           </v-btn>
 
@@ -216,17 +223,12 @@ export default defineComponent({
 <style>
 ion-content {
   /**--ion-background-color: url("../assets/images/back.jpg");**/
-  --ion-background-color: #eeeeee;
+  --ion-background-color: #EEEEEE;
 }
 
 ion-tab-button.tab-selected {
   --color-selected: #b20000; /* Cambia el color del texto para la pestaña activa */
   --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */
-}
-
-.v-list-item-subtitle {
-  color: #b20000;
-  font-weight: bold;
 }
 
 .v-icon {
