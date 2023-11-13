@@ -10,14 +10,13 @@
             <v-card-subtitle class="text-capitalize">{{ subtitle }}</v-card-subtitle>
           </v-card-item>
         </v-card>
-
         <v-card class="mx-auto my-4" elevation="0" rounded="lg">
           <v-card-text>
             <BarChart :ref="barChartRef" v-bind="barChartProps" />
           </v-card-text>
         </v-card>
 
-        <v-card class="mx-auto" elevation="0" rounded="lg">
+        <v-card class="mx-auto my-4" elevation="0" rounded="lg">
           <v-list
             bg-color="transparent"
             class="d-flex flex-column justify-end"
@@ -28,7 +27,7 @@
                 :model-value="80"
                 class="mx-n5"
                 color="rgba(178, 0, 0, 0.6)"
-                height="15"
+                height="20"
                 rounded
               ></v-progress-linear>
               <template v-slot:append>
@@ -42,7 +41,7 @@
                 :model-value="70"
                 class="mx-n5"
                 color="rgba(178, 0, 0, 0.6)"
-                height="15"
+                height="20"
                 rounded
               ></v-progress-linear>
               <template v-slot:append>
@@ -53,10 +52,10 @@
             </v-list-item>
             <v-list-item title="Puntaje otros cursos">
               <v-progress-linear
-                :model-value="30"
+                :model-value="70"
                 class="mx-n5"
                 color="rgba(178, 0, 0, 0.6)"
-                height="15"
+                height="20"
                 rounded
               ></v-progress-linear>
               <template v-slot:append>
@@ -66,30 +65,6 @@
               </template>
             </v-list-item>
           </v-list>
-        </v-card>
-
-        <v-card class="mx-auto my-4" elevation="0" rounded="lg" color="transparent">
-          <v-btn
-            block
-            class="text-none mb-4"
-            color="#C60A2F"
-            size="large"
-            variant="flat"
-            rounded="lg"
-          >
-            Histórico de capacitaciones
-          </v-btn>
-
-          <v-btn
-            block
-            class="text-none"
-            color="#222222"
-            size="large"
-            variant="flat"
-            rounded="lg"
-          >
-            Desglose de puntos
-          </v-btn>
         </v-card>
       </v-container>
     </ion-content>

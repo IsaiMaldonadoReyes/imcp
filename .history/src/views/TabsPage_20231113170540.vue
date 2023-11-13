@@ -224,9 +224,8 @@ ion-tab-button.tab-selected {
   --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */
 }
 
-.v-list-item-subtitle {
-  color: #b20000;
-  font-weight: bold;
+v-list {
+  --card-subtitle-color: #b20000;
 }
 
 .v-icon {

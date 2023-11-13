@@ -31,7 +31,11 @@
         <v-app-bar color="#EBEFF0" elevation="1">
           <div class="back" />
           <div class="esquina-tl-toolbar" />
-          <v-img class="ml-4 logo" width="35%" src="../assets/images/logotipo.svg" />
+          <v-img
+            class="ml-4 logo"
+            width="35%"
+            src="../assets/images/logotipo.svg"
+          />
 
           <v-spacer></v-spacer>
 
@@ -213,7 +217,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style >
 ion-content {
   /**--ion-background-color: url("../assets/images/back.jpg");**/
   --ion-background-color: #eeeeee;
@@ -224,9 +228,8 @@ ion-tab-button.tab-selected {
   --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */
 }
 
-.v-list-item-subtitle {
-  color: #b20000;
-  font-weight: bold;
+v-list {
+  --card-subtitle-color: #b20000;
 }
 
 .v-icon {
