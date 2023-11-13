@@ -68,29 +68,33 @@
           </v-list>
         </v-card>
 
-        <v-card class="mx-auto my-4" elevation="0" rounded="lg" color="transparent">
-          <v-btn
-            block
-            class="text-none mb-4"
-            color="#C60A2F"
-            size="large"
-            variant="flat"
-            rounded="lg"
-          >
-            Histórico de capacitaciones
-          </v-btn>
+        <v-row>
+          <v-col>
+            <v-btn
+              :disabled="loading"
+              :loading="loading"
+              block
+              class="text-none mb-4"
+              color="indigo-darken-3"
+              size="x-large"
+              variant="flat"
+              @click="loading = !loading"
+            >
+              Verify and continue
+            </v-btn>
 
-          <v-btn
-            block
-            class="text-none"
-            color="#222222"
-            size="large"
-            variant="flat"
-            rounded="lg"
-          >
-            Desglose de puntos
-          </v-btn>
-        </v-card>
+            <v-btn
+              block
+              class="text-none"
+              color="grey-lighten-3"
+              size="x-large"
+              variant="flat"
+            >
+              Cancel
+            </v-btn>
+          </v-col>
+          <v-col></v-col>
+        </v-row>
       </v-container>
     </ion-content>
   </ion-page>

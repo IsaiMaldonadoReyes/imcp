@@ -72,23 +72,22 @@
           <v-btn
             block
             class="text-none mb-4"
-            color="#C60A2F"
-            size="large"
+            color="indigo-darken-3"
+            size="x-large"
             variant="flat"
             rounded="lg"
           >
-            Histórico de capacitaciones
+            Verify and continue
           </v-btn>
 
           <v-btn
             block
             class="text-none"
-            color="#222222"
-            size="large"
+            color="grey-lighten-3"
+            size="x-large"
             variant="flat"
-            rounded="lg"
           >
-            Desglose de puntos
+            Cancel
           </v-btn>
         </v-card>
       </v-container>

@@ -226,7 +226,6 @@ ion-tab-button.tab-selected {
 
 .v-list-item-subtitle {
   color: #b20000;
-  font-weight: bold;
 }
 
 .v-icon {

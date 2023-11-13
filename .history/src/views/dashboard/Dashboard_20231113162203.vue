@@ -73,7 +73,7 @@
             block
             class="text-none mb-4"
             color="#C60A2F"
-            size="large"
+            size="x-large"
             variant="flat"
             rounded="lg"
           >
@@ -83,12 +83,11 @@
           <v-btn
             block
             class="text-none"
-            color="#222222"
-            size="large"
+            color="grey-lighten-3"
+            size="x-large"
             variant="flat"
-            rounded="lg"
           >
-            Desglose de puntos
+            Cancel
           </v-btn>
         </v-card>
       </v-container>
