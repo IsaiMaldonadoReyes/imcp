@@ -50,23 +50,11 @@ export default defineComponent({
 
     async function login() {
       try {
-        //await session.login(form.value);
-        /*
-        if(session.auth == true){
-          window.location.href = "/tabs/dashboard";
-        }else{
-          const alert = await alertController.create({
-            header: "Inicio de sesión",
-            message: "Usuario y/o contraseña inválidos",
-            buttons: ["OK"],
-          });
 
-          await alert.present();
-        }
-        */
+        await session.login(form.value);
 
-        if (form.value.rfc == "SOTJ841111Q39" && form.value.password == "temporal") {
-          window.location.href = "/tabs/dashboard";
+        if (session.auth == true) {
+          router.push("/tabs/dashboard");
         } else {
           const alert = await alertController.create({
             header: "Inicio de sesión",
@@ -76,6 +64,7 @@ export default defineComponent({
 
           await alert.present();
         }
+
       } catch (error) {
         console.log(error);
       }

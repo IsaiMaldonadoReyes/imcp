@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from "axios";
+import { Storage } from '@ionic/storage';
 
 export const useSessionStore = defineStore({
     id: 'session',
@@ -10,11 +11,23 @@ export const useSessionStore = defineStore({
     }),
     actions: {
         async login(credentials: any) {
-            // desarrollo
-            this.auth = true;
-            this.userInformation(credentials.email);
 
-            // test
+            let storage = new Storage();
+
+            await storage.create();
+
+            // desarrollo
+
+            if (credentials.rfc == "SOTJ841111Q39" && credentials.password == "temporal") {
+                this.auth = true;
+
+                await storage.set('token', '1234567890');
+                await storage.set('logged', true);
+            }
+
+            this.userInformation(credentials.rfc);
+
+            // production
             /* 
             await axios.post("/login", credentials)
                 .then((response) => {
@@ -52,7 +65,7 @@ export const useSessionStore = defineStore({
                 nombre: 'Rogerio Juan Bosco Casas', rfc: 'RJCA781002-HR7'
             };
 
-            // test
+            // production
             /*
             await axios.post("/api/userInformation/" + rfc)
                 .then((response) => {

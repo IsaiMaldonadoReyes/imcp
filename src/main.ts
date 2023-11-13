@@ -16,6 +16,8 @@ import VueAxios from "vue-axios";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
+import { Storage } from '@ionic/storage';
+
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/vue/css/core.css";
 
@@ -37,14 +39,16 @@ import "./theme/variables.css";
 
 const pinia = createPinia();
 
-const app = createApp(App)
-  .use(IonicVue)
-  .use(pinia)
-  .use(VueAxios, axios)
-  .use(vuetify)
-  .use(VueSweetalert2)
-  .use(router);
+const app = createApp(App);
 
-router.isReady().then(() => {
-  app.mount("#app");
-});
+app.use(IonicVue);
+app.use(pinia);
+app.use(router);
+app.use(VueAxios, axios);
+app.use(vuetify);
+app.use(VueSweetalert2);
+
+app.mount("#app");
+
+const storage = new Storage();
+app.config.globalProperties.$storage = storage;
