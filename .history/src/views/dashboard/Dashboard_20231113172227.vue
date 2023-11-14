@@ -84,9 +84,9 @@
             block
             class="text-none"
             color="#222222"
-            rounded="lg"
             size="large"
             variant="flat"
+            rounded="lg"
           >
             Desglose de puntos
           </v-btn>

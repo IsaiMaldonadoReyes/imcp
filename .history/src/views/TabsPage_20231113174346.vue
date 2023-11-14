@@ -58,37 +58,28 @@
                         <v-list-item
                           title="Rogerio Juan Bosco Casas"
                           subtitle="RFC RJCA781002-HR7"
-                          class="my-3"
                         >
                           <template v-slot:prepend>
-                            <v-avatar color="#AAAAAA">
+                            <v-avatar color="red">
                               <span class="text-h5">RJ</span>
                             </v-avatar>
                           </template>
                         </v-list-item>
-                        <v-divider></v-divider>
+                        <v-divider class="my-3"></v-divider>
                         <v-list-item class="mx-auto text-center">
-                          <v-btn block rounded="lg" variant="text" class="text-none">
-                            <template v-slot:prepend>
-                              <v-icon size="12" color="#B20000">
-                                <svg ref="icon" class="v-icon">
-                                  <use
-                                    xlink:href="../assets/images/ico.svg#ico-menu-micuenta"
-                                  ></use>
-                                </svg>
-                              </v-icon>
-                            </template>
+                          <v-btn
+                            block
+                            rounded="lg"
+                            variant="text"
+                            icon="mdi-account"
+                            class="text-none"
+                          >
                             Mi cuenta
                           </v-btn>
                         </v-list-item>
                         <v-divider></v-divider>
                         <v-list-item class="mx-auto text-center">
-                          <v-btn block rounded="lg" variant="text" class="text-none">
-                            <template v-slot:prepend>
-                              <v-icon size="12" color="#B20000"> mdi-logout </v-icon>
-                            </template>
-                            Cerrar sesión
-                          </v-btn>
+                          <v-btn rounded variant="text"> Disconnect </v-btn>
                         </v-list-item>
                       </v-list>
                     </v-card>
@@ -98,39 +89,11 @@
             </v-list-item>
           </v-list>
 
-          <v-menu
-            v-model="menuNotificacion"
-            :close-on-content-click="false"
-            location="bottom"
-          >
-            <template v-slot:activator="{ props }">
-              <v-btn
-                class="text-none"
-                color="#B20000"
-                icon
-                variant="outlined"
-                size="large"
-                v-bind="props"
-              >
-                <v-badge
-                  class="small-dot"
-                  content="3"
-                  text-color="#ffffff"
-                  location="center"
-                >
-                  <v-icon color="#B20000" size="x-large">mdi-bell</v-icon>
-                </v-badge>
-              </v-btn>
-            </template>
-
-            <v-card>
-              <v-list :items="items" item-props lines="three">
-                <template v-slot:subtitle="{ subtitle }">
-                  <div v-html="subtitle"></div>
-                </template>
-              </v-list>
-            </v-card>
-          </v-menu>
+          <v-btn class="text-none" color="#B20000" icon variant="outlined" size="large">
+            <v-badge class="small-dot" content="2" text-color="#ffffff" location="center">
+              <v-icon color="#B20000" size="x-large">mdi-bell</v-icon>
+            </v-badge>
+          </v-btn>
 
           <!--v-btn class="text-none" icon color="#AAAAAA" variant="outlined">
             <v-badge content="2" color="#B01F24">
@@ -146,10 +109,10 @@
         </v-app-bar>
       </v-layout>
     </ion-header>
-    <ion-content>
+    <ion-content style="">
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
-        <ion-tab-bar>
+        <ion-tab-bar slot="bottom">
           <ion-tab-button tab="dashboard" href="/tabs/dashboard">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
@@ -223,30 +186,10 @@ export default defineComponent({
   setup() {
     const fav = ref(true);
     const menu = ref(false);
-    const menuNotificacion = ref(false);
     const message = ref(false);
     const hints = ref(false);
 
     const icon = ref(null);
-
-    const items = [
-      { type: "subheader", title: "Notificación" },
-      { type: "divider", inset: false },
-      {
-        title: "Tu certificación EUC",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
-      },
-      { type: "divider", inset: false },
-      {
-        title: "Tu certificación X",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
-      },
-      { type: "divider", inset: false },
-      {
-        title: "Tu certificación Y",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
-      },
-    ];
 
     return {
       ellipse,
@@ -254,9 +197,7 @@ export default defineComponent({
       square,
       triangle,
       fav,
-      items,
       menu,
-      menuNotificacion,
       message,
       hints,
       icon,

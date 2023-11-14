@@ -98,11 +98,7 @@
             </v-list-item>
           </v-list>
 
-          <v-menu
-            v-model="menuNotificacion"
-            :close-on-content-click="false"
-            location="bottom"
-          >
+          <v-menu v-model="menuNotificacion" :close-on-content-click="false" location="bottom">
             <template v-slot:activator="{ props }">
               <v-btn
                 class="text-none"
@@ -114,7 +110,7 @@
               >
                 <v-badge
                   class="small-dot"
-                  content="3"
+                  content="2"
                   text-color="#ffffff"
                   location="center"
                 >
@@ -124,10 +120,42 @@
             </template>
 
             <v-card>
-              <v-list :items="items" item-props lines="three">
-                <template v-slot:subtitle="{ subtitle }">
-                  <div v-html="subtitle"></div>
-                </template>
+              <v-list>
+                <v-list-item
+                  title="Rogerio Juan Bosco Casas"
+                  subtitle="RFC RJCA781002-HR7"
+                  class="my-3"
+                >
+                  <template v-slot:prepend>
+                    <v-avatar color="#AAAAAA">
+                      <span class="text-h5">RJ</span>
+                    </v-avatar>
+                  </template>
+                </v-list-item>
+                <v-divider></v-divider>
+                <v-list-item class="mx-auto text-center">
+                  <v-btn block rounded="lg" variant="text" class="text-none">
+                    <template v-slot:prepend>
+                      <v-icon size="12" color="#B20000">
+                        <svg ref="icon" class="v-icon">
+                          <use
+                            xlink:href="../assets/images/ico.svg#ico-menu-micuenta"
+                          ></use>
+                        </svg>
+                      </v-icon>
+                    </template>
+                    Mi cuenta
+                  </v-btn>
+                </v-list-item>
+                <v-divider></v-divider>
+                <v-list-item class="mx-auto text-center">
+                  <v-btn block rounded="lg" variant="text" class="text-none">
+                    <template v-slot:prepend>
+                      <v-icon size="12" color="#B20000"> mdi-logout </v-icon>
+                    </template>
+                    Cerrar sesión
+                  </v-btn>
+                </v-list-item>
               </v-list>
             </v-card>
           </v-menu>
@@ -146,10 +174,10 @@
         </v-app-bar>
       </v-layout>
     </ion-header>
-    <ion-content>
+    <ion-content style="">
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
-        <ion-tab-bar>
+        <ion-tab-bar slot="bottom">
           <ion-tab-button tab="dashboard" href="/tabs/dashboard">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
@@ -229,32 +257,12 @@ export default defineComponent({
 
     const icon = ref(null);
 
-    const items = [
-      { type: "subheader", title: "Notificación" },
-      { type: "divider", inset: false },
-      {
-        title: "Tu certificación EUC",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
-      },
-      { type: "divider", inset: false },
-      {
-        title: "Tu certificación X",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
-      },
-      { type: "divider", inset: false },
-      {
-        title: "Tu certificación Y",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
-      },
-    ];
-
     return {
       ellipse,
       helpCircle,
       square,
       triangle,
       fav,
-      items,
       menu,
       menuNotificacion,
       message,
