@@ -15,7 +15,7 @@
         </v-label>
       </v-col>
       <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
-        <v-text-field v-model="form.rfc" :rules="[rules.required, rules.validRFC]" clearable label="RFC" rounded="lg"
+        <v-text-field v-model="form.rfc" :rules="[rules.required, rules.validRFC]" clearable label="RFC" @input="() => convertToUpperCase('rfc')" rounded="lg"
           style="font-weight: bold" variant="solo" />
       </v-col>
       <v-col cols="12" lg="12" md="12" sm="12" class="px-10" align="right">
@@ -63,6 +63,11 @@ export default defineComponent({
       }
     }
 
+    function convertToUpperCase(fieldName: keyof typeof form.value) {
+      form.value[fieldName] = form.value[fieldName].toUpperCase();
+    }
+
+
     function redirectLogin() {
       //router.push({ name: "login" });
       window.location.href = "/login";
@@ -81,6 +86,7 @@ export default defineComponent({
       rules,
       redirectLogin,
       sendPassword,
+      convertToUpperCase
     };
   },
 });

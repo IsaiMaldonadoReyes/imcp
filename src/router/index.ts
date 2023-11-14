@@ -100,11 +100,17 @@ router.beforeEach(async (to, from, next) => {
 
   const isAuth = await storage.get('logged');
 
-  if (isAuth || !to.meta.requiresAuth) {
+  if (isAuth && from.path === "/" && to.path !== "/tabs/dashboard") {
+    // Si el usuario está autenticado y está yendo a la raíz, redirígelo a /tabs/dashboard
+    next('/tabs/dashboard');
+  } else if (!to.meta.requiresAuth || isAuth) {
+    // Si la ruta no requiere autenticación o el usuario está autenticado, déjalo pasar
     next();
   } else {
+    // Si el usuario no está autenticado y la ruta requiere autenticación, redirígelo al login
     next('/login');
   }
+
 
 });
 
