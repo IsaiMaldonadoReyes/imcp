@@ -149,7 +149,7 @@
     <ion-content>
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
-        <ion-tab-bar>
+        <ion-tab-bar slot="bottom">
           <ion-tab-button tab="dashboard" href="/tabs/dashboard">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
@@ -239,12 +239,12 @@ export default defineComponent({
       { type: "divider", inset: false },
       {
         title: "Tu certificación X",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
+        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos`,
       },
       { type: "divider", inset: false },
       {
         title: "Tu certificación Y",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
+        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos`,
       },
     ];
 

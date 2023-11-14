@@ -149,7 +149,7 @@
     <ion-content>
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
-        <ion-tab-bar>
+        <ion-tab-bar slot="bottom">
           <ion-tab-button tab="dashboard" href="/tabs/dashboard">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
@@ -233,18 +233,22 @@ export default defineComponent({
       { type: "subheader", title: "Notificación" },
       { type: "divider", inset: false },
       {
+        icon: "mdi-bell",
         title: "Tu certificación EUC",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
+        subtitle: `<span class="text-primary">Debes tener</span> : 50 puntos`,
       },
-      { type: "divider", inset: false },
+      { type: "divider", inset: true },
       {
-        title: "Tu certificación X",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
+        prepend: "<v-icon>mdi-bell</v-icon>",
+        title: "Summer BBQ",
+        subtitle: `<span class="text-primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
       },
-      { type: "divider", inset: false },
+      { type: "divider", inset: true },
       {
-        title: "Tu certificación Y",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
+        prepend: "<v-icon>mdi-bell</v-icon>",
+        title: "Oui oui",
+        subtitle:
+          '<span class="text-primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
       },
     ];
 

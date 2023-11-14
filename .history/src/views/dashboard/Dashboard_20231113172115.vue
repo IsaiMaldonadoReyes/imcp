@@ -4,10 +4,10 @@
       <v-container>
         <v-card class="mx-auto" elevation="0" color="transparent">
           <v-card-item>
-            <v-card-title class="text-uppercase text-center" style="white-space: normal">{{
+            <v-card-title class="text-uppercase" style="white-space: normal">{{
               title
             }}</v-card-title>
-            <v-card-subtitle class="text-capitalize text-center">{{ subtitle }}</v-card-subtitle>
+            <v-card-subtitle class="text-capitalize">{{ subtitle }}</v-card-subtitle>
           </v-card-item>
         </v-card>
 
@@ -17,7 +17,7 @@
           </v-card-text>
         </v-card>
 
-        <v-card class="mx-auto my-4" elevation="0" rounded="lg">
+        <v-card class="mx-auto" elevation="0" rounded="lg">
           <v-list
             bg-color="transparent"
             class="d-flex flex-column justify-end"
@@ -84,9 +84,9 @@
             block
             class="text-none"
             color="#222222"
-            rounded="lg"
             size="large"
             variant="flat"
+            rounded="lg"
           >
             Desglose de puntos
           </v-btn>

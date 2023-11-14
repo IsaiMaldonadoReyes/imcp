@@ -7,7 +7,7 @@
             <v-card-title class="text-uppercase text-center" style="white-space: normal">{{
               title
             }}</v-card-title>
-            <v-card-subtitle class="text-capitalize text-center">{{ subtitle }}</v-card-subtitle>
+            <v-card-subtitle class="text-capitalize">{{ subtitle }}</v-card-subtitle>
           </v-card-item>
         </v-card>
 
@@ -84,9 +84,9 @@
             block
             class="text-none"
             color="#222222"
-            rounded="lg"
             size="large"
             variant="flat"
+            rounded="lg"
           >
             Desglose de puntos
           </v-btn>

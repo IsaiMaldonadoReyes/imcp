@@ -149,7 +149,7 @@
     <ion-content>
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
-        <ion-tab-bar>
+        <ion-tab-bar slot="bottom">
           <ion-tab-button tab="dashboard" href="/tabs/dashboard">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
