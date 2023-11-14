@@ -39,27 +39,14 @@
             <v-list-item title="Rogerio Juan Bosco Casas" subtitle="RFC RJCA781002-HR7">
               <template v-slot:append>
                 <div class="text-center">
-                  <v-menu
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    location="bottom"
-                  >
+                  <v-menu v-model="menu" :close-on-content-click="false" location="bottom">
                     <template v-slot:activator="{ props }">
-                      <v-btn
-                        size="x-small"
-                        variant="text"
-                        icon="mdi-menu-down"
-                        v-bind="props"
-                      ></v-btn>
+                      <v-btn size="x-small" variant="text" icon="mdi-menu-down" v-bind="props"></v-btn>
                     </template>
 
                     <v-card>
                       <v-list>
-                        <v-list-item
-                          title="Rogerio Juan Bosco Casas"
-                          subtitle="RFC RJCA781002-HR7"
-                          class="my-3"
-                        >
+                        <v-list-item title="Rogerio Juan Bosco Casas" subtitle="RFC RJCA781002-HR7" class="my-3">
                           <template v-slot:prepend>
                             <v-avatar color="#AAAAAA">
                               <span class="text-h5">RJ</span>
@@ -72,9 +59,7 @@
                             <template v-slot:prepend>
                               <v-icon size="12" color="#B20000">
                                 <svg ref="icon" class="v-icon">
-                                  <use
-                                    xlink:href="../assets/images/ico.svg#ico-menu-micuenta"
-                                  ></use>
+                                  <use xlink:href="../assets/images/ico.svg#ico-menu-micuenta"></use>
                                 </svg>
                               </v-icon>
                             </template>
@@ -83,7 +68,7 @@
                         </v-list-item>
                         <v-divider></v-divider>
                         <v-list-item class="mx-auto text-center">
-                          <v-btn block rounded="lg" variant="text" class="text-none">
+                          <v-btn block rounded="lg" variant="text" class="text-none" @click="logout">
                             <template v-slot:prepend>
                               <v-icon size="12" color="#B20000"> mdi-logout </v-icon>
                             </template>
@@ -98,26 +83,10 @@
             </v-list-item>
           </v-list>
 
-          <v-menu
-            v-model="menuNotificacion"
-            :close-on-content-click="false"
-            location="bottom"
-          >
+          <v-menu v-model="menuNotificacion" :close-on-content-click="false" location="bottom">
             <template v-slot:activator="{ props }">
-              <v-btn
-                class="text-none"
-                color="#B20000"
-                icon
-                variant="outlined"
-                size="large"
-                v-bind="props"
-              >
-                <v-badge
-                  class="small-dot"
-                  content="3"
-                  text-color="#ffffff"
-                  location="center"
-                >
+              <v-btn class="text-none" color="#B20000" icon variant="outlined" size="large" v-bind="props">
+                <v-badge class="small-dot" content="3" text-color="#ffffff" location="center">
                   <v-icon color="#B20000" size="x-large">mdi-bell</v-icon>
                 </v-badge>
               </v-btn>
@@ -169,9 +138,7 @@
           <ion-tab-button tab="certificado" href="/tabs/certificado">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
-                <use
-                  xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"
-                ></use>
+                <use xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"></use>
               </svg>
             </v-icon>
           </ion-tab-button>
@@ -209,6 +176,8 @@ import {
 } from "@ionic/vue";
 import { ellipse, helpCircle, square, triangle } from "ionicons/icons";
 import { defineComponent, ref, inject } from "vue";
+import { useRouter } from "vue-router";
+import { useSessionStore } from "../store/session";
 
 export default defineComponent({
   components: {
@@ -221,6 +190,9 @@ export default defineComponent({
     IonContent,
   },
   setup() {
+    const session = useSessionStore();
+    const router = useRouter();
+
     const fav = ref(true);
     const menu = ref(false);
     const menuNotificacion = ref(false);
@@ -248,6 +220,17 @@ export default defineComponent({
       },
     ];
 
+    async function logout() {
+      try {
+
+        await session.logout();
+        window.location.href = "/login";
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     return {
       ellipse,
       helpCircle,
@@ -260,6 +243,7 @@ export default defineComponent({
       message,
       hints,
       icon,
+      logout
     };
   },
 });
@@ -272,8 +256,10 @@ ion-content {
 }
 
 ion-tab-button.tab-selected {
-  --color-selected: #b20000; /* Cambia el color del texto para la pestaña activa */
-  --background-selected: #b20000; /* Cambia el color de fondo para la pestaña activa */
+  --color-selected: #b20000;
+  /* Cambia el color del texto para la pestaña activa */
+  --background-selected: #b20000;
+  /* Cambia el color de fondo para la pestaña activa */
 }
 
 .v-list-item-subtitle {
@@ -289,14 +275,19 @@ ion-tab-button.tab-selected {
 .small-dot .v-badge__badge {
   background-color: transparent;
 }
+
 .logo img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Escala la imagen para llenar el contenedor sin distorsionarla */
+  object-fit: cover;
+  /* Escala la imagen para llenar el contenedor sin distorsionarla */
 
-  position: absolute; /* Permite ajustar la ubicación de la parte recortada */
-  top: 0; /* Ajusta la posición vertical (puedes cambiarlo según tus necesidades) */
-  left: 0; /* Ajusta la posición horizontal (puedes cambiarlo según tus necesidades) */
+  position: absolute;
+  /* Permite ajustar la ubicación de la parte recortada */
+  top: 0;
+  /* Ajusta la posición vertical (puedes cambiarlo según tus necesidades) */
+  left: 0;
+  /* Ajusta la posición horizontal (puedes cambiarlo según tus necesidades) */
 }
 
 .back-toolbar,

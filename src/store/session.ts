@@ -13,7 +13,6 @@ export const useSessionStore = defineStore({
         async login(credentials: any) {
 
             let storage = new Storage();
-
             await storage.create();
 
             // desarrollo
@@ -56,8 +55,14 @@ export const useSessionStore = defineStore({
                 .finally(() => { });
         },
         async logout() {
+            let storage = new Storage();
+            await storage.create();
+
             this.auth = false;
             this.object = {};
+
+            await storage.remove('token');
+            await storage.remove('logged');
         },
         async userInformation(rfc: string) {
             // desarrollo
