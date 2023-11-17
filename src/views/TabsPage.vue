@@ -4,7 +4,6 @@
       <v-layout>
         <v-app-bar color="#E9EDEE">
           <v-app-bar-title>
-            hola
             <v-img src="../assets/images/logotipo.svg" height="40" max-width="40" />
           </v-app-bar-title>
 
@@ -36,7 +35,7 @@
           <v-spacer></v-spacer>
 
           <v-list bg-color="transparent" density="compact" max-width="200px">
-            <v-list-item title="Rogerio Juan Bosco Casas" subtitle="RFC RJCA781002-HR7">
+            <v-list-item :title="nombreUsuario" :subtitle="'RFC ' + rfc">
               <template v-slot:append>
                 <div class="text-center">
                   <v-menu v-model="menu" :close-on-content-click="false" location="bottom">
@@ -46,7 +45,7 @@
 
                     <v-card>
                       <v-list>
-                        <v-list-item title="Rogerio Juan Bosco Casas" subtitle="RFC RJCA781002-HR7" class="my-3">
+                        <v-list-item :title="nombreUsuario" :subtitle="'RFC ' + rfc" class="my-3">
                           <template v-slot:prepend>
                             <v-avatar color="#AAAAAA">
                               <span class="text-h5">RJ</span>
@@ -86,7 +85,7 @@
           <v-menu v-model="menuNotificacion" :close-on-content-click="false" location="bottom">
             <template v-slot:activator="{ props }">
               <v-btn class="text-none" color="#B20000" icon variant="outlined" size="large" v-bind="props">
-                <v-badge class="small-dot" content="3" text-color="#ffffff" location="center">
+                <v-badge class="small-dot" :content="cantidadNotificaciones" text-color="#ffffff" location="center">
                   <v-icon color="#B20000" size="x-large">mdi-bell</v-icon>
                 </v-badge>
               </v-btn>
@@ -175,9 +174,11 @@ import {
   IonContent,
 } from "@ionic/vue";
 import { ellipse, helpCircle, square, triangle } from "ionicons/icons";
-import { defineComponent, ref, inject } from "vue";
+import { defineComponent, ref, inject, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useSessionStore } from "../store/session";
+import { useDashboardStore } from "../store/dashboard";
+import { Storage } from '@ionic/storage';
 
 export default defineComponent({
   components: {
@@ -191,6 +192,7 @@ export default defineComponent({
   },
   setup() {
     const session = useSessionStore();
+    const dash = useDashboardStore();
     const router = useRouter();
 
     const fav = ref(true);
@@ -198,31 +200,63 @@ export default defineComponent({
     const menuNotificacion = ref(false);
     const message = ref(false);
     const hints = ref(false);
-
     const icon = ref(null);
 
-    const items = [
-      { type: "subheader", title: "Notificación" },
-      { type: "divider", inset: false },
-      {
-        title: "Tu certificación EUC",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
-      },
-      { type: "divider", inset: false },
-      {
-        title: "Tu certificación X",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
-      },
-      { type: "divider", inset: false },
-      {
-        title: "Tu certificación Y",
-        subtitle: `<span class="text-grey-darken-4">Debes tener</span> : 50 puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : 40 puntos`,
-      },
-    ];
+    let rfc = ref<string>('');
+    let nombreUsuario = ref<string>('');
+
+    let cantidadNotificaciones = ref<number>(0);
+
+    const items = ref<Array<{ title: string; subtitle: string } | { type: string; inset: boolean; title: string; subtitle: string } | { type: string; inset: boolean }>>([]);
+
+    const fetchData = async () => {
+      const storage = new Storage();
+      storage.create();
+
+      rfc.value = await storage.get("rfc");
+      nombreUsuario.value = await storage.get("nombreUsuario");
+
+      loadNotifications(rfc.value);
+    };
+
+    onMounted(() => {
+      fetchData();
+    });
+
+    async function loadNotifications(rfcUser: string) {
+      await dash.loadNotifications(rfcUser);
+
+      const notifications = dash.object;
+      items.value.length = 0;
+
+      items.value.push({ type: "subheader", title: "Notificaciones", subtitle: "" });
+      items.value.push({ type: "divider", inset: false, title: "", subtitle: "" });
+
+
+      if (Array.isArray(notifications)) {
+        // Añade el encabezado
+        cantidadNotificaciones.value = notifications.length;
+
+        // Añade las notificaciones
+        notifications.forEach(notification => {
+          items.value.push({
+            type: "divider",
+            inset: false
+          });
+
+          items.value.push({
+            title: notification.title,
+            subtitle: `<span class="text-grey-darken-4">${notification.subtitle}</span> : ${notification.pointsRequired} puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : ${notification.pointsOwned} puntos`,
+          });
+        });
+      } else {
+        console.error("El objeto 'notifications' no es un array.");
+      }
+    }
+
 
     async function logout() {
       try {
-
         await session.logout();
         window.location.href = "/login";
 
@@ -243,6 +277,9 @@ export default defineComponent({
       message,
       hints,
       icon,
+      rfc,
+      nombreUsuario,
+      cantidadNotificaciones,
       logout
     };
   },

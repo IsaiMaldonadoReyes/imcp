@@ -1,10 +1,9 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
 import TabsPage from "../views/TabsPage.vue";
-import { useSessionStore } from '../store/session';
 import { Storage } from '@ionic/storage';
 
-const routes: Array<RouteRecordRaw> = [
+const routes = [
   {
     path: "/login",
     name: "login",
@@ -28,7 +27,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "",
-        redirect: "/tabs/dashboard",
+        redirect: "dashboard",
       },
       {
         path: "dashboard", // vista principal - dashboard
@@ -92,13 +91,16 @@ const router = createRouter({
 });
 
 
-router.beforeEach(async (to, from, next) => {
-
-  const storeSession = useSessionStore();
+router.beforeEach(async (to, from) => {
   const storage = new Storage();
   storage.create();
 
+
+  console.log(to);
+  console.log(from);
+
   const isAuth = await storage.get('logged');
+/*
 
   if (isAuth && from.path === "/" && to.path !== "/tabs/dashboard") {
     // Si el usuario está autenticado y está yendo a la raíz, redirígelo a /tabs/dashboard
@@ -110,7 +112,7 @@ router.beforeEach(async (to, from, next) => {
     // Si el usuario no está autenticado y la ruta requiere autenticación, redirígelo al login
     next('/login');
   }
-
+*/
 
 });
 

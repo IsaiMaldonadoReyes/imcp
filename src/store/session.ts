@@ -11,7 +11,6 @@ export const useSessionStore = defineStore({
     }),
     actions: {
         async login(credentials: any) {
-
             let storage = new Storage();
             await storage.create();
 
@@ -22,6 +21,7 @@ export const useSessionStore = defineStore({
 
                 await storage.set('token', '1234567890');
                 await storage.set('logged', true);
+                await storage.set('rfc', credentials.rfc);
             }
 
             this.userInformation(credentials.rfc);
@@ -63,9 +63,16 @@ export const useSessionStore = defineStore({
 
             await storage.remove('token');
             await storage.remove('logged');
+            await storage.remove('rfc');
+            await storage.remove('nombreUsuario');
         },
         async userInformation(rfc: string) {
             // desarrollo
+            let storage = new Storage();
+            await storage.create();
+
+            await storage.set('nombreUsuario', 'Rogerio Juan Bosco Casas');
+            
             this.object = {
                 nombre: 'Rogerio Juan Bosco Casas', rfc: 'RJCA781002-HR7'
             };
