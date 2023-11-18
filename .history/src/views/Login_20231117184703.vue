@@ -1,9 +1,7 @@
 <template>
-  <ion-page>
-    <ion-content>
   <v-container class="ma-# pa-# fill-height">
     <v-row style="height: 10%" class="d-flex align-center justify-center">
-      <img style="max-width: 65%" src="../assets/images/logotipo.svg" />
+      <img style="max-width: 70%; max-height: 70%" src="../assets/images/logotipo.svg" />
     </v-row>
     <v-row style="height: 65%" class="d-flex align-center justify-center">
       <v-card color="transparent" elevation="0">
@@ -49,14 +47,13 @@
           </v-col>
           <v-col cols="12" lg="12" md="12" sm="12" class="px-10 " align="right">
             <v-btn
-              :to="{ path: '/resetPassword' }"
               class="text-caption text-disabled ms-1 text-capitalize"
               color="#C6092F"
               rounded="lg"
               size="x-small"
               style="font-weight: bold"
               variant="plain"
-              
+              @click="resetPassword"
             >
               Recuperar contraseña
             </v-btn>
@@ -80,8 +77,6 @@
     <div class="esquina-br" />
     <div class="esquina-tl" />
   </v-container>
-</ion-content>
-  </ion-page>
 </template>
 
 <script lang="ts">
@@ -124,6 +119,13 @@ export default defineComponent({
     function convertToUpperCase(fieldName: keyof typeof form.value) {
       form.value[fieldName] = form.value[fieldName].toUpperCase();
     }
+
+    function resetPassword() {
+      //router.push({ name: "resetPassword" });
+      window.location.href = "/resetPassword";
+      //router.push("/resetPassword");
+    }
+
     const form = ref({
       rfc: "",
       password: "",
@@ -142,6 +144,7 @@ export default defineComponent({
       show1,
       convertToUpperCase,
       login,
+      resetPassword,
     };
   },
 });

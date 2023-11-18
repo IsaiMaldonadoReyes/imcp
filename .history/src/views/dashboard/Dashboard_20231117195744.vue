@@ -1,29 +1,44 @@
 <template>
   <ion-page>
-    <ion-content :fullscreen="true">
-      <v-container>
+    <ion-content>
+      <v-container class="fluid">
         <v-card class="mx-auto" elevation="0" color="transparent">
-          <v-card-item>
-            <v-card-title class="text-uppercase text-center" style="white-space: normal">
-              {{ title }}
-            </v-card-title>
-            <v-card-subtitle class="text-capitalize text-center">
-              {{ subtitle }}
-            </v-card-subtitle>
-          </v-card-item>
+          
+            <v-card-item>
+              <v-card-title
+                class="text-uppercase text-center"
+                style="white-space: normal"
+              >
+                {{ title }}
+              </v-card-title>
+              <v-card-subtitle class="text-capitalize text-center">
+                {{ subtitle }}
+              </v-card-subtitle>
+            </v-card-item>
+          
         </v-card>
 
         <v-card class="mx-auto my-2" elevation="0" rounded="lg">
           <v-card-text>
             <BarChart :ref="barChartRef" v-bind="barChartProps" />
           </v-card-text>
+
         </v-card>
 
         <v-card class="mx-auto my-4" elevation="0" rounded="lg">
-          <v-list bg-color="transparent" class="d-flex flex-column justify-end" density="compact">
+          <v-list
+            bg-color="transparent"
+            class="d-flex flex-column justify-end"
+            density="compact"
+          >
             <v-list-item title="Puntaje principal">
-              <v-progress-linear :model-value="80" class="mx-n5" color="rgba(178, 0, 0, 0.6)" height="15"
-                rounded></v-progress-linear>
+              <v-progress-linear
+                :model-value="80"
+                class="mx-n5"
+                color="rgba(178, 0, 0, 0.6)"
+                height="15"
+                rounded
+              ></v-progress-linear>
               <template v-slot:append>
                 <div class="rating-values">
                   <span>18/20</span>
@@ -31,8 +46,13 @@
               </template>
             </v-list-item>
             <v-list-item title="Puntaje otros cursos">
-              <v-progress-linear :model-value="70" class="mx-n5" color="rgba(178, 0, 0, 0.6)" height="15"
-                rounded></v-progress-linear>
+              <v-progress-linear
+                :model-value="70"
+                class="mx-n5"
+                color="rgba(178, 0, 0, 0.6)"
+                height="15"
+                rounded
+              ></v-progress-linear>
               <template v-slot:append>
                 <div class="rating-values">
                   <span>20/25</span>
@@ -40,8 +60,13 @@
               </template>
             </v-list-item>
             <v-list-item title="Puntaje otros cursos">
-              <v-progress-linear :model-value="30" class="mx-n5" color="rgba(178, 0, 0, 0.6)" height="15"
-                rounded></v-progress-linear>
+              <v-progress-linear
+                :model-value="30"
+                class="mx-n5"
+                color="rgba(178, 0, 0, 0.6)"
+                height="15"
+                rounded
+              ></v-progress-linear>
               <template v-slot:append>
                 <div class="rating-values">
                   <span>2/5</span>
@@ -52,11 +77,25 @@
         </v-card>
 
         <v-card class="mx-auto my-4" elevation="0" rounded="lg" color="transparent">
-          <v-btn block class="text-none mb-4" color="#C60A2F" size="large" variant="flat" rounded="lg">
+          <v-btn
+            block
+            class="text-none mb-4"
+            color="#C60A2F"
+            size="large"
+            variant="flat"
+            rounded="lg"
+          >
             Histórico de capacitaciones
           </v-btn>
 
-          <v-btn block class="text-none" color="#222222" rounded="lg" size="large" variant="flat">
+          <v-btn
+            block
+            class="text-none"
+            color="#222222"
+            rounded="lg"
+            size="large"
+            variant="flat"
+          >
             Desglose de puntos
           </v-btn>
         </v-card>

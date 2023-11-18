@@ -8,21 +8,43 @@
               <div class="back" />
               <div class="esquina-tl-toolbar" />
 
-              <img class="ml-5" style="max-height: 45%; max-width: 45%" src="../assets/images/logotipo.svg" />
+              <img
+                class="ml-5"
+                style="max-height: 45%; max-width: 45%"
+                src="../assets/images/logotipo.svg"
+              />
               <v-spacer></v-spacer>
 
-              <v-list class="imcp-header" bg-color="transparent" density="compact" max-width="200px">
+              <v-list
+                class="imcp-header"
+                bg-color="transparent"
+                density="compact"
+                max-width="200px"
+              >
                 <v-list-item :title="nombreUsuario" :subtitle="'RFC ' + rfc">
                   <template v-slot:append>
                     <div class="text-center">
-                      <v-menu v-model="menu" :close-on-content-click="false" location="bottom">
+                      <v-menu
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        location="bottom"
+                      >
                         <template v-slot:activator="{ props }">
-                          <v-btn size="x-small" variant="text" icon="mdi-menu-down" v-bind="props"></v-btn>
+                          <v-btn
+                            size="x-small"
+                            variant="text"
+                            icon="mdi-menu-down"
+                            v-bind="props"
+                          ></v-btn>
                         </template>
 
                         <v-card color="transparent">
                           <v-list color="transparent">
-                            <v-list-item :title="nombreUsuario" :subtitle="'RFC ' + rfc" class="my-3">
+                            <v-list-item
+                              :title="nombreUsuario"
+                              :subtitle="'RFC ' + rfc"
+                              class="my-3"
+                            >
                               <template v-slot:prepend>
                                 <v-avatar color="#AAAAAA">
                                   <span class="text-h5">RJ</span>
@@ -35,7 +57,9 @@
                                 <template v-slot:prepend>
                                   <v-icon size="12" color="#B20000">
                                     <svg ref="icon" class="v-icon">
-                                      <use xlink:href="../assets/images/ico.svg#ico-menu-micuenta"></use>
+                                      <use
+                                        xlink:href="../assets/images/ico.svg#ico-menu-micuenta"
+                                      ></use>
                                     </svg>
                                   </v-icon>
                                 </template>
@@ -44,7 +68,13 @@
                             </v-list-item>
                             <v-divider></v-divider>
                             <v-list-item class="mx-auto">
-                              <v-btn block rounded="lg" variant="text" class="text-none" @click="logout">
+                              <v-btn
+                                block
+                                rounded="lg"
+                                variant="text"
+                                class="text-none"
+                                @click="logout"
+                              >
                                 <template v-slot:prepend>
                                   <v-icon size="12" color="#B20000"> mdi-logout </v-icon>
                                 </template>
@@ -59,10 +89,26 @@
                 </v-list-item>
               </v-list>
 
-              <v-menu v-model="menuNotificacion" :close-on-content-click="false" location="bottom">
+              <v-menu
+                v-model="menuNotificacion"
+                :close-on-content-click="false"
+                location="bottom"
+              >
                 <template v-slot:activator="{ props }">
-                  <v-btn class="text-none text-left" color="#B20000" icon variant="outlined" size="large" v-bind="props">
-                    <v-badge class="small-dot" :content="cantidadNotificaciones" text-color="#ffffff" location="center">
+                  <v-btn
+                    class="text-none text-left"
+                    color="#B20000"
+                    icon
+                    variant="outlined"
+                    size="large"
+                    v-bind="props"
+                  >
+                    <v-badge
+                      class="small-dot"
+                      :content="cantidadNotificaciones"
+                      text-color="#ffffff"
+                      location="center"
+                    >
                       <v-icon color="#B20000" size="x-large">mdi-bell</v-icon>
                     </v-badge>
                   </v-btn>
@@ -103,7 +149,7 @@
             </v-icon>
           </ion-tab-button>
 
-          <ion-tab-button tab="emitidos" href="/tabs/certificadoEstatus">
+          <ion-tab-button tab="emitidos" href="/tabs/emitidos">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
                 <use xlink:href="../assets/images/ico.svg#ico-certificados"></use>
@@ -111,10 +157,12 @@
             </v-icon>
           </ion-tab-button>
 
-          <ion-tab-button tab="certificado" href="/tabs/emitidos">
+          <ion-tab-button tab="certificado" href="/tabs/certificado">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"></use>
+                <use
+                  xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"
+                ></use>
               </svg>
             </v-icon>
           </ion-tab-button>
@@ -127,7 +175,7 @@
             </v-icon>
           </ion-tab-button>
 
-          <ion-tab-button tab="avisos" href="/tabs/capacitacionExterna">
+          <ion-tab-button tab="avisos" href="/tabs/avisos">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
                 <use xlink:href="../assets/images/ico.svg#ico-menu-m"></use>
@@ -239,7 +287,7 @@ export default defineComponent({
     async function logout() {
       try {
         await session.logout();
-        router.push("/login");
+        window.location.href = "/login";
       } catch (error) {
         console.log(error);
       }
