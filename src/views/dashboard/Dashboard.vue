@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content :fullscreen="true">
+    <ion-content>
       <v-container>
         <v-card class="mx-auto" elevation="0" color="transparent">
           <v-card-item>
@@ -69,6 +69,7 @@
 import { defineComponent, ref, computed } from "vue";
 import { BarChart, useBarChart } from "vue-chart-3";
 import { Chart, registerables, ScriptableContext } from "chart.js";
+import { IonPage, IonContent } from "@ionic/vue";
 
 Chart.register(...registerables);
 
@@ -76,6 +77,8 @@ export default defineComponent({
   name: "App",
   components: {
     BarChart,
+    IonPage,
+    IonContent
   },
   setup() {
     const data = [30, 40];

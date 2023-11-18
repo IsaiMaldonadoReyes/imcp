@@ -149,6 +149,7 @@ import {
   IonPage,
   IonRouterOutlet,
   IonContent,
+  IonHeader
 } from "@ionic/vue";
 import { ellipse, helpCircle, square, triangle } from "ionicons/icons";
 import { defineComponent, ref, inject, onMounted } from "vue";
@@ -166,6 +167,7 @@ export default defineComponent({
     IonPage,
     IonRouterOutlet,
     IonContent,
+    IonHeader
   },
   setup() {
     const session = useSessionStore();
