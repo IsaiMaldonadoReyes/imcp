@@ -3,17 +3,23 @@ import { RouteRecordRaw } from "vue-router";
 import TabsPage from "../views/TabsPage.vue";
 import { Storage } from '@ionic/storage';
 
+import Login from "../views/Login.vue";
+import ResetPassword from "../views/ResetPassword.vue";
+
+import Dashboard from "../views/dashboard/Dashboard.vue";
+import CertificadoEstatus from "../views/certificado/CertificadoEstatus.vue";
+
 const routes = [
   {
     path: "/login",
     name: "login",
-    component: () => import("../views/Login.vue"),
+    component: Login,
     meta: { requiresAuth: false },
   },
   {
     path: "/resetPassword",
     name: "resetPassword",
-    component: () => import("@/views/ResetPassword.vue"),
+    component: ResetPassword,
     meta: { requiresAuth: false },
   },
   {
@@ -31,7 +37,7 @@ const routes = [
       },
       {
         path: "dashboard", // vista principal - dashboard
-        component: () => import("@/views/dashboard/Dashboard.vue"),
+        component: Dashboard,
       },
       {
         path: "desglosePuntos", // dashboard
@@ -39,7 +45,7 @@ const routes = [
       },
       {
         path: "certificadoEstatus", // vista principal - certificado estatus
-        component: () => import("@/views/certificado/CertificadoEstatus.vue"),
+        component: CertificadoEstatus,
       },
       {
         path: "certificadoPuntos", // certificado estatus

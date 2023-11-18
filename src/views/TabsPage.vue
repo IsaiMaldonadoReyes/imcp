@@ -99,18 +99,6 @@
               </v-list>
             </v-card>
           </v-menu>
-
-          <!--v-btn class="text-none" icon color="#AAAAAA" variant="outlined">
-            <v-badge content="2" color="#B01F24">
-              <v-icon color="#AAAAAA">mdi-bell</v-icon>
-            </v-badge>
-          </v-btn>
-
-          <v-btn class="text-none" icon color="#AAAAAA" >
-            <v-badge content="2" color="#B01F24">
-              <v-icon color="#AAAAAA">mdi-bell</v-icon>
-            </v-badge>
-          </v-btn-->
         </v-app-bar>
       </v-layout>
     </ion-header>
@@ -126,7 +114,7 @@
             </v-icon>
           </ion-tab-button>
 
-          <ion-tab-button tab="emitidos" href="/tabs/emitidos">
+          <ion-tab-button tab="emitidos" href="/tabs/certificadoEstatus">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
                 <use xlink:href="../assets/images/ico.svg#ico-certificados"></use>
@@ -134,7 +122,7 @@
             </v-icon>
           </ion-tab-button>
 
-          <ion-tab-button tab="certificado" href="/tabs/certificado">
+          <ion-tab-button tab="certificado" href="/tabs/emitidos">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
                 <use xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"></use>
@@ -150,7 +138,7 @@
             </v-icon>
           </ion-tab-button>
 
-          <ion-tab-button tab="avisos" href="/tabs/avisos">
+          <ion-tab-button tab="avisos" href="/tabs/capacitacionExterna">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
                 <use xlink:href="../assets/images/ico.svg#ico-menu-m"></use>
@@ -172,6 +160,7 @@ import {
   IonPage,
   IonRouterOutlet,
   IonContent,
+  IonHeader
 } from "@ionic/vue";
 import { ellipse, helpCircle, square, triangle } from "ionicons/icons";
 import { defineComponent, ref, inject, onMounted } from "vue";
@@ -189,6 +178,7 @@ export default defineComponent({
     IonPage,
     IonRouterOutlet,
     IonContent,
+    IonHeader
   },
   setup() {
     const session = useSessionStore();
@@ -258,7 +248,7 @@ export default defineComponent({
     async function logout() {
       try {
         await session.logout();
-        window.location.href = "/login";
+        router.push("/login");
 
       } catch (error) {
         console.log(error);
