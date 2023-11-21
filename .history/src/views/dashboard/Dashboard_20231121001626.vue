@@ -312,13 +312,9 @@ export default defineComponent({
       rojoClaro: "#FAE6EA",
       grisOscuro: "#222222",
     });
-    const data = [20, 18, 30, 26, 30, 20, 30, 20, 19];
-    const data2 = [25, 20, 25, 23, 30, 15, 35, 30];
-    const data3 = [5, 2, 10, 9, 15, 8, 20, 14];
-
-    const dataC1Por4 = [100, 85, 20, 5, 15, 25, 30, 40, 50];
-    const dataC2Por4 = [10, 20, 10, 50, 20, 13, 45, 30];
-    const dataC3Por4 = [50, 30, 30, 40, 26, 29, 18, 10];
+    const data = [30, 40, 20, 5, 15, 25, 30, 40, 50];
+    const data2 = [10, 20, 10, 50, 20, 13, 45, 30];
+    const data3 = [50, 30, 30, 40, 26, 29, 18, 10];
     const barChartRef = ref();
     const title = ref("Estatus de capacitación");
     const subtitle = ref("Sector Gubernamental");
@@ -353,7 +349,9 @@ export default defineComponent({
         "Esperado 2019",
         "Obtenido 2019",
       ],
-      datasets: cursos,
+      datasets: [
+        cursos
+      ],
     }));
 
     const chart4Ejercicios = computed(() => ({
@@ -367,7 +365,23 @@ export default defineComponent({
         "Esperado 2019",
         "Obtenido 2019",
       ],
-      datasets: cursos,
+      datasets: [
+        {
+          label: "Principales",
+          data: data,
+          backgroundColor: "rgba(178, 0, 0, 0.6)",
+        },
+        {
+          label: "Otros cursos",
+          data: data2,
+          backgroundColor: "rgba(89, 89, 89, 0.6)",
+        },
+        {
+          label: "Ética",
+          data: data3,
+          backgroundColor: "rgba(166, 166, 166, 0.6)",
+        },
+      ],
     }));
 
     let delayed = ref(false);
