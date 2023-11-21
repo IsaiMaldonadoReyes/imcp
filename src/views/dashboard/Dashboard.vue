@@ -50,7 +50,7 @@
 
               <v-card class="mx-auto my-2" elevation="0" rounded="lg">
                 <v-card-text>
-                  <BarChart :ref="barChartRef" v-bind="barChartProps" />
+                  <BarChart v-bind="barChartPropsAnual" />
                 </v-card-text>
               </v-card>
 
@@ -147,7 +147,7 @@
 
               <v-card class="mx-auto my-2" elevation="0" rounded="lg">
                 <v-card-text>
-                  <BarChart :ref="barChartRef" v-bind="barChartProps" />
+                  <BarChart v-bind="barChartPropsPor4" />
                 </v-card-text>
               </v-card>
 
@@ -312,14 +312,13 @@ export default defineComponent({
       rojoClaro: "#FAE6EA",
       grisOscuro: "#222222",
     });
-    const data = [20, 18, 30, 26, 30, 20, 30, 20, 19];
-    const data2 = [25, 20, 25, 23, 30, 15, 35, 30];
-    const data3 = [5, 2, 10, 9, 15, 8, 20, 14];
+    const data = [20, 18];
+    const data2 = [25, 20];
+    const data3 = [5, 2];
 
-    const dataC1Por4 = [100, 85, 20, 5, 15, 25, 30, 40, 50];
-    const dataC2Por4 = [10, 20, 10, 50, 20, 13, 45, 30];
-    const dataC3Por4 = [50, 30, 30, 40, 26, 29, 18, 10];
-    const barChartRef = ref();
+    const dataC1Por4 = [20, 18, 30, 26, 30, 20, 30, 20, 19];
+    const dataC2Por4 = [25, 20, 25, 23, 30, 15, 35, 30];
+    const dataC3Por4 = [5, 2, 10, 9, 15, 8, 20, 14];
     const title = ref("Estatus de capacitación");
     const subtitle = ref("Sector Gubernamental");
     const tabs = ref(null);
@@ -342,21 +341,30 @@ export default defineComponent({
       },
     ];
 
+    const cursosPor4 = [
+      {
+        label: "Principales",
+        data: dataC1Por4,
+        backgroundColor: "rgba(178, 0, 0, 0.6)",
+      },
+      {
+        label: "Otros cursos",
+        data: dataC2Por4,
+        backgroundColor: "rgba(89, 89, 89, 0.6)",
+      },
+      {
+        label: "Ética",
+        data: dataC3Por4,
+        backgroundColor: "rgba(166, 166, 166, 0.6)",
+      },
+    ];
+
     const chartData = computed(() => ({
-      labels: [
-        "Esperado 2022",
-        "Obtenido 2022",
-        "Esperado 2021",
-        "Obtenido 2021",
-        "Esperado 2020",
-        "Obtenido 2020",
-        "Esperado 2019",
-        "Obtenido 2019",
-      ],
+      labels: ["Esperado", "Obtenido"],
       datasets: cursos,
     }));
 
-    const chart4Ejercicios = computed(() => ({
+    const chartPor4 = computed(() => ({
       labels: [
         "Esperado 2022",
         "Obtenido 2022",
@@ -367,7 +375,7 @@ export default defineComponent({
         "Esperado 2019",
         "Obtenido 2019",
       ],
-      datasets: cursos,
+      datasets: cursosPor4,
     }));
 
     let delayed = ref(false);
@@ -381,20 +389,6 @@ export default defineComponent({
         },
       },
       responsive: true,
-      animation: {
-        onComplete: () => {
-          delayed.value = true;
-          console.log("Animación completa");
-        },
-        delay: (context: ScriptableContext<"bar">) => {
-          let delay = ref(0);
-          if (context.type === "data" && context.mode === "default" && !delayed.value) {
-            delay.value = context.dataIndex * 300 + context.datasetIndex * 100;
-          }
-          return delay.value;
-        },
-        easing: "easeInOutSine",
-      },
       scales: {
         x: {
           stacked: true,
@@ -405,12 +399,17 @@ export default defineComponent({
       },
     });
 
-    const { barChartProps } = useBarChart({
+    const { barChartProps: barChartPropsAnual } = useBarChart({
       chartData,
       options,
     });
 
-    return { barChartProps, barChartRef, options, title, subtitle, tabs, colores };
+    const { barChartProps: barChartPropsPor4 } = useBarChart({
+      chartData: chartPor4, // Cambié la variable a chartPor4
+      options,
+    });
+
+    return { barChartPropsAnual, barChartPropsPor4, options, title, subtitle, tabs, colores };
   },
 });
 </script>
