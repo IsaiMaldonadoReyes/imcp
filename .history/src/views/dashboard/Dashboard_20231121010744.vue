@@ -50,7 +50,7 @@
 
               <v-card class="mx-auto my-2" elevation="0" rounded="lg">
                 <v-card-text>
-                  <BarChart v-bind="barChartPropsAnual" />
+                  <BarChart v-bind="barChartProps" />
                 </v-card-text>
               </v-card>
 
@@ -399,7 +399,7 @@ export default defineComponent({
       },
     });
 
-    const { barChartProps: barChartPropsAnual } = useBarChart({
+    const { barChartProps } = useBarChart({
       chartData,
       options,
     });
@@ -409,7 +409,7 @@ export default defineComponent({
       options,
     });
 
-    return { barChartPropsAnual, barChartPropsPor4, options, title, subtitle, tabs, colores };
+    return { barChartProps, barChartPropsPor4, options, title, subtitle, tabs, colores };
   },
 });
 </script>

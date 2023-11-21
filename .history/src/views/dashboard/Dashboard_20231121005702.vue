@@ -50,7 +50,7 @@
 
               <v-card class="mx-auto my-2" elevation="0" rounded="lg">
                 <v-card-text>
-                  <BarChart v-bind="barChartPropsAnual" />
+                  <BarChart :ref="barChartRef" v-bind="barChartProps" />
                 </v-card-text>
               </v-card>
 
@@ -147,7 +147,7 @@
 
               <v-card class="mx-auto my-2" elevation="0" rounded="lg">
                 <v-card-text>
-                  <BarChart v-bind="barChartPropsPor4" />
+                  <BarChart :ref="barChartRef" v-bind="barChartProps" />
                 </v-card-text>
               </v-card>
 
@@ -375,7 +375,7 @@ export default defineComponent({
         "Esperado 2019",
         "Obtenido 2019",
       ],
-      datasets: cursosPor4,
+      datasets: cursos,
     }));
 
     let delayed = ref(false);
@@ -389,6 +389,20 @@ export default defineComponent({
         },
       },
       responsive: true,
+      animation: {
+        onComplete: () => {
+          delayed.value = true;
+          console.log("Animación completa");
+        },
+        delay: (context: ScriptableContext<"bar">) => {
+          let delay = ref(0);
+          if (context.type === "data" && context.mode === "default" && !delayed.value) {
+            delay.value = context.dataIndex * 300 + context.datasetIndex * 100;
+          }
+          return delay.value;
+        },
+        easing: "easeInOutSine",
+      },
       scales: {
         x: {
           stacked: true,
@@ -399,17 +413,12 @@ export default defineComponent({
       },
     });
 
-    const { barChartProps: barChartPropsAnual } = useBarChart({
+    const { barChartProps } = useBarChart({
       chartData,
       options,
     });
 
-    const { barChartProps: barChartPropsPor4 } = useBarChart({
-      chartData: chartPor4, // Cambié la variable a chartPor4
-      options,
-    });
-
-    return { barChartPropsAnual, barChartPropsPor4, options, title, subtitle, tabs, colores };
+    return { barChartProps, options, title, subtitle, tabs, colores };
   },
 });
 </script>
