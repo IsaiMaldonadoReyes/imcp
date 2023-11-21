@@ -97,16 +97,12 @@ const router = createRouter({
 });
 
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to, from, next) => {
   const storage = new Storage();
   storage.create();
 
-
-  console.log(to);
-  console.log(from);
-
   const isAuth = await storage.get('logged');
-/*
+
 
   if (isAuth && from.path === "/" && to.path !== "/tabs/dashboard") {
     // Si el usuario está autenticado y está yendo a la raíz, redirígelo a /tabs/dashboard
@@ -118,7 +114,7 @@ router.beforeEach(async (to, from) => {
     // Si el usuario no está autenticado y la ruta requiere autenticación, redirígelo al login
     next('/login');
   }
-*/
+
 
 });
 

@@ -7,29 +7,31 @@
         </v-row>
         <v-row style="height: 65%" class="d-flex align-center justify-center">
           <v-card color="transparent" elevation="0">
-            <v-row dense>
-              <v-col class="d-flex justify-center align-center pb-10" cols="12" lg="12" md="12" sm="12">
-                <v-label style="font-size: 28px; font-weight: bold">
-                  Recuperar contraseña
-                </v-label>
-              </v-col>
-              <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
-                <v-text-field v-model="form.rfc" :rules="[rules.required, rules.validRFC]" clearable hide-details="auto"
-                  label="RFC" rounded="lg" style="font-weight: bold" variant="solo"
-                  @input="() => convertToUpperCase('rfc')" />
-              </v-col>
-              <v-col cols="12" lg="12" md="12" sm="12" class="px-10" align="right">
-                <v-btn :to="{ path: '/login' }" class="text-caption text-disabled ms-1 text-capitalize"
-                  color="#C6092F" rounded="lg" size="x-small" style="font-weight: bold" variant="plain">
-                  Ir a acceso al sistema
-                </v-btn>
-              </v-col>
-              <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
-                <v-btn block color="#C6092F" rounded="lg" size="x-large" style="font-weight: bold" @click="sendPassword">
-                  ENVIAR
-                </v-btn>
-              </v-col>
-            </v-row>
+            <v-form v-model="isValid" @submit.prevent="validateAndSend" lazy-validation ref="formEl">
+              <v-row dense>
+                <v-col class="d-flex justify-center align-center pb-10" cols="12" lg="12" md="12" sm="12">
+                  <v-label style="font-size: 28px; font-weight: bold">
+                    Recuperar contraseña
+                  </v-label>
+                </v-col>
+                <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
+                  <v-text-field v-model="form.rfc" :rules="[rules.required, rules.validRFC]" clearable hide-details="auto"
+                    label="RFC" rounded="lg" style="font-weight: bold" variant="solo"
+                    @input="convertToUpperCase('rfc')" />
+                </v-col>
+                <v-col cols="12" lg="12" md="12" sm="12" class="px-10" align="right">
+                  <v-btn :to="{ path: '/login' }" class="text-caption text-disabled ms-1 text-capitalize" color="#C6092F"
+                    rounded="lg" size="x-small" style="font-weight: bold" variant="plain">
+                    Ir a acceso al sistema
+                  </v-btn>
+                </v-col>
+                <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
+                  <v-btn block color="#C6092F" rounded="lg" size="x-large" style="font-weight: bold" type="submit">
+                    ENVIAR
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-form>
           </v-card>
         </v-row>
         <div class="back" />
@@ -43,9 +45,8 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { alertController, IonPage, IonContent } from "@ionic/vue";
-import { useRouter } from "vue-router";
-
 import { useSessionStore } from "../store/session";
+import { transformWithEsbuild } from "vite";
 
 export default defineComponent({
   name: "resetPassword",
@@ -55,8 +56,18 @@ export default defineComponent({
   },
   setup() {
     const session = useSessionStore();
-    const router = useRouter();
+
     const rfcRegex = /^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z1-9]\d{1}$/;
+
+    const isValid = ref(true);
+    const formEl = ref<any>(null);
+
+    const form = ref({ rfc: "" });
+
+    const rules = {
+      required: (v: string) => !!v || "Este campo es requerido",
+      validRFC: (v: string) => rfcRegex.test(v) || "RFC no válido",
+    };
 
     async function sendPassword() {
       const rfc = form.value.rfc;
@@ -70,26 +81,34 @@ export default defineComponent({
         });
 
         await alert.present();
+
+        form.value.rfc = "";
       } catch (error) {
         console.log(error);
+      }
+    }
+
+    async function validateAndSend() {
+      const isValidForm = await formEl.value?.validate(); // Llama al método validate del v-form
+
+      if (isValidForm.valid) {
+        sendPassword();
+      } else {
+        //console.log("El formulario no es válido");
       }
     }
 
     function convertToUpperCase(fieldName: keyof typeof form.value) {
       form.value[fieldName] = form.value[fieldName].toUpperCase();
     }
-    const form = ref({ rfc: "" });
-
-    const rules = {
-      required: (v: string) => !!v || "Este campo es requerido",
-      validRFC: (v: string) => rfcRegex.test(v) || "RFC no válido",
-    };
 
     return {
       form,
       rules,
-      sendPassword,
-      convertToUpperCase
+      isValid,
+      formEl,
+      validateAndSend,
+      convertToUpperCase,
     };
   },
 });
