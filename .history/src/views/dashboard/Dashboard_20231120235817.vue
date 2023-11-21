@@ -152,9 +152,12 @@
               </v-card>
 
               <v-card class="mx-auto my-4" elevation="0" rounded="lg">
-                <v-card-title class="text-none text-center" style="white-space: normal">
-                  2022
-                </v-card-title>
+                <v-card-title
+                    class="text-none text-center"
+                    style="white-space: normal"
+                  >
+                    2022
+                  </v-card-title>
                 <v-list
                   bg-color="transparent"
                   class="d-flex flex-column justify-end"
@@ -208,9 +211,12 @@
               </v-card>
 
               <v-card class="mx-auto my-4" elevation="0" rounded="lg">
-                <v-card-title class="text-none text-center" style="white-space: normal">
-                  2021
-                </v-card-title>
+                <v-card-title
+                    class="text-none text-center"
+                    style="white-space: normal"
+                  >
+                    2021
+                  </v-card-title>
                 <v-list
                   bg-color="transparent"
                   class="d-flex flex-column justify-end"
@@ -225,7 +231,7 @@
                       rounded
                     />
                     <template v-slot:append>
-                      <div class="rating-values d-flex align-self-end">
+                      <div class="rating-values d-flex align-end">
                         <span>18/20</span>
                       </div>
                     </template>
@@ -312,35 +318,13 @@ export default defineComponent({
       rojoClaro: "#FAE6EA",
       grisOscuro: "#222222",
     });
-    const data = [20, 18, 30, 26, 30, 20, 30, 20, 19];
-    const data2 = [25, 20, 25, 23, 30, 15, 35, 30];
-    const data3 = [5, 2, 10, 9, 15, 8, 20, 14];
-
-    const dataC1Por4 = [100, 85, 20, 5, 15, 25, 30, 40, 50];
-    const dataC2Por4 = [10, 20, 10, 50, 20, 13, 45, 30];
-    const dataC3Por4 = [50, 30, 30, 40, 26, 29, 18, 10];
+    const data = [30, 40, 20, 5, 15, 25, 30, 40, 50];
+    const data2 = [10, 20, 10, 50, 20, 13, 45, 30];
+    const data3 = [50, 30, 30, 40, 26, 29, 18, 10];
     const barChartRef = ref();
     const title = ref("Estatus de capacitación");
     const subtitle = ref("Sector Gubernamental");
     const tabs = ref(null);
-
-    const cursos = [
-      {
-        label: "Principales",
-        data: data,
-        backgroundColor: "rgba(178, 0, 0, 0.6)",
-      },
-      {
-        label: "Otros cursos",
-        data: data2,
-        backgroundColor: "rgba(89, 89, 89, 0.6)",
-      },
-      {
-        label: "Ética",
-        data: data3,
-        backgroundColor: "rgba(166, 166, 166, 0.6)",
-      },
-    ];
 
     const chartData = computed(() => ({
       labels: [
@@ -353,23 +337,24 @@ export default defineComponent({
         "Esperado 2019",
         "Obtenido 2019",
       ],
-      datasets: cursos,
-    }));
-
-    const chart4Ejercicios = computed(() => ({
-      labels: [
-        "Esperado 2022",
-        "Obtenido 2022",
-        "Esperado 2021",
-        "Obtenido 2021",
-        "Esperado 2020",
-        "Obtenido 2020",
-        "Esperado 2019",
-        "Obtenido 2019",
+      datasets: [
+        {
+          label: "Principales",
+          data: data,
+          backgroundColor: "rgba(178, 0, 0, 0.6)",
+        },
+        {
+          label: "Otros cursos",
+          data: data2,
+          backgroundColor: "rgba(89, 89, 89, 0.6)",
+        },
+        {
+          label: "Ética",
+          data: data3,
+          backgroundColor: "rgba(166, 166, 166, 0.6)",
+        },
       ],
-      datasets: cursos,
     }));
-
     let delayed = ref(false);
 
     const options = ref({

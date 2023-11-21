@@ -312,11 +312,11 @@ export default defineComponent({
       rojoClaro: "#FAE6EA",
       grisOscuro: "#222222",
     });
-    const data = [20, 18, 30, 26, 30, 20, 30, 20, 19];
-    const data2 = [25, 20, 25, 23, 30, 15, 35, 30];
-    const data3 = [5, 2, 10, 9, 15, 8, 20, 14];
+    const data = [100, 85, 20, 5, 15, 25, 30, 40, 50];
+    const data2 = [10, 20, 10, 50, 20, 13, 45, 30];
+    const data3 = [50, 30, 30, 40, 26, 29, 18, 10];
 
-    const dataC1Por4 = [100, 85, 20, 5, 15, 25, 30, 40, 50];
+    const dataC1Por4 = [100,85, 20, 5, 15, 25, 30, 40, 50];
     const dataC2Por4 = [10, 20, 10, 50, 20, 13, 45, 30];
     const dataC3Por4 = [50, 30, 30, 40, 26, 29, 18, 10];
     const barChartRef = ref();
