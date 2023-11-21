@@ -1,7 +1,7 @@
 <template>
   <ion-page>
-    <ion-header style="height: 64px">
-      <v-card>
+    <ion-content>
+      <ion-header>
         <v-layout>
           <v-app-bar color="#EBEFF0" elevation="1">
             <div class="back" />
@@ -25,7 +25,7 @@
                   <div class="text-center">
                     <v-menu
                       v-model="menu"
-                      :close-on-content-click="true"
+                      :close-on-content-click="false"
                       location="bottom"
                     >
                       <template v-slot:activator="{ props }">
@@ -135,9 +135,7 @@
           </v-btn-->
           </v-app-bar>
         </v-layout>
-      </v-card>
-    </ion-header>
-    <ion-content>
+      </ion-header>
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
         <ion-tab-bar>

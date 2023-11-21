@@ -1,22 +1,28 @@
 <template>
   <ion-page>
     <ion-content>
-      <v-container>
+      <v-container class="fluid">
         <v-card class="mx-auto" elevation="0" color="transparent">
-          <v-card-item>
-            <v-card-title class="text-uppercase text-center" style="white-space: normal">
-              {{ title }}
-            </v-card-title>
-            <v-card-subtitle class="text-capitalize text-center">
-              {{ subtitle }}
-            </v-card-subtitle>
-          </v-card-item>
+          
+            <v-card-item>
+              <v-card-title
+                class="text-uppercase text-center"
+                style="white-space: normal"
+              >
+                {{ title }}
+              </v-card-title>
+              <v-card-subtitle class="text-capitalize text-center">
+                {{ subtitle }}
+              </v-card-subtitle>
+            </v-card-item>
+          
         </v-card>
 
         <v-card class="mx-auto my-2" elevation="0" rounded="lg">
           <v-card-text>
             <BarChart :ref="barChartRef" v-bind="barChartProps" />
           </v-card-text>
+
         </v-card>
 
         <v-card class="mx-auto my-4" elevation="0" rounded="lg">
@@ -102,7 +108,6 @@
 import { defineComponent, ref, computed } from "vue";
 import { BarChart, useBarChart } from "vue-chart-3";
 import { Chart, registerables, ScriptableContext } from "chart.js";
-import { IonPage, IonContent } from "@ionic/vue";
 
 Chart.register(...registerables);
 
@@ -110,8 +115,6 @@ export default defineComponent({
   name: "App",
   components: {
     BarChart,
-    IonPage,
-    IonContent,
   },
   setup() {
     const data = [30, 40];
@@ -144,7 +147,6 @@ export default defineComponent({
     let delayed = ref(false);
 
     const options = ref({
-      indexAxis: 'y',
       plugins: {
         title: {
           display: true,

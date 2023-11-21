@@ -1,7 +1,7 @@
 <template>
-  <ion-page>
-    <ion-content>
-      <v-container>
+  <v-container>
+    <ion-page>
+      <ion-content>
         <v-card class="mx-auto" elevation="0" color="transparent">
           <v-card-item>
             <v-card-title class="text-uppercase text-center" style="white-space: normal">
@@ -93,9 +93,9 @@
             Desglose de puntos
           </v-btn>
         </v-card>
-      </v-container>
-    </ion-content>
-  </ion-page>
+      </ion-content>
+    </ion-page>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -144,7 +144,6 @@ export default defineComponent({
     let delayed = ref(false);
 
     const options = ref({
-      indexAxis: 'y',
       plugins: {
         title: {
           display: true,
