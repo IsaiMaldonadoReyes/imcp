@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-header style="height: 64px">
+    <ion-header >
       <v-card>
         <v-layout>
           <v-app-bar color="#EBEFF0" elevation="1">
@@ -25,7 +25,7 @@
                   <div class="text-center">
                     <v-menu
                       v-model="menu"
-                      :close-on-content-click="true"
+                      :close-on-content-click="false"
                       location="bottom"
                     >
                       <template v-slot:activator="{ props }">

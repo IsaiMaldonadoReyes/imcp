@@ -25,7 +25,7 @@
                   <div class="text-center">
                     <v-menu
                       v-model="menu"
-                      :close-on-content-click="true"
+                      :close-on-content-click="false"
                       location="bottom"
                     >
                       <template v-slot:activator="{ props }">

@@ -1,12 +1,11 @@
 <template>
   <ion-page>
-    <ion-header style="height: 64px">
+    <ion-header>
       <v-card>
         <v-layout>
           <v-app-bar color="#EBEFF0" elevation="1">
             <div class="back" />
             <div class="esquina-tl-toolbar" />
-
             <img
               class="ml-5"
               style="max-height: 45%; max-width: 45%"
@@ -25,7 +24,7 @@
                   <div class="text-center">
                     <v-menu
                       v-model="menu"
-                      :close-on-content-click="true"
+                      :close-on-content-click="false"
                       location="bottom"
                     >
                       <template v-slot:activator="{ props }">
@@ -137,54 +136,50 @@
         </v-layout>
       </v-card>
     </ion-header>
-    <ion-content>
-      <ion-tabs>
-        <ion-router-outlet></ion-router-outlet>
-        <ion-tab-bar>
-          <ion-tab-button tab="dashboard" href="/tabs/dashboard">
-            <v-icon size="30">
-              <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-dashboard"></use>
-              </svg>
-            </v-icon>
-          </ion-tab-button>
+    <ion-tabs>
+      <ion-router-outlet></ion-router-outlet>
+      <ion-tab-bar>
+        <ion-tab-button tab="dashboard" href="/tabs/dashboard">
+          <v-icon size="30">
+            <svg ref="icon" class="v-icon">
+              <use xlink:href="../assets/images/ico.svg#ico-dashboard"></use>
+            </svg>
+          </v-icon>
+        </ion-tab-button>
 
-          <ion-tab-button tab="emitidos" href="/tabs/certificadoEstatus">
-            <v-icon size="30">
-              <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-certificados"></use>
-              </svg>
-            </v-icon>
-          </ion-tab-button>
+        <ion-tab-button tab="emitidos" href="/tabs/certificadoEstatus">
+          <v-icon size="30">
+            <svg ref="icon" class="v-icon">
+              <use xlink:href="../assets/images/ico.svg#ico-certificados"></use>
+            </svg>
+          </v-icon>
+        </ion-tab-button>
 
-          <ion-tab-button tab="certificado" href="/tabs/emitidos">
-            <v-icon size="30">
-              <svg ref="icon" class="v-icon">
-                <use
-                  xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"
-                ></use>
-              </svg>
-            </v-icon>
-          </ion-tab-button>
+        <ion-tab-button tab="certificado" href="/tabs/emitidos">
+          <v-icon size="30">
+            <svg ref="icon" class="v-icon">
+              <use xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"></use>
+            </svg>
+          </v-icon>
+        </ion-tab-button>
 
-          <ion-tab-button tab="cuenta" href="/tabs/cuenta">
-            <v-icon size="30">
-              <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-menu-micuenta"></use>
-              </svg>
-            </v-icon>
-          </ion-tab-button>
+        <ion-tab-button tab="cuenta" href="/tabs/cuenta">
+          <v-icon size="30">
+            <svg ref="icon" class="v-icon">
+              <use xlink:href="../assets/images/ico.svg#ico-menu-micuenta"></use>
+            </svg>
+          </v-icon>
+        </ion-tab-button>
 
-          <ion-tab-button tab="avisos" href="/tabs/capacitacionExterna">
-            <v-icon size="30">
-              <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-menu-m"></use>
-              </svg>
-            </v-icon>
-          </ion-tab-button>
-        </ion-tab-bar>
-      </ion-tabs>
-    </ion-content>
+        <ion-tab-button tab="avisos" href="/tabs/capacitacionExterna">
+          <v-icon size="30">
+            <svg ref="icon" class="v-icon">
+              <use xlink:href="../assets/images/ico.svg#ico-menu-m"></use>
+            </svg>
+          </v-icon>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
   </ion-page>
 </template>
 

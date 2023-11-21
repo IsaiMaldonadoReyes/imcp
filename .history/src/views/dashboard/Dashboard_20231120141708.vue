@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content class="ion-padding">
       <v-container>
         <v-card class="mx-auto" elevation="0" color="transparent">
           <v-card-item>
@@ -144,7 +144,6 @@ export default defineComponent({
     let delayed = ref(false);
 
     const options = ref({
-      indexAxis: 'y',
       plugins: {
         title: {
           display: true,

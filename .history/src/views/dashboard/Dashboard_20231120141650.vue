@@ -144,7 +144,6 @@ export default defineComponent({
     let delayed = ref(false);
 
     const options = ref({
-      indexAxis: 'y',
       plugins: {
         title: {
           display: true,
