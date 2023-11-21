@@ -278,7 +278,7 @@ export default defineComponent({
 
           items.value.push({
             title: notification.title,
-            subtitle: `<span class="text-grey-darken-4">${notification.subtitle}</span> : ${notification.pointsRequired} puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : ${notification.pointsOwned} puntos`,
+            subtitle: `<span class="text-grey-darken-4">${notification.subtitle}</span> : <span class="text-red-darken-4">${notification.pointsRequired} puntos </span> <br/> <span class="text-grey-darken-4">Cuentas con:</span> : <span class="text-red-darken-4">${notification.pointsOwned} puntos </span>`,
           });
         });
       } else {
