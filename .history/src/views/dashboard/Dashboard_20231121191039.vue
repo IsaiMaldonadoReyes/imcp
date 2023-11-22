@@ -108,7 +108,7 @@
                     :color="colores.grisOscuro"
                     block
                     class="text-none"
-                    size="small"
+                    size="large"
                     text="Desglose de puntos"
                     variant="flat"
                   />

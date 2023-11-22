@@ -102,17 +102,22 @@
                     </template>
                   </v-list-item>
                 </v-list>
-                <v-divider />
+                <v-divider/>
                 <v-card-actions>
-                  <v-btn
-                    :color="colores.grisOscuro"
-                    block
-                    class="text-none"
-                    size="small"
-                    text="Desglose de puntos"
-                    variant="flat"
-                  />
+
                 </v-card-actions>
+              </v-card>
+
+              <v-card class="mx-auto my-4" color="transparent" elevation="0" rounded="lg">
+                <v-btn
+                  :color="colores.grisOscuro"
+                  block
+                  class="text-none"
+                  rounded="lg"
+                  size="large"
+                  text="Desglose de puntos"
+                  variant="flat"
+                />
               </v-card>
             </v-card>
           </v-window-item>
