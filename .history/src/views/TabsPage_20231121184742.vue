@@ -64,23 +64,9 @@
                             <v-list-item-title>Mi cuenta</v-list-item-title>
                           </v-list-item>
                           <v-divider></v-divider>
-                          <!--v-list-item class="mx-auto">
-                            <v-btn
-                              block
-                              rounded="lg"
-                              variant="text"
-                              class="text-none"
-                              @click="logout"
-                            >
-                              <template v-slot:prepend>
-                                <v-icon size="12" color="#B20000"> mdi-logout </v-icon>
-                              </template>
-                              Cerrar sesión
-                            </v-btn>
-                          </v-list-item-->
-                          <v-list-item variant="plain" @click="logout">
+                          <v-list-item variant="plain">
                             <template v-slot:prepend>
-                              <v-icon size="16" color="#B20000">mdi-logout</v-icon>
+                              <v-icon size="16" color="#B20000"> mdi-logout </v-icon>
                             </template>
                             <v-list-item-title>Cerrar sesión</v-list-item-title>
                           </v-list-item>
@@ -113,7 +99,7 @@
                       text-color="#ffffff"
                       location="center"
                     >
-                      <v-icon color="#B20000" size="30">mdi-bell</v-icon>
+                      <v-icon color="#B20000" size="25">mdi-bell</v-icon>
                     </v-badge>
                   </v-btn>
                 </template>
@@ -283,7 +269,7 @@ export default defineComponent({
 
           items.value.push({
             title: notification.title,
-            subtitle: `<span class="text-grey-darken-4">${notification.subtitle}</span> : <span class="text-red-darken-4">${notification.pointsRequired} puntos </span> <br/> <span class="text-grey-darken-4">Cuentas con:</span> : <span class="text-red-darken-4">${notification.pointsOwned} puntos </span>`,
+            subtitle: `<span class="text-grey-darken-4">${notification.subtitle}</span> : ${notification.pointsRequired} puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : ${notification.pointsOwned} puntos`,
           });
         });
       } else {
@@ -322,9 +308,6 @@ export default defineComponent({
 </script>
 
 <style>
-.v-btn__content {
-  letter-spacing: normal;
-}
 ion-content {
   /**--ion-background-color: url("../assets/images/back.jpg");**/
   --ion-background-color: #eeeeee;

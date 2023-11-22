@@ -13,7 +13,11 @@
             />
             <v-spacer></v-spacer>
 
-            <v-list bg-color="transparent" class="imcp-header" max-width="250px">
+            <v-list
+              bg-color="transparent"
+              class="imcp-header"
+              max-width="250px"
+            >
               <v-list-item :title="nombreUsuario" :subtitle="'RFC:' + rfc">
                 <template v-slot:append>
                   <div class="text-center">
@@ -64,23 +68,9 @@
                             <v-list-item-title>Mi cuenta</v-list-item-title>
                           </v-list-item>
                           <v-divider></v-divider>
-                          <!--v-list-item class="mx-auto">
-                            <v-btn
-                              block
-                              rounded="lg"
-                              variant="text"
-                              class="text-none"
-                              @click="logout"
-                            >
-                              <template v-slot:prepend>
-                                <v-icon size="12" color="#B20000"> mdi-logout </v-icon>
-                              </template>
-                              Cerrar sesión
-                            </v-btn>
-                          </v-list-item-->
-                          <v-list-item variant="plain" @click="logout">
+                          <v-list-item variant="plain">
                             <template v-slot:prepend>
-                              <v-icon size="16" color="#B20000">mdi-logout</v-icon>
+                              <v-icon size="16" color="#B20000"> mdi-logout </v-icon>
                             </template>
                             <v-list-item-title>Cerrar sesión</v-list-item-title>
                           </v-list-item>
@@ -92,41 +82,40 @@
               </v-list-item>
             </v-list>
 
-            <template v-slot:append>
-              <v-menu
-                v-model="menuNotificacion"
-                :close-on-content-click="false"
-                location="bottom"
-              >
-                <template v-slot:activator="{ props }">
-                  <v-btn
-                    class="text-none text-left"
-                    color="#B20000"
-                    icon
-                    variant="outlined"
-                    size="small"
-                    v-bind="props"
+            <v-menu
+              v-model="menuNotificacion"
+              :close-on-content-click="false"
+              location="bottom"
+            >
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  class="text-none text-left ma-0 pa-0"
+                  color="#B20000"
+                  icon
+                  variant="outlined"
+                  size="large"
+                  v-bind="props"
+                >
+                  <v-badge
+                    class="small-dot"
+                    :content="cantidadNotificaciones"
+                    text-color="#ffffff"
+                    location="center"
                   >
-                    <v-badge
-                      class="small-dot"
-                      :content="cantidadNotificaciones"
-                      text-color="#ffffff"
-                      location="center"
-                    >
-                      <v-icon color="#B20000" size="30">mdi-bell</v-icon>
-                    </v-badge>
-                  </v-btn>
-                </template>
+                    <v-icon color="#B20000" size="x-large">mdi-bell</v-icon>
+                  </v-badge>
+                </v-btn>
+              </template>
 
-                <v-card>
-                  <v-list :items="items" item-props lines="three">
-                    <template v-slot:subtitle="{ subtitle }">
-                      <div v-html="subtitle"></div>
-                    </template>
-                  </v-list>
-                </v-card>
-              </v-menu>
-            </template>
+              <v-card>
+                <v-list :items="items" item-props lines="three">
+                  <template v-slot:subtitle="{ subtitle }">
+                    <div v-html="subtitle"></div>
+                  </template>
+                </v-list>
+              </v-card>
+            </v-menu>
+
             <!--v-btn class="text-none" icon color="#AAAAAA" variant="outlined">
             <v-badge content="2" color="#B01F24">
               <v-icon color="#AAAAAA">mdi-bell</v-icon>
@@ -283,7 +272,7 @@ export default defineComponent({
 
           items.value.push({
             title: notification.title,
-            subtitle: `<span class="text-grey-darken-4">${notification.subtitle}</span> : <span class="text-red-darken-4">${notification.pointsRequired} puntos </span> <br/> <span class="text-grey-darken-4">Cuentas con:</span> : <span class="text-red-darken-4">${notification.pointsOwned} puntos </span>`,
+            subtitle: `<span class="text-grey-darken-4">${notification.subtitle}</span> : ${notification.pointsRequired} puntos <br/> <span class="text-grey-darken-4">Cuentas con:</span> : ${notification.pointsOwned} puntos`,
           });
         });
       } else {
@@ -322,9 +311,6 @@ export default defineComponent({
 </script>
 
 <style>
-.v-btn__content {
-  letter-spacing: normal;
-}
 ion-content {
   /**--ion-background-color: url("../assets/images/back.jpg");**/
   --ion-background-color: #eeeeee;

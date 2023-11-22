@@ -92,7 +92,7 @@
                     <v-progress-linear
                       :model-value="30"
                       class="mx-n5"
-                      color="rgba(166, 166, 166, 0.6)"
+                      color="rgba(178, 0, 0, 0.6)"
                       height="15"
                     />
                     <template v-slot:append>
