@@ -64,23 +64,9 @@
                             <v-list-item-title>Mi cuenta</v-list-item-title>
                           </v-list-item>
                           <v-divider></v-divider>
-                          <!--v-list-item class="mx-auto">
-                            <v-btn
-                              block
-                              rounded="lg"
-                              variant="text"
-                              class="text-none"
-                              @click="logout"
-                            >
-                              <template v-slot:prepend>
-                                <v-icon size="12" color="#B20000"> mdi-logout </v-icon>
-                              </template>
-                              Cerrar sesión
-                            </v-btn>
-                          </v-list-item-->
-                          <v-list-item variant="plain" @click="logout">
+                          <v-list-item variant="plain">
                             <template v-slot:prepend>
-                              <v-icon size="16" color="#B20000">mdi-logout</v-icon>
+                              <v-icon size="16" color="#B20000"> mdi-logout </v-icon>
                             </template>
                             <v-list-item-title>Cerrar sesión</v-list-item-title>
                           </v-list-item>

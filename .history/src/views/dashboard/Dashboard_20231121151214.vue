@@ -66,6 +66,7 @@
                       class="mx-n5"
                       color="rgba(178, 0, 0, 0.6)"
                       height="15"
+                      rounded
                     />
                     <template v-slot:append>
                       <div class="rating-values">
@@ -78,8 +79,9 @@
                     <v-progress-linear
                       :model-value="70"
                       class="mx-n5"
-                      color="rgba(89, 89, 89, 0.6)"
+                      color="rgba(178, 0, 0, 0.6)"
                       height="15"
+                      rounded
                     />
                     <template v-slot:append>
                       <div class="rating-values">
@@ -92,8 +94,9 @@
                     <v-progress-linear
                       :model-value="30"
                       class="mx-n5"
-                      color="rgba(166, 166, 166, 0.6)"
+                      color="rgba(178, 0, 0, 0.6)"
                       height="15"
+                      rounded
                     />
                     <template v-slot:append>
                       <div class="rating-values">
@@ -148,51 +151,83 @@
                 </v-card-text>
               </v-card>
 
-              <v-card
-                v-for="(year, h) in [2022, 2021, 2020, 2019]"
-                :key="year"
-                class="mx-auto my-4"
-                elevation="0"
-                rounded="lg"
-              >
+              <v-card v-for="(chartPor4.datasets, i) in chartPor4.datasets"
+        :key="i" class="mx-auto my-4" elevation="0" rounded="lg">
                 <v-card-title class="text-none text-center" style="white-space: normal">
-                  {{ year }}
+                  2022
                 </v-card-title>
-                <v-divider></v-divider>
                 <v-list
                   bg-color="transparent"
                   class="d-flex flex-column justify-end"
                   density="compact"
                 >
-                  <v-list-item
-                    v-for="(item, i) in cursosPor4"
-                    :key="i"
-                    :title="'Puntaje ' + item.label"
-                  >
+                  <v-list-item title="Puntaje principal">
                     <v-progress-linear
-                      :color="item.backgroundColor"
-                      :model-value="(item.data[h * 2 + 1] * 100) / item.data[h * 2]"
+                      :model-value="80"
                       class="mx-n5"
+                      color="rgba(178, 0, 0, 0.6)"
                       height="15"
+                      rounded
                     />
                     <template v-slot:append>
                       <div class="rating-values">
-                        <span>{{ item.data[h * 2 + 1] }} / {{ item.data[h * 2] }}</span>
+                        <span>18/20</span>
+                      </div>
+                    </template>
+                  </v-list-item>
+
+                  <v-list-item title="Puntaje otros cursos">
+                    <v-progress-linear
+                      :model-value="70"
+                      class="mx-n5"
+                      color="rgba(178, 0, 0, 0.6)"
+                      height="15"
+                      rounded
+                    />
+                    <template v-slot:append>
+                      <div class="rating-values">
+                        <span>20/25</span>
+                      </div>
+                    </template>
+                  </v-list-item>
+
+                  <v-list-item title="Puntaje ética">
+                    <v-progress-linear
+                      :model-value="30"
+                      class="mx-n5"
+                      color="rgba(178, 0, 0, 0.6)"
+                      height="15"
+                      rounded
+                    />
+                    <template v-slot:append>
+                      <div class="rating-values">
+                        <span>2/5</span>
                       </div>
                     </template>
                   </v-list-item>
                 </v-list>
-                <v-divider></v-divider>
-                <v-card-actions>
-                  <v-btn
-                    block
-                    :color="colores.grisOscuro"
-                    class="text-none"
-                    size="small"
-                    text="Desglose de puntos"
-                    variant="flat"
-                  />
-                </v-card-actions>
+              </v-card>
+
+
+              <v-card class="mx-auto my-4" color="transparent" elevation="0" rounded="lg">
+                <v-btn
+                  :color="colores.rojoIMPC"
+                  block
+                  class="text-none mb-4"
+                  rounded="lg"
+                  size="large"
+                  text="Histórico de capacitaciones"
+                  variant="flat"
+                />
+                <v-btn
+                  :color="colores.grisOscuro"
+                  block
+                  class="text-none"
+                  rounded="lg"
+                  size="large"
+                  text="Desglose de puntos"
+                  variant="flat"
+                />
               </v-card>
             </v-card>
           </v-window-item>
@@ -227,7 +262,7 @@ export default defineComponent({
     const data2 = [25, 20];
     const data3 = [5, 2];
 
-    const dataC1Por4 = [20, 18, 30, 26, 30, 20, 30, 20];
+    const dataC1Por4 = [20, 18, 30, 26, 30, 20, 30, 20, 19];
     const dataC2Por4 = [25, 20, 25, 23, 30, 15, 35, 30];
     const dataC3Por4 = [5, 2, 10, 9, 15, 8, 20, 14];
     const title = ref("Estatus de capacitación");
@@ -292,7 +327,7 @@ export default defineComponent({
     let delayed = ref(false);
 
     const options = ref({
-      indexAxis: "x",
+      indexAxis: "y",
       plugins: {
         title: {
           display: true,
@@ -320,16 +355,7 @@ export default defineComponent({
       options,
     });
 
-    return {
-      barChartPropsAnual,
-      barChartPropsPor4,
-      options,
-      title,
-      subtitle,
-      tabs,
-      colores,
-      cursosPor4,
-    };
+    return { barChartPropsAnual, barChartPropsPor4, options, title, subtitle, tabs, colores, cursosPor4 };
   },
 });
 </script>

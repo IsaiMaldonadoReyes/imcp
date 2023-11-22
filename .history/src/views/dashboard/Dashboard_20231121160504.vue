@@ -78,8 +78,9 @@
                     <v-progress-linear
                       :model-value="70"
                       class="mx-n5"
-                      color="rgba(89, 89, 89, 0.6)"
+                      color="rgba(178, 0, 0, 0.6)"
                       height="15"
+                      rounded
                     />
                     <template v-slot:append>
                       <div class="rating-values">
@@ -92,8 +93,9 @@
                     <v-progress-linear
                       :model-value="30"
                       class="mx-n5"
-                      color="rgba(166, 166, 166, 0.6)"
+                      color="rgba(178, 0, 0, 0.6)"
                       height="15"
+                      rounded
                     />
                     <template v-slot:append>
                       <div class="rating-values">
@@ -158,7 +160,6 @@
                 <v-card-title class="text-none text-center" style="white-space: normal">
                   {{ year }}
                 </v-card-title>
-                <v-divider></v-divider>
                 <v-list
                   bg-color="transparent"
                   class="d-flex flex-column justify-end"
@@ -167,7 +168,7 @@
                   <v-list-item
                     v-for="(item, i) in cursosPor4"
                     :key="i"
-                    :title="'Puntaje ' + item.label"
+                    :title="'Puntaje' + item.label"
                   >
                     <v-progress-linear
                       :color="item.backgroundColor"
@@ -182,17 +183,27 @@
                     </template>
                   </v-list-item>
                 </v-list>
-                <v-divider></v-divider>
-                <v-card-actions>
-                  <v-btn
-                    block
-                    :color="colores.grisOscuro"
-                    class="text-none"
-                    size="small"
-                    text="Desglose de puntos"
-                    variant="flat"
-                  />
-                </v-card-actions>
+              </v-card>
+
+              <v-card class="mx-auto my-4" color="transparent" elevation="0" rounded="lg">
+                <v-btn
+                  :color="colores.rojoIMPC"
+                  block
+                  class="text-none mb-4"
+                  rounded="lg"
+                  size="large"
+                  text="Histórico de capacitaciones"
+                  variant="flat"
+                />
+                <v-btn
+                  :color="colores.grisOscuro"
+                  block
+                  class="text-none"
+                  rounded="lg"
+                  size="large"
+                  text="Desglose de puntos"
+                  variant="flat"
+                />
               </v-card>
             </v-card>
           </v-window-item>
@@ -292,7 +303,7 @@ export default defineComponent({
     let delayed = ref(false);
 
     const options = ref({
-      indexAxis: "x",
+      indexAxis: "y",
       plugins: {
         title: {
           display: true,

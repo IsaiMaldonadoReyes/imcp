@@ -77,7 +77,7 @@
                               </template>
                               Cerrar sesión
                             </v-btn>
-                          </v-list-item-->
+                          </v-list-item--!>
                           <v-list-item variant="plain" @click="logout">
                             <template v-slot:prepend>
                               <v-icon size="16" color="#B20000">mdi-logout</v-icon>
