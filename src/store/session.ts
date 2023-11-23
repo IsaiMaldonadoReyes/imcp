@@ -10,50 +10,79 @@ export const useSessionStore = defineStore({
         responseMessage: null
     }),
     actions: {
+
+        async getTokenAuth() {
+            let storage = new Storage();
+            await storage.create();
+
+            try {
+                //const response = await axios.post("/api/tokenAuth");
+                //await storage.set('token', response.data.token);
+                await storage.set('token', "TokenCorrecto");
+            } catch (error) {
+                throw new Error("Ocurrio un problema al conectarse con el servidor");
+            }
+
+        },
+
         async login(credentials: any) {
             let storage = new Storage();
             await storage.create();
 
             // desarrollo
-
             if (credentials.rfc == "SOTJ841111Q39" && credentials.password == "temporal") {
                 this.auth = true;
 
-                await storage.set('token', '1234567890');
                 await storage.set('logged', true);
                 await storage.set('rfc', credentials.rfc);
+                this.userInformation(credentials.rfc);
             }
 
-            this.userInformation(credentials.rfc);
-
             // production
-            /* 
-            await axios.post("/login", credentials)
-                .then((response) => {
-                    if (response.data.type === "success") {
-                        this.auth = true;
+            /*
+            try {
+                const response = await axios.post("/login", credentials);
+                if (response.data.type === "success") {
+                    this.auth = true;
 
-                        this.userInformation(credentials.email);
-                    }
-                    else if (response.data.type === "fail") {
-                    }
-                })
-                .catch((error) => {
-
-                })
-                .finally(() => { });
-                */
+                    await storage.set('logged', true);
+                    await storage.set('rfc', credentials.rfc);
+                    this.userInformation(credentials.rfc);
+                }
+            } catch (error) {
+                throw new Error("Usuario y/o contraseñas incorrectas");
+            }*/
         },
+        
+        async userInformation(rfc: string) {
+            let storage = new Storage();
+            await storage.create();
+
+            // desarrollo
+            await storage.set('nombreUsuario', 'Rogerio Juan Bosco Casas');
+            this.object = {
+                nombre: 'Rogerio Juan Bosco Casas', rfc: 'RJCA781002-HR7'
+            };
+
+            /*
+            try {
+                const response = await axios.post("/api/userInformation", rfc)
+                this.object = response.data;
+            } catch (error) {
+                throw new Error("Información del usuario incorrecta");
+            }
+            */
+        },
+
         async resetPassword(rfc: string) {
-            await axios.post("/api/resetPassword/" + rfc)
-                .then((response) => {
-                    this.responseMessage = response.data.message;
-                })
-                .catch((error) => {
-
-                })
-                .finally(() => { });
+            try {
+                const response = await axios.post("/api/resetPassword", rfc);
+                this.responseMessage = response.data.message;
+            } catch (error) {
+                throw new Error("Error al enviar la petición de cambiar contraseña");                
+            }
         },
+
         async logout() {
             let storage = new Storage();
             await storage.create();
@@ -66,29 +95,7 @@ export const useSessionStore = defineStore({
             await storage.remove('rfc');
             await storage.remove('nombreUsuario');
         },
-        async userInformation(rfc: string) {
-            // desarrollo
-            let storage = new Storage();
-            await storage.create();
 
-            await storage.set('nombreUsuario', 'Rogerio Juan Bosco Casas');
-            
-            this.object = {
-                nombre: 'Rogerio Juan Bosco Casas', rfc: 'RJCA781002-HR7'
-            };
-
-            // production
-            /*
-            await axios.post("/api/userInformation/" + rfc)
-                .then((response) => {
-                    this.object = response.data;
-                })
-                .catch((error) => {
-
-                })
-                .finally(() => { });
-                */
-        },
 
     }
 });
