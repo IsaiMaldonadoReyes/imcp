@@ -45,8 +45,18 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { alertController, IonPage, IonContent } from "@ionic/vue";
+import { Storage } from "@ionic/storage";
 import { useSessionStore } from "../store/session";
-import { transformWithEsbuild } from "vite";
+
+const showAlert = async (header: string, message: string) => {
+  const alert = await alertController.create({
+    header,
+    message,
+    buttons: ["OK"]
+  });
+
+  await alert.present();
+};
 
 export default defineComponent({
   name: "resetPassword",
@@ -74,27 +84,53 @@ export default defineComponent({
       try {
         //await session.resetPassword(rfc);
 
-        const alert = await alertController.create({
-          header: "Recuperación de contraseña",
-          message: "Se ha enviado un correo para la recuperación de su contraseña",
-          buttons: ["OK"],
-        });
-
-        await alert.present();
+        await showAlert("Recuperación de contraseña", "Se ha enviado un correo para la recuperación de su contraseña");
 
         form.value.rfc = "";
       } catch (error) {
         console.log(error);
+        await showAlert("Recuperación de contraseña", "Ha ocurrido un error durante el envío de la petición");
+        throw new Error("Error al enviar la petición");
       }
     }
 
     async function validateAndSend() {
-      const isValidForm = await formEl.value?.validate(); // Llama al método validate del v-form
+      try {
+        const isValidForm = await formEl.value?.validate();
 
-      if (isValidForm.valid) {
-        sendPassword();
-      } else {
-        //console.log("El formulario no es válido");
+        if (isValidForm.valid) {
+
+          await getToken();
+
+          try {
+            await sendPassword();
+
+            await formEl.value?.resetValidation();
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    }
+
+    async function getToken() {
+      try {
+        const storage = new Storage();
+        storage.create();
+        const tok = await storage.get("token");
+
+        console.log(tok);
+
+        if (tok == "") {
+          await session.getTokenAuth();
+        }
+      }
+      catch (error) {
+        await showAlert("Ocurrio un problema con el servidor", "Cierre la aplicación e intente más tarde");
+        throw new Error("Error al obtener el token resetPassword");
       }
     }
 
