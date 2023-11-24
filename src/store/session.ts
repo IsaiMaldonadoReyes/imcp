@@ -26,7 +26,7 @@ export const useSessionStore = defineStore({
         },
 
         async login(credentials: any) {
-            let storage = new Storage();
+            const storage = new Storage();
             await storage.create();
 
             // desarrollo
@@ -53,9 +53,9 @@ export const useSessionStore = defineStore({
                 throw new Error("Usuario y/o contraseñas incorrectas");
             }*/
         },
-        
+
         async userInformation(rfc: string) {
-            let storage = new Storage();
+            const storage = new Storage();
             await storage.create();
 
             // desarrollo
@@ -79,12 +79,12 @@ export const useSessionStore = defineStore({
                 const response = await axios.post("/api/resetPassword", rfc);
                 this.responseMessage = response.data.message;
             } catch (error) {
-                throw new Error("Error al enviar la petición de cambiar contraseña");                
+                throw new Error("Error al enviar la petición de cambiar contraseña");
             }
         },
 
         async logout() {
-            let storage = new Storage();
+            const storage = new Storage();
             await storage.create();
 
             this.auth = false;
@@ -96,6 +96,5 @@ export const useSessionStore = defineStore({
             await storage.remove('nombreUsuario');
         },
 
-
-    }
+    },
 });
