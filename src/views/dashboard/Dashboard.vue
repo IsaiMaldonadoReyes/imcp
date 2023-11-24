@@ -2,44 +2,19 @@
   <ion-page>
     <ion-content>
       <v-container>
-        <v-tabs
-          v-model="tabs"
-          bg-color="transparent"
-          color="red"
-          density="compact"
-          grow
-          style="border-bottom: 5px solid #b20000"
-        >
-          <v-tab
-            :color="colores.rojoIMPC"
-            :slider-color="colores.rojoIMPC"
-            :value="1"
-            class="mr-1 text-none"
-            rounded="t-lg"
-            size="small"
-            text="Periodo anual"
-            variant="flat"
-          />
-          <v-tab
-            :color="colores.rojoIMPC"
-            :slider-color="colores.rojoIMPC"
-            :value="2"
-            class="text-none"
-            rounded="t-lg"
-            size="small"
-            text="Periodo 4 años"
-            variant="flat"
-          />
+        <v-tabs v-model="tabs" bg-color="transparent" color="red" density="compact" grow
+          style="border-bottom: 5px solid #b20000">
+          <v-tab :color="colores.rojoIMPC" :slider-color="colores.rojoIMPC" :value="1" class="mr-1 text-none"
+            rounded="t-lg" size="small" text="Periodo anual" variant="flat" />
+          <v-tab :color="colores.rojoIMPC" :slider-color="colores.rojoIMPC" :value="2" class="text-none" rounded="t-lg"
+            size="small" text="Periodo 4 años" variant="flat" />
         </v-tabs>
         <v-window v-model="tabs">
           <v-window-item :value="1">
             <v-card color="transparent" elevation="0" rounded="b-lg">
               <v-card class="mx-auto" color="transparent" elevation="0">
                 <v-card-item>
-                  <v-card-title
-                    class="text-uppercase text-center"
-                    style="white-space: normal"
-                  >
+                  <v-card-title class="text-uppercase text-center" style="white-space: normal">
                     {{ title }} anual
                   </v-card-title>
                   <v-card-subtitle class="text-capitalize text-center">
@@ -48,25 +23,16 @@
                 </v-card-item>
               </v-card>
 
-              <v-card class="mx-auto my-2" elevation="0" rounded="lg">
+              <v-card v-if="dataLoaded" class="mx-auto my-2" elevation="0" rounded="lg">
                 <v-card-text>
                   <BarChart v-bind="barChartPropsAnual" />
                 </v-card-text>
               </v-card>
 
               <v-card class="mx-auto my-4" elevation="0" rounded="lg">
-                <v-list
-                  bg-color="transparent"
-                  class="d-flex flex-column justify-end"
-                  density="compact"
-                >
+                <v-list bg-color="transparent" class="d-flex flex-column justify-end" density="compact">
                   <v-list-item title="Puntaje principal">
-                    <v-progress-linear
-                      :model-value="80"
-                      class="mx-n5"
-                      color="rgba(178, 0, 0, 0.6)"
-                      height="15"
-                    />
+                    <v-progress-linear :model-value="80" class="mx-n5" color="rgba(178, 0, 0, 0.6)" height="15" />
                     <template v-slot:append>
                       <div class="rating-values">
                         <span>18/20</span>
@@ -75,12 +41,7 @@
                   </v-list-item>
 
                   <v-list-item title="Puntaje otros cursos">
-                    <v-progress-linear
-                      :model-value="70"
-                      class="mx-n5"
-                      color="rgba(89, 89, 89, 0.6)"
-                      height="15"
-                    />
+                    <v-progress-linear :model-value="70" class="mx-n5" color="rgba(89, 89, 89, 0.6)" height="15" />
                     <template v-slot:append>
                       <div class="rating-values">
                         <span>20/25</span>
@@ -89,12 +50,7 @@
                   </v-list-item>
 
                   <v-list-item title="Puntaje ética">
-                    <v-progress-linear
-                      :model-value="40"
-                      class="mx-n5"
-                      color="rgba(166, 166, 166, 0.6)"
-                      height="15"
-                    />
+                    <v-progress-linear :model-value="40" class="mx-n5" color="rgba(166, 166, 166, 0.6)" height="15" />
                     <template v-slot:append>
                       <div class="rating-values">
                         <span>2/5</span>
@@ -104,14 +60,8 @@
                 </v-list>
                 <v-divider />
                 <v-card-actions>
-                  <v-btn
-                    :color="colores.grisOscuro"
-                    block
-                    class="text-none"
-                    text="Desglose de puntos"
-                    variant="flat"
-                    :to="{ path: 'desglosePuntos' }"
-                  />
+                  <v-btn :color="colores.grisOscuro" block class="text-none" text="Desglose de puntos" variant="flat"
+                    :to="{ path: 'desglosePuntos' }" />
                 </v-card-actions>
               </v-card>
             </v-card>
@@ -120,10 +70,7 @@
             <v-card color="transparent" elevation="0" rounded="b-lg">
               <v-card class="mx-auto" color="transparent" elevation="0">
                 <v-card-item>
-                  <v-card-title
-                    class="text-uppercase text-center"
-                    style="white-space: normal"
-                  >
+                  <v-card-title class="text-uppercase text-center" style="white-space: normal">
                     {{ title }} por 4 años
                   </v-card-title>
                   <v-card-subtitle class="text-capitalize text-center">
@@ -138,33 +85,16 @@
                 </v-card-text>
               </v-card>
 
-              <v-card
-                v-for="(year, h) in [2022, 2021, 2020, 2019]"
-                :key="year"
-                class="mx-auto my-4"
-                elevation="0"
-                rounded="lg"
-              >
+              <v-card v-for="(year, h) in [2022, 2021, 2020, 2019]" :key="year" class="mx-auto my-4" elevation="0"
+                rounded="lg">
                 <v-card-title class="text-none text-center" style="white-space: normal">
                   {{ year }}
                 </v-card-title>
                 <v-divider></v-divider>
-                <v-list
-                  bg-color="transparent"
-                  class="d-flex flex-column justify-end"
-                  density="compact"
-                >
-                  <v-list-item
-                    v-for="(item, i) in cursosPor4"
-                    :key="i"
-                    :title="'Puntaje ' + item.label"
-                  >
-                    <v-progress-linear
-                      :color="item.backgroundColor"
-                      :model-value="(item.data[h * 2 + 1] * 100) / item.data[h * 2]"
-                      class="mx-n5"
-                      height="15"
-                    />
+                <v-list bg-color="transparent" class="d-flex flex-column justify-end" density="compact">
+                  <v-list-item v-for="(item, i) in cursosPor4" :key="i" :title="'Puntaje ' + item.label">
+                    <v-progress-linear :color="item.backgroundColor"
+                      :model-value="(item.data[h * 2 + 1] * 100) / item.data[h * 2]" class="mx-n5" height="15" />
                     <template v-slot:append>
                       <div class="rating-values">
                         <span>{{ item.data[h * 2 + 1] }} / {{ item.data[h * 2] }}</span>
@@ -174,13 +104,7 @@
                 </v-list>
                 <v-divider></v-divider>
                 <v-card-actions>
-                  <v-btn
-                    block
-                    :color="colores.grisOscuro"
-                    class="text-none"
-                    text="Desglose de puntos"
-                    variant="flat"
-                  />
+                  <v-btn block :color="colores.grisOscuro" class="text-none" text="Desglose de puntos" variant="flat" />
                 </v-card-actions>
               </v-card>
             </v-card>
@@ -192,10 +116,12 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent } from "vue";
+import { ref, computed, defineComponent, onMounted } from "vue";
 import { BarChart, useBarChart } from "vue-chart-3";
 import { Chart, registerables, ScriptableContext } from "chart.js";
 import { IonPage, IonContent } from "@ionic/vue";
+import { Storage } from "@ionic/storage";
+import { useDashboardStore } from "@/store/dashboard";
 
 Chart.register(...registerables);
 
@@ -207,6 +133,10 @@ export default defineComponent({
     IonPage,
   },
   setup() {
+
+    const dashStore = useDashboardStore();
+
+
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
@@ -223,23 +153,16 @@ export default defineComponent({
     const subtitle = ref("Sector Gubernamental");
     const tabs = ref(null);
 
-    const cursos = [
-      {
-        label: "Principales",
-        data: data,
-        backgroundColor: "rgba(178, 0, 0, 0.6)",
-      },
-      {
-        label: "Otros cursos",
-        data: data2,
-        backgroundColor: "rgba(89, 89, 89, 0.6)",
-      },
-      {
-        label: "Ética",
-        data: data3,
-        backgroundColor: "rgba(166, 166, 166, 0.6)",
-      },
-    ];
+    const dataLoaded = ref(false);
+
+    const cursos = ref<Array<
+      | {
+        label: string,
+        data: number[],
+        backgroundColor: string
+      }
+    >
+    >([]);
 
     const cursosPor4 = [
       {
@@ -259,10 +182,11 @@ export default defineComponent({
       },
     ];
 
-    const chartData = computed(() => ({
+
+    const chartData = ref({
       labels: ["Esperado", "Obtenido"],
       datasets: cursos,
-    }));
+    });
 
     const chartPor4 = computed(() => ({
       labels: [
@@ -277,8 +201,6 @@ export default defineComponent({
       ],
       datasets: cursosPor4,
     }));
-
-    let delayed = ref(false);
 
     const options = ref({
       indexAxis: "x",
@@ -309,8 +231,58 @@ export default defineComponent({
       options,
     });
 
+    async function cargarEjercicios() {
+      const storage = new Storage();
+      storage.create();
+
+      const rfc = await storage.get("rfc");
+      const token = await storage.get("token");
+
+      try {
+
+        await dashStore.loadEjercicios(rfc);
+        const ejercicios: any[] = Array.isArray(dashStore.object) ? dashStore.object : [];
+
+        ejercicios.sort((a, b) => parseInt(b.anhio_aplica) - parseInt(a.anhio_aplica));
+
+        if (Array.isArray(ejercicios)) {
+          const ejercicioActual = ejercicios[0];
+
+          cursos.value.push({
+            label: "Principales",
+            data: [ejercicioActual.control_puntos_principales, ejercicioActual.puntos_principales],
+            backgroundColor: "rgba(178, 0, 0, 0.6)"
+          });
+
+          cursos.value.push({
+            label: "Otros cursos",
+            data: [ejercicioActual.control_puntos_otros_cursos, ejercicioActual.puntos_otros_cursos],
+            backgroundColor: "rgba(89, 89, 89, 0.6)"
+          });
+
+          cursos.value.push({
+            label: "Ética",
+            data: [ejercicioActual.control_puntos_etica, ejercicioActual.puntos_etica],
+            backgroundColor: "rgba(166, 166, 166, 0.6)"
+          });
+          dataLoaded.value = true;
+        }
+
+      } catch (error) {
+
+      }
+
+    }
+
+    onMounted(() => {
+      cargarEjercicios();
+
+      console.log(chartData);
+    });
+
     return {
       barChartPropsAnual,
+      dataLoaded,
       barChartPropsPor4,
       colores,
       cursosPor4,
@@ -325,6 +297,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .blue-tab {
-  background-color: white !important; /* Cambia 'blue' por el color que desees */
+  background-color: white !important;
+  /* Cambia 'blue' por el color que desees */
 }
 </style>
