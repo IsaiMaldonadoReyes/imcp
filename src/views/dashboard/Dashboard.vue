@@ -15,7 +15,7 @@
               <v-card class="mx-auto" color="transparent" elevation="0">
                 <v-card-item>
                   <v-card-title class="text-uppercase text-center" style="white-space: normal">
-                    {{ title }} anual
+                    {{ title }} <br> anual
                   </v-card-title>
                   <v-card-subtitle class="text-capitalize text-center">
                     {{ subtitle }}
@@ -29,7 +29,7 @@
                 </v-card-text>
               </v-card>
 
-              <v-card class="mx-auto my-4" elevation="0" rounded="lg">
+              <v-card v-if="dataLoaded" class="mx-auto my-4" elevation="0" rounded="lg">
                 <v-list bg-color="transparent" class="d-flex flex-column justify-end" density="compact">
                   <v-list-item title="Puntaje principal">
                     <v-progress-linear :model-value="80" class="mx-n5" color="rgba(178, 0, 0, 0.6)" height="15" />
@@ -71,7 +71,7 @@
               <v-card class="mx-auto" color="transparent" elevation="0">
                 <v-card-item>
                   <v-card-title class="text-uppercase text-center" style="white-space: normal">
-                    {{ title }} por 4 años
+                    {{ title }} <br> por 4 años
                   </v-card-title>
                   <v-card-subtitle class="text-capitalize text-center">
                     {{ subtitle }}
@@ -238,6 +238,8 @@ export default defineComponent({
       const rfc = await storage.get("rfc");
       const token = await storage.get("token");
 
+      console.log(token);
+
       try {
 
         await dashStore.loadEjercicios(rfc);
@@ -245,7 +247,7 @@ export default defineComponent({
 
         ejercicios.sort((a, b) => parseInt(b.anhio_aplica) - parseInt(a.anhio_aplica));
 
-        if (Array.isArray(ejercicios)) {
+        if (Array.isArray(ejercicios) && ejercicios.length > 0) {
           const ejercicioActual = ejercicios[0];
 
           cursos.value.push({
@@ -276,8 +278,6 @@ export default defineComponent({
 
     onMounted(() => {
       cargarEjercicios();
-
-      console.log(chartData);
     });
 
     return {

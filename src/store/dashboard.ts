@@ -42,7 +42,6 @@ export const useDashboardStore = defineStore({
         },
 
         async loadEjercicios(rfc: string) {
-
             this.object = [
                 {
                     "revisionPuntosAnualId": 211822,
