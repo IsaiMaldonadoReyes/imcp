@@ -250,8 +250,12 @@
 
           <template v-slot:footer="{ page, pageCount, prevPage, nextPage }">
             <div class="d-flex align-center justify-center pa-4">
-              <v-btn @click="onClickSeeAll" :color="colores.grisOscuro">
-                <span class="text-none">Ver todo</span>
+              <v-btn
+                variant="text"
+                @click="onClickSeeAll"
+                :color="colores.rojoIMPC"
+              >
+                <span class="text-decoration-underline text-none">Ver todo</span>
               </v-btn>
             </div>
             <div class="d-flex align-center justify-center pa-4">
@@ -291,7 +295,7 @@
               text="DESCARGAR REPORTE PDF"
               variant="flat"
               :to="{ path: 'desglosePuntos' }"
-              rounded="large"
+              rounded="lg"
             />
           </v-card-actions>
         </v-card>

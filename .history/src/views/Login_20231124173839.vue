@@ -2,10 +2,10 @@
   <ion-page>
     <ion-content>
       <v-container class="ma-# pa-# fill-height" fluid style="align-items:normal;">
-        <v-row align="start" style="height: 25%" class="d-flex align-center justify-center">
-          <img style="max-width:240px; max-height: 200px" src="../assets/images/logotipo.svg" />
+        <v-row align="start" style="height: 30%" class="d-flex align-center justify-center">
+          <img style="max-width:280px; max-height: 200px" src="../assets/images/logotipo.svg" />
         </v-row>
-        <v-row align="start" style="height: 55%" class="d-flex align-start justify-center">
+        <v-row align="center" style="height: 50%" class="d-flex align-start justify-center">
           <v-card color="transparent" elevation="0">
             <v-form v-model="isValid" @submit.prevent="validateAndLogin" lazy-validation ref="formEl">
               <v-row dense>
@@ -132,7 +132,7 @@ export default defineComponent({
         storage.create();
         const tok = await storage.get("token");
 
-        if (tok == "" || tok == null ) {
+        if (tok == "") {
           await session.getTokenAuth();
         }
         console.log(tok);

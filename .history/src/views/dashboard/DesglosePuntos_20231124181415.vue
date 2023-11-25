@@ -289,7 +289,6 @@
               size="large"
               class="text-none"
               text="DESCARGAR REPORTE PDF"
-              variant="flat"
               :to="{ path: 'desglosePuntos' }"
               rounded="large"
             />

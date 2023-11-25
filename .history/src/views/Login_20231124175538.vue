@@ -132,7 +132,7 @@ export default defineComponent({
         storage.create();
         const tok = await storage.get("token");
 
-        if (tok == "" || tok == null ) {
+        if (tok == "") {
           await session.getTokenAuth();
         }
         console.log(tok);
