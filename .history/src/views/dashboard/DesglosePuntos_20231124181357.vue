@@ -291,7 +291,7 @@
               text="DESCARGAR REPORTE PDF"
               variant="flat"
               :to="{ path: 'desglosePuntos' }"
-              rounded="large"
+              rounded="sm"
             />
           </v-card-actions>
         </v-card>

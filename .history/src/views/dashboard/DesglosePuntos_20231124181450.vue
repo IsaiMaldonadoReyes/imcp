@@ -272,7 +272,6 @@
               <v-btn
                 :disabled="page >= pageCount"
                 icon="mdi-arrow-right"
-                density="comfortable"
                 rounded
                 size="large"
                 :color="colores.rojoIMPC"

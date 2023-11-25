@@ -249,32 +249,32 @@
           </template>
 
           <template v-slot:footer="{ page, pageCount, prevPage, nextPage }">
-            <div class="d-flex align-center justify-center pa-4">
-              <v-btn @click="onClickSeeAll" :color="colores.grisOscuro">
-                <span class="text-none">Ver todo</span>
-              </v-btn>
-            </div>
+            <v-btn
+              class="me-8"
+              variant="text"
+              @click="onClickSeeAll"
+              :color="colores.rojoIMPC"
+            >
+              <span class="text-decoration-underline text-none">Ver todo</span>
+            </v-btn>
             <div class="d-flex align-center justify-center pa-4">
               <v-btn
                 :disabled="page === 1"
                 icon="mdi-arrow-left"
                 density="comfortable"
+                variant="tonal"
                 rounded
-                size="large"
                 :color="colores.rojoIMPC"
                 @click="prevPage"
               ></v-btn>
 
-              <div class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold">
-                Página {{ page }} de {{ pageCount }}
-              </div>
+              <div class="mx-2 text-caption">Página {{ page }} de {{ pageCount }}</div>
 
               <v-btn
                 :disabled="page >= pageCount"
                 icon="mdi-arrow-right"
                 density="comfortable"
                 rounded
-                size="large"
                 :color="colores.rojoIMPC"
                 @click="nextPage"
               ></v-btn>
@@ -291,7 +291,7 @@
               text="DESCARGAR REPORTE PDF"
               variant="flat"
               :to="{ path: 'desglosePuntos' }"
-              rounded="large"
+              rounded="lg"
             />
           </v-card-actions>
         </v-card>

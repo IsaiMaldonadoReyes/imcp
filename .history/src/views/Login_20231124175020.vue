@@ -2,8 +2,8 @@
   <ion-page>
     <ion-content>
       <v-container class="ma-# pa-# fill-height" fluid style="align-items:normal;">
-        <v-row align="start" style="height: 25%" class="d-flex align-center justify-center">
-          <img style="max-width:240px; max-height: 200px" src="../assets/images/logotipo.svg" />
+        <v-row align="start" style="height: 30%" class="d-flex align-center justify-center">
+          <img style="max-width:250px; max-height: 200px" src="../assets/images/logotipo.svg" />
         </v-row>
         <v-row align="start" style="height: 55%" class="d-flex align-start justify-center">
           <v-card color="transparent" elevation="0">
@@ -132,7 +132,7 @@ export default defineComponent({
         storage.create();
         const tok = await storage.get("token");
 
-        if (tok == "" || tok == null ) {
+        if (tok == "") {
           await session.getTokenAuth();
         }
         console.log(tok);
