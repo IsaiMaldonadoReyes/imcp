@@ -30,14 +30,96 @@
             </span>
           </v-card-text>
         </v-card>
+        <v-card class="my-3" elevation="0" rounded="lg" border>
+          <v-list
+            bg-color="transparent"
+            class="d-flex flex-column justify-end"
+            density="compact"
+          >
+            <v-list-item>
+              <v-list-item-title>
+                <span
+                  class="text-caption text-disabled"
+                  style="letter-spacing: normal !important"
+                >
+                  Tipo de puntos
+                </span>
+              </v-list-item-title>
+              <template v-slot:append>
+                <span
+                  class="text-caption text-disabled"
+                  style="letter-spacing: normal !important"
+                >
+                  Estatus de proceso
+                </span>
+              </template>
+            </v-list-item>
+            <v-list-item title="Puntaje principal">
+              <v-progress-linear
+                :model-value="80"
+                class="mx-n5"
+                color="rgba(178, 0, 0, 0.6)"
+                height="15"
+              />
+              <template v-slot:append>
+                <div class="rating-values">
+                  <span>18/20</span>
+                </div>
+              </template>
+            </v-list-item>
+
+            <v-list-item title="Puntaje otros cursos">
+              <v-progress-linear
+                :model-value="70"
+                class="mx-n5"
+                color="rgba(89, 89, 89, 0.6)"
+                height="15"
+              />
+              <template v-slot:append>
+                <div class="rating-values">
+                  <span>20/25</span>
+                </div>
+              </template>
+            </v-list-item>
+
+            <v-list-item title="Puntaje ética">
+              <v-progress-linear
+                :model-value="40"
+                class="mx-n5"
+                color="rgba(166, 166, 166, 0.6)"
+                height="15"
+              />
+              <template v-slot:append>
+                <div class="rating-values">
+                  <span>2/5</span>
+                </div>
+              </template>
+            </v-list-item>
+          </v-list>
+          <v-divider></v-divider>
+
+          <div class="d-flex justify-space-between px-3 py-3">
+            <div class="d-flex align-center text-caption text-medium-emphasis me-1">
+              <span class="text-subtitle-1 text-grey-darken-1 font-weight-bold">
+                Total de horas:
+              </span>
+              <span class="text-h6 font-weight-bold" style="color: #b80000"> 40 </span>
+            </div>
+
+            <div class="d-flex align-center text-caption text-medium-emphasis me-1">
+              <span class="text-subtitle-1 text-grey-darken-1 font-weight-bold">
+                Total de puntos:
+              </span>
+              <span class="text-h6 font-weight-bold" style="color: #b80000"> 40 </span>
+            </div>
+          </div>
+        </v-card>
 
         <v-data-iterator
           :items="games"
-          item-value="areaEspecialidad"
           :items-per-page="itemsPorPagina"
           :search="search"
           :sort-by="sortBy"
-          :custom-filter="customFilter"
         >
           <template v-slot:header>
             <v-row dense>
@@ -47,7 +129,7 @@
                   clearable
                   density="comfortable"
                   hide-details
-                  placeholder="Buscar especialidad"
+                  placeholder="Buscar"
                   prepend-inner-icon="mdi-magnify"
                   variant="solo"
                 ></v-text-field>
@@ -105,44 +187,8 @@
                     </span>
                   </v-list-item>
                   <v-divider></v-divider>
-                  <!--v-text-field
-                    v-model="search"
-                    clearable
-                    density="comfortable"
-                    hide-details
-                    placeholder="Buscar evento"
-                    prepend-inner-icon="mdi-magnify"
-                    variant="solo"
-                  ></v-text-field-->
-                  <v-data-table
-                    :headers="headers"
-                    :items="item.raw.eventos"
-                    item-value="name"
-                    :search="search"
-                  >
-                    <template v-slot:item="{ item }">
-                      <tr class="v-data-table__tr">
-                        <td
-                          v-for="header in headers"
-                          :key="header.key"
-                          class="text-subtitle-2"
-                        >
-                          <span
-                            class="text-body-2 text-medium-emphasis"
-                            style="letter-spacing: normal"
-                          >
-                            {{ header.title }}
-                          </span>
-                          <br />
-                          <span class="text-subtitle-1 font-weight-bold">
-                            {{ item[header.key] }}
-                          </span>
-                        </td>
-                      </tr>
-                    </template>
-                  </v-data-table>
-                  <v-divider class="py-5"></v-divider>
-                  <div class="d-flex justify-space-between px-3">
+
+                  <div class="d-flex justify-space-between px-3 pt-2">
                     <div
                       class="d-flex align-center text-caption text-medium-emphasis me-1"
                     >
@@ -232,22 +278,6 @@ interface SortItem {
   order: Ref<string>;
 }
 
-interface Evento {
-  evento: string;
-  colegio: string;
-  numRegistro: string;
-  fecha: string;
-  totalHoras: number;
-  totalPuntos: number;
-}
-
-interface Especialidad {
-  areaEspecialidad: string;
-  eventos: Evento[];
-  totalHoras: number;
-  totalPuntos: number;
-}
-
 export default defineComponent({
   name: "desglosePuntos",
   components: {
@@ -258,13 +288,21 @@ export default defineComponent({
   },
   setup() {
     const headers = ref([
+      {
+        title: "Área de especialidad",
+        align: "start",
+        key: "name",
+        sortable: false,
+        removable: false,
+      },
       { title: "Evento", key: "evento", removable: true },
       { title: "Colegio", key: "colegio", removable: true },
       { title: "Núm. Registro", key: "numRegistro", removable: true },
-      { title: "Fecha", key: "fecha", removable: true },
+      { title: "Fecha", key: "fechaVisible", removable: true },
       { title: "Horas", key: "totalHoras", removable: true },
       { title: "Puntos", key: "totalPuntos", removable: true },
     ]);
+
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
@@ -275,34 +313,8 @@ export default defineComponent({
     const itemsPorPagina = ref(3);
 
     let search = ref("");
-    let searchEvento = ref("");
 
-    function customFilter(value: string, query: string, item: any) {
-      if (search.value === "" || search.value === null) {
-        // Si la búsqueda está vacía, muestra todos los elementos
-        return true;
-      }
-
-
-      console.log(search.value);
-      return searchInItem(item.raw);
-    }
-
-    const searchInItem = (item: Especialidad): boolean => {
-      if (item.areaEspecialidad.toLowerCase().includes(search.value.toLowerCase())) {
-        return true;
-      }
-
-      if (item.eventos && item.eventos.length > 0) {
-        return item.eventos.some((eventoI) =>
-          eventoI.evento.toLowerCase().includes(search.value.toLowerCase())
-        );
-      }
-
-      return false;
-    };
-
-    const games = ref<Especialidad[]>([
+    const games = ref([
       {
         areaEspecialidad: "General",
         eventos: [
@@ -310,7 +322,13 @@ export default defineComponent({
             evento: "REFORMAS FISCALES ESTATALES 2023",
             colegio: "CCP Durango",
             numRegistro: "CCPD-FEP-1-01-2023",
-            fecha: "06/01/2023",
+            fechaVisible: new Date("06/01/2023")
+              .toISOString()
+              .slice(0, 10)
+              .split("-")
+              .reverse()
+              .join("/"),
+            fecha: new Date("06/01/2023"),
             totalHoras: 3,
             totalPuntos: 3,
           },
@@ -318,7 +336,13 @@ export default defineComponent({
             evento: "RESOLUCIÓN MISCELÁNEA FISCAL 2023",
             colegio: "CCP Durango",
             numRegistro: "CCPD-FEP-1-01-2023",
-            fecha: "12/01/2023",
+            fechaVisible: new Date("12/01/2023")
+              .toISOString()
+              .slice(0, 10)
+              .split("-")
+              .reverse()
+              .join("/"),
+            fecha: new Date("12/01/2023"),
             totalHoras: 4,
             totalPuntos: 4,
           },
@@ -331,7 +355,13 @@ export default defineComponent({
             evento: "REFORMAS FISCALES ESTATALES 2023",
             colegio: "CCP Durango",
             numRegistro: "CCPD-FEP-1-01-2023",
-            fecha: "06/01/2023",
+            fechaVisible: new Date("06/01/2023")
+              .toISOString()
+              .slice(0, 10)
+              .split("-")
+              .reverse()
+              .join("/"),
+            fecha: new Date("06/01/2023"),
             totalHoras: 3,
             totalPuntos: 3,
           },
@@ -339,7 +369,13 @@ export default defineComponent({
             evento: "RESOLUCIÓN MISCELÁNEA FISCAL 2023",
             colegio: "CCP Durango",
             numRegistro: "CCPD-FEP-1-01-2023",
-            fecha: "12/01/2023",
+            fechaVisible: new Date("12/01/2023")
+              .toISOString()
+              .slice(0, 10)
+              .split("-")
+              .reverse()
+              .join("/"),
+            fecha: new Date("12/01/2023"),
             totalHoras: 4,
             totalPuntos: 4,
           },
@@ -347,7 +383,13 @@ export default defineComponent({
             evento: "LA IMPORTANCIA DE LOS ESTADOS FINANCIEROS",
             colegio: "CCP Durango",
             numRegistro: "CCPD-FEP-001-01-2023",
-            fecha: "12/01/2023",
+            fechaVisible: new Date("16/02/2023")
+              .toISOString()
+              .slice(0, 10)
+              .split("-")
+              .reverse()
+              .join("/"),
+            fecha: new Date("16/02/2023"),
             totalHoras: 3,
             totalPuntos: 3,
           },
@@ -355,7 +397,13 @@ export default defineComponent({
             evento: "APLICACIÓN PRÁCTICA DE LA REFORMA FISCAL ESTATAL EN DURANGO",
             colegio: "CCP Durango",
             numRegistro: "CCPD-FEP-001-01-2023",
-            fecha: "12/04/2023",
+            fechaVisible: new Date("12/04/2023")
+              .toISOString()
+              .slice(0, 10)
+              .split("-")
+              .reverse()
+              .join("/"),
+            fecha: new Date("12/04/2023"),
             totalHoras: 4,
             totalPuntos: 4,
           },
@@ -363,7 +411,13 @@ export default defineComponent({
             evento: "Tratamiento fiscal de régimen de coordinados",
             colegio: "CCP Saltillo",
             numRegistro: "CCPSA-FEME-001-01-2023",
-            fecha: "25/04/2023",
+            fechaVisible: new Date("25/04/2023")
+              .toISOString()
+              .slice(0, 10)
+              .split("-")
+              .reverse()
+              .join("/"),
+            fecha: new Date("25/04/2023"),
             totalHoras: 4,
             totalPuntos: 8,
           },
@@ -371,7 +425,13 @@ export default defineComponent({
             evento: "DIPLOMADO FISCAL 2023",
             colegio: "CCP Durango",
             numRegistro: "CCPD-FEME-001-01-2023",
-            fecha: "11/11/2023",
+            fechaVisible: new Date("11/11/2023")
+              .toISOString()
+              .slice(0, 10)
+              .split("-")
+              .reverse()
+              .join("/"),
+            fecha: new Date("11/11/2023"),
             totalHoras: 50,
             totalPuntos: 50,
           },
@@ -381,12 +441,29 @@ export default defineComponent({
       },
     ]);
 
+
     let sortDesc = ref("asc");
     let sortBy = ref([]);
 
     const keys = ref<SortItem[]>([
       {
         key: "areaEspecialidad",
+        order: sortDesc,
+      },
+      {
+        key: "evento",
+        order: sortDesc,
+      },
+      {
+        key: "colegio",
+        order: sortDesc,
+      },
+      {
+        key: "numRegistro",
+        order: sortDesc,
+      },
+      {
+        key: "fecha",
         order: sortDesc,
       },
       {
@@ -407,6 +484,30 @@ export default defineComponent({
             value: [item],
           };
           break;
+        case "evento":
+          return {
+            title: "Evento",
+            value: [item],
+          };
+          break;
+        case "colegio":
+          return {
+            title: "Colegio",
+            value: [item],
+          };
+          break;
+        case "numRegistro":
+          return {
+            title: "Núm. Registro",
+            value: [item],
+          };
+          break;
+        case "fecha":
+          return {
+            title: "Fecha",
+            value: [item],
+          };
+          break;
         case "totalPuntos":
           return {
             title: "Total de puntos",
@@ -423,14 +524,13 @@ export default defineComponent({
     };
 
     function onClickSeeAll() {
-      itemsPorPagina.value = itemsPorPagina.value === 3 ? games.length : 3;
+      itemsPorPagina.value = itemsPorPagina.value === 3 ? games.value.length : 3;
     }
 
     onMounted(() => {});
 
     return {
       search,
-      searchEvento,
       games,
       sortBy,
       keys,
@@ -440,7 +540,6 @@ export default defineComponent({
       onClickSeeAll,
       colores,
       headers,
-      customFilter,
     };
   },
 });
@@ -462,9 +561,8 @@ export default defineComponent({
   .v-data-table td {
     border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
     display: block;
-    text-align: left;
-    line-height: 20px;
-    height: auto;
+    text-align: right;
+    line-height: 48px;
   }
 
   .v-data-table td::before {

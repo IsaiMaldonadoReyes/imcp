@@ -33,7 +33,6 @@
 
         <v-data-iterator
           :items="games"
-          item-value="areaEspecialidad"
           :items-per-page="itemsPorPagina"
           :search="search"
           :sort-by="sortBy"
@@ -118,7 +117,7 @@
                     :headers="headers"
                     :items="item.raw.eventos"
                     item-value="name"
-                    :search="search"
+                    :search="searchEvento"
                   >
                     <template v-slot:item="{ item }">
                       <tr class="v-data-table__tr">
@@ -277,16 +276,15 @@ export default defineComponent({
     let search = ref("");
     let searchEvento = ref("");
 
-    function customFilter(value: string, query: string, item: any) {
-      if (search.value === "" || search.value === null) {
-        // Si la búsqueda está vacía, muestra todos los elementos
+    
+
+    const customFilter = (item: Especialidad):boolean => {
+      if (search.value === "") {
         return true;
       }
 
-
-      console.log(search.value);
-      return searchInItem(item.raw);
-    }
+      return searchInItem(item);
+    };
 
     const searchInItem = (item: Especialidad): boolean => {
       if (item.areaEspecialidad.toLowerCase().includes(search.value.toLowerCase())) {
@@ -302,7 +300,7 @@ export default defineComponent({
       return false;
     };
 
-    const games = ref<Especialidad[]>([
+    const games = ref([
       {
         areaEspecialidad: "General",
         eventos: [
@@ -423,7 +421,7 @@ export default defineComponent({
     };
 
     function onClickSeeAll() {
-      itemsPorPagina.value = itemsPorPagina.value === 3 ? games.length : 3;
+      itemsPorPagina.value = itemsPorPagina.value === 3 ? games.value.length : 3;
     }
 
     onMounted(() => {});
