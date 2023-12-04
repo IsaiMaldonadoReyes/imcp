@@ -118,7 +118,7 @@
                     :headers="headers"
                     :items="item.raw.eventos"
                     item-value="name"
-                    :search="search"
+                    
                   >
                     <template v-slot:item="{ item }">
                       <tr class="v-data-table__tr">
@@ -278,13 +278,12 @@ export default defineComponent({
     let searchEvento = ref("");
 
     function customFilter(value: string, query: string, item: any) {
-      if (search.value === "" || search.value === null) {
+      if (query === "") {
         // Si la búsqueda está vacía, muestra todos los elementos
         return true;
       }
 
-
-      console.log(search.value);
+      console.log(item.raw.areaEspecialidad.toLowerCase().includes(query.toLowerCase()));
       return searchInItem(item.raw);
     }
 

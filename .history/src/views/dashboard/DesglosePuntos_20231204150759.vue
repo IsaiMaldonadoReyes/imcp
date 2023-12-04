@@ -278,7 +278,7 @@ export default defineComponent({
     let searchEvento = ref("");
 
     function customFilter(value: string, query: string, item: any) {
-      if (search.value === "" || search.value === null) {
+      if (search.value === "" search.value === null) {
         // Si la búsqueda está vacía, muestra todos los elementos
         return true;
       }

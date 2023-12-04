@@ -37,7 +37,6 @@
           :items-per-page="itemsPorPagina"
           :search="search"
           :sort-by="sortBy"
-          :custom-filter="customFilter"
         >
           <template v-slot:header>
             <v-row dense>
@@ -105,7 +104,7 @@
                     </span>
                   </v-list-item>
                   <v-divider></v-divider>
-                  <!--v-text-field
+                  <v-text-field
                     v-model="search"
                     clearable
                     density="comfortable"
@@ -113,12 +112,12 @@
                     placeholder="Buscar evento"
                     prepend-inner-icon="mdi-magnify"
                     variant="solo"
-                  ></v-text-field-->
+                  ></v-text-field>
                   <v-data-table
                     :headers="headers"
                     :items="item.raw.eventos"
                     item-value="name"
-                    :search="search"
+                    :search="searchEvento"
                   >
                     <template v-slot:item="{ item }">
                       <tr class="v-data-table__tr">
@@ -232,21 +231,7 @@ interface SortItem {
   order: Ref<string>;
 }
 
-interface Evento {
-  evento: string;
-  colegio: string;
-  numRegistro: string;
-  fecha: string;
-  totalHoras: number;
-  totalPuntos: number;
-}
 
-interface Especialidad {
-  areaEspecialidad: string;
-  eventos: Evento[];
-  totalHoras: number;
-  totalPuntos: number;
-}
 
 export default defineComponent({
   name: "desglosePuntos",
@@ -277,32 +262,9 @@ export default defineComponent({
     let search = ref("");
     let searchEvento = ref("");
 
-    function customFilter(value: string, query: string, item: any) {
-      if (search.value === "" || search.value === null) {
-        // Si la búsqueda está vacía, muestra todos los elementos
-        return true;
-      }
+    
 
-
-      console.log(search.value);
-      return searchInItem(item.raw);
-    }
-
-    const searchInItem = (item: Especialidad): boolean => {
-      if (item.areaEspecialidad.toLowerCase().includes(search.value.toLowerCase())) {
-        return true;
-      }
-
-      if (item.eventos && item.eventos.length > 0) {
-        return item.eventos.some((eventoI) =>
-          eventoI.evento.toLowerCase().includes(search.value.toLowerCase())
-        );
-      }
-
-      return false;
-    };
-
-    const games = ref<Especialidad[]>([
+    const games = ([
       {
         areaEspecialidad: "General",
         eventos: [
@@ -440,7 +402,6 @@ export default defineComponent({
       onClickSeeAll,
       colores,
       headers,
-      customFilter,
     };
   },
 });

@@ -33,7 +33,6 @@
 
         <v-data-iterator
           :items="games"
-          item-value="areaEspecialidad"
           :items-per-page="itemsPorPagina"
           :search="search"
           :sort-by="sortBy"
@@ -118,7 +117,7 @@
                     :headers="headers"
                     :items="item.raw.eventos"
                     item-value="name"
-                    :search="search"
+                    :search="searchEvento"
                   >
                     <template v-slot:item="{ item }">
                       <tr class="v-data-table__tr">
@@ -225,7 +224,7 @@
 <script lang="ts">
 import { IonPage, IonContent } from "@ionic/vue";
 import { defineComponent, ref, computed, onMounted, Ref } from "vue";
-import { VDataIterator, VDataTable } from "vuetify/lib/labs/components.mjs";
+import { VDataIterator, VDataTable} from "vuetify/lib/labs/components.mjs";
 
 interface SortItem {
   key: string;
@@ -277,15 +276,10 @@ export default defineComponent({
     let search = ref("");
     let searchEvento = ref("");
 
-    function customFilter(value: string, query: string, item: any) {
-      if (search.value === "" || search.value === null) {
-        // Si la búsqueda está vacía, muestra todos los elementos
-        return true;
-      }
-
-
-      console.log(search.value);
-      return searchInItem(item.raw);
+    function customFilter(value: string, query: string, item?: any) {
+      console.log(value);
+      console.log(query);
+      console.log(item);
     }
 
     const searchInItem = (item: Especialidad): boolean => {
