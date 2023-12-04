@@ -264,7 +264,7 @@ export default defineComponent({
     async function loadNotifications(rfcUser: string) {
       await dash.loadNotifications(rfcUser);
 
-      const notifications = dash.object;
+      const notifications = dash.object.notificaciones;
       items.value.length = 0;
 
       items.value.push({ type: "subheader", title: "Notificaciones", subtitle: "" });

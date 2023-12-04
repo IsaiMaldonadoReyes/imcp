@@ -1,11 +1,11 @@
 <template>
   <ion-page>
     <ion-content>
-      <v-container class="ma-# pa-# fill-height">
-        <v-row style="height: 10%" class="d-flex align-center justify-center">
-          <img style="max-width: 65%" src="../assets/images/logotipo.svg" />
+      <v-container class="ma-# pa-# fill-height" fluid style="align-items:normal;">
+        <v-row align="start" style="height: 25%" class="d-flex align-center justify-center">
+          <img style="max-width:240px; max-height: 200px" src="../assets/images/logotipo.svg" />
         </v-row>
-        <v-row style="height: 65%" class="d-flex align-center justify-center">
+        <v-row align="start" style="height: 55%" class="d-flex align-start justify-center">
           <v-card color="transparent" elevation="0">
             <v-form v-model="isValid" @submit.prevent="validateAndSend" lazy-validation ref="formEl">
               <v-row dense>

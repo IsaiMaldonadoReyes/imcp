@@ -78,9 +78,12 @@ export default defineComponent({
     const formEl = ref<any>(null);
     const show1 = ref(false);
 
+    const tokenAuth = ref(false);
+    const token = ref("");
+
     const form = ref({
-      rfc: "",
-      password: "",
+      rfc: "SOTJ841111Q39",
+      password: "temporal",
     });
 
     const rules = {
@@ -90,9 +93,16 @@ export default defineComponent({
 
     async function login() {
       try {
-        await session.login(form.value);
+
+        let data = new FormData();
+        data.append('email', form.value.rfc);
+        data.append('password', form.value.password);
+        data.append('token', token.value);
+
+        await session.login(data);
 
         if (session.auth == true) {
+          await formEl.value?.resetValidation();
           router.push("/tabs/dashboard");
         } else {
           await showAlert("Inicio de sesión", "Usuario y/o contraseña invalida");
@@ -114,10 +124,13 @@ export default defineComponent({
         if (isValidForm.valid) {
           await getToken();
 
-          try {
-            await login();
-          } catch (error) {
-            console.log(error);
+          console.log(tokenAuth.value);
+          if (tokenAuth.value == true) {
+            try {
+              await login();
+            } catch (error) {
+              console.log(error);
+            }
           }
         }
       } catch (error) {
@@ -128,14 +141,19 @@ export default defineComponent({
 
     async function getToken() {
       try {
+        await session.getTokenAuth();
+
         const storage = new Storage();
         storage.create();
-        const tok = await storage.get("token");
+        token.value = await storage.get("token");
 
-        if (tok == "" || tok == null ) {
-          await session.getTokenAuth();
+        console.log(token.value);
+
+        if (token.value == "" || token.value == null) {
+          await showAlert("Ocurrio un problema con el servidor", "Cierre la aplicación e intente más tarde");
+        } else {
+          tokenAuth.value = true;
         }
-        console.log(tok);
       }
       catch (error) {
         await showAlert("Ocurrio un problema con el servidor", "Cierre la aplicación e intente más tarde");

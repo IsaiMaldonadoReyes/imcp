@@ -18,7 +18,7 @@
                     {{ title }} <br> anual
                   </v-card-title>
                   <v-card-subtitle class="text-capitalize text-center">
-                    {{ subtitle }}
+                    {{ subtitlePeriodoAnual }}
                   </v-card-subtitle>
                 </v-card-item>
               </v-card>
@@ -31,29 +31,12 @@
 
               <v-card v-if="dataLoaded" class="mx-auto my-4" elevation="0" rounded="lg">
                 <v-list bg-color="transparent" class="d-flex flex-column justify-end" density="compact">
-                  <v-list-item title="Puntaje principal">
-                    <v-progress-linear :model-value="80" class="mx-n5" color="rgba(178, 0, 0, 0.6)" height="15" />
+                  <v-list-item v-for="(item, i) in cursos" :title="'Puntaje ' + item.label">
+                    <v-progress-linear :model-value="(item.data[1] * 100) / item.data[0]" class="mx-n5"
+                      :color="item.backgroundColor" height="15" />
                     <template v-slot:append>
                       <div class="rating-values">
-                        <span>18/20</span>
-                      </div>
-                    </template>
-                  </v-list-item>
-
-                  <v-list-item title="Puntaje otros cursos">
-                    <v-progress-linear :model-value="70" class="mx-n5" color="rgba(89, 89, 89, 0.6)" height="15" />
-                    <template v-slot:append>
-                      <div class="rating-values">
-                        <span>20/25</span>
-                      </div>
-                    </template>
-                  </v-list-item>
-
-                  <v-list-item title="Puntaje ética">
-                    <v-progress-linear :model-value="40" class="mx-n5" color="rgba(166, 166, 166, 0.6)" height="15" />
-                    <template v-slot:append>
-                      <div class="rating-values">
-                        <span>2/5</span>
+                        <span>{{ item.data[1] }}/{{ item.data[0] }}</span>
                       </div>
                     </template>
                   </v-list-item>
@@ -61,7 +44,7 @@
                 <v-divider />
                 <v-card-actions>
                   <v-btn :color="colores.grisOscuro" block class="text-none" text="Desglose de puntos" variant="flat"
-                    :to="{ path: 'desglosePuntos' }" />
+                    :to="{ name: 'desglosePuntos', params: { id: anioActual } }" />
                 </v-card-actions>
               </v-card>
             </v-card>
@@ -74,7 +57,7 @@
                     {{ title }} <br> por 4 años
                   </v-card-title>
                   <v-card-subtitle class="text-capitalize text-center">
-                    {{ subtitle }}
+                    {{ subtitlePeriodo4 }}
                   </v-card-subtitle>
                 </v-card-item>
               </v-card>
@@ -85,10 +68,9 @@
                 </v-card-text>
               </v-card>
 
-              <v-card v-for="(year, h) in [2022, 2021, 2020, 2019]" :key="year" class="mx-auto my-4" elevation="0"
-                rounded="lg">
+              <v-card v-for="(itm, h) in listadoEjercicios" :key="h" class="mx-auto my-4" elevation="0" rounded="lg">
                 <v-card-title class="text-none text-center" style="white-space: normal">
-                  {{ year }}
+                  {{ itm.label }} {{ itm.year }}
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-list bg-color="transparent" class="d-flex flex-column justify-end" density="compact">
@@ -104,7 +86,8 @@
                 </v-list>
                 <v-divider></v-divider>
                 <v-card-actions>
-                  <v-btn block :color="colores.grisOscuro" class="text-none" text="Desglose de puntos" variant="flat" />
+                  <v-btn block :color="colores.grisOscuro" class="text-none" text="Desglose de puntos" variant="flat"
+                    :to="{ name: 'desglosePuntos', params: { id: itm.year } }" />
                 </v-card-actions>
               </v-card>
             </v-card>
@@ -136,24 +119,28 @@ export default defineComponent({
 
     const dashStore = useDashboardStore();
 
-
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
       grisOscuro: "#222222",
     });
-    const data = [20, 18];
-    const data2 = [25, 20];
-    const data3 = [5, 2];
 
-    const dataC1Por4 = [20, 18, 30, 26, 30, 20, 30, 20];
-    const dataC2Por4 = [25, 20, 25, 23, 30, 15, 35, 30];
-    const dataC3Por4 = [5, 2, 10, 9, 15, 8, 20, 14];
     const title = ref("Estatus de capacitación");
-    const subtitle = ref("Sector Gubernamental");
+    const subtitlePeriodoAnual = ref("");
+    const subtitlePeriodo4 = ref("");
     const tabs = ref(null);
+    const anioActual = ref("");
 
     const dataLoaded = ref(false);
+    //const listadoEjercicios = ref<number[]>([]);
+
+    const listadoEjercicios = ref<Array<
+      | {
+        label: string,
+        year: number,
+      }
+    >
+    >([]);
 
     const cursos = ref<Array<
       | {
@@ -164,52 +151,29 @@ export default defineComponent({
     >
     >([]);
 
-    const cursosPor4 = [
-      {
-        label: "Principales",
-        data: dataC1Por4,
-        backgroundColor: "rgba(178, 0, 0, 0.6)",
-      },
-      {
-        label: "Otros cursos",
-        data: dataC2Por4,
-        backgroundColor: "rgba(89, 89, 89, 0.6)",
-      },
-      {
-        label: "Ética",
-        data: dataC3Por4,
-        backgroundColor: "rgba(166, 166, 166, 0.6)",
-      },
-    ];
+    const cursosPor4 = ref<Array<
+      | {
+        label: string,
+        data: number[],
+        backgroundColor: string,
+      }
+    >
+    >([]);
 
+    const labels4 = ref<string[]>([]);
 
     const chartData = ref({
       labels: ["Esperado", "Obtenido"],
       datasets: cursos,
     });
 
-    const chartPor4 = computed(() => ({
-      labels: [
-        "Esperado 2022",
-        "Obtenido 2022",
-        "Esperado 2021",
-        "Obtenido 2021",
-        "Esperado 2020",
-        "Obtenido 2020",
-        "Esperado 2019",
-        "Obtenido 2019",
-      ],
+    const chartPor4 = ref({
+      labels: labels4,
       datasets: cursosPor4,
-    }));
+    });
 
     const options = ref({
       indexAxis: "x",
-      plugins: {
-        title: {
-          display: true,
-          text: "Porcentaje de alcance Norma DCP",
-        },
-      },
       responsive: true,
       scales: {
         x: {
@@ -243,12 +207,19 @@ export default defineComponent({
       try {
 
         await dashStore.loadEjercicios(rfc);
-        const ejercicios: any[] = Array.isArray(dashStore.object) ? dashStore.object : [];
 
-        ejercicios.sort((a, b) => parseInt(b.anhio_aplica) - parseInt(a.anhio_aplica));
+        console.log(dashStore.object.ejercicios.datasets[0].anhio_aplica);
+
+        const ejercicios: any[] = Array.isArray(dashStore.object.ejercicios.datasets) ? dashStore.object.ejercicios.datasets : [];
 
         if (Array.isArray(ejercicios) && ejercicios.length > 0) {
+          ejercicios.sort((a, b) => parseInt(b.anhio_aplica) - parseInt(a.anhio_aplica));
+
           const ejercicioActual = ejercicios[0];
+          subtitlePeriodoAnual.value = dashStore.object.ejercicios.titulo_periodo_anual;
+          subtitlePeriodo4.value = dashStore.object.ejercicios.titulo_periodo_4_anios;
+
+          anioActual.value = ejercicioActual.anhio_aplica;
 
           cursos.value.push({
             label: "Principales",
@@ -267,13 +238,55 @@ export default defineComponent({
             data: [ejercicioActual.control_puntos_etica, ejercicioActual.puntos_etica],
             backgroundColor: "rgba(166, 166, 166, 0.6)"
           });
+
+          const ejercicio4 = ejercicios.slice(1);
+
+          if (Array.isArray(ejercicio4) && ejercicio4.length > 0) {
+
+            const principalesData: number[] = [];
+            const OtrosCursosData: number[] = [];
+            const eticaData: number[] = [];
+
+            ejercicio4.forEach((ejercicio) => {
+              labels4.value.push("Esperado " + ejercicio.anhio_aplica);
+              labels4.value.push("Obtenido " + ejercicio.anhio_aplica);
+
+              principalesData.push(ejercicio.control_puntos_principales, ejercicio.puntos_principales);
+              OtrosCursosData.push(ejercicio.control_puntos_otros_cursos, ejercicio.puntos_otros_cursos);
+              eticaData.push(ejercicio.control_puntos_etica, ejercicio.puntos_etica);
+
+              //listadoEjercicios.value.push(parseInt(ejercicio.anhio_aplica));
+
+              listadoEjercicios.value.push({
+                label: ejercicio.sector_nombre,
+                year: parseInt(ejercicio.anhio_aplica)
+              });
+
+            });
+
+            cursosPor4.value.push({
+              label: "Principales",
+              data: principalesData,
+              backgroundColor: "rgba(178, 0, 0, 0.6)"
+            });
+
+            cursosPor4.value.push({
+              label: "Otros cursos",
+              data: OtrosCursosData,
+              backgroundColor: "rgba(89, 89, 89, 0.6)"
+            });
+
+            cursosPor4.value.push({
+              label: "Ética",
+              data: eticaData,
+              backgroundColor: "rgba(166, 166, 166, 0.6)"
+            });
+          }
+
           dataLoaded.value = true;
         }
-
       } catch (error) {
-
       }
-
     }
 
     onMounted(() => {
@@ -281,15 +294,19 @@ export default defineComponent({
     });
 
     return {
+      anioActual,
       barChartPropsAnual,
       dataLoaded,
       barChartPropsPor4,
       colores,
+      cursos,
       cursosPor4,
       options,
-      subtitle,
+      subtitlePeriodoAnual,
+      subtitlePeriodo4,
       tabs,
       title,
+      listadoEjercicios,
     };
   },
 });
