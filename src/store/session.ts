@@ -60,8 +60,8 @@ export const useSessionStore = defineStore({
                 this.auth = true;
 
                 await storage.set('logged', true);
-                await storage.set('rfc', data.rfc);
-                this.userInformation(data.rfc);
+                await storage.set('rfc', "SOTJ841111Q39");
+                this.userInformation("SOTJ841111Q39");
             }
 
             // production
