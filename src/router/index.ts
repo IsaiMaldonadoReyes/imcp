@@ -41,7 +41,7 @@ const routes = [
         component: Dashboard,
       },
       {
-        path: "desglosePuntos", // dashboard
+        path: "desglosePuntos/:id", // dashboard
         name: "desglosePuntos",
         component: DesglosePuntos,
       },
