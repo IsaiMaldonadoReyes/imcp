@@ -99,7 +99,10 @@ export default defineComponent({
         data.append('password', form.value.password);
         data.append('token', token.value);
 
-        await session.login(data);
+        //await session.login(data);
+        await session.login(form.value.rfc);
+
+        console.log(session.auth);
 
         if (session.auth == true) {
           await formEl.value?.resetValidation();

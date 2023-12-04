@@ -53,8 +53,10 @@ export const useSessionStore = defineStore({
             const storage = new Storage();
             await storage.create();
 
+            console.log(data);
+
             // desarrollo
-            if (data.rfc == "SOTJ841111Q39" && data.password == "temporal") {
+            if (data == "SOTJ841111Q39") {
                 this.auth = true;
 
                 await storage.set('logged', true);
@@ -63,7 +65,6 @@ export const useSessionStore = defineStore({
             }
 
             // production
-            console.log(data);
             /*
             if (user !== undefined && pass !== undefined) {
                 try {
