@@ -104,7 +104,7 @@
             <v-row dense>
               <v-col v-for="item in items" :key="item.raw.title" cols="12">
                 <v-card class="mb-3" elevation="0" border color="transparent">
-                  <v-card class="py-1" elevation="0" border rounded="0">
+                  <v-card class="py-3" elevation="0" border rounded="0">
                     <v-list-item class="">
                       <template v-slot:title>
                         <span
@@ -128,7 +128,6 @@
                     prepend-inner-icon="mdi-magnify"
                     variant="solo"
                     class="my-3 mx-3"
-                    border
                   ></v-text-field>
 
                   <v-card class="my-3 mx-3" elevation="0" border>
@@ -138,7 +137,7 @@
                       item-value="evento"
                       :search="searchEvento"
                       style="background-color: transparent"
-                      :items-per-page="1"
+                      :items-per-page="3"
                       :page="pageT[item.raw.areaEspecialidad]"
                     >
                       <template v-slot:item="{ item }">
@@ -183,7 +182,7 @@
                       </template>
                     </v-data-table>
                   </v-card>
-                  <v-card class="py-1" elevation="0" border rounded="0">
+                  <v-card class="py-3" elevation="0" border rounded="0">
                     <div class="d-flex justify-space-between px-3 my-3">
                       <div
                         class="d-flex align-center text-caption text-medium-emphasis me-1"
@@ -267,8 +266,6 @@
 import { IonPage, IonContent } from "@ionic/vue";
 import { defineComponent, ref, computed, onMounted, Ref } from "vue";
 import { VDataIterator, VDataTable } from "vuetify/lib/labs/components.mjs";
-import { useDashboardStore } from "@/store/dashboard";
-import { useRoute } from "vue-router";
 
 interface SortItem {
   key: string;
@@ -300,9 +297,6 @@ export default defineComponent({
     VDataTable,
   },
   setup() {
-    const dashStore = useDashboardStore();
-    const route = useRoute();
-
     const headers = ref([
       { title: "Evento", key: "evento", removable: true },
       { title: "Colegio", key: "colegio", removable: true },
@@ -477,16 +471,7 @@ export default defineComponent({
       itemsPorPagina.value = itemsPorPagina.value === 3 ? games.value.length : 3;
     }
 
-    async function cargarDesglosePorEjercicio() {
-      try {
-        const id = route.params.id;
-        //await dashStore.desglosePuntosPorEjercicio(id);
-      } catch (error) {}
-    }
-
-    onMounted(() => {
-      cargarDesglosePorEjercicio();
-    });
+    onMounted(() => {});
 
     return {
       search,

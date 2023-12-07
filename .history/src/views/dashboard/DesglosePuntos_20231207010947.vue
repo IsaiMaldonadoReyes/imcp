@@ -128,7 +128,6 @@
                     prepend-inner-icon="mdi-magnify"
                     variant="solo"
                     class="my-3 mx-3"
-                    border
                   ></v-text-field>
 
                   <v-card class="my-3 mx-3" elevation="0" border>
@@ -267,8 +266,6 @@
 import { IonPage, IonContent } from "@ionic/vue";
 import { defineComponent, ref, computed, onMounted, Ref } from "vue";
 import { VDataIterator, VDataTable } from "vuetify/lib/labs/components.mjs";
-import { useDashboardStore } from "@/store/dashboard";
-import { useRoute } from "vue-router";
 
 interface SortItem {
   key: string;
@@ -300,9 +297,6 @@ export default defineComponent({
     VDataTable,
   },
   setup() {
-    const dashStore = useDashboardStore();
-    const route = useRoute();
-
     const headers = ref([
       { title: "Evento", key: "evento", removable: true },
       { title: "Colegio", key: "colegio", removable: true },
@@ -477,16 +471,7 @@ export default defineComponent({
       itemsPorPagina.value = itemsPorPagina.value === 3 ? games.value.length : 3;
     }
 
-    async function cargarDesglosePorEjercicio() {
-      try {
-        const id = route.params.id;
-        //await dashStore.desglosePuntosPorEjercicio(id);
-      } catch (error) {}
-    }
-
-    onMounted(() => {
-      cargarDesglosePorEjercicio();
-    });
+    onMounted(() => {});
 
     return {
       search,

@@ -9,7 +9,7 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card class="my-3" elevation="0" border>
+        <v-card class="my-3" elevation="0" rounded="lg" border>
           <v-card-title class="text-h6 font-weight-bold">
             Total de puntos por evento
           </v-card-title>
@@ -51,6 +51,7 @@
           :items-per-page="itemsPorPagina"
           :search="search"
           :sort-by="sortBy"
+          :custom-filter="customFilter"
         >
           <template v-slot:header>
             <v-row dense>
@@ -60,7 +61,7 @@
                   clearable
                   density="comfortable"
                   hide-details
-                  placeholder="Buscar especialidad"
+                  placeholder="Buscar especialidad o evento"
                   prepend-inner-icon="mdi-magnify"
                   variant="solo"
                 ></v-text-field>
@@ -103,111 +104,81 @@
           <template v-slot:default="{ items }">
             <v-row dense>
               <v-col v-for="item in items" :key="item.raw.title" cols="12">
-                <v-card class="mb-3" elevation="0" border color="transparent">
-                  <v-card class="py-1" elevation="0" border rounded="0">
-                    <v-list-item class="">
-                      <template v-slot:title>
-                        <span
-                          class="text-body-2 text-medium-emphasis"
-                          style="letter-spacing: normal"
-                        >
-                          Área de especialidad
-                        </span>
-                      </template>
-                      <span class="text-subtitle-1 font-weight-bold">
-                        {{ item.raw.areaEspecialidad }}
+                <v-card class="pb-3" rounded="lg" elevation="0" border>
+                  <v-list-item class="mt-3">
+                    <template v-slot:title>
+                      <span
+                        class="text-body-2 text-medium-emphasis"
+                        style="letter-spacing: normal"
+                      >
+                        Área de especialidad
                       </span>
-                    </v-list-item>
-                  </v-card>
-                  <v-text-field
-                    v-model="searchEvento"
+                    </template>
+                    <span class="text-subtitle-1 font-weight-bold">
+                      {{ item.raw.areaEspecialidad }}
+                    </span>
+                  </v-list-item>
+                  <v-divider></v-divider>
+                  <!--v-text-field
+                    v-model="search"
                     clearable
                     density="comfortable"
                     hide-details
                     placeholder="Buscar evento"
                     prepend-inner-icon="mdi-magnify"
                     variant="solo"
-                    class="my-3 mx-3"
-                    border
-                  ></v-text-field>
-
-                  <v-card class="my-3 mx-3" elevation="0" border>
-                    <v-data-table
-                      :headers="headers"
-                      :items="item.raw.eventos"
-                      item-value="evento"
-                      :search="searchEvento"
-                      style="background-color: transparent"
-                      :items-per-page="1"
-                      :page="pageT[item.raw.areaEspecialidad]"
-                    >
-                      <template v-slot:item="{ item }">
-                        <tr class="v-data-table__tr">
-                          <td
-                            v-for="header in headers"
-                            :key="header.key"
-                            class="text-body-2 text-medium-emphasis py-1"
-                            :data-label="header.title"
-                          >
-                            <!--span
-                            class="text-body-2 text-medium-emphasis"
+                  ></v-text-field-->
+                  <v-data-table
+                    :headers="headers"
+                    :items="item.raw.eventos"
+                    item-value="name"
+                    :search="search"
+                  >
+                    <template v-slot:item="{ item }">
+                      <tr class="v-data-table__tr">
+                        <td
+                          v-for="header in headers"
+                          :key="header.key"
+                          class="text-subtitle-2"
+                        >
+                          <span
+                            class="text-body-1 text-medium-emphasis"
                             style="letter-spacing: normal"
                           >
                             {{ header.title }}
                           </span>
-                          <br /-->
-                            <span class="text-body-2 font-weight-bold">
-                              {{ item[header.key] }}
-                            </span>
-                          </td>
-                        </tr>
-                      </template>
-
-                      <template v-slot:bottom="{ pageCount }">
-                        <v-divider></v-divider>
-                        <div class="text-center py-3 mx-3">
-                          <v-pagination
-                            v-model="pageT[item.raw.areaEspecialidad]"
-                            :active-color="colores.rojoIMPC"
-                            :color="colores.grisOscuro"
-                            :length="pageCount"
-                            prev-icon="mdi-arrow-left"
-                            next-icon="mdi-arrow-right"
-                            variant="flat"
-                            size="small"
-                            total-visible="1"
-                            ellipsis="..."
-                            :show-first-last-page="true"
-                          ></v-pagination>
-                        </div>
-                      </template>
-                    </v-data-table>
-                  </v-card>
-                  <v-card class="py-1" elevation="0" border rounded="0">
-                    <div class="d-flex justify-space-between px-3 my-3">
-                      <div
-                        class="d-flex align-center text-caption text-medium-emphasis me-1"
-                      >
-                        <span class="text-subtitle-1 text-grey-darken-1 font-weight-bold">
-                          Total de horas:
-                        </span>
-                        <span class="text-h6 font-weight-bold" style="color: #b80000">
-                          {{ item.raw.totalHoras }}
-                        </span>
-                      </div>
-
-                      <div
-                        class="d-flex align-center text-caption text-medium-emphasis me-1"
-                      >
-                        <span class="text-subtitle-1 text-grey-darken-1 font-weight-bold">
-                          Total de puntos:
-                        </span>
-                        <span class="text-h6 font-weight-bold" style="color: #b80000">
-                          {{ item.raw.totalPuntos }}
-                        </span>
-                      </div>
+                          <br />
+                          <span class="text-subtitle-1 font-weight-bold">
+                            {{ item[header.key] }}
+                          </span>
+                        </td>
+                      </tr>
+                    </template>
+                  </v-data-table>
+                  <v-divider class="py-5"></v-divider>
+                  <div class="d-flex justify-space-between px-3">
+                    <div
+                      class="d-flex align-center text-caption text-medium-emphasis me-1"
+                    >
+                      <span class="text-subtitle-1 text-grey-darken-1 font-weight-bold">
+                        Total de horas:
+                      </span>
+                      <span class="text-h6 font-weight-bold" style="color: #b80000">
+                        {{ item.raw.totalHoras }}
+                      </span>
                     </div>
-                  </v-card>
+
+                    <div
+                      class="d-flex align-center text-caption text-medium-emphasis me-1"
+                    >
+                      <span class="text-subtitle-1 text-grey-darken-1 font-weight-bold">
+                        Total de puntos:
+                      </span>
+                      <span class="text-h6 font-weight-bold" style="color: #b80000">
+                        {{ item.raw.totalPuntos }}
+                      </span>
+                    </div>
+                  </div>
                 </v-card>
               </v-col>
             </v-row>
@@ -223,8 +194,9 @@
               <v-btn
                 :disabled="page === 1"
                 icon="mdi-arrow-left"
+                density="comfortable"
                 rounded
-                size="small"
+                size="large"
                 :color="colores.rojoIMPC"
                 @click="prevPage"
               ></v-btn>
@@ -236,8 +208,9 @@
               <v-btn
                 :disabled="page >= pageCount"
                 icon="mdi-arrow-right"
+                density="comfortable"
                 rounded
-                size="small"
+                size="large"
                 :color="colores.rojoIMPC"
                 @click="nextPage"
               ></v-btn>
@@ -267,8 +240,6 @@
 import { IonPage, IonContent } from "@ionic/vue";
 import { defineComponent, ref, computed, onMounted, Ref } from "vue";
 import { VDataIterator, VDataTable } from "vuetify/lib/labs/components.mjs";
-import { useDashboardStore } from "@/store/dashboard";
-import { useRoute } from "vue-router";
 
 interface SortItem {
   key: string;
@@ -300,9 +271,6 @@ export default defineComponent({
     VDataTable,
   },
   setup() {
-    const dashStore = useDashboardStore();
-    const route = useRoute();
-
     const headers = ref([
       { title: "Evento", key: "evento", removable: true },
       { title: "Colegio", key: "colegio", removable: true },
@@ -319,10 +287,6 @@ export default defineComponent({
     });
 
     const itemsPorPagina = ref(3);
-    const pageT = ref([]);
-    const pageCount = computed(() => {
-      return Math.ceil(6 / itemsPorPagina.value);
-    });
 
     let search = ref("");
     let searchEvento = ref("");
@@ -354,8 +318,6 @@ export default defineComponent({
     const games = ref<Especialidad[]>([
       {
         areaEspecialidad: "General",
-        totalHoras: 70,
-        totalPuntos: 70,
         eventos: [
           {
             evento: "REFORMAS FISCALES ESTATALES 2023",
@@ -474,19 +436,10 @@ export default defineComponent({
     };
 
     function onClickSeeAll() {
-      itemsPorPagina.value = itemsPorPagina.value === 3 ? games.value.length : 3;
+      itemsPorPagina.value = itemsPorPagina.value === 3 ? games.length : 3;
     }
 
-    async function cargarDesglosePorEjercicio() {
-      try {
-        const id = route.params.id;
-        //await dashStore.desglosePuntosPorEjercicio(id);
-      } catch (error) {}
-    }
-
-    onMounted(() => {
-      cargarDesglosePorEjercicio();
-    });
+    onMounted(() => {});
 
     return {
       search,
@@ -501,8 +454,6 @@ export default defineComponent({
       colores,
       headers,
       customFilter,
-      pageT,
-      pageCount,
     };
   },
 });
@@ -523,14 +474,17 @@ export default defineComponent({
 
 .v-data-table td {
   border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
-  display: grid;
-  text-align: justify;
-  line-height: none;
-  height: auto !important;
+  display: block;
+  text-align: left;
+  line-height: 20px;
+  height: auto;
+
 }
 
 .v-data-table td::before {
   content: attr(data-label);
+  float: left;
+  font-weight: bold;
 }
 
 .v-data-table td:last-child {
