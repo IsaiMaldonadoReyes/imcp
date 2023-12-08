@@ -132,7 +132,6 @@ export default defineComponent({
     const anioActual = ref("");
 
     const dataLoaded = ref(false);
-    //const listadoEjercicios = ref<number[]>([]);
 
     const listadoEjercicios = ref<Array<
       | {
@@ -191,7 +190,7 @@ export default defineComponent({
     });
 
     const { barChartProps: barChartPropsPor4 } = useBarChart({
-      chartData: chartPor4, // Cambié la variable a chartPor4
+      chartData: chartPor4,
       options,
     });
 
@@ -200,15 +199,10 @@ export default defineComponent({
       storage.create();
 
       const rfc = await storage.get("rfc");
-      const token = await storage.get("token");
-
-      //console.log(token);
-
+ 
       try {
 
         await dashStore.loadEjercicios(rfc);
-
-        //console.log(dashStore.object.ejercicios);
 
         const ejercicios: any[] = Array.isArray(dashStore.object.ejercicios.dataset) ? dashStore.object.ejercicios.dataset : [];
 
