@@ -141,7 +141,6 @@
                       :search="busquedaEvento"
                       item-value="evento"
                       style="background-color: transparent"
-                      no-data-text="No hay eventos con esa coincidencia"
                     >
                       <template v-slot:item="{ item }">
                         <tr class="v-data-table__tr">
