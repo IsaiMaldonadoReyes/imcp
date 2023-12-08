@@ -107,7 +107,7 @@
             </v-col>
           </v-row>
           <v-divider></v-divider>
-          <v-card-actions class="justify-end">
+          <v-card-actions>
             <v-btn
               :color="colores.grisOscuro"
               prepend-icon="mdi-eye-arrow-right-outline"
@@ -115,7 +115,7 @@
               variant="flat"
             >
               <template v-slot:prepend>
-                <v-icon class="mx-2" size="large"></v-icon>
+                <v-icon class="mr-3" size="large"></v-icon>
               </template>
             </v-btn>
           </v-card-actions>
