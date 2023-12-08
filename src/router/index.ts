@@ -52,7 +52,7 @@ const routes = [
         component: CertificadoEstatus,
       },
       {
-        path: "certificadoPuntos/:id", // certificado estatus
+        path: "certificadoPuntos/:idCertificado/:anhioInicio/:anhioFin/:numCertificado", // certificado estatus
         name: "certificadoPuntos",
         component: CertificadoPuntos
       },

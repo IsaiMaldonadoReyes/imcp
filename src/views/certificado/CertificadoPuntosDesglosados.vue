@@ -11,7 +11,7 @@
         </v-card>
         <v-card class="my-3" elevation="0" border>
           <v-card-title class="text-h6 font-weight-bold">
-            Total de puntos por evento
+            Total de puntos por certificado
           </v-card-title>
 
           <v-card-text>
@@ -183,13 +183,14 @@
 import { IonPage, IonContent } from "@ionic/vue";
 import { defineComponent, ref, computed, onMounted, Ref } from "vue";
 import { VDataIterator, VDataTable } from "vuetify/lib/labs/components.mjs";
-import { useDashboardStore } from "@/store/dashboard";
+import { useCertificadoStore } from "@/store/certificado";
 import { useRoute } from "vue-router";
 
 
 export interface Result {
   anhio: string
   CuentasUsuarios: CuentasUsuarios
+  certificado: Certificado
   total: number
   PuntosEvento: PuntosEvento[]
   totales_general: TotalesGeneral
@@ -216,6 +217,33 @@ export interface CuentasUsuarios {
   colegio: string
 }
 
+export interface Certificado {
+  idCertificado: number
+  idEstudiante: number
+  idColegio: number
+  idTipo: number
+  idTipoCertificado: number
+  idCertificadoDis: number
+  numCertificado: string
+  fechaVigencia: string
+  fechaInicio: string
+  cadenaCertificado: string
+  cadenaUrl: string
+  statusCertificado: string
+  proviene: string
+  idCertificadoNuevo: number
+  status: string
+  idCertificadoViejo: number
+  nombre: string
+  puntosObtenidos: number
+  puntosTotales: number
+  statusAutorizar: string
+  infoCertificado: string
+  noPedidoXpertshop: string
+  dateupdate: string
+  datecreation: string
+}
+
 export interface PuntosEvento {
   areaEspecialidad: string
   dataset: Dataset[]
@@ -223,7 +251,6 @@ export interface PuntosEvento {
 }
 
 export interface Dataset {
-  NombreEspecialidad: string
   EventosNombreEvento: string
   NombreColegio: string
   NumeroRegistro: string
@@ -240,12 +267,13 @@ export interface Total {
 
 export interface TotalesGeneral {
   TotalPuntos: string
-  SumEspecialidadTotal: number,
-  sumEspecialidadTotalHora: number,
+  SumEspecialidadTotal: number
+  sumEspecialidadTotalHora: number
 }
 
+
 export default defineComponent({
-  name: "desglosePuntos",
+  name: "certificadoPuntosDesglosados",
   components: {
     IonContent,
     IonPage,
@@ -253,7 +281,7 @@ export default defineComponent({
     VDataTable,
   },
   setup() {
-    const dashStore = useDashboardStore();
+    const certificadoStore = useCertificadoStore();
     const eventosPorPagina = ref(1);
     const itemsPorPagina = ref(3);
     const paginaEvento = ref([]);
@@ -281,7 +309,7 @@ export default defineComponent({
     });
 
     const desgloseEspecialidades = ref<Result>({
-      anhio: '',
+      anhio: "",
       CuentasUsuarios: {
         cuentasUsuariosId: 0,
         idColegio: 0,
@@ -302,9 +330,39 @@ export default defineComponent({
         status: "",
         colegio: "",
       },
+      certificado: {
+        idCertificado: 0,
+        idEstudiante: 0,
+        idColegio: 0,
+        idTipo: 0,
+        idTipoCertificado: 0,
+        idCertificadoDis: 0,
+        numCertificado: "",
+        fechaVigencia: "",
+        fechaInicio: "",
+        cadenaCertificado: "",
+        cadenaUrl: "",
+        statusCertificado: "",
+        proviene: "",
+        idCertificadoNuevo: 0,
+        status: "",
+        idCertificadoViejo: 0,
+        nombre: "",
+        puntosObtenidos: 0,
+        puntosTotales: 0,
+        statusAutorizar: "",
+        infoCertificado: "",
+        noPedidoXpertshop: "",
+        dateupdate: "",
+        datecreation: "",
+      },
       total: 0,
       PuntosEvento: [],
-      totales_general: { TotalPuntos: '', SumEspecialidadTotal: 0, sumEspecialidadTotalHora: 0 }
+      totales_general: {
+        TotalPuntos: "",
+        SumEspecialidadTotal: 0,
+        sumEspecialidadTotalHora: 0,
+      }
     });
 
     const keys = ref([
@@ -344,30 +402,31 @@ export default defineComponent({
       }
     });
 
-    async function cargarDesglosePorEjercicio(id: any) {
+    async function cargarDesglosePorEjercicio(idCertificado: any, anhio: any) {
       try {
-        await dashStore.desglosePuntosPorEjercicio(id);
-        desgloseEspecialidades.value = dashStore.object.desglosePuntos as Result;
+        await certificadoStore.desglosePuntosPorCertificado(idCertificado, anhio);
+        desgloseEspecialidades.value = certificadoStore.object.desglosePuntos as Result;
 
       } catch (error) { }
     }
 
-    async function cargarPdfDesglosePorEjercicio(id: any) {
+    async function cargarPdfDesglosePorEjercicio(idCertificado: any, anhio: any) {
       try {
-        await dashStore.desglosePuntosPorEjercicioPdf(id);
-        rutaPdf.value = dashStore.object.rutaPdf;
+        await certificadoStore.desglosePuntosPorEjercicioPdf(idCertificado, anhio);
+        rutaPdf.value = certificadoStore.object.rutaPdf;
 
       } catch (error) { }
     }
 
-    function descargarPdf() {
+    async function descargarPdf() {
       window.open(rutaPdf.value, "_blank");
     }
 
     onMounted(() => {
-      const id = route.params.id;
-      cargarDesglosePorEjercicio(id);
-      cargarPdfDesglosePorEjercicio(id);
+      const idCertificado = route.params.idCertificado;
+      const anhio = route.params.anhio;
+      cargarDesglosePorEjercicio(idCertificado, anhio);
+      cargarPdfDesglosePorEjercicio(idCertificado, anhio);
     });
 
     return {
