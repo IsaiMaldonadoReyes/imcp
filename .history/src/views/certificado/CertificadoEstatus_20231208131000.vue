@@ -346,14 +346,14 @@ export default defineComponent({
     });
 
     return {
-      keys,
-      keysProps,
-      busquedaCertificado,
       certificados,
       colores,
-      itemsPorPagina,
       sortBy,
       sortDesc,
+      itemsPorPagina,
+      busquedaCertificado,
+      keys,
+      keysProps,
     };
   },
 });

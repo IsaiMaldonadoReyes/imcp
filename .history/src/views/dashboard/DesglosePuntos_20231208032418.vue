@@ -104,20 +104,6 @@
             </v-row>
           </template>
 
-          <template v-slot:no-data>
-            <v-card
-              border
-              class="my-5 pa-10 text-center"
-              color="transparent"
-              elevation="0"
-            >
-              <v-icon color="grey-lighten-1" size="60">mdi-database-eye-off</v-icon>
-              <v-card-text class="text-grey-darken-1">
-                No se encontraron especialidades que coincidan con la búsqueda.
-              </v-card-text>
-            </v-card>
-          </template>
-
           <template v-slot:default="{ items }">
             <v-row dense>
               <v-col v-for="item in items" :key="item.raw.areaEspecialidad" cols="12">
@@ -173,21 +159,6 @@
                             </span>
                           </td>
                         </tr>
-                      </template>
-                      <template v-slot:no-data>
-                        <v-card
-                          border
-                          class="my-5 pa-10 text-center"
-                          color="transparent"
-                          elevation="0"
-                        >
-                          <v-icon color="grey-lighten-1" size="60">
-                            mdi-database-eye-off
-                          </v-icon>
-                          <v-card-text class="text-grey-darken-1">
-                            No se encontraron eventos que coincidan con la búsqueda.
-                          </v-card-text>
-                        </v-card>
                       </template>
                       <template v-slot:bottom="{ pageCount }">
                         <v-divider />
@@ -301,19 +272,14 @@
           <v-card-actions>
             <v-btn
               :color="colores.verdeBoton"
+              @click="descargarPdf"
               block
               class="text-none"
-              prepend-icon="mdi-file-download-outline"
               rounded="large"
               size="large"
               text="DESCARGAR REPORTE PDF"
               variant="flat"
-              @click="descargarPdf"
-            >
-              <template v-slot:prepend>
-                <v-icon class="mr-3" size="large"></v-icon>
-              </template>
-            </v-btn>
+            />
           </v-card-actions>
         </v-card>
       </v-container>

@@ -12,19 +12,19 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card class="my-2" elevation="0" border>
+        <v-card class="my-4" elevation="0" border>
           <v-card-text>
             <v-table density="compact">
               <tbody>
                 <tr>
                   <td
-                    class="ma-1 pa-1 text-subtitle-1 text-grey-darken-1"
-                    style="line-height: 1.2em"
+                    class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1"
+                    style="line-height: 1em"
                   >
                     Periodo:
                   </td>
                   <td
-                    class="ma-1 pa-2 text-subtitle-1 font-weight-bold"
+                    class="ma-0 pa-1 text-subtitle-1 font-weight-bold"
                     style="line-height: 1.2em"
                   >
                     01 de Nov al 30 de Nov
@@ -32,14 +32,14 @@
                 </tr>
                 <tr>
                   <td
-                    class="ma-1 pa-1 text-subtitle-1 text-grey-darken-1"
-                    style="line-height: 1.2em"
+                    class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1"
+                    style="line-height: 1em"
                   >
                     Núm. Certificado:
                   </td>
                   <td
-                    class="ma-1 pa-1 text-subtitle-1 font-weight-bold text-justify"
-                    style="line-height: 1.2em"
+                    class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify"
+                    style="line-height: 1em"
                   >
                     0000111
                   </td>

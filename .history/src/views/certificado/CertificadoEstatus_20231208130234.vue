@@ -134,9 +134,8 @@
                       <div
                         class="headline text-subtitle-1 font-weight-bold"
                         :style="`color: ${item.color}`"
-                      >
-                        {{ item.ejercicio }}
-                      </div>
+                        v-text="item.ejercicio"
+                      ></div>
                     </template>
                     <div>
                       <h6 class="headline font-weight-light mb-4 text-grey-darken-1">
@@ -165,7 +164,7 @@
                   v-else
                   :color="colores.grisOscuro"
                   block
-                  prepend-icon="mdi-eye-arrow-right-outline"
+                  prepend-icon="mdi-file-certificate-outline"
                   size="large"
                   text="Ver detalle"
                   variant="flat"
@@ -239,10 +238,10 @@ export default defineComponent({
     VDataIterator,
   },
   setup() {
-    const itemsPorPagina = ref(3);
-    let busquedaCertificado = ref("");
     let sortBy = ref([]);
     let sortDesc = ref("asc");
+    const itemsPorPagina = ref(3);
+    let busquedaCertificado = ref("");
 
     const colores = ref({
       rojoIMPC: "#B20000",
@@ -346,14 +345,14 @@ export default defineComponent({
     });
 
     return {
-      keys,
-      keysProps,
-      busquedaCertificado,
       certificados,
       colores,
-      itemsPorPagina,
       sortBy,
       sortDesc,
+      itemsPorPagina,
+      busquedaCertificado,
+      keys,
+      keysProps,
     };
   },
 });

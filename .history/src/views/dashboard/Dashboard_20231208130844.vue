@@ -86,9 +86,9 @@
                     :to="{ name: 'desglosePuntos', params: { id: anioActual } }"
                     block
                     prepend-icon="mdi-eye-arrow-right-outline"
-                    size="large"
                     text="Desglose de puntos"
                     variant="flat"
+                    size="large"
                   >
                     <template v-slot:prepend>
                       <v-icon class="mr-3" size="large"></v-icon>

@@ -239,10 +239,10 @@ export default defineComponent({
     VDataIterator,
   },
   setup() {
-    const itemsPorPagina = ref(3);
-    let busquedaCertificado = ref("");
     let sortBy = ref([]);
     let sortDesc = ref("asc");
+    const itemsPorPagina = ref(3);
+    let busquedaCertificado = ref("");
 
     const colores = ref({
       rojoIMPC: "#B20000",
@@ -346,14 +346,14 @@ export default defineComponent({
     });
 
     return {
-      keys,
-      keysProps,
-      busquedaCertificado,
       certificados,
       colores,
-      itemsPorPagina,
       sortBy,
       sortDesc,
+      itemsPorPagina,
+      busquedaCertificado,
+      keys,
+      keysProps,
     };
   },
 });

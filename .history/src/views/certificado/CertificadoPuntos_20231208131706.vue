@@ -12,7 +12,7 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card class="my-2" elevation="0" border>
+        <v-card class="my-4" elevation="0" border>
           <v-card-text>
             <v-table density="compact">
               <tbody>
@@ -24,7 +24,7 @@
                     Periodo:
                   </td>
                   <td
-                    class="ma-1 pa-2 text-subtitle-1 font-weight-bold"
+                    class="ma-1 pa-1 text-subtitle-1 font-weight-bold"
                     style="line-height: 1.2em"
                   >
                     01 de Nov al 30 de Nov
