@@ -73,20 +73,26 @@ export default defineComponent({
     const formEl = ref<any>(null);
 
     const form = ref({ rfc: "" });
+    const token = ref("");
 
     const rules = {
       required: (v: string) => !!v || "Este campo es requerido",
       validRFC: (v: string) => rfcRegex.test(v) || "RFC no válido",
     };
+    const tokenAuth = ref(false);
 
     async function sendPassword() {
       const rfc = form.value.rfc;
       try {
-        //await session.resetPassword(rfc);
+        let data = new FormData();
+        data.append('emailRecupera', form.value.rfc);
+        data.append('token', token.value);
 
-        await showAlert("Recuperación de contraseña", "Se ha enviado un correo para la recuperación de su contraseña");
+        await session.resetPassword(data);
 
-        form.value.rfc = "";
+        await showAlert("Recuperación de contraseña", session.responseMessage);
+
+        await formEl.value?.reset();
       } catch (error) {
         console.log(error);
         await showAlert("Recuperación de contraseña", "Ha ocurrido un error durante el envío de la petición");
@@ -102,12 +108,12 @@ export default defineComponent({
 
           await getToken();
 
-          try {
-            await sendPassword();
-
-            await formEl.value?.resetValidation();
-          } catch (error) {
-            console.log(error);
+          if (tokenAuth.value == true) {
+            try {
+              await sendPassword();
+            } catch (error) {
+              console.log(error);
+            }
           }
         }
       } catch (error) {
@@ -118,19 +124,23 @@ export default defineComponent({
 
     async function getToken() {
       try {
+        await session.getTokenAuth();
+
         const storage = new Storage();
         storage.create();
-        const tok = await storage.get("token");
+        token.value = await storage.get("token");
 
-        console.log(tok);
+        //console.log(token.value);
 
-        if (tok == "") {
-          await session.getTokenAuth();
+        if (token.value == "" || token.value == null) {
+          await showAlert("Ocurrio un problema con el servidor", "Cierre la aplicación e intente más tarde");
+        } else {
+          tokenAuth.value = true;
         }
       }
       catch (error) {
         await showAlert("Ocurrio un problema con el servidor", "Cierre la aplicación e intente más tarde");
-        throw new Error("Error al obtener el token resetPassword");
+        throw new Error("Error al obtener el token");
       }
     }
 
