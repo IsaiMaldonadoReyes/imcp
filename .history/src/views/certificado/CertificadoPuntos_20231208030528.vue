@@ -115,7 +115,7 @@
               variant="flat"
             >
               <template v-slot:prepend>
-                <v-icon class="mx-2" size="large"></v-icon>
+                <v-icon class="mx-3" size="large"></v-icon>
               </template>
             </v-btn>
           </v-card-actions>

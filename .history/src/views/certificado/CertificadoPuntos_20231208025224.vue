@@ -13,23 +13,19 @@
           </v-card-item>
         </v-card>
 
-        <v-card
-          border
-          class="my-4 py-1"
-          elevation="0"
-          v-for="item in ejercicios"
-          :key="item.ejercicio"
-        >
+        <v-card border class="my-2 py-1" elevation="0">
           <div class="d-flex justify-space-between px-3 my-3">
             <div class="d-flex align-center text-caption text-medium-emphasis me-1">
-              <span class="text-h6 text-grey-darken-3 font-weight-bold">
-                {{ item.ejercicio }}
+              <span class="text-subtitle-1 text-grey-darken-3 font-weight-bold">
+                2023
               </span>
             </div>
 
             <div class="d-flex align-center text-caption text-medium-emphasis me-1">
-              <span class="text-h6 text-grey-darken-1 font-weight-bold"> TOTAL: </span>
-              <span class="text-h6 font-weight-bold" style="color: #b80000">
+              <span class="text-subtitle-1 text-grey-darken-1 font-weight-bold">
+                TOTAL:
+              </span>
+              <span class="text-subtitle-1 font-weight-bold" style="color: #b80000">
                 48 puntos
               </span>
             </div>
@@ -39,13 +35,13 @@
             <v-col cols="4">
               <v-card
                 class="ms-1 my-1 text-center"
-                :color="item.color"
+                :color="colores.verdeClaro"
                 elevation="0"
                 rounded="0"
               >
                 <v-card-text
                   :style="`color:
-                  ${item.colorFuerte}; line-height: 1 !important; height: 55px;`"
+                  ${colores.verdeBoton}; line-height: 1 !important; height: 55px;`"
                 >
                   <span
                     class="text-subtitle-2 font-weight-bold"
@@ -54,7 +50,10 @@
                     Puntaje principal
                   </span>
                 </v-card-text>
-                <v-card-item style="line-height: 1 !important; height: 50px">
+                <v-card-item
+                  :style="`color:
+                  ${colores.verdeBoton}; line-height: 1 !important; height: 50px;`"
+                >
                   <span class="text-h6 text-grey-darken-1">20/20</span>
                 </v-card-item>
               </v-card>
@@ -62,13 +61,13 @@
             <v-col cols="4">
               <v-card
                 class="ms-1 my-1 text-center"
-                :color="item.color"
+                :color="colores.verdeClaro"
                 elevation="0"
                 rounded="0"
               >
                 <v-card-text
                   :style="`color:
-                  ${item.colorFuerte}; line-height: 1 !important; height: 55px;`"
+                  ${colores.verdeBoton}; line-height: 1 !important; height: 55px;`"
                 >
                   <span
                     class="text-subtitle-2 font-weight-bold"
@@ -77,7 +76,10 @@
                     Puntaje otros cursos
                   </span>
                 </v-card-text>
-                <v-card-item style="line-height: 1 !important; height: 50px">
+                <v-card-item
+                  :style="`color:
+                  ${colores.verdeBoton}; line-height: 1 !important; height: 50px;`"
+                >
                   <span class="text-h6 text-grey-darken-1">55/55</span>
                 </v-card-item>
               </v-card>
@@ -85,13 +87,13 @@
             <v-col cols="4">
               <v-card
                 class="ms-1 me-1 my-1 text-center"
-                :color="item.color"
+                :color="colores.verdeClaro"
                 elevation="0"
                 rounded="0"
               >
                 <v-card-text
                   :style="`color:
-                  ${item.colorFuerte}; line-height: 1 !important; height: 55px;`"
+                  ${colores.verdeBoton}; line-height: 1 !important; height: 55px;`"
                 >
                   <span
                     class="text-subtitle-2 font-weight-bold"
@@ -100,22 +102,27 @@
                     Puntaje ética
                   </span>
                 </v-card-text>
-                <v-card-item style="line-height: 1 !important; height: 50px">
+                <v-card-item
+                  :style="`color:
+                  ${colores.verdeBoton}; line-height: 1 !important; height: 50px;`"
+                >
                   <span class="text-h6 text-grey-darken-1">5/5</span>
                 </v-card-item>
               </v-card>
             </v-col>
           </v-row>
           <v-divider></v-divider>
-          <v-card-actions class="justify-end">
+          <v-card-actions>
             <v-btn
               :color="colores.grisOscuro"
+              block
               prepend-icon="mdi-eye-arrow-right-outline"
+              size="large"
               text="Más información"
               variant="flat"
             >
               <template v-slot:prepend>
-                <v-icon class="mx-2" size="large"></v-icon>
+                <v-icon class="mr-3" size="large"></v-icon>
               </template>
             </v-btn>
           </v-card-actions>
@@ -138,6 +145,11 @@ export default defineComponent({
     VDataIterator,
   },
   setup() {
+    let sortBy = ref([]);
+    let sortDesc = ref("asc");
+    const itemsPorPagina = ref(3);
+    let busquedaCertificado = ref("");
+
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
@@ -146,40 +158,109 @@ export default defineComponent({
       verdeClaro: "#ECF3E4",
     });
 
-    const ejercicios = ref([
+    const certificados = ref([
       {
-        color: "#ECF3E4",
-        colorFuerte: "#468C00",
-        icon: "mdi-check-bold",
-        ejercicio: 2023,
-        cumpliento: "Si cumplió",
+        certificado: "EUC 2023",
+        numCertificado: "0000111",
+        fecha: "2023-01-10",
+        sector: "Finanzas",
+        estatus: false,
+        ejercicios: [
+          {
+            color: "#468C00",
+            icon: "mdi-check-bold",
+            ejercicio: 2023,
+            cumpliento: "Si cumplió",
+          },
+          {
+            color: "#B20000",
+            icon: "mdi-close-thick",
+            ejercicio: 2022,
+            cumpliento: "No cumplió",
+          },
+          {
+            color: "#468C00",
+            icon: "mdi-check-bold",
+            ejercicio: 2021,
+            cumpliento: "Si cumplió",
+          },
+          {
+            color: "#B20000",
+            icon: "mdi-close-thick",
+            ejercicio: 2020,
+            cumpliento: "No cumplió",
+          },
+        ],
       },
       {
-        color: "#FAE6EA",
-        colorFuerte: "#B20000",
-        icon: "mdi-close-thick",
-        ejercicio: 2022,
-        cumpliento: "No cumplió",
-      },
-      {
-        color: "#ECF3E4",
-        colorFuerte: "#468C00",
-        icon: "mdi-check-bold",
-        ejercicio: 2021,
-        cumpliento: "Si cumplió",
-      },
-      {
-        color: "#FAE6EA",
-        colorFuerte: "#B20000",
-        icon: "mdi-close-thick",
-        ejercicio: 2020,
-        cumpliento: "No cumplió",
+        certificado: "Fiscal",
+        numCertificado: "0000222",
+        fecha: "2023-01-10",
+        sector: "Finanzas",
+        estatus: true,
+        ejercicios: [
+          {
+            color: "#468C00",
+            icon: "mdi-check-bold",
+            ejercicio: 2023,
+            cumpliento: "Si cumplió",
+          },
+          {
+            color: "#468C00",
+            icon: "mdi-check-bold",
+            ejercicio: 2022,
+            cumpliento: "Si cumplió",
+          },
+        ],
       },
     ]);
 
+    const keys = ref([
+      {
+        key: "certificado",
+        order: sortDesc,
+      },
+      {
+        key: "numCertificado",
+        order: sortDesc,
+      },
+      {
+        key: "sector",
+        order: sortDesc,
+      },
+    ]);
+
+    const keysProps = ref((item: any) => {
+      switch (item.key) {
+        case "certificado":
+          return {
+            title: "Certificado",
+            value: [item],
+          };
+        case "numCertificado":
+          return {
+            title: "Núm. Certificado",
+            value: [item],
+          };
+        case "sector":
+          return {
+            title: "Sector",
+            value: [item],
+          };
+        default:
+          return [];
+      }
+    });
+
     return {
-      ejercicios,
+      certificados,
       colores,
+      sortBy,
+      sortDesc,
+      itemsPorPagina,
+      busquedaCertificado,
+      keys,
+      keysProps,
     };
   },
 });

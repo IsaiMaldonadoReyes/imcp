@@ -15,7 +15,7 @@
 
         <v-card
           border
-          class="my-4 py-1"
+          class="my-4 py-3f"
           elevation="0"
           v-for="item in ejercicios"
           :key="item.ejercicio"
@@ -107,15 +107,16 @@
             </v-col>
           </v-row>
           <v-divider></v-divider>
-          <v-card-actions class="justify-end">
+          <v-card-actions>
             <v-btn
               :color="colores.grisOscuro"
+              block
               prepend-icon="mdi-eye-arrow-right-outline"
               text="Más información"
               variant="flat"
             >
               <template v-slot:prepend>
-                <v-icon class="mx-2" size="large"></v-icon>
+                <v-icon class="mr-3" size="large"></v-icon>
               </template>
             </v-btn>
           </v-card-actions>
