@@ -30,12 +30,10 @@
             <span class="text-subtitle-1 text-grey-darken-1">Fecha emisión:</span>
             <span class="text-subtitle-1 font-weight-bold"> 2019-02-01 </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">
-              Cumplimiento NDPCA artículo 2.9:
-            </span>
-            <span class="text-subtitle-1 font-weight-bold text-red-darken-1">
-              Inactivo
-            </span>
+            <span class="text-subtitle-1 text-grey-darken-1"
+              >Cumplimiento NDPCA artículo 2.9:</span
+            >
+            <span class="text-subtitle-1 font-weight-bold"> Inactivo </span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1">Sector:</span>
             <span class="text-subtitle-1 font-weight-bold">
@@ -48,24 +46,24 @@
         </v-card>
 
         <v-data-iterator
-          :items-per-page="itemsPorPagina"
           :items="games"
-          :search="busquedaEspecialidad"
-          :sort-by="sortBy"
           item-value="areaEspecialidad"
+          :items-per-page="itemsPorPagina"
+          :search="search"
+          :sort-by="sortBy"
         >
           <template v-slot:header>
             <v-row dense>
               <v-col cols="12" lg="6" md="12" sm="12" xs="12">
                 <v-text-field
-                  v-model="busquedaEspecialidad"
+                  v-model="search"
                   clearable
                   density="comfortable"
                   hide-details
                   placeholder="Buscar especialidad"
                   prepend-inner-icon="mdi-magnify"
                   variant="solo"
-                />
+                ></v-text-field>
               </v-col>
               <v-col cols="12" lg="6" md="12" sm="12" xs="12">
                 <v-row dense>
@@ -78,22 +76,23 @@
                       hide-details
                       placeholder="Ordenar por"
                       variant="solo"
-                    />
+                    ></v-select>
                   </v-col>
                   <v-col cols="4" class="d-flex justify-end">
                     <v-btn-toggle v-model="sortDesc" elevation="2">
                       <v-btn
+                        size="small"
+                        color="#B20000"
                         :value="'asc'"
-                        color="#B20000"
                         icon="mdi-arrow-up"
-                        size="small"
-                      />
+                      >
+                      </v-btn>
                       <v-btn
-                        :value="'desc'"
-                        color="#B20000"
-                        icon="mdi-arrow-down"
                         size="small"
-                      />
+                        color="#B20000"
+                        :value="'desc'"
+                        icon="mdi-arrow-down"
+                      ></v-btn>
                     </v-btn-toggle>
                   </v-col>
                 </v-row>
@@ -104,7 +103,7 @@
           <template v-slot:default="{ items }">
             <v-row dense>
               <v-col v-for="item in items" :key="item.raw.title" cols="12">
-                <v-card border class="mb-3" color="transparent" elevation="0">
+                <v-card class="mb-3" elevation="0" border color="transparent">
                   <v-card class="py-1" elevation="0" border rounded="0">
                     <v-list-item class="">
                       <template v-slot:title>
@@ -120,79 +119,84 @@
                       </span>
                     </v-list-item>
                   </v-card>
-
                   <v-text-field
-                    v-model="busquedaEvento"
-                    class="ma-3"
+                    v-model="searchEvento"
                     clearable
                     density="comfortable"
                     hide-details
                     placeholder="Buscar evento"
                     prepend-inner-icon="mdi-magnify"
                     variant="solo"
-                  />
+                    class="my-3 mx-3"
+                    border
+                  ></v-text-field>
 
-                  <v-card border class="ma-3" elevation="0">
+                  <v-card class="my-3 mx-3" elevation="0" border>
                     <v-data-table
-                      :headers="encabezadosEvento"
-                      :items-per-page="eventosPorPagina"
+                      :headers="headers"
                       :items="item.raw.eventos"
-                      :page="paginaEvento[item.raw.areaEspecialidad]"
-                      :search="busquedaEvento"
                       item-value="evento"
+                      :search="searchEvento"
                       style="background-color: transparent"
+                      :items-per-page="eventosPorPagina"
+                      :page="pageT[item.raw.areaEspecialidad]"
                     >
                       <template v-slot:item="{ item }">
                         <tr class="v-data-table__tr">
                           <td
-                            v-for="encabezado in encabezadosEvento"
-                            :key="encabezado.key"
-                            :data-label="encabezado.title"
+                            v-for="header in headers"
+                            :key="header.key"
                             class="text-body-2 text-medium-emphasis py-1"
+                            :data-label="header.title"
                           >
+                            <!--span
+                            class="text-body-2 text-medium-emphasis"
+                            style="letter-spacing: normal"
+                          >
+                            {{ header.title }}
+                          </span>
+                          <br /-->
                             <span class="text-body-2 font-weight-bold">
-                              {{ item[encabezado.key] }}
+                              {{ item[header.key] }}
                             </span>
                           </td>
                         </tr>
                       </template>
 
                       <template v-slot:bottom="{ pageCount }">
-                        <v-divider />
-                        <div class="text-center my-3 mx-3">
+                        <v-divider></v-divider>
+                        <div class="text-center py-3 mx-3">
                           <v-switch
-                            v-model="eventosPorPagina"
-                            :base-color="colores.grisOscuro"
-                            :color="colores.rojoIMPC"
-                            :false-value="1"
-                            :inline="false"
-                            :true-value="item.raw.eventos.length"
-                            class="switch-all my-4 font-weight-bold d-flex justify-center"
-                            density="compact"
-                            false-icon="mdi-eye-off-outline"
+                            @click="
+                              eventosPorPagina =
+                                eventosPorPagina === 1 ? item.raw.eventos.length : 1
+                            "
+                            :color="colores.grisOscuro"
+                            class="my-4 text-none"
                             hide-details
                             inset
-                            label="Ver todos los eventos"
-                            true-icon="mdi-eye-outline"
-                          />
+                            label="Ver todo"
+                          >
+                            <span class="text-none">Ver todo</span>
+                          </v-switch>
                           <v-pagination
-                            v-model="paginaEvento[item.raw.areaEspecialidad]"
+                            v-model="pageT[item.raw.areaEspecialidad]"
                             :active-color="colores.rojoIMPC"
                             :color="colores.grisOscuro"
                             :length="pageCount"
-                            :show-first-last-page="true"
-                            ellipsis="..."
-                            next-icon="mdi-arrow-right"
                             prev-icon="mdi-arrow-left"
+                            next-icon="mdi-arrow-right"
+                            variant="flat"
                             size="small"
                             total-visible="1"
-                            variant="flat"
-                          />
+                            ellipsis="..."
+                            :show-first-last-page="true"
+                          ></v-pagination>
                         </div>
                       </template>
                     </v-data-table>
                   </v-card>
-                  <v-card border class="py-1" elevation="0" rounded="0">
+                  <v-card class="py-1" elevation="0" border rounded="0">
                     <div class="d-flex justify-space-between px-3 my-3">
                       <div
                         class="d-flex align-center text-caption text-medium-emphasis me-1"
@@ -224,58 +228,46 @@
 
           <template v-slot:footer="{ page, pageCount, prevPage, nextPage }">
             <div class="d-flex align-center justify-center pa-4">
-              <v-switch
-                v-model="itemsPorPagina"
-                :base-color="colores.grisOscuro"
-                :color="colores.rojoIMPC"
-                :false-value="3"
-                :inline="false"
-                :true-value="games.length"
-                class="switch-all font-weight-bold d-flex justify-center"
-                density="compact"
-                false-icon="mdi-eye-off-outline"
-                hide-details
-                inset
-                label="Ver todas las especialidades"
-                true-icon="mdi-eye-outline"
-              />
+              <v-btn @click="onClickSeeAll" :color="colores.grisOscuro">
+                <span class="text-none">Ver todo</span>
+              </v-btn>
             </div>
             <div class="d-flex align-center justify-center pa-4">
               <v-btn
-                :color="colores.rojoIMPC"
                 :disabled="page === 1"
                 icon="mdi-arrow-left"
                 rounded
                 size="small"
+                :color="colores.rojoIMPC"
                 @click="prevPage"
-              />
+              ></v-btn>
 
               <div class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold">
                 Página {{ page }} de {{ pageCount }}
               </div>
 
               <v-btn
-                :color="colores.rojoIMPC"
                 :disabled="page >= pageCount"
                 icon="mdi-arrow-right"
                 rounded
                 size="small"
+                :color="colores.rojoIMPC"
                 @click="nextPage"
-              />
+              ></v-btn>
             </div>
           </template>
         </v-data-iterator>
-        <v-card color="transparent" rounded="lg" class="mx-auto my-4" elevation="0">
+        <v-card class="mx-auto my-4" elevation="0" rounded="lg" color="transparent">
           <v-card-actions>
             <v-btn
               :color="colores.verdeBoton"
-              :to="{ path: 'desglosePuntos' }"
               block
-              class="text-none"
-              rounded="large"
               size="large"
+              class="text-none"
               text="DESCARGAR REPORTE PDF"
               variant="flat"
+              :to="{ path: 'desglosePuntos' }"
+              rounded="large"
             />
           </v-card-actions>
         </v-card>
@@ -291,6 +283,27 @@ import { VDataIterator, VDataTable } from "vuetify/lib/labs/components.mjs";
 import { useDashboardStore } from "@/store/dashboard";
 import { useRoute } from "vue-router";
 
+interface SortItem {
+  key: string;
+  order: Ref<string>;
+}
+
+interface Evento {
+  evento: string;
+  colegio: string;
+  numRegistro: string;
+  fecha: string;
+  totalHoras: number;
+  totalPuntos: number;
+}
+
+interface Especialidad {
+  areaEspecialidad: string;
+  eventos: Evento[];
+  totalHoras: number;
+  totalPuntos: number;
+}
+
 export default defineComponent({
   name: "desglosePuntos",
   components: {
@@ -301,24 +314,16 @@ export default defineComponent({
   },
   setup() {
     const dashStore = useDashboardStore();
-    const eventosPorPagina = ref(1);
-    const itemsPorPagina = ref(3);
-    const paginaEvento = ref([]);
     const route = useRoute();
-    let busquedaEspecialidad = ref("");
-    let busquedaEvento = ref("");
-    let sortBy = ref([]);
-    let sortDesc = ref("asc");
 
-    const encabezadosEvento = ref([
-      { title: "Evento", key: "evento" },
-      { title: "Colegio", key: "colegio" },
-      { title: "Núm. Registro", key: "numRegistro" },
-      { title: "Fecha", key: "fecha" },
-      { title: "Horas", key: "totalHoras" },
-      { title: "Puntos", key: "totalPuntos" },
+    const headers = ref([
+      { title: "Evento", key: "evento", removable: true },
+      { title: "Colegio", key: "colegio", removable: true },
+      { title: "Núm. Registro", key: "numRegistro", removable: true },
+      { title: "Fecha", key: "fecha", removable: true },
+      { title: "Horas", key: "totalHoras", removable: true },
+      { title: "Puntos", key: "totalPuntos", removable: true },
     ]);
-
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
@@ -326,7 +331,41 @@ export default defineComponent({
       verdeBoton: "#468C00",
     });
 
-    const games = ref([
+    const itemsPorPagina = ref(3);
+    const eventosPorPagina = ref(1);
+    const pageT = ref([]);
+    const pageCount = computed(() => {
+      return Math.ceil(6 / itemsPorPagina.value);
+    });
+
+    let search = ref("");
+    let searchEvento = ref("");
+
+    function customFilter(value: string, query: string, item: any) {
+      if (search.value === "" || search.value === null) {
+        // Si la búsqueda está vacía, muestra todos los elementos
+        return true;
+      }
+
+      console.log(search.value);
+      return searchInItem(item.raw);
+    }
+
+    const searchInItem = (item: Especialidad): boolean => {
+      if (item.areaEspecialidad.toLowerCase().includes(search.value.toLowerCase())) {
+        return true;
+      }
+
+      if (item.eventos && item.eventos.length > 0) {
+        return item.eventos.some((eventoI) =>
+          eventoI.evento.toLowerCase().includes(search.value.toLowerCase())
+        );
+      }
+
+      return false;
+    };
+
+    const games = ref<Especialidad[]>([
       {
         areaEspecialidad: "General",
         totalHoras: 70,
@@ -407,7 +446,10 @@ export default defineComponent({
       },
     ]);
 
-    const keys = ref([
+    let sortDesc = ref("asc");
+    let sortBy = ref([]);
+
+    const keys = ref<SortItem[]>([
       {
         key: "areaEspecialidad",
         order: sortDesc,
@@ -422,27 +464,32 @@ export default defineComponent({
       },
     ]);
 
-    const keysProps = ref((item: any) => {
+    const keysProps = (item: SortItem) => {
       switch (item.key) {
         case "areaEspecialidad":
           return {
             title: "Área de especialidad",
             value: [item],
           };
+          break;
         case "totalPuntos":
           return {
             title: "Total de puntos",
             value: [item],
           };
+          break;
         case "totalHoras":
           return {
             title: "Total de horas",
             value: [item],
           };
-        default:
-          return [];
+          break;
       }
-    });
+    };
+
+    function onClickSeeAll() {
+      itemsPorPagina.value = itemsPorPagina.value === 3 ? games.value.length : 3;
+    }
 
     async function cargarDesglosePorEjercicio() {
       try {
@@ -456,28 +503,27 @@ export default defineComponent({
     });
 
     return {
-      keys,
-      keysProps,
-      busquedaEspecialidad,
-      busquedaEvento,
-      colores,
-      encabezadosEvento,
-      eventosPorPagina,
+      search,
+      searchEvento,
       games,
-      itemsPorPagina,
-      paginaEvento,
       sortBy,
+      keys,
       sortDesc,
+      keysProps,
+      itemsPorPagina,
+      onClickSeeAll,
+      colores,
+      headers,
+      customFilter,
+      pageT,
+      pageCount,
+      eventosPorPagina,
     };
   },
 });
 </script>
 
 <style>
-.switch-all .v-switch__track {
-  opacity: 1;
-}
-
 /** @media screen and (max-width: 600px) {*/
 .v-data-table thead {
   border: none;

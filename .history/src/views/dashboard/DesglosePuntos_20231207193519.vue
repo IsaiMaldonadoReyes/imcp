@@ -269,13 +269,13 @@
           <v-card-actions>
             <v-btn
               :color="colores.verdeBoton"
-              :to="{ path: 'desglosePuntos' }"
               block
-              class="text-none"
-              rounded="large"
               size="large"
+              class="text-none"
               text="DESCARGAR REPORTE PDF"
               variant="flat"
+              :to="{ path: 'desglosePuntos' }"
+              rounded="large"
             />
           </v-card-actions>
         </v-card>
@@ -456,18 +456,18 @@ export default defineComponent({
     });
 
     return {
-      keys,
-      keysProps,
       busquedaEspecialidad,
       busquedaEvento,
+      games,
+      sortBy,
+      keys,
+      sortDesc,
+      keysProps,
+      itemsPorPagina,
       colores,
       encabezadosEvento,
-      eventosPorPagina,
-      games,
-      itemsPorPagina,
       paginaEvento,
-      sortBy,
-      sortDesc,
+      eventosPorPagina,
     };
   },
 });

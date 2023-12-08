@@ -456,18 +456,18 @@ export default defineComponent({
     });
 
     return {
-      keys,
-      keysProps,
       busquedaEspecialidad,
       busquedaEvento,
+      games,
+      sortBy,
+      keys,
+      sortDesc,
+      keysProps,
+      itemsPorPagina,
       colores,
       encabezadosEvento,
-      eventosPorPagina,
-      games,
-      itemsPorPagina,
       paginaEvento,
-      sortBy,
-      sortDesc,
+      eventosPorPagina,
     };
   },
 });

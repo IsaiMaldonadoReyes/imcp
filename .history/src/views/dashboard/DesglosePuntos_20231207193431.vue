@@ -238,7 +238,8 @@
                 inset
                 label="Ver todas las especialidades"
                 true-icon="mdi-eye-outline"
-              />
+              >
+              </v-switch>
             </div>
             <div class="d-flex align-center justify-center pa-4">
               <v-btn
@@ -261,21 +262,21 @@
                 rounded
                 size="small"
                 @click="nextPage"
-              />
+              ></v-btn>
             </div>
           </template>
         </v-data-iterator>
-        <v-card color="transparent" rounded="lg" class="mx-auto my-4" elevation="0">
+        <v-card class="mx-auto my-4" elevation="0" rounded="lg" color="transparent">
           <v-card-actions>
             <v-btn
               :color="colores.verdeBoton"
-              :to="{ path: 'desglosePuntos' }"
               block
-              class="text-none"
-              rounded="large"
               size="large"
+              class="text-none"
               text="DESCARGAR REPORTE PDF"
               variant="flat"
+              :to="{ path: 'desglosePuntos' }"
+              rounded="large"
             />
           </v-card-actions>
         </v-card>
@@ -456,18 +457,18 @@ export default defineComponent({
     });
 
     return {
-      keys,
-      keysProps,
       busquedaEspecialidad,
       busquedaEvento,
+      games,
+      sortBy,
+      keys,
+      sortDesc,
+      keysProps,
+      itemsPorPagina,
       colores,
       encabezadosEvento,
-      eventosPorPagina,
-      games,
-      itemsPorPagina,
       paginaEvento,
-      sortBy,
-      sortDesc,
+      eventosPorPagina,
     };
   },
 });
