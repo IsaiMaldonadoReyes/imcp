@@ -19,6 +19,7 @@ const config = {
         'X-Requested-With': 'xmlhttprequest',
     },
 };
+
 const configToken = {
     headers: {
         'Content-Type': 'multipart/form-data',
@@ -128,28 +129,22 @@ export const useSessionStore = defineStore({
             const storage = new Storage();
             await storage.create();
 
-            this.auth = false;
-            this.object = {};
-
             try {
+                
+                var dataLogout = new URLSearchParams();
+                dataLogout.append("api[token]", await storage.get("token"));
 
-                let dataLogout = new FormData();
-                dataLogout.append('api[token]', await storage.get("token"));
-
-                console.log(dataLogout);
-                const token = await storage.get("token");
-                console.log(token);
-
-                const response = await axios.put("/login/token", { 'api[token]': token }, config);
-
-                console.log(response);
-                /*
-                                await storage.remove('token');
-                                await storage.remove('logged');
-                                await storage.remove('rfc');
-                                await storage.remove('nombreUsuario');
-                                await storage.remove('configToken');*/
-
+                const response = await axios.put("/login/token", dataLogout.toString(), config);
+                
+                await storage.remove('token');
+                await storage.remove('logged');
+                await storage.remove('rfc');
+                await storage.remove('nombreUsuario');
+                await storage.remove('configToken');
+                
+                this.auth = false;
+                this.object = {};
+                
             } catch (error) {
                 throw new Error("Error al cerrar la sesión");
             }
