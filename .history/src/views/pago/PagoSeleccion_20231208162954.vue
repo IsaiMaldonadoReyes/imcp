@@ -116,12 +116,14 @@
               <template v-slot:append>
                 <v-tooltip
                   location="top"
+                  scrim="grey-lighten-1"
+                  v-model="show"
                   class="text-justify"
-                  scroll-strategy="close"
-                  open-on-click
                 >
                   <template v-slot:activator="{ props }">
-                    <v-icon v-bind="props"> mdi-information-outline </v-icon>
+                    <v-icon small v-bind="props" @click="show = !show">
+                      mdi-information-outline
+                    </v-icon>
                   </template>
                   <span>
                     El código CVV o CVC es un grupo de 3 o 4 números situado en el reverso
@@ -163,3 +165,5 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="scss"></style>

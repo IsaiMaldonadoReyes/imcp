@@ -64,8 +64,8 @@ const routes = [
       },
       {
         path: "seleccionPago/:idCertificado", // certificado pago 
-        name: "seleccionPagoCertificado",
-        component: () => CertificadoPagoSeleccionado,
+        name: "seleccionPagoCertificado"
+        component: () => import("@/views/pago/PagoSeleccion.vue"),
       },
       {
         path: "actualizacionDatos", // certificado pago 

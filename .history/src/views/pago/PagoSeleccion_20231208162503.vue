@@ -114,15 +114,10 @@
               variant="outlined"
             >
               <template v-slot:append>
-                <v-tooltip
-                  location="top"
-                  class="text-justify"
-                  scroll-strategy="close"
-                  open-on-click
-                >
-                  <template v-slot:activator="{ props }">
-                    <v-icon v-bind="props"> mdi-information-outline </v-icon>
-                  </template>
+                <v-tooltip location="top" color="primary" v-model="show">
+                  <v-icon small v-bind="props" @click="show = !show"
+                    >mdi-information-outline</v-icon
+                  >
                   <span>
                     El código CVV o CVC es un grupo de 3 o 4 números situado en el reverso
                     de la tarjeta de crédito o débito.
@@ -163,3 +158,5 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="scss"></style>

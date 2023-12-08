@@ -114,12 +114,7 @@
               variant="outlined"
             >
               <template v-slot:append>
-                <v-tooltip
-                  location="top"
-                  class="text-justify"
-                  scroll-strategy="close"
-                  open-on-click
-                >
+                <v-tooltip location="top" class="text-justify" scroll-strategy="close">
                   <template v-slot:activator="{ props }">
                     <v-icon v-bind="props"> mdi-information-outline </v-icon>
                   </template>

@@ -117,8 +117,8 @@
                 <v-tooltip
                   location="top"
                   class="text-justify"
-                  scroll-strategy="close"
                   open-on-click
+                  scroll-strategy="close"
                 >
                   <template v-slot:activator="{ props }">
                     <v-icon v-bind="props"> mdi-information-outline </v-icon>
@@ -163,3 +163,7 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="scss">
+$tooltip-background-color: = blue;
+</style>

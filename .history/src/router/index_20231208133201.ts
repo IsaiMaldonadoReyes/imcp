@@ -11,7 +11,7 @@ import DesglosePuntos from "../views/dashboard/DesglosePuntos.vue";
 import CertificadoEstatus from "../views/certificado/CertificadoEstatus.vue";
 import CertificadoPuntos from "../views/certificado/CertificadoPuntos.vue";
 import CertificadoPuntosDesglose from "../views/certificado/CertificadoPuntosDesglosados.vue";
-import CertificadoPagoSeleccionado from "../views/pago/PagoSeleccion.vue";
+import CertificadoPagoSeleccionado from "../views/certificado/CertificadoPuntosDesglosados.vue";
 
 const routes = [
   {
@@ -64,7 +64,7 @@ const routes = [
       },
       {
         path: "seleccionPago/:idCertificado", // certificado pago 
-        name: "seleccionPagoCertificado",
+        name: "seleccionPagoCertificado"
         component: () => CertificadoPagoSeleccionado,
       },
       {
