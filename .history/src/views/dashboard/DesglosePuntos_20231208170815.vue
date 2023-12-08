@@ -505,7 +505,6 @@ export default defineComponent({
 
     function descargarPdf() {
       window.open(rutaPdf.value, "_blank");
-      //console.log("");
     }
 
     onMounted(() => {

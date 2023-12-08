@@ -320,7 +320,7 @@
     </ion-content>
   </ion-page>
 </template>
-
+ 
 <script lang="ts">
 import { IonPage, IonContent } from "@ionic/vue";
 import { defineComponent, ref, computed, onMounted, Ref } from "vue";
@@ -505,7 +505,6 @@ export default defineComponent({
 
     function descargarPdf() {
       window.open(rutaPdf.value, "_blank");
-      //console.log("");
     }
 
     onMounted(() => {
