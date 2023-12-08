@@ -9,10 +9,21 @@ axios.defaults.baseURL = import.meta.env.VITE_APP_API_URL;
 const user = import.meta.env.VITE_APP_API_USER;
 const pass = import.meta.env.VITE_APP_API_PASS;
 
+let data = new FormData();
+data.append('user', user);
+data.append('pass', pass);
+
 const config = {
     headers: {
         'Content-Type': 'multipart/form-data',
-        'x-requested-with': 'XMLHttpRequest',
+        'X-Requested-With': 'xmlhttprequest',
+    },
+};
+const configToken = {
+    headers: {
+        'Content-Type': 'multipart/form-data',
+        'X-Requested-With': 'xmlhttprequest',
+        'token': ''
     },
 };
 
@@ -21,67 +32,66 @@ export const useSessionStore = defineStore({
     state: () => ({
         auth: false,
         object: {},
-        responseMessage: null
+        responseMessage: ""
     }),
     actions: {
 
         async getTokenAuth() {
             let storage = new Storage();
             await storage.create();
-            await storage.set('token', "TokenCorrecto");
 
-            /*
             if (user !== undefined && pass !== undefined) {
-                let data = new FormData();
-                data.append('user', user);
-                data.append('pass', pass);
 
                 try {
                     const response = await axios.post("/login/token", data, config);
+
                     if (response.data.type == "success") {
+
+                        configToken.headers['token'] = response.data.result.token;
                         await storage.set('token', response.data.result.token);
+                        await storage.set('configToken', configToken);
                     }
                 } catch (error) {
                     throw new Error("Ocurrio un problema al conectarse con el servidor");
                 }
             } else {
                 console.error('API_USER or API_PASS is undefined');
-            }*/
+            }
         },
 
         async login(data: any) {
             const storage = new Storage();
             await storage.create();
 
-            console.log(data);
-
+            const configAuthToken = await storage.get("configToken");
             // desarrollo
+            /*
             if (data == "SOTJ841111Q39") {
                 this.auth = true;
 
                 await storage.set('logged', true);
                 await storage.set('rfc', "SOTJ841111Q39");
                 this.userInformation("SOTJ841111Q39");
-            }
+            }*/
 
             // production
-            /*
+
             if (user !== undefined && pass !== undefined) {
                 try {
-                    const response = await axios.post("/users/login", data, config);
+                    const response = await axios.post("/users/login", data, configAuthToken);
 
-                    console.log(response);
+                    //console.log(response);
                     if (response.data.type === "success") {
                         this.auth = true;
 
                         await storage.set('logged', true);
-                        await storage.set('rfc', data.rfc);
-                        this.userInformation(data.rfc);
+                        await storage.set('rfc', data.get("email"));
+                        this.userInformation(data.get("email"));
                     }
                 } catch (error) {
                     throw new Error("Usuario y/o contraseñas incorrectas");
                 }
-            }*/
+            }
         },
 
         async userInformation(rfc: string) {
@@ -104,12 +114,13 @@ export const useSessionStore = defineStore({
             */
         },
 
-        async resetPassword(rfc: string) {
+        async resetPassword(data: any) {
             try {
-                const response = await axios.post("/api/resetPassword", rfc);
-                this.responseMessage = response.data.message;
+                const response = await axios.post("/users/recovery_password", data, config);
+                //this.responseMessage = response.data.sys.mensaje_operacion;
+                this.responseMessage = "Se enviará un correo con instrucciones para recuperar su contraseña";
             } catch (error) {
-                throw new Error("Error al enviar la petición de cambiar contraseña");
+                throw new Error("Error al enviar la petición de cambio de contraseña");
             }
         },
 
@@ -120,10 +131,29 @@ export const useSessionStore = defineStore({
             this.auth = false;
             this.object = {};
 
-            await storage.remove('token');
-            await storage.remove('logged');
-            await storage.remove('rfc');
-            await storage.remove('nombreUsuario');
+            try {
+
+                let dataLogout = new FormData();
+                dataLogout.append('api[token]', await storage.get("token"));
+
+                console.log(dataLogout);
+                const token = await storage.get("token");
+                console.log(token);
+
+                const response = await axios.put("/login/token", { 'api[token]': token }, config);
+
+                console.log(response);
+                /*
+                                await storage.remove('token');
+                                await storage.remove('logged');
+                                await storage.remove('rfc');
+                                await storage.remove('nombreUsuario');
+                                await storage.remove('configToken');*/
+
+            } catch (error) {
+                throw new Error("Error al cerrar la sesión");
+            }
+
         },
 
     },

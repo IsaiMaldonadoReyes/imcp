@@ -202,15 +202,15 @@ export default defineComponent({
       const rfc = await storage.get("rfc");
       const token = await storage.get("token");
 
-      console.log(token);
+      //console.log(token);
 
       try {
 
         await dashStore.loadEjercicios(rfc);
 
-        console.log(dashStore.object.ejercicios.datasets[0].anhio_aplica);
+        //console.log(dashStore.object.ejercicios);
 
-        const ejercicios: any[] = Array.isArray(dashStore.object.ejercicios.datasets) ? dashStore.object.ejercicios.datasets : [];
+        const ejercicios: any[] = Array.isArray(dashStore.object.ejercicios.dataset) ? dashStore.object.ejercicios.dataset : [];
 
         if (Array.isArray(ejercicios) && ejercicios.length > 0) {
           ejercicios.sort((a, b) => parseInt(b.anhio_aplica) - parseInt(a.anhio_aplica));
@@ -219,23 +219,25 @@ export default defineComponent({
           subtitlePeriodoAnual.value = dashStore.object.ejercicios.titulo_periodo_anual;
           subtitlePeriodo4.value = dashStore.object.ejercicios.titulo_periodo_4_anios;
 
+          //console.log(ejercicioActual);
+
           anioActual.value = ejercicioActual.anhio_aplica;
 
           cursos.value.push({
             label: "Principales",
-            data: [ejercicioActual.control_puntos_principales, ejercicioActual.puntos_principales],
+            data: (ejercicioActual.puntos_principales > ejercicioActual.control_puntos_principales) ? [ejercicioActual.control_puntos_principales, ejercicioActual.control_puntos_principales] : [ejercicioActual.control_puntos_principales, ejercicioActual.puntos_principales],
             backgroundColor: "rgba(178, 0, 0, 0.6)"
           });
 
           cursos.value.push({
             label: "Otros cursos",
-            data: [ejercicioActual.control_puntos_otros_cursos, ejercicioActual.puntos_otros_cursos],
+            data: (ejercicioActual.puntos_otros_cursos > ejercicioActual.control_puntos_otros_cursos) ? [ejercicioActual.control_puntos_otros_cursos, ejercicioActual.control_puntos_otros_cursos] : [ejercicioActual.control_puntos_otros_cursos, ejercicioActual.puntos_otros_cursos],
             backgroundColor: "rgba(89, 89, 89, 0.6)"
           });
 
           cursos.value.push({
             label: "Ética",
-            data: [ejercicioActual.control_puntos_etica, ejercicioActual.puntos_etica],
+            data: (ejercicioActual.puntos_etica > ejercicioActual.control_puntos_etica) ? [ejercicioActual.control_puntos_etica, ejercicioActual.control_puntos_etica] : [ejercicioActual.control_puntos_etica, ejercicioActual.puntos_etica],
             backgroundColor: "rgba(166, 166, 166, 0.6)"
           });
 
@@ -251,9 +253,24 @@ export default defineComponent({
               labels4.value.push("Esperado " + ejercicio.anhio_aplica);
               labels4.value.push("Obtenido " + ejercicio.anhio_aplica);
 
-              principalesData.push(ejercicio.control_puntos_principales, ejercicio.puntos_principales);
-              OtrosCursosData.push(ejercicio.control_puntos_otros_cursos, ejercicio.puntos_otros_cursos);
-              eticaData.push(ejercicio.control_puntos_etica, ejercicio.puntos_etica);
+
+              if (ejercicio.puntos_principales > ejercicio.control_puntos_principales) {
+                principalesData.push(ejercicio.control_puntos_principales, ejercicio.control_puntos_principales);
+              } else {
+                principalesData.push(ejercicio.control_puntos_principales, ejercicio.puntos_principales);
+              }
+
+              if (ejercicio.puntos_otros_cursos > ejercicio.control_puntos_otros_cursos) {
+                OtrosCursosData.push(ejercicio.control_puntos_otros_cursos, ejercicio.control_puntos_principales);
+              } else {
+                OtrosCursosData.push(ejercicio.control_puntos_otros_cursos, ejercicio.puntos_otros_cursos);
+              }
+
+              if (ejercicio.puntos_etica > ejercicio.control_puntos_etica) {
+                eticaData.push(ejercicio.control_puntos_etica, ejercicio.control_puntos_etica);
+              } else {
+                eticaData.push(ejercicio.control_puntos_etica, ejercicio.puntos_etica);
+              }
 
               //listadoEjercicios.value.push(parseInt(ejercicio.anhio_aplica));
 
@@ -261,7 +278,6 @@ export default defineComponent({
                 label: ejercicio.sector_nombre,
                 year: parseInt(ejercicio.anhio_aplica)
               });
-
             });
 
             cursosPor4.value.push({

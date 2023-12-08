@@ -82,7 +82,7 @@ export default defineComponent({
     const token = ref("");
 
     const form = ref({
-      rfc: "SOTJ841111Q39",
+      rfc: "CACX610315BD1",
       password: "temporal",
     });
 
@@ -97,15 +97,11 @@ export default defineComponent({
         let data = new FormData();
         data.append('email', form.value.rfc);
         data.append('password', form.value.password);
-        data.append('token', token.value);
 
-        //await session.login(data);
-        await session.login(form.value.rfc);
-
-        console.log(session.auth);
+        await session.login(data);
 
         if (session.auth == true) {
-          await formEl.value?.resetValidation();
+          await formEl.value?.reset();
           router.push("/tabs/dashboard");
         } else {
           await showAlert("Inicio de sesión", "Usuario y/o contraseña invalida");
@@ -127,7 +123,7 @@ export default defineComponent({
         if (isValidForm.valid) {
           await getToken();
 
-          console.log(tokenAuth.value);
+          //console.log(tokenAuth.value);
           if (tokenAuth.value == true) {
             try {
               await login();
@@ -150,7 +146,7 @@ export default defineComponent({
         storage.create();
         token.value = await storage.get("token");
 
-        console.log(token.value);
+        //console.log(token.value);
 
         if (token.value == "" || token.value == null) {
           await showAlert("Ocurrio un problema con el servidor", "Cierre la aplicación e intente más tarde");
