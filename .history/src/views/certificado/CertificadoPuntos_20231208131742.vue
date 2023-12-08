@@ -12,7 +12,7 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card class="my-2" elevation="0" border>
+        <v-card class="my-4" elevation="0" border>
           <v-card-text>
             <v-table density="compact">
               <tbody>

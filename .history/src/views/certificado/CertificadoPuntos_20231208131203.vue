@@ -12,36 +12,30 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card class="my-2" elevation="0" border>
+        <v-card
+          class="my-4"
+          elevation="0"
+          border
+          v-for="item in items"
+          :key="item.raw.certificado"
+        >
           <v-card-text>
             <v-table density="compact">
               <tbody>
                 <tr>
-                  <td
-                    class="ma-1 pa-1 text-subtitle-1 text-grey-darken-1"
-                    style="line-height: 1.2em"
-                  >
-                    Periodo:
+                  <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
+                    Certificado:
                   </td>
-                  <td
-                    class="ma-1 pa-2 text-subtitle-1 font-weight-bold"
-                    style="line-height: 1.2em"
-                  >
-                    01 de Nov al 30 de Nov
+                  <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
+                    {{ item.raw.certificado }}
                   </td>
                 </tr>
                 <tr>
-                  <td
-                    class="ma-1 pa-1 text-subtitle-1 text-grey-darken-1"
-                    style="line-height: 1.2em"
-                  >
+                  <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
                     Núm. Certificado:
                   </td>
-                  <td
-                    class="ma-1 pa-1 text-subtitle-1 font-weight-bold text-justify"
-                    style="line-height: 1.2em"
-                  >
-                    0000111
+                  <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify">
+                    {{ item.raw.numCertificado }}
                   </td>
                 </tr>
               </tbody>

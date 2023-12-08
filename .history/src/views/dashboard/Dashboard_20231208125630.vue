@@ -86,9 +86,9 @@
                     :to="{ name: 'desglosePuntos', params: { id: anioActual } }"
                     block
                     prepend-icon="mdi-eye-arrow-right-outline"
-                    size="large"
                     text="Desglose de puntos"
                     variant="flat"
+                    size="large"
                   >
                     <template v-slot:prepend>
                       <v-icon class="mr-3" size="large"></v-icon>
@@ -158,12 +158,11 @@
                 <v-divider></v-divider>
                 <v-card-actions>
                   <v-btn
-                    :color="colores.grisOscuro"
-                    :to="{ name: 'desglosePuntos', params: { id: itm.year } }"
                     block
-                    prepend-icon="mdi-eye-arrow-right-outline"
+                    :color="colores.grisOscuro"
                     text="Desglose de puntos"
                     variant="flat"
+                    :to="{ name: 'desglosePuntos', params: { id: itm.year } }"
                   >
                     <template v-slot:prepend>
                       <v-icon class="mr-3" size="large"></v-icon>
