@@ -1,36 +1,91 @@
 <template>
   <ion-page>
     <ion-content>
-      <v-container class="ma-# pa-# fill-height" fluid style="align-items:normal;">
-        <v-row align="start" style="height: 25%" class="d-flex align-center justify-center">
-          <img style="max-width:240px; max-height: 200px" src="../assets/images/logotipo.svg" />
+      <v-container class="ma-# pa-# fill-height" fluid style="align-items: normal">
+        <v-row
+          align="start"
+          style="height: 25%"
+          class="d-flex align-center justify-center"
+        >
+          <img
+            style="max-width: 240px; max-height: 200px"
+            src="../assets/images/logotipo.svg"
+          />
         </v-row>
-        <v-row align="start" style="height: 62%" class="d-flex align-start justify-center">
+        <v-row
+          align="start"
+          style="height: 50%"
+          class="d-flex align-start justify-center"
+        >
           <v-card color="transparent" elevation="0">
-            <v-form v-model="isValid" @submit.prevent="validateAndLogin" lazy-validation ref="formEl">
+            <v-form
+              v-model="isValid"
+              @submit.prevent="validateAndLogin"
+              lazy-validation
+              ref="formEl"
+            >
               <v-row dense>
-                <v-col class="d-flex justify-center align-center pb-10" cols="12" lg="12" md="12" sm="12">
-                  <v-label style="font-size: 28px; font-weight: bold">Acceso al Sistema</v-label>
+                <v-col
+                  class="d-flex justify-center align-center pb-10"
+                  cols="12"
+                  lg="12"
+                  md="12"
+                  sm="12"
+                >
+                  <v-label style="font-size: 28px; font-weight: bold"
+                    >Acceso al Sistema</v-label
+                  >
                 </v-col>
                 <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
-                  <v-text-field v-model="form.rfc" :rules="[rules.required, rules.validRFC]" clearable hide-details="auto"
-                    label="RFC" rounded="lg" style="font-weight: bold" variant="solo"
-                    @input="() => convertToUpperCase('rfc')" />
+                  <v-text-field
+                    v-model="form.rfc"
+                    :rules="[rules.required, rules.validRFC]"
+                    clearable
+                    hide-details="auto"
+                    label="RFC"
+                    rounded="lg"
+                    style="font-weight: bold"
+                    variant="solo"
+                    @input="() => convertToUpperCase('rfc')"
+                  />
                 </v-col>
                 <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
-                  <v-text-field v-model="form.password" :append-inner-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                    :rules="[rules.required]" :type="show1 ? 'text' : 'password'" clearable hide-details="auto"
-                    label="Contraseña" rounded="lg" style="font-weight: bold" variant="solo"
-                    @click:append-inner="show1 = !show1" />
+                  <v-text-field
+                    v-model="form.password"
+                    :append-inner-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="[rules.required]"
+                    :type="show1 ? 'text' : 'password'"
+                    clearable
+                    hide-details="auto"
+                    label="Contraseña"
+                    rounded="lg"
+                    style="font-weight: bold"
+                    variant="solo"
+                    @click:append-inner="show1 = !show1"
+                  />
                 </v-col>
-                <v-col cols="12" lg="12" md="12" sm="12" class="px-10 " align="right">
-                  <v-btn :to="{ path: '/resetPassword' }" class="text-caption text-disabled ms-1 text-capitalize"
-                    color="#C6092F" rounded="lg" size="x-small" style="font-weight: bold" variant="plain">
+                <v-col cols="12" lg="12" md="12" sm="12" class="px-10" align="right">
+                  <v-btn
+                    :to="{ path: '/resetPassword' }"
+                    class="text-caption text-disabled ms-1 text-capitalize"
+                    color="#C6092F"
+                    rounded="lg"
+                    size="x-small"
+                    style="font-weight: bold"
+                    variant="plain"
+                  >
                     Recuperar contraseña
                   </v-btn>
                 </v-col>
                 <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
-                  <v-btn block color="#C6092F" rounded="lg" size="x-large" style="font-weight: bold" type="submit">
+                  <v-btn
+                    block
+                    color="#C6092F"
+                    rounded="lg"
+                    size="x-large"
+                    style="font-weight: bold"
+                    type="submit"
+                  >
                     ENTRAR
                   </v-btn>
                 </v-col>
@@ -57,7 +112,7 @@ const showAlert = async (header: string, message: string) => {
   const alert = await alertController.create({
     header,
     message,
-    buttons: ["OK"]
+    buttons: ["OK"],
   });
 
   await alert.present();
@@ -93,10 +148,9 @@ export default defineComponent({
 
     async function login() {
       try {
-
         let data = new FormData();
-        data.append('email', form.value.rfc);
-        data.append('password', form.value.password);
+        data.append("email", form.value.rfc);
+        data.append("password", form.value.password);
 
         await session.login(data);
 
@@ -149,13 +203,18 @@ export default defineComponent({
         //console.log(token.value);
 
         if (token.value == "" || token.value == null) {
-          await showAlert("Ocurrio un problema con el servidor", "Cierre la aplicación e intente más tarde");
+          await showAlert(
+            "Ocurrio un problema con el servidor",
+            "Cierre la aplicación e intente más tarde"
+          );
         } else {
           tokenAuth.value = true;
         }
-      }
-      catch (error) {
-        await showAlert("Ocurrio un problema con el servidor", "Cierre la aplicación e intente más tarde");
+      } catch (error) {
+        await showAlert(
+          "Ocurrio un problema con el servidor",
+          "Cierre la aplicación e intente más tarde"
+        );
         throw new Error("Error al obtener el token");
       }
     }
