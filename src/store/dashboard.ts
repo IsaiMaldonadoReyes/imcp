@@ -112,8 +112,8 @@ export const useDashboardStore = defineStore({
                 });
 
                 if (response.data.type === "success") {
-                    //this.object.desglosePuntos = response.data.result;
-
+                    this.object.desglosePuntos = response.data.result;
+/*
                     this.object.desglosePuntos = {
                         "anhio": "2021",
                         "CuentasUsuarios": {
@@ -285,7 +285,7 @@ export const useDashboardStore = defineStore({
                         },
 
                         "type": "success"
-                    };
+                    };*/
                 }
             } catch (error) {
                 throw new Error("Solicitud incorrecta");

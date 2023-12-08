@@ -10,6 +10,7 @@ import Dashboard from "../views/dashboard/Dashboard.vue";
 import DesglosePuntos from "../views/dashboard/DesglosePuntos.vue";
 import CertificadoEstatus from "../views/certificado/CertificadoEstatus.vue";
 import CertificadoPuntos from "../views/certificado/CertificadoPuntos.vue";
+import CertificadoPuntosDesglose from "../views/certificado/CertificadoPuntosDesglosados.vue";
 
 const routes = [
   {
@@ -56,8 +57,9 @@ const routes = [
         component: CertificadoPuntos
       },
       {
-        path: "certificadoPuntosDesglose", // certificado estatus
-        component: () => import("@/views/certificado/CertificadoPuntosDesglosados.vue"),
+        path: "certificadoPuntosDesglose/:idCertificado/:anhio", // certificado estatus
+        name: "certificadoPuntosDesglose",
+        component: () => CertificadoPuntosDesglose,
       },
       {
         path: "seleccionPago", // certificado pago 

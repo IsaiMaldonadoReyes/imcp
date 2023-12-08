@@ -1,50 +1,47 @@
 import { defineStore } from 'pinia';
 import axios from "axios";
+import { Storage } from '@ionic/storage';
+
+axios.defaults.baseURL = import.meta.env.VITE_APP_API_URL;
+
 
 export const useCertificadoStore = defineStore({
     id: 'certificado',
     state: () => ({
-        object: null,
-        responseMessage: null
+        object: {
+            certificadosPendientes: {}
+        },
+        responseMessage: null,
     }),
     actions: {
-        async login(credentials: any) {
-            await axios.post("/login", credentials)
-                .then((response) => {
-                    if (response.data.type === "success") {
-                        this.userInformation(credentials.email);
+
+        async cargarCertificadosPendientes() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+            const rfcParam = await storage.get("rfc");
+
+            try {
+                const params = {
+                    datos: {
+                        cuenta_rfc: rfcParam,
                     }
-                    else if (response.data.type === "fail") {
-                    }
-                })
-                .catch((error) => {
+                };
 
-                })
-                .finally(() => { });
-        },
-        async resetPassword(rfc: string) {
-            await axios.post("/api/resetPassword/" + rfc)
-                .then((response) => {
-                    this.responseMessage = response.data.message;
-                })
-                .catch((error) => {
+                const response = await axios.get("/users/certificados", {
+                    params,
+                    headers: configAuthToken.headers,
+                });
 
-                })
-                .finally(() => { });
+                if (response.data.type === "success") {
+                    this.object.certificadosPendientes = response.data.result.search;
+                }
+            } catch (error) {
+                throw new Error("Solicitud incorrecta");
+            }
         },
-        async logout() {
-            this.object = null;
-        },
-        async userInformation(rfc: string) {
-            await axios.post("/api/userInformation/" + rfc)
-                .then((response) => {
-                    this.object = response.data;
-                })
-                .catch((error) => {
 
-                })
-                .finally(() => { });
-        },
 
     }
 });
