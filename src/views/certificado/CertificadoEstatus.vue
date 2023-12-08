@@ -82,17 +82,17 @@
                 </v-table>
               </v-card-text>
               <v-divider />
-              <v-card class="ma-3 pa-3" border elevation="0">
+              <v-card v-if="item.raw.tipo_certificado !== 'Sustentante'" class="ma-3 pa-3" border elevation="0">
                 <v-timeline side="end">
-                  <v-timeline-item v-for="(items, i) in items.raw.revisionAnual" :key="i" :dot-color="getDotColor(item.raw.dataset)"
-                    :icon="item.icon">
+                  <v-timeline-item v-for="(item, i) in item.raw.revisionAnual" :key="i"
+                    :dot-color="getDotColor(item.status)" :icon="getIcon(item.status)">
                     <template v-slot:opposite>
-                      <div class="headline text-subtitle-1 font-weight-bold" :style="`color: ${item.color}`"
-                        v-text="item.ejercicio"></div>
+                      <div class="headline text-subtitle-1 font-weight-bold" :style="`color: ${getDotColor(item.status)}`"
+                        v-text="item.anhio"></div>
                     </template>
                     <div>
                       <h6 class="headline font-weight-light mb-4 text-grey-darken-1">
-                        {{ item.cumpliento }}
+                        {{ item.status }}
                       </h6>
                     </div>
                   </v-timeline-item>
@@ -100,14 +100,16 @@
               </v-card>
               <v-divider />
               <v-card-actions>
-                <v-btn v-if="item.raw.estatus" :color="colores.verdeBoton" block prepend-icon="mdi-credit-card-outline"
-                  size="large" text="Realizar pago" variant="flat">
+                <v-btn v-if="item.raw.tipo_certificado == 'Sustentante' || item.raw.tipo_certificado == 'Refrendo'"
+                  :color="colores.verdeBoton" block prepend-icon="mdi-credit-card-outline" size="large"
+                  text="Realizar pago" variant="flat">
                   <template v-slot:prepend>
                     <v-icon class="mr-3" size="large"></v-icon>
                   </template>
                 </v-btn>
                 <v-btn v-else :color="colores.grisOscuro" block prepend-icon="mdi-eye-arrow-right-outline" size="large"
-                  text="Ver detalle" variant="flat" :to="{ name: 'certificadoPuntos', params: { id: 200 } }">
+                  text="Ver detalle" variant="flat"
+                  :to="{ name: 'certificadoPuntos', params: { idCertificado: item.raw.id_certificado, anhioInicio: item.raw.anhio_inicio_vigencia, anhioFin: item.raw.anhio_fin_vigencia, numCertificado: item.raw.num_certificado } }">
                   <template v-slot:prepend>
                     <v-icon class="mr-3" size="large"></v-icon>
                   </template>
@@ -118,7 +120,7 @@
           <template v-slot:footer="{ page, pageCount, prevPage, nextPage }">
             <div class="d-flex align-center justify-center pa-4">
               <v-switch v-model="itemsPorPagina" :base-color="colores.grisOscuro" :color="colores.rojoIMPC"
-                :false-value="3" :inline="false" :true-value="certificados.length"
+                :false-value="3" :inline="false" :true-value="certificadosPendientes.dataset.length"
                 class="switch-all font-weight-bold d-flex justify-center" density="compact"
                 false-icon="mdi-eye-off-outline" hide-details inset label="Ver todos los certificados"
                 true-icon="mdi-eye-outline" />
@@ -215,9 +217,6 @@ export default defineComponent({
     let sortDesc = ref("asc");
     const itemsPorPagina = ref(3);
     let busquedaCertificado = ref("");
-    
-    let sortBy = ref([]);
-    let sortDesc = ref("asc");
 
     const colores = ref({
       rojoIMPC: "#B20000",
@@ -233,70 +232,13 @@ export default defineComponent({
       nombreListado: ""
     });
 
-    const certificados = ref([
-      {
-        certificado: "EUC 2023",
-        numCertificado: "0000111",
-        fecha: "2023-01-10",
-        sector: "Finanzas",
-        estatus: false,
-        ejercicios: [
-          {
-            color: "#468C00",
-            icon: "mdi-check-bold",
-            ejercicio: 2023,
-            cumpliento: "Si cumplió",
-          },
-          {
-            color: "#B20000",
-            icon: "mdi-close-thick",
-            ejercicio: 2022,
-            cumpliento: "No cumplió",
-          },
-          {
-            color: "#468C00",
-            icon: "mdi-check-bold",
-            ejercicio: 2021,
-            cumpliento: "Si cumplió",
-          },
-          {
-            color: "#B20000",
-            icon: "mdi-close-thick",
-            ejercicio: 2020,
-            cumpliento: "No cumplió",
-          },
-        ],
-      },
-      {
-        certificado: "Fiscal",
-        numCertificado: "0000222",
-        fecha: "2023-01-10",
-        sector: "Finanzas",
-        estatus: true,
-        ejercicios: [
-          {
-            color: "#468C00",
-            icon: "mdi-check-bold",
-            ejercicio: 2023,
-            cumpliento: "Si cumplió",
-          },
-          {
-            color: "#468C00",
-            icon: "mdi-check-bold",
-            ejercicio: 2022,
-            cumpliento: "Si cumplió",
-          },
-        ],
-      },
-    ]);
-
     const keys = ref([
       {
-        key: "certificado",
+        key: "certificado_dis",
         order: sortDesc,
       },
       {
-        key: "numCertificado",
+        key: "num_certificado",
         order: sortDesc,
       },
       {
@@ -305,16 +247,17 @@ export default defineComponent({
       },
     ]);
 
-    const getDotColor = computed(() => (status: string) => (status === "Cubierto" ? "#468C00" : "#B20000"));
+    const getDotColor = computed(() => (status: string) => (status === "Cumplido" ? "#468C00" : "#B20000"));
+    const getIcon = computed(() => (status: string) => (status === "Cumplido" ? "mdi-check-bold" : "mdi-close-thick"));
 
     const keysProps = ref((item: any) => {
       switch (item.key) {
-        case "certificado":
+        case "certificado_dis":
           return {
             title: "Certificado",
             value: [item],
           };
-        case "numCertificado":
+        case "num_certificado":
           return {
             title: "Núm. Certificado",
             value: [item],
@@ -334,8 +277,6 @@ export default defineComponent({
         await certificadoStore.cargarCertificadosPendientes();
         certificadosPendientes.value = certificadoStore.object.certificadosPendientes as Certificados;
 
-        console.log(certificadosPendientes.value);
-
       } catch (error) { }
     }
 
@@ -344,7 +285,6 @@ export default defineComponent({
     });
 
     return {
-      certificados,
       colores,
       sortBy,
       sortDesc,
@@ -353,7 +293,8 @@ export default defineComponent({
       keys,
       keysProps,
       certificadosPendientes,
-      getDotColor
+      getDotColor,
+      getIcon
     };
   },
 });
