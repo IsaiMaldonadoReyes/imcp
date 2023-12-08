@@ -117,8 +117,9 @@
                 <v-tooltip
                   location="top"
                   class="text-justify"
-                  scroll-strategy="close"
                   open-on-click
+                  close-on-content-click=""
+                  scroll-strategy="close"
                 >
                   <template v-slot:activator="{ props }">
                     <v-icon v-bind="props"> mdi-information-outline </v-icon>

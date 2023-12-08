@@ -118,7 +118,7 @@
                   location="top"
                   class="text-justify"
                   scroll-strategy="close"
-                  open-on-click
+                  :open-on-click="true"
                 >
                   <template v-slot:activator="{ props }">
                     <v-icon v-bind="props"> mdi-information-outline </v-icon>

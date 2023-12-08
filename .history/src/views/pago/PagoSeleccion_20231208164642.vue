@@ -117,8 +117,8 @@
                 <v-tooltip
                   location="top"
                   class="text-justify"
-                  scroll-strategy="close"
                   open-on-click
+                  scroll-strategy="close"
                 >
                   <template v-slot:activator="{ props }">
                     <v-icon v-bind="props"> mdi-information-outline </v-icon>
@@ -141,6 +141,7 @@
 import { ref, computed, defineComponent, onMounted } from "vue";
 import { IonPage, IonContent } from "@ionic/vue";
 import { useDashboardStore } from "@/store/dashboard";
+@use "vuetify/styles" with ( $tooltip-background-color: "red"; );
 
 export default defineComponent({
   name: "dashboard",

@@ -110,26 +110,10 @@
               clearable
               hide-details="auto"
               label="Código de seguridad"
-              placeholder="CVV"
+              placeholder="Número de tarjeta"
               variant="outlined"
-            >
-              <template v-slot:append>
-                <v-tooltip
-                  location="top"
-                  class="text-justify"
-                  scroll-strategy="close"
-                  open-on-click
-                >
-                  <template v-slot:activator="{ props }">
-                    <v-icon v-bind="props"> mdi-information-outline </v-icon>
-                  </template>
-                  <span>
-                    El código CVV o CVC es un grupo de 3 o 4 números situado en el reverso
-                    de la tarjeta de crédito o débito.
-                  </span>
-                </v-tooltip>
-              </template>
-            </v-text-field>
+              prepend-icon="mdi-information-outline"
+            ></v-text-field>
           </v-card-text>
         </v-card>
       </v-container>
@@ -149,7 +133,6 @@ export default defineComponent({
     IonPage,
   },
   setup() {
-    const show = ref(false);
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
@@ -158,8 +141,9 @@ export default defineComponent({
 
     return {
       colores,
-      show,
     };
   },
 });
 </script>
+
+<style scoped lang="scss"></style>
