@@ -11,7 +11,7 @@ import DesglosePuntos from "../views/dashboard/DesglosePuntos.vue";
 import CertificadoEstatus from "../views/certificado/CertificadoEstatus.vue";
 import CertificadoPuntos from "../views/certificado/CertificadoPuntos.vue";
 import CertificadoPuntosDesglose from "../views/certificado/CertificadoPuntosDesglosados.vue";
-import CertificadoPagoSeleccionado from "../views/pago/PagoSeleccion.vue";
+//import CertificadoPagoSeleccionado from "../views/pago/PagoSeleccion.vue";
 
 const routes = [
   {
@@ -50,22 +50,23 @@ const routes = [
       },
       {
         path: "certificadoEstatus", // vista principal - certificado estatus
+        name: "certificado",
         component: CertificadoEstatus,
       },
       {
-        path: "certificadoPuntos/:id", // certificado estatus
+        path: "certificadoPuntos/:idCertificado/:anhioInicio/:anhioFin/:numCertificado", // certificado estatus
         name: "certificadoPuntos",
         component: CertificadoPuntos
       },
       {
-        path: "certificadoPuntosDesglose/:idCertificado/:anhio", // certificado estatus
-        name: "certificadoPuntosDesglose",
+        path: "certificadoPuntosDesglosados/:idCertificado/:anhio", // certificado estatus
+        name: "certificadoPuntosDesglosados",
         component: () => CertificadoPuntosDesglose,
       },
       {
         path: "seleccionPago/:idCertificado", // certificado pago 
         name: "seleccionPagoCertificado",
-        component: () => CertificadoPagoSeleccionado,
+        component: () => import("@/views/pago/PagoSeleccion.vue"),
       },
       {
         path: "actualizacionDatos", // certificado pago 

@@ -300,7 +300,7 @@ import { IonPage, IonContent } from "@ionic/vue";
 Chart.register(...registerables);
 
 export default defineComponent({
-  name: "App",
+  name: "Certificados emitidos",
   components: {
     BarChart,
     IonContent,
