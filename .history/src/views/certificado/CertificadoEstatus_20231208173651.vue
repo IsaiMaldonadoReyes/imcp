@@ -216,6 +216,9 @@ export default defineComponent({
     const itemsPorPagina = ref(3);
     let busquedaCertificado = ref("");
     
+    let sortBy = ref([]);
+    let sortDesc = ref("asc");
+
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",

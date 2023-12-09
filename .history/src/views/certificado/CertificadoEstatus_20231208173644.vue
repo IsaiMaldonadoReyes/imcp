@@ -107,7 +107,7 @@
                   </template>
                 </v-btn>
                 <v-btn v-else :color="colores.grisOscuro" block prepend-icon="mdi-eye-arrow-right-outline" size="large"
-                  text="Ver detalle" variant="flat" :to="{ name: 'certificadoPuntos', params: { id: 200 } }">
+                  text="Ver detalle" variant="flat" :to="{ name: 'seleccionPago', params: { id: 200 } }">
                   <template v-slot:prepend>
                     <v-icon class="mr-3" size="large"></v-icon>
                   </template>
@@ -216,6 +216,9 @@ export default defineComponent({
     const itemsPorPagina = ref(3);
     let busquedaCertificado = ref("");
     
+    let sortBy = ref([]);
+    let sortDesc = ref("asc");
+
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
