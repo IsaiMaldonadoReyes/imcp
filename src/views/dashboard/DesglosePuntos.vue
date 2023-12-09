@@ -16,7 +16,9 @@
 
           <v-card-text>
             <span class="text-subtitle-1 text-grey-darken-1">Colegio:</span>
-            <span class="text-subtitle-1 font-weight-bold"> {{ desgloseEspecialidades.CuentasUsuarios.colegio }} </span>
+            <span class="text-subtitle-1 font-weight-bold">
+              {{ desgloseEspecialidades.CuentasUsuarios.colegio }}
+            </span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1">Sector:</span>
             <span class="text-subtitle-1 font-weight-bold">
@@ -31,15 +33,18 @@
             </span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1">Registro Agaff:</span>
-            <span class="text-subtitle-1 font-weight-bold"> {{
-              desgloseEspecialidades.CuentasUsuarios.registroAgaff }}</span>
+            <span class="text-subtitle-1 font-weight-bold">
+              {{ desgloseEspecialidades.CuentasUsuarios.registroAgaff }}</span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1">Registro IMSS:</span>
-            <span class="text-subtitle-1 font-weight-bold"> {{ desgloseEspecialidades.CuentasUsuarios.registroImss }}
+            <span class="text-subtitle-1 font-weight-bold">
+              {{ desgloseEspecialidades.CuentasUsuarios.registroImss }}
             </span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1">Total de puntos:</span>
-            <span class="text-subtitle-1 font-weight-bold"> {{ desgloseEspecialidades.total }} </span>
+            <span class="text-subtitle-1 font-weight-bold">
+              {{ desgloseEspecialidades.total }}
+            </span>
             <br />
           </v-card-text>
         </v-card>
@@ -69,12 +74,21 @@
             </v-row>
           </template>
 
+          <template v-slot:no-data>
+            <v-card border class="my-5 pa-10 text-center" color="transparent" elevation="0">
+              <v-icon color="grey-lighten-1" size="60">mdi-database-eye-off</v-icon>
+              <v-card-text class="text-grey-darken-1">
+                No se encontraron especialidades que coincidan con la búsqueda.
+              </v-card-text>
+            </v-card>
+          </template>
+
           <template v-slot:default="{ items }">
             <v-row dense>
               <v-col v-for="item in items" :key="item.raw.areaEspecialidad" cols="12">
                 <v-card border class="mb-3" color="transparent" elevation="0">
                   <v-card class="py-1" elevation="0" border rounded="0">
-                    <v-list-item class="">
+                    <v-list-item class="text-justify">
                       <template v-slot:title>
                         <span class="text-body-2 text-medium-emphasis" style="letter-spacing: normal">
                           Área de especialidad
@@ -86,14 +100,15 @@
                     </v-list-item>
                   </v-card>
 
-                  <v-text-field v-model="busquedaEvento" class="ma-3" clearable density="comfortable" hide-details
-                    placeholder="Buscar evento" prepend-inner-icon="mdi-magnify" variant="solo" />
+                  <v-text-field v-model="busquedaEvento[item.raw.areaEspecialidad]" class="ma-3" clearable
+                    density="comfortable" hide-details placeholder="Buscar evento" prepend-inner-icon="mdi-magnify"
+                    variant="solo" />
 
                   <v-card border class="ma-3" elevation="0">
                     <v-data-table :headers="encabezadosEvento" :items-per-page="eventosPorPagina"
-                      :items="item.raw.dataset" :page="paginaEvento[item.raw.areaEspecialidad]" :search="busquedaEvento"
-                      item-value="EventosNombreEvento" style="background-color: transparent"
-                      no-data-text="No hay eventos con esa coincidencia">
+                      :items="item.raw.dataset" :page="paginaEvento[item.raw.areaEspecialidad]"
+                      :search="busquedaEvento[item.raw.areaEspecialidad]" item-value="EventosNombreEvento"
+                      style="background-color: transparent" no-data-text="No hay eventos con esa coincidencia">
                       <template v-slot:item="{ item }">
                         <tr class="v-data-table__tr">
                           <td v-for="encabezado in encabezadosEvento" :key="encabezado.key" :data-label="encabezado.title"
@@ -103,6 +118,16 @@
                             </span>
                           </td>
                         </tr>
+                      </template>
+                      <template v-slot:no-data>
+                        <v-card border class="my-5 pa-10 text-center" color="transparent" elevation="0">
+                          <v-icon color="grey-lighten-1" size="60">
+                            mdi-database-eye-off
+                          </v-icon>
+                          <v-card-text class="text-grey-darken-1">
+                            No se encontraron eventos que coincidan con la búsqueda.
+                          </v-card-text>
+                        </v-card>
                       </template>
                       <template v-slot:bottom="{ pageCount }">
                         <v-divider />
@@ -166,12 +191,15 @@
                 @click="nextPage" />
             </div>
           </template>
-
         </v-data-iterator>
         <v-card color="transparent" rounded="lg" class="mx-auto my-4" elevation="0">
           <v-card-actions>
-            <v-btn :color="colores.verdeBoton" @click="descargarPdf" block class="text-none" rounded="large" size="large"
-              text="DESCARGAR REPORTE PDF" variant="flat" />
+            <v-btn :color="colores.verdeBoton" block class="text-none" prepend-icon="mdi-file-download-outline"
+              rounded="large" size="large" text="DESCARGAR REPORTE PDF" variant="flat" @click="descargarPdf">
+              <template v-slot:prepend>
+                <v-icon class="mr-3" size="large"></v-icon>
+              </template>
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-container>
@@ -186,62 +214,61 @@ import { VDataIterator, VDataTable } from "vuetify/lib/labs/components.mjs";
 import { useDashboardStore } from "@/store/dashboard";
 import { useRoute } from "vue-router";
 
-
 export interface Result {
-  anhio: string
-  CuentasUsuarios: CuentasUsuarios
-  total: number
-  PuntosEvento: PuntosEvento[]
-  totales_general: TotalesGeneral
+  anhio: string;
+  CuentasUsuarios: CuentasUsuarios;
+  total: number;
+  PuntosEvento: PuntosEvento[];
+  totales_general: TotalesGeneral;
 }
 
 export interface CuentasUsuarios {
-  cuentasUsuariosId: number
-  idColegio: number
-  idSector: number
-  cuentaRfc: string
-  cuentaNombre: string
-  cuentaApaterno: string
-  cuentaAmatarno: string
-  cuentaSocio: string
-  cuentaSexo: string
-  cuentaEmail: string
-  registroAgaff: string
-  registroImss: string
-  tipoUsusario: string
-  puntos: string
-  articulo: string
-  anhioNacimiento: number
-  status: string
-  colegio: string
+  cuentasUsuariosId: number;
+  idColegio: number;
+  idSector: number;
+  cuentaRfc: string;
+  cuentaNombre: string;
+  cuentaApaterno: string;
+  cuentaAmatarno: string;
+  cuentaSocio: string;
+  cuentaSexo: string;
+  cuentaEmail: string;
+  registroAgaff: string;
+  registroImss: string;
+  tipoUsusario: string;
+  puntos: string;
+  articulo: string;
+  anhioNacimiento: number;
+  status: string;
+  colegio: string;
 }
 
 export interface PuntosEvento {
-  areaEspecialidad: string
-  dataset: Dataset[]
-  total: Total
+  areaEspecialidad: string;
+  dataset: Dataset[];
+  total: Total;
 }
 
 export interface Dataset {
-  NombreEspecialidad: string
-  EventosNombreEvento: string
-  NombreColegio: string
-  NumeroRegistro: string
-  EventosFechaFin: string
-  AsistenciaHora: number
-  AsistenciaPuntos: number
+  NombreEspecialidad: string;
+  EventosNombreEvento: string;
+  NombreColegio: string;
+  NumeroRegistro: string;
+  EventosFechaFin: string;
+  AsistenciaHora: number;
+  AsistenciaPuntos: number;
 }
 
 export interface Total {
-  TotalEspecialidad: string
-  SumEspecialidad: number
-  SumHora: number
+  TotalEspecialidad: string;
+  SumEspecialidad: number;
+  SumHora: number;
 }
 
 export interface TotalesGeneral {
-  TotalPuntos: string
-  SumEspecialidadTotal: number,
-  sumEspecialidadTotalHora: number,
+  TotalPuntos: string;
+  SumEspecialidadTotal: number;
+  sumEspecialidadTotalHora: number;
 }
 
 export default defineComponent({
@@ -259,7 +286,7 @@ export default defineComponent({
     const paginaEvento = ref([]);
     const route = useRoute();
     let busquedaEspecialidad = ref("");
-    let busquedaEvento = ref("");
+    let busquedaEvento = ref([]);
     let sortBy = ref([]);
     let sortDesc = ref("asc");
     let rutaPdf = ref("");
@@ -281,7 +308,7 @@ export default defineComponent({
     });
 
     const desgloseEspecialidades = ref<Result>({
-      anhio: '',
+      anhio: "",
       CuentasUsuarios: {
         cuentasUsuariosId: 0,
         idColegio: 0,
@@ -304,7 +331,11 @@ export default defineComponent({
       },
       total: 0,
       PuntosEvento: [],
-      totales_general: { TotalPuntos: '', SumEspecialidadTotal: 0, sumEspecialidadTotalHora: 0 }
+      totales_general: {
+        TotalPuntos: "",
+        SumEspecialidadTotal: 0,
+        sumEspecialidadTotalHora: 0,
+      },
     });
 
     const keys = ref([
@@ -348,7 +379,6 @@ export default defineComponent({
       try {
         await dashStore.desglosePuntosPorEjercicio(id);
         desgloseEspecialidades.value = dashStore.object.desglosePuntos as Result;
-
       } catch (error) { }
     }
 
@@ -356,7 +386,6 @@ export default defineComponent({
       try {
         await dashStore.desglosePuntosPorEjercicioPdf(id);
         rutaPdf.value = dashStore.object.rutaPdf;
-
       } catch (error) { }
     }
 
@@ -384,7 +413,7 @@ export default defineComponent({
       sortBy,
       sortDesc,
       desgloseEspecialidades,
-      descargarPdf
+      descargarPdf,
     };
   },
 });

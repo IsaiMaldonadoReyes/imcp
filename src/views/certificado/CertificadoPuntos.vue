@@ -106,7 +106,7 @@
           <v-card-actions class="justify-end">
             <v-btn :color="colores.grisOscuro" prepend-icon="mdi-eye-arrow-right-outline" text="Más información"
               variant="flat"
-              :to="{ name: 'certificadoPuntosDesglose', params: { idCertificado: idCertificadoDesglose, anhio: item.anhio_aplica } }">
+              :to="{ name: 'certificadoPuntosDesglosados', params: { idCertificado: idCertificadoDesglose, anhio: item.anhio_aplica } }">
               <template v-slot:prepend>
                 <v-icon class="mx-2" size="large"></v-icon>
               </template>
@@ -162,7 +162,7 @@ export interface Dataset {
 
 
 export default defineComponent({
-  name: "CertificadoEstatus",
+  name: "CertificadoPuntos",
   components: {
     IonPage,
     IonContent,

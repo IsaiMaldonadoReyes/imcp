@@ -140,10 +140,9 @@
 <script lang="ts">
 import { ref, computed, defineComponent, onMounted } from "vue";
 import { IonPage, IonContent } from "@ionic/vue";
-import { useDashboardStore } from "@/store/dashboard";
 
 export default defineComponent({
-  name: "dashboard",
+  name: "PagoSeleccion",
   components: {
     IonContent,
     IonPage,

@@ -44,7 +44,7 @@
           </template>
 
           <template v-slot:default="{ items }">
-            <v-card class="my-4" elevation="0" border v-for="item in items" :key="item.raw.certificado_dis">
+            <v-card class="my-4" elevation="0" border v-for="item in  items " :key="item.raw.certificado_dis">
               <v-card-text>
                 <v-table density="compact">
                   <tbody>
@@ -102,7 +102,8 @@
               <v-card-actions>
                 <v-btn v-if="item.raw.tipo_certificado == 'Sustentante' || item.raw.tipo_certificado == 'Refrendo'"
                   :color="colores.verdeBoton" block prepend-icon="mdi-credit-card-outline" size="large"
-                  text="Realizar pago" variant="flat">
+                  text="Realizar pago" :to="{ name: 'seleccionPagoCertificado', params: { idCertificado: 200 } }"
+                  variant="flat">
                   <template v-slot:prepend>
                     <v-icon class="mr-3" size="large"></v-icon>
                   </template>
@@ -133,8 +134,8 @@
                 Página {{ page }} de {{ pageCount }}
               </div>
 
-              <v-btn :color="colores.rojoIMPC" :disabled="page >= pageCount" icon="mdi-arrow-right" rounded size="small"
-                @click="nextPage" />
+              <v-btn :color="colores.rojoIMPC" :disabled="page >= pageCount" icon="mdi-arrow-right" rounded
+                size="small" @click="nextPage" />
             </div>
           </template>
         </v-data-iterator>
@@ -204,7 +205,7 @@ export interface RevisionAnual {
 
 
 export default defineComponent({
-  name: "CertificadoEstatus",
+  name: "certificado",
   components: {
     IonPage,
     IonContent,
