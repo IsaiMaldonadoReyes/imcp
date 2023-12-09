@@ -273,7 +273,7 @@ export interface TotalesGeneral {
 
 
 export default defineComponent({
-  name: "certificadoPuntosDesglosados",
+  name: "certificadoPuntosDesglose",
   components: {
     IonContent,
     IonPage,
@@ -418,7 +418,7 @@ export default defineComponent({
       } catch (error) { }
     }
 
-    async function descargarPdf() {
+    function descargarPdf() {
       window.open(rutaPdf.value, "_blank");
     }
 
