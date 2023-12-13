@@ -151,7 +151,7 @@
                       <v-icon
                         :color="getDotColor(revision.status)"
                         :icon="getIcon(revision.status)"
-                        class="my-1"
+                        class="mt-1"
                       ></v-icon>
                       <div>
                         <h6

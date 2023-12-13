@@ -113,10 +113,10 @@
                       </td>
                     </tr>
                     <tr>
-                      <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
+                      <td class="ma-0  text-subtitle-1 text-grey-darken-1">
                         Sector:
                       </td>
-                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify">
+                      <td class="ma-0  text-subtitle-1 font-weight-bold text-justify">
                         {{ item.raw.sector }}
                       </td>
                     </tr>

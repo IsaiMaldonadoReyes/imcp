@@ -130,15 +130,19 @@
                 rounded="0"
                 class="ma-1"
               >
-                <v-slide-group show-arrows class="imcp-slide-group">
+                <v-slide-group
+                  show-arrows
+                  class="imcp-slide-group "
+                  v-model="currentPage"
+                >
                   <v-slide-group-item
                     v-for="(revision, i) in item.raw.revisionAnual"
                     :key="i"
                   >
                     <v-card
-                      class="ma-1 pa-1 text-center"
+                      class="ma-1 pa-2 text-center"
                       height="90"
-                      width="30%"
+                      :style="{ width: cardWidth }"
                       elevation="0"
                       border
                     >
@@ -151,12 +155,12 @@
                       <v-icon
                         :color="getDotColor(revision.status)"
                         :icon="getIcon(revision.status)"
-                        class="my-1"
+                        class="mt-1"
                       ></v-icon>
                       <div>
                         <h6
                           class="ma-0 pa-0 font-weight-light text-grey-darken-1"
-                          style="font-size: 0.88rem"
+                          style="font-size: 0.9rem"
                         >
                           {{ revision.status }}
                         </h6>
@@ -334,6 +338,17 @@ export default defineComponent({
     let sortDesc = ref("asc");
     const itemsPorPagina = ref(3);
     let busquedaCertificado = ref("");
+
+    const currentPage = ref(0); // Página actual del v-slide-group
+    const cardsPerPage = ref(3);
+
+    const cardWidth = computed(() => {
+      // Calcular el ancho de cada tarjeta para que siempre se muestren 3 tarjetas por página
+      const totalCards = 4;
+      const totalPages = Math.ceil(totalCards / cardsPerPage.value);
+      const containerWidth = 60; // Ancho del contenedor en porcentaje
+      return `${containerWidth / cardsPerPage.value}%`;
+    });
 
     const colores = ref({
       rojoIMPC: "#B20000",

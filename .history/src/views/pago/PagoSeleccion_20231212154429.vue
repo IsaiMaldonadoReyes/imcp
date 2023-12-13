@@ -117,6 +117,7 @@
                 <v-tooltip
                   class="text-justify"
                   location="top"
+                  open-on-click
                   scroll-strategy="close"
                 >
                   <template v-slot:activator="{ props }">

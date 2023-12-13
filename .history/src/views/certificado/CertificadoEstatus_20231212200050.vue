@@ -130,35 +130,40 @@
                 rounded="0"
                 class="ma-1"
               >
-                <v-slide-group show-arrows class="imcp-slide-group">
+                <v-slide-group
+                  show-arrows
+                  class="imcp-slide-group"
+                  style="display: flex; flex-wrap: wrap"
+                >
                   <v-slide-group-item
-                    v-for="(revision, i) in item.raw.revisionAnual"
+                    v-for="(item, i) in item.raw.revisionAnual"
                     :key="i"
+                    style=" flex: 0 0 calc(30% - 10px);"
                   >
                     <v-card
-                      class="ma-1 pa-1 text-center"
+                      class="ma-1 pa-2 text-center"
                       height="90"
-                      width="30%"
+                      width="24vw"
                       elevation="0"
                       border
                     >
                       <div
                         class="text-subtitle-1 font-weight-bold"
-                        :style="`color: ${getDotColor(revision.status)}`"
-                        v-text="revision.anhio"
+                        :style="`color: ${getDotColor(item.status)}`"
+                        v-text="item.anhio"
                       ></div>
                       <v-divider></v-divider>
                       <v-icon
-                        :color="getDotColor(revision.status)"
-                        :icon="getIcon(revision.status)"
-                        class="my-1"
+                        :color="getDotColor(item.status)"
+                        :icon="getIcon(item.status)"
+                        class="mt-1"
                       ></v-icon>
                       <div>
                         <h6
                           class="ma-0 pa-0 font-weight-light text-grey-darken-1"
-                          style="font-size: 0.88rem"
+                          style="font-size: 0.9rem"
                         >
-                          {{ revision.status }}
+                          {{ item.status }}
                         </h6>
                       </div>
                     </v-card>
@@ -425,6 +430,6 @@ export default defineComponent({
 .imcp-slide-group .v-slide-group__next,
 .imcp-slide-group .v-slide-group__prev {
   flex: 0px !important;
-  min-width: 15px !important;
+  min-width: 20px !important;
 }
 </style>

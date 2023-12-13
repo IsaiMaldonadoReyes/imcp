@@ -126,39 +126,31 @@
               <v-divider />
               <v-card
                 v-if="item.raw.tipo_certificado !== 'Sustentante'"
+                border
                 elevation="0"
-                rounded="0"
-                class="ma-1"
               >
-                <v-slide-group show-arrows class="imcp-slide-group">
+                <v-slide-group show-arrows>
                   <v-slide-group-item
-                    v-for="(revision, i) in item.raw.revisionAnual"
+                    v-for="(item, i) in item.raw.revisionAnual"
                     :key="i"
+                    :color="getDotColor(item.status)"
                   >
                     <v-card
-                      class="ma-1 pa-1 text-center"
-                      height="90"
-                      width="30%"
-                      elevation="0"
-                      border
+                      color="grey-lighten-1"
+                      class="ma-1"
+                      height="200"
+                      width="100"
                     >
+                      <v-icon :icon="getIcon(item.status)"></v-icon>
+
                       <div
-                        class="text-subtitle-1 font-weight-bold"
-                        :style="`color: ${getDotColor(revision.status)}`"
-                        v-text="revision.anhio"
+                        class="headline text-subtitle-1 font-weight-bold"
+                        :style="`color: ${getDotColor(item.status)}`"
+                        v-text="item.anhio"
                       ></div>
-                      <v-divider></v-divider>
-                      <v-icon
-                        :color="getDotColor(revision.status)"
-                        :icon="getIcon(revision.status)"
-                        class="my-1"
-                      ></v-icon>
                       <div>
-                        <h6
-                          class="ma-0 pa-0 font-weight-light text-grey-darken-1"
-                          style="font-size: 0.88rem"
-                        >
-                          {{ revision.status }}
+                        <h6 class="headline font-weight-light mb-4 text-grey-darken-1">
+                          {{ item.status }}
                         </h6>
                       </div>
                     </v-card>
@@ -368,7 +360,7 @@ export default defineComponent({
       status === "Cumplido" ? "#468C00" : "#B20000"
     );
     const getIcon = computed(() => (status: string) =>
-      status === "Cumplido" ? "mdi-check-circle" : "mdi-close-circle"
+      status === "Cumplido" ? "mdi-check-bold" : "mdi-close-thick"
     );
 
     const keysProps = ref((item: any) => {
@@ -421,10 +413,4 @@ export default defineComponent({
 });
 </script>
 
-<style>
-.imcp-slide-group .v-slide-group__next,
-.imcp-slide-group .v-slide-group__prev {
-  flex: 0px !important;
-  min-width: 15px !important;
-}
-</style>
+<style scoped lang="scss"></style>
