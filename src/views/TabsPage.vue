@@ -6,38 +6,21 @@
           <v-app-bar color="#EBEFF0" elevation="1">
             <div class="back" />
             <div class="esquina-tl-toolbar" />
-            <img
-              class="ml-5"
-              style="max-height: 45%; max-width: 45%"
-              src="../assets/images/logotipo.svg"
-            />
+            <img class="ml-5" style="max-height: 45%; max-width: 45%" src="../assets/images/logotipo.svg" />
             <v-spacer></v-spacer>
 
             <v-list bg-color="transparent" class="imcp-header" max-width="250px">
               <v-list-item :title="nombreUsuario" :subtitle="'RFC:' + rfc">
                 <template v-slot:append>
                   <div class="text-center">
-                    <v-menu
-                      v-model="menu"
-                      :close-on-content-click="true"
-                      location="bottom"
-                    >
+                    <v-menu v-model="menu" :close-on-content-click="true" location="bottom">
                       <template v-slot:activator="{ props }">
-                        <v-btn
-                          v-bind="props"
-                          icon="mdi-menu-down"
-                          size="x-small"
-                          variant="text"
-                        ></v-btn>
+                        <v-btn v-bind="props" icon="mdi-menu-down" size="x-small" variant="text"></v-btn>
                       </template>
 
                       <v-card color="transparent">
                         <v-list class="imcp-header mx-auto pa-2" color="transparent">
-                          <v-list-item
-                            :title="nombreUsuario"
-                            :subtitle="'RFC ' + rfc"
-                            class="mb-3"
-                          >
+                          <v-list-item :title="nombreUsuario" :subtitle="'RFC ' + rfc" class="mb-3">
                             <template v-slot:prepend>
                               <v-avatar color="#AAAAAA" size="small">
                                 <span class="text-h6">RJ</span>
@@ -45,19 +28,11 @@
                             </template>
                           </v-list-item>
                           <v-divider></v-divider>
-                          <v-list-item
-                            class="mx-auto text-left"
-                            variant="plain"
-                            color="red"
-                            :value="1"
-                            rounded="xl"
-                          >
+                          <v-list-item class="mx-auto text-left" variant="plain" color="red" :value="1" rounded="xl">
                             <template v-slot:prepend>
                               <v-icon size="16" color="#B20000">
                                 <svg ref="icon" class="v-icon">
-                                  <use
-                                    xlink:href="../assets/images/ico.svg#ico-menu-micuenta"
-                                  ></use>
+                                  <use xlink:href="../assets/images/ico.svg#ico-menu-micuenta"></use>
                                 </svg>
                               </v-icon>
                             </template>
@@ -93,33 +68,17 @@
             </v-list>
 
             <template v-slot:append>
-              <v-menu
-                v-model="menuNotificacion"
-                :close-on-content-click="false"
-                location="bottom"
-              >
+              <v-menu v-model="menuNotificacion" :close-on-content-click="false" location="bottom">
                 <template v-slot:activator="{ props }">
-                  <v-btn
-                    class="text-none text-left"
-                    color="#B20000"
-                    icon
-                    variant="outlined"
-                    size="small"
-                    v-bind="props"
-                  >
-                    <v-badge
-                      class="small-dot"
-                      :content="cantidadNotificaciones"
-                      text-color="#ffffff"
-                      location="center"
-                    >
+                  <v-btn class="text-none text-left" color="#B20000" icon variant="outlined" size="small" v-bind="props">
+                    <v-badge class="small-dot" :content="cantidadNotificaciones" text-color="#ffffff" location="center">
                       <v-icon color="#B20000" size="30">mdi-bell</v-icon>
                     </v-badge>
                   </v-btn>
                 </template>
 
                 <v-card>
-                  <v-list :items="items" item-props lines="three">
+                  <v-list :items="notificaciones" item-props lines="three">
                     <template v-slot:subtitle="{ subtitle }">
                       <div v-html="subtitle"></div>
                     </template>
@@ -165,9 +124,7 @@
           <ion-tab-button tab="certificado" href="/tabs/emitidos">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
-                <use
-                  xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"
-                ></use>
+                <use xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"></use>
               </svg>
             </v-icon>
           </ion-tab-button>
@@ -203,9 +160,10 @@ import {
   IonRouterOutlet,
   IonContent,
   IonHeader,
+  onIonViewWillEnter,
 } from "@ionic/vue";
 import { ellipse, helpCircle, square, triangle } from "ionicons/icons";
-import { defineComponent, ref, inject, onMounted } from "vue";
+import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useSessionStore } from "../store/session";
 import { useDashboardStore } from "../store/dashboard";
@@ -239,7 +197,7 @@ export default defineComponent({
 
     let cantidadNotificaciones = ref<number>(0);
 
-    const items = ref<
+    const notificaciones = ref<
       Array<
         | { title: string; subtitle: string }
         | { type: string; inset: boolean; title: string; subtitle: string }
@@ -247,49 +205,55 @@ export default defineComponent({
       >
     >([]);
 
-    const fetchData = async () => {
+    async function cargarTabs() {
       const storage = new Storage();
       storage.create();
 
+      rfc.value = "";
+      nombreUsuario.value = "";
+
       rfc.value = await storage.get("rfc");
       nombreUsuario.value = await storage.get("nombreUsuario");
-
-      loadNotifications(rfc.value);
+      cargarNotificaciones(rfc.value);
     };
 
-    onMounted(() => {
-      fetchData();
-    });
+    async function cargarNotificaciones(rfcUser: string) {
+      notificaciones.value.length = 0;
+      notificaciones.value = [];
 
-    async function loadNotifications(rfcUser: string) {
       await dash.loadNotifications(rfcUser);
 
       const notifications = dash.object.notificaciones;
-      items.value.length = 0;
 
-      items.value.push({ type: "subheader", title: "Notificaciones", subtitle: "" });
-      items.value.push({ type: "divider", inset: false, title: "", subtitle: "" });
+      notificaciones.value.push({ type: "subheader", title: "Notificaciones", subtitle: "" });
+      notificaciones.value.push({ type: "divider", inset: false, title: "", subtitle: "" });
 
       if (Array.isArray(notifications)) {
-        // Añade el encabezado
         cantidadNotificaciones.value = notifications.length;
 
-        // Añade las notificaciones
         notifications.forEach((notification) => {
-          items.value.push({
+          notificaciones.value.push({
             type: "divider",
             inset: false,
           });
 
-          items.value.push({
+          notificaciones.value.push({
             title: notification.title,
             subtitle: `<span class="text-grey-darken-4">${notification.subtitle}</span> : <span class="text-red-darken-4">${notification.pointsRequired} puntos </span> <br/> <span class="text-grey-darken-4">Cuentas con:</span> : <span class="text-red-darken-4">${notification.pointsOwned} puntos </span>`,
           });
         });
       } else {
-        console.error("El objeto 'notifications' no es un array.");
+        console.error("Hubo un error al cargar las notificaciones");
       }
     }
+
+    onIonViewWillEnter(() => {
+      notificaciones.value = [];
+      rfc.value = "";
+      nombreUsuario.value = "";
+
+      cargarTabs();
+    });
 
     async function logout() {
       try {
@@ -306,7 +270,7 @@ export default defineComponent({
       square,
       triangle,
       fav,
-      items,
+      notificaciones,
       menu,
       menuNotificacion,
       message,
@@ -325,6 +289,7 @@ export default defineComponent({
 .v-btn__content {
   letter-spacing: normal;
 }
+
 ion-content {
   /**--ion-background-color: url("../assets/images/back.jpg");**/
   --ion-background-color: #eeeeee;

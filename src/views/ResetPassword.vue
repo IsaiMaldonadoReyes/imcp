@@ -130,8 +130,6 @@ export default defineComponent({
         storage.create();
         token.value = await storage.get("token");
 
-        //console.log(token.value);
-
         if (token.value == "" || token.value == null) {
           await showAlert("Ocurrio un problema con el servidor", "Cierre la aplicación e intente más tarde");
         } else {
