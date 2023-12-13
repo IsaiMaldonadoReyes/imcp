@@ -151,12 +151,12 @@
                       <v-icon
                         :color="getDotColor(revision.status)"
                         :icon="getIcon(revision.status)"
-                        class="my-1"
+                        class="mt-1"
                       ></v-icon>
                       <div>
                         <h6
                           class="ma-0 pa-0 font-weight-light text-grey-darken-1"
-                          style="font-size: 0.88rem"
+                          style="font-size: 0.85rem"
                         >
                           {{ revision.status }}
                         </h6>

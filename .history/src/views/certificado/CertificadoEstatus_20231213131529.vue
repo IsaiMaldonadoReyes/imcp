@@ -136,9 +136,9 @@
                     :key="i"
                   >
                     <v-card
-                      class="ma-1 pa-1 text-center"
+                      class="ma-1 pa-2 text-center"
                       height="90"
-                      width="30%"
+                      width="92"
                       elevation="0"
                       border
                     >
@@ -151,12 +151,12 @@
                       <v-icon
                         :color="getDotColor(revision.status)"
                         :icon="getIcon(revision.status)"
-                        class="my-1"
+                        class="mt-1"
                       ></v-icon>
                       <div>
                         <h6
                           class="ma-0 pa-0 font-weight-light text-grey-darken-1"
-                          style="font-size: 0.88rem"
+                          style="font-size: 0.9rem"
                         >
                           {{ revision.status }}
                         </h6>

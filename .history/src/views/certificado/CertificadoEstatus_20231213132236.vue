@@ -128,7 +128,7 @@
                 v-if="item.raw.tipo_certificado !== 'Sustentante'"
                 elevation="0"
                 rounded="0"
-                class="ma-1"
+                class=""
               >
                 <v-slide-group show-arrows class="imcp-slide-group">
                   <v-slide-group-item

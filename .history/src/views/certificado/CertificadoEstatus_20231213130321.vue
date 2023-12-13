@@ -130,40 +130,39 @@
                 rounded="0"
                 class="ma-1"
               >
-                <v-slide-group show-arrows class="imcp-slide-group">
-                  <v-slide-group-item
-                    v-for="(revision, i) in item.raw.revisionAnual"
-                    :key="i"
-                  >
-                    <v-card
-                      class="ma-1 pa-1 text-center"
-                      height="90"
-                      width="30%"
-                      elevation="0"
-                      border
-                    >
-                      <div
-                        class="text-subtitle-1 font-weight-bold"
-                        :style="`color: ${getDotColor(revision.status)}`"
-                        v-text="revision.anhio"
-                      ></div>
-                      <v-divider></v-divider>
-                      <v-icon
-                        :color="getDotColor(revision.status)"
-                        :icon="getIcon(revision.status)"
-                        class="my-1"
-                      ></v-icon>
-                      <div>
-                        <h6
-                          class="ma-0 pa-0 font-weight-light text-grey-darken-1"
-                          style="font-size: 0.88rem"
-                        >
-                          {{ revision.status }}
-                        </h6>
-                      </div>
-                    </v-card>
-                  </v-slide-group-item>
-                </v-slide-group>
+                <v-carousel show-arrows class="imcp-slide-group">
+                  <v-carousel-item v-for="(item, i) in item.raw.revisionAnual" :key="i">
+                    <v-slide-item>
+                      <v-card
+                        class="ma-1 pa-2 text-center"
+                        height="90"
+                        width="25vw"
+                        elevation="0"
+                        border
+                      >
+                        <div
+                          class="text-subtitle-1 font-weight-bold"
+                          :style="`color: ${getDotColor(item.status)}`"
+                          v-text="item.anhio"
+                        ></div>
+                        <v-divider></v-divider>
+                        <v-icon
+                          :color="getDotColor(item.status)"
+                          :icon="getIcon(item.status)"
+                          class="mt-1"
+                        ></v-icon>
+                        <div>
+                          <h6
+                            class="ma-0 pa-0 font-weight-light text-grey-darken-1"
+                            style="font-size: 0.9rem"
+                          >
+                            {{ item.status }}
+                          </h6>
+                        </div>
+                      </v-card>
+                    </v-slide-item>
+                  </v-carousel-item>
+                </v-carousel>
               </v-card>
               <v-divider />
               <v-card-actions>

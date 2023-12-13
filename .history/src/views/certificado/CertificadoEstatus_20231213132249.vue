@@ -79,7 +79,7 @@
 
           <template v-slot:default="{ items }">
             <v-card
-              class="my-4"
+              class=""
               elevation="0"
               border
               v-for="item in items"
