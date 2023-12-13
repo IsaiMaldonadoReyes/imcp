@@ -87,7 +87,7 @@ export const useDashboardStore = defineStore({
                     this.object.ejercicios = response.data.result.search;
                 }
             } catch (error) {
-                throw new Error("Usuario y/o contraseñas incorrectas");
+                throw new Error("Error al cargar los ejercicios Dashboard");
             }
         },
 

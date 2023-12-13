@@ -41,6 +41,7 @@ const routes = [
       },
       {
         path: "dashboard", // vista principal - dashboard
+        name: "dashboard",
         component: Dashboard,
       },
       {
@@ -61,7 +62,7 @@ const routes = [
       {
         path: "certificadoPuntosDesglosados/:idCertificado/:anhio", // certificado estatus
         name: "certificadoPuntosDesglosados",
-        component: () => CertificadoPuntosDesglose,
+        component: () => import("@/views/certificado/CertificadoPuntosDesglosados.vue"),
       },
       {
         path: "seleccionPago/:idCertificado", // certificado pago 

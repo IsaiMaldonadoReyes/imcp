@@ -23,14 +23,7 @@
             <span class="text-subtitle-1 text-grey-darken-1">Sector:</span>
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.CuentasUsuarios.colegio }}
-            </span>
-            <br />
-            <span class="text-subtitle-1 text-grey-darken-1">
-              Cumplimiento NDPCA artículo 2.9:
-            </span>
-            <span class="text-subtitle-1 font-weight-bold text-red-darken-1">
-              {{ desgloseEspecialidades.CuentasUsuarios.articulo }}
-            </span>
+            </span>            
             <br />
             <span class="text-subtitle-1 text-grey-darken-1">Registro Agaff:</span>
             <span class="text-subtitle-1 font-weight-bold">
@@ -46,6 +39,12 @@
               {{ desgloseEspecialidades.total }}
             </span>
             <br />
+            <span class="text-subtitle-1 text-grey-darken-1">
+              Cumplimiento NDPCA artículo 2.9:
+            </span>
+            <span class="text-subtitle-1 font-weight-bold text-red-darken-1">
+              {{ desgloseEspecialidades.CuentasUsuarios.articulo }}
+            </span>
           </v-card-text>
         </v-card>
 
@@ -136,11 +135,11 @@
                             :false-value="1" :inline="false" :true-value="item.raw.dataset.length"
                             class="switch-all my-4 font-weight-bold d-flex justify-center" density="compact"
                             false-icon="mdi-eye-off-outline" hide-details inset label="Ver todos los eventos"
-                            true-icon="mdi-eye-outline" />
+                            true-icon="mdi-eye-outline" v-if="item.raw.dataset.length > 1" />
                           <v-pagination v-model="paginaEvento[item.raw.areaEspecialidad]" :active-color="colores.rojoIMPC"
                             :color="colores.grisOscuro" :length="pageCount" :show-first-last-page="true" ellipsis="..."
                             next-icon="mdi-arrow-right" prev-icon="mdi-arrow-left" size="small" total-visible="1"
-                            variant="flat" />
+                            variant="flat" v-if="item.raw.dataset.length > 1" />
                         </div>
                       </template>
                     </v-data-table>
@@ -177,9 +176,9 @@
                 :false-value="3" :inline="false" :true-value="desgloseEspecialidades.PuntosEvento.length"
                 class="switch-all font-weight-bold d-flex justify-center" density="compact"
                 false-icon="mdi-eye-off-outline" hide-details inset label="Ver todas las especialidades"
-                true-icon="mdi-eye-outline" />
+                true-icon="mdi-eye-outline" v-if="desgloseEspecialidades.PuntosEvento.length > 3" />
             </div>
-            <div class="d-flex align-center justify-center pa-4">
+            <div class="d-flex align-center justify-center pa-4" v-if="desgloseEspecialidades.PuntosEvento.length > 3">
               <v-btn :color="colores.rojoIMPC" :disabled="page === 1" icon="mdi-arrow-left" rounded size="small"
                 @click="prevPage" />
 
@@ -192,7 +191,8 @@
             </div>
           </template>
         </v-data-iterator>
-        <v-card color="transparent" rounded="lg" class="mx-auto my-4" elevation="0">
+        <v-card color="transparent" rounded="lg" class="mx-auto my-4" elevation="0"
+          v-if="desgloseEspecialidades.PuntosEvento.length > 0">
           <v-card-actions>
             <v-btn :color="colores.verdeBoton" block class="text-none" prepend-icon="mdi-file-download-outline"
               rounded="large" size="large" text="DESCARGAR REPORTE PDF" variant="flat" @click="descargarPdf">
@@ -208,8 +208,8 @@
 </template>
 
 <script lang="ts">
-import { IonPage, IonContent } from "@ionic/vue";
-import { defineComponent, ref, computed, onMounted, Ref } from "vue";
+import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
+import { defineComponent, ref, onMounted } from "vue";
 import { VDataIterator, VDataTable } from "vuetify/lib/labs/components.mjs";
 import { useDashboardStore } from "@/store/dashboard";
 import { useRoute } from "vue-router";
@@ -391,11 +391,13 @@ export default defineComponent({
 
     function descargarPdf() {
       window.open(rutaPdf.value, "_blank");
-      //console.log("");
     }
 
-    onMounted(() => {
+    onIonViewDidEnter(() => {
+      rutaPdf.value = "";
+
       const id = route.params.id;
+
       cargarDesglosePorEjercicio(id);
       cargarPdfDesglosePorEjercicio(id);
     });

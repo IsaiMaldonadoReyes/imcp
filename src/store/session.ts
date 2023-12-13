@@ -87,7 +87,21 @@ export const useSessionStore = defineStore({
 
                         await storage.set('logged', true);
                         await storage.set('rfc', data.get("email"));
-                        this.userInformation(data.get("email"));
+
+                        const params = {
+                            datos: {
+                                cuenta_rfc: data.get('email')
+                            }
+                        };
+
+                        const responseInformation = await axios.get("/users/informacion", {
+                            params,
+                            headers: configAuthToken.headers,
+                        });
+
+                        await storage.set('nombreUsuario', responseInformation.data.result.info[0].cuenta_nombre + " " + responseInformation.data.result.info[0].cuenta_apaterno + " " + responseInformation.data.result.info[0].cuenta_amatarno);
+
+                        //this.userInformation();
                     }
                 } catch (error) {
                     throw new Error("Usuario y/o contraseñas incorrectas");
@@ -95,24 +109,36 @@ export const useSessionStore = defineStore({
             }
         },
 
-        async userInformation(rfc: string) {
+        async userInformation() {
+
+            console.log("userInformation");
             const storage = new Storage();
             await storage.create();
 
-            // desarrollo
-            await storage.set('nombreUsuario', 'Rogerio Juan Bosco Casas');
-            this.object = {
-                nombre: 'Rogerio Juan Bosco Casas', rfc: 'RJCA781002-HR7'
-            };
+            const configAuthToken = await storage.get("configToken");
+            const rfcParam = await storage.get("rfc");
 
-            /*
             try {
-                const response = await axios.post("/api/userInformation", rfc)
-                this.object = response.data;
+                const params = {
+                    datos: {
+                        cuenta_rfc: rfcParam
+                    }
+                };
+
+                const response = await axios.get("/users/informacion", {
+                    params,
+                    headers: configAuthToken.headers,
+                });
+
+                //console.log(response.data);
+                if (response.data.type === "success") {
+                    await storage.set('nombreUsuario', response.data.result.info[0].cuenta_nombre + " " + response.data.result.info[0].cuenta_apaterno + " " + response.data.result.info[0].cuenta_amatarno);
+                }
             } catch (error) {
-                throw new Error("Información del usuario incorrecta");
+                throw new Error("Error al cargar los ejercicios Dashboard");
             }
-            */
+
+
         },
 
         async resetPassword(data: any) {
@@ -130,21 +156,21 @@ export const useSessionStore = defineStore({
             await storage.create();
 
             try {
-                
+
                 var dataLogout = new URLSearchParams();
                 dataLogout.append("api[token]", await storage.get("token"));
 
                 const response = await axios.put("/login/token", dataLogout.toString(), config);
-                
+
                 await storage.remove('token');
                 await storage.remove('logged');
                 await storage.remove('rfc');
                 await storage.remove('nombreUsuario');
                 await storage.remove('configToken');
-                
+
                 this.auth = false;
                 this.object = {};
-                
+
             } catch (error) {
                 throw new Error("Error al cerrar la sesión");
             }

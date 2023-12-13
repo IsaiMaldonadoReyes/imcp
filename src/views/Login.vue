@@ -102,7 +102,7 @@ export default defineComponent({
 
         if (session.auth == true) {
           await formEl.value?.reset();
-          router.push("/tabs/dashboard");
+          router.push({ name: "dashboard" });
         } else {
           await showAlert("Inicio de sesión", "Usuario y/o contraseña invalida");
         }
@@ -123,7 +123,6 @@ export default defineComponent({
         if (isValidForm.valid) {
           await getToken();
 
-          //console.log(tokenAuth.value);
           if (tokenAuth.value == true) {
             try {
               await login();
@@ -145,8 +144,6 @@ export default defineComponent({
         const storage = new Storage();
         storage.create();
         token.value = await storage.get("token");
-
-        //console.log(token.value);
 
         if (token.value == "" || token.value == null) {
           await showAlert("Ocurrio un problema con el servidor", "Cierre la aplicación e intente más tarde");
