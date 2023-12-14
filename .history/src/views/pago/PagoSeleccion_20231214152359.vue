@@ -115,12 +115,8 @@
             >
               <template v-slot:append>
                 <v-tooltip class="text-justify" location="top" v-model="tooltipVisible">
-                  <template v-slot:activator="{ props }">
-                    <v-icon
-                      v-bind="props"
-                      @click="toggleTooltip"
-                      class="informacion-adicional"
-                    >
+                  <template v-slot:activator="{ isActive }">
+                    <v-icon v-on="isActive" @click="toggleTooltip">
                       mdi-information-outline
                     </v-icon>
                   </template>
@@ -140,7 +136,7 @@
 
 <script lang="ts">
 import { ref, computed, defineComponent, onMounted, onBeforeUnmount } from "vue";
-import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
+import { IonPage, IonContent } from "@ionic/vue";
 
 export default defineComponent({
   name: "PagoSeleccion",
@@ -158,40 +154,37 @@ export default defineComponent({
 
     const tooltipVisible = ref(false);
 
-    const toggleTooltip = () => {
-      tooltipVisible.value = !tooltipVisible.value;
-      console.log("Clic en icono!");
+    const toggleTooltip = (isActive: boolean) => {
+      tooltipVisible.value = isActive;
     };
 
     const closeTooltipOnClickOutside = (event: any) => {
-      const tooltipActivator = document.querySelector(".informacion-adicional");
+      const button = document.querySelector(".v-input__append-inner");
       const tooltip = document.querySelector(".v-tooltip");
 
       if (
+        button &&
         tooltip &&
-        !tooltip.contains(event.target) &&
-        (!tooltipActivator || !tooltipActivator.contains(event.target))
+        !button.contains(event.target) &&
+        !tooltip.contains(event.target)
       ) {
         tooltipVisible.value = false;
       }
     };
 
-    onIonViewDidEnter(() => {
+    onMounted(() => {
       document.addEventListener("click", closeTooltipOnClickOutside);
     });
 
-    /*
     onBeforeUnmount(() => {
       document.removeEventListener("click", closeTooltipOnClickOutside);
     });
-    */
 
     return {
       colores,
       show,
       tooltipVisible,
       toggleTooltip,
-      closeTooltipOnClickOutside,
     };
   },
 });

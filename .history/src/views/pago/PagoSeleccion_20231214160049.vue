@@ -140,7 +140,7 @@
 
 <script lang="ts">
 import { ref, computed, defineComponent, onMounted, onBeforeUnmount } from "vue";
-import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
+import { IonPage, IonContent } from "@ionic/vue";
 
 export default defineComponent({
   name: "PagoSeleccion",
@@ -176,15 +176,13 @@ export default defineComponent({
       }
     };
 
-    onIonViewDidEnter(() => {
+    onMounted(() => {
       document.addEventListener("click", closeTooltipOnClickOutside);
     });
 
-    /*
     onBeforeUnmount(() => {
       document.removeEventListener("click", closeTooltipOnClickOutside);
     });
-    */
 
     return {
       colores,

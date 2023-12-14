@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-content>
-      <v-container fluid>
+      <v-container fluid @click="closeTooltipOnClickOutside">
         <v-card elevation="0" color="transparent">
           <v-card-item>
             <v-card-title
@@ -116,11 +116,7 @@
               <template v-slot:append>
                 <v-tooltip class="text-justify" location="top" v-model="tooltipVisible">
                   <template v-slot:activator="{ props }">
-                    <v-icon
-                      v-bind="props"
-                      @click="toggleTooltip"
-                      class="informacion-adicional"
-                    >
+                    <v-icon v-bind="props" @click="toggleTooltip">
                       mdi-information-outline
                     </v-icon>
                   </template>
@@ -140,7 +136,7 @@
 
 <script lang="ts">
 import { ref, computed, defineComponent, onMounted, onBeforeUnmount } from "vue";
-import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
+import { IonPage, IonContent } from "@ionic/vue";
 
 export default defineComponent({
   name: "PagoSeleccion",
@@ -164,27 +160,28 @@ export default defineComponent({
     };
 
     const closeTooltipOnClickOutside = (event: any) => {
-      const tooltipActivator = document.querySelector(".informacion-adicional");
+      const button = document.querySelector("v-icon");
       const tooltip = document.querySelector(".v-tooltip");
 
       if (
+        button &&
         tooltip &&
-        !tooltip.contains(event.target) &&
-        (!tooltipActivator || !tooltipActivator.contains(event.target))
+        !button.contains(event.target) &&
+        !tooltip.contains(event.target)
       ) {
         tooltipVisible.value = false;
       }
+
+      console.log(button);
     };
 
-    onIonViewDidEnter(() => {
+    onMounted(() => {
       document.addEventListener("click", closeTooltipOnClickOutside);
     });
 
-    /*
     onBeforeUnmount(() => {
       document.removeEventListener("click", closeTooltipOnClickOutside);
     });
-    */
 
     return {
       colores,
