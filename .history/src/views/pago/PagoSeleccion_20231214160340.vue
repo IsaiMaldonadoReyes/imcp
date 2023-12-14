@@ -180,11 +180,9 @@ export default defineComponent({
       document.addEventListener("click", closeTooltipOnClickOutside);
     });
 
-    /*
     onBeforeUnmount(() => {
       document.removeEventListener("click", closeTooltipOnClickOutside);
     });
-    */
 
     return {
       colores,

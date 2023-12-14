@@ -114,15 +114,14 @@
               variant="outlined"
             >
               <template v-slot:append>
-                <v-tooltip class="text-justify" location="top" v-model="tooltipVisible">
+                <v-tooltip
+                  class="text-justify"
+                  location="top"
+                  scroll-strategy="close"
+                  v-model="tooltipVisible"
+                >
                   <template v-slot:activator="{ props }">
-                    <v-icon
-                      v-bind="props"
-                      @click="toggleTooltip"
-                      class="informacion-adicional"
-                    >
-                      mdi-information-outline
-                    </v-icon>
+                    <v-icon v-bind="props" @click="toggleTooltip"> mdi-information-outline </v-icon>
                   </template>
                   <span>
                     El código CVV o CVC es un grupo de 3 o 4 números situado en el reverso
@@ -140,7 +139,7 @@
 
 <script lang="ts">
 import { ref, computed, defineComponent, onMounted, onBeforeUnmount } from "vue";
-import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
+import { IonPage, IonContent } from "@ionic/vue";
 
 export default defineComponent({
   name: "PagoSeleccion",
@@ -160,38 +159,30 @@ export default defineComponent({
 
     const toggleTooltip = () => {
       tooltipVisible.value = !tooltipVisible.value;
-      console.log("Clic en icono!");
     };
 
-    const closeTooltipOnClickOutside = (event: any) => {
-      const tooltipActivator = document.querySelector(".informacion-adicional");
-      const tooltip = document.querySelector(".v-tooltip");
+    const closeTooltipOnClickOutside = (event) => {
+      const button = document.querySelector('v-btn');
+      const tooltip = document.querySelector('.v-tooltip');
 
-      if (
-        tooltip &&
-        !tooltip.contains(event.target) &&
-        (!tooltipActivator || !tooltipActivator.contains(event.target))
-      ) {
+      if (button && tooltip && !button.contains(event.target) && !tooltip.contains(event.target)) {
         tooltipVisible.value = false;
       }
     };
 
-    onIonViewDidEnter(() => {
-      document.addEventListener("click", closeTooltipOnClickOutside);
+    onMounted(() => {
+      document.addEventListener('click', closeTooltipOnClickOutside);
     });
 
-    /*
     onBeforeUnmount(() => {
-      document.removeEventListener("click", closeTooltipOnClickOutside);
+      document.removeEventListener('click', closeTooltipOnClickOutside);
     });
-    */
 
     return {
       colores,
       show,
       tooltipVisible,
       toggleTooltip,
-      closeTooltipOnClickOutside,
     };
   },
 });

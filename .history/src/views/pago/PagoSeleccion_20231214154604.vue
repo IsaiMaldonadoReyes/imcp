@@ -116,11 +116,7 @@
               <template v-slot:append>
                 <v-tooltip class="text-justify" location="top" v-model="tooltipVisible">
                   <template v-slot:activator="{ props }">
-                    <v-icon
-                      v-bind="props"
-                      @click="toggleTooltip"
-                      class="informacion-adicional"
-                    >
+                    <v-icon v-bind="props" @click="toggleTooltip">
                       mdi-information-outline
                     </v-icon>
                   </template>
@@ -140,7 +136,7 @@
 
 <script lang="ts">
 import { ref, computed, defineComponent, onMounted, onBeforeUnmount } from "vue";
-import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
+import { IonPage, IonContent } from "@ionic/vue";
 
 export default defineComponent({
   name: "PagoSeleccion",
@@ -164,7 +160,7 @@ export default defineComponent({
     };
 
     const closeTooltipOnClickOutside = (event: any) => {
-      const tooltipActivator = document.querySelector(".informacion-adicional");
+      const tooltipActivator = document.querySelector("v-icon");
       const tooltip = document.querySelector(".v-tooltip");
 
       if (
@@ -176,22 +172,19 @@ export default defineComponent({
       }
     };
 
-    onIonViewDidEnter(() => {
+    onMounted(() => {
       document.addEventListener("click", closeTooltipOnClickOutside);
     });
 
-    /*
     onBeforeUnmount(() => {
       document.removeEventListener("click", closeTooltipOnClickOutside);
     });
-    */
 
     return {
       colores,
       show,
       tooltipVisible,
       toggleTooltip,
-      closeTooltipOnClickOutside,
     };
   },
 });
