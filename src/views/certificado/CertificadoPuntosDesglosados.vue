@@ -16,11 +16,13 @@
 
           <v-card-text>
             <span class="text-subtitle-1 text-grey-darken-1">Colegio:</span>
-            <span class="text-subtitle-1 font-weight-bold"> {{ desgloseEspecialidades.CuentasUsuarios.colegio }} </span>
+            <span class="text-subtitle-1 font-weight-bold">
+              {{ desgloseEspecialidades.CuentasUsuarios.colegio }}
+            </span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1">Sector:</span>
             <span class="text-subtitle-1 font-weight-bold">
-              {{ desgloseEspecialidades.CuentasUsuarios.colegio }}
+              {{ desgloseEspecialidades.CuentasUsuarios.sector }}
             </span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1">
@@ -30,38 +32,77 @@
               {{ desgloseEspecialidades.CuentasUsuarios.articulo }}
             </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Registro Agaff:</span>
-            <span class="text-subtitle-1 font-weight-bold"> {{
-              desgloseEspecialidades.CuentasUsuarios.registroAgaff }}</span>
+            <span class="text-subtitle-1 text-grey-darken-1"
+              >Registro Agaff:</span
+            >
+            <span class="text-subtitle-1 font-weight-bold">
+              {{ desgloseEspecialidades.CuentasUsuarios.registroAgaff }}</span
+            >
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Registro IMSS:</span>
-            <span class="text-subtitle-1 font-weight-bold"> {{ desgloseEspecialidades.CuentasUsuarios.registroImss }}
+            <span class="text-subtitle-1 text-grey-darken-1"
+              >Registro IMSS:</span
+            >
+            <span class="text-subtitle-1 font-weight-bold">
+              {{ desgloseEspecialidades.CuentasUsuarios.registroImss }}
             </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Total de puntos:</span>
-            <span class="text-subtitle-1 font-weight-bold"> {{ desgloseEspecialidades.total }} </span>
+            <span class="text-subtitle-1 text-grey-darken-1"
+              >Total de puntos:</span
+            >
+            <span class="text-subtitle-1 font-weight-bold">
+              {{ desgloseEspecialidades.total }}
+            </span>
             <br />
           </v-card-text>
         </v-card>
 
-        <v-data-iterator :items-per-page="itemsPorPagina" :items="desgloseEspecialidades.PuntosEvento || []"
-          :search="busquedaEspecialidad" :sort-by="sortBy" item-value="areaEspecialidad">
+        <v-data-iterator
+          :items-per-page="itemsPorPagina"
+          :items="desgloseEspecialidades.PuntosEvento || []"
+          :search="busquedaEspecialidad"
+          :sort-by="sortBy"
+          item-value="areaEspecialidad"
+        >
           <template v-slot:header>
             <v-row dense>
               <v-col cols="12" lg="6" md="12" sm="12" xs="12">
-                <v-text-field v-model="busquedaEspecialidad" clearable density="comfortable" hide-details
-                  placeholder="Buscar especialidad" prepend-inner-icon="mdi-magnify" variant="solo" />
+                <v-text-field
+                  v-model="busquedaEspecialidad"
+                  clearable
+                  density="comfortable"
+                  hide-details
+                  placeholder="Buscar especialidad"
+                  prepend-inner-icon="mdi-magnify"
+                  variant="solo"
+                />
               </v-col>
               <v-col cols="12" lg="6" md="12" sm="12" xs="12">
                 <v-row dense>
                   <v-col cols="8">
-                    <v-select v-model="sortBy" :item-props="keysProps" :items="keys" density="comfortable" hide-details
-                      placeholder="Ordenar por" variant="solo" />
+                    <v-select
+                      v-model="sortBy"
+                      :item-props="keysProps"
+                      :items="keys"
+                      density="comfortable"
+                      hide-details
+                      placeholder="Ordenar por"
+                      variant="solo"
+                    />
                   </v-col>
                   <v-col cols="4" class="d-flex justify-end">
                     <v-btn-toggle v-model="sortDesc" elevation="2">
-                      <v-btn :value="'asc'" color="#B20000" icon="mdi-arrow-up" size="small" />
-                      <v-btn :value="'desc'" color="#B20000" icon="mdi-arrow-down" size="small" />
+                      <v-btn
+                        :value="'asc'"
+                        color="#B20000"
+                        icon="mdi-arrow-up"
+                        size="small"
+                      />
+                      <v-btn
+                        :value="'desc'"
+                        color="#B20000"
+                        icon="mdi-arrow-down"
+                        size="small"
+                      />
                     </v-btn-toggle>
                   </v-col>
                 </v-row>
@@ -69,14 +110,37 @@
             </v-row>
           </template>
 
+          <template v-slot:no-data>
+            <v-card
+              border
+              class="my-5 pa-10 text-center"
+              color="transparent"
+              elevation="0"
+            >
+              <v-icon color="grey-lighten-1" size="60"
+                >mdi-database-eye-off</v-icon
+              >
+              <v-card-text class="text-grey-darken-1">
+                No se encontraron especialidades que coincidan con la búsqueda.
+              </v-card-text>
+            </v-card>
+          </template>
+
           <template v-slot:default="{ items }">
             <v-row dense>
-              <v-col v-for="item in items" :key="item.raw.areaEspecialidad" cols="12">
+              <v-col
+                v-for="item in items"
+                :key="item.raw.areaEspecialidad"
+                cols="12"
+              >
                 <v-card border class="mb-3" color="transparent" elevation="0">
                   <v-card class="py-1" elevation="0" border rounded="0">
                     <v-list-item class="">
                       <template v-slot:title>
-                        <span class="text-body-2 text-medium-emphasis" style="letter-spacing: normal">
+                        <span
+                          class="text-body-2 text-medium-emphasis"
+                          style="letter-spacing: normal"
+                        >
                           Área de especialidad
                         </span>
                       </template>
@@ -86,18 +150,36 @@
                     </v-list-item>
                   </v-card>
 
-                  <v-text-field v-model="busquedaEvento" class="ma-3" clearable density="comfortable" hide-details
-                    placeholder="Buscar evento" prepend-inner-icon="mdi-magnify" variant="solo" />
+                  <v-text-field
+                    v-model="busquedaEvento"
+                    class="ma-3"
+                    clearable
+                    density="comfortable"
+                    hide-details
+                    placeholder="Buscar evento"
+                    prepend-inner-icon="mdi-magnify"
+                    variant="solo"
+                  />
 
                   <v-card border class="ma-3" elevation="0">
-                    <v-data-table :headers="encabezadosEvento" :items-per-page="eventosPorPagina"
-                      :items="item.raw.dataset" :page="paginaEvento[item.raw.areaEspecialidad]" :search="busquedaEvento"
-                      item-value="EventosNombreEvento" style="background-color: transparent"
-                      no-data-text="No hay eventos con esa coincidencia">
+                    <v-data-table
+                      :headers="encabezadosEvento"
+                      :items-per-page="eventosPorPagina"
+                      :items="item.raw.dataset"
+                      :page="paginaEvento[item.raw.areaEspecialidad]"
+                      :search="busquedaEvento"
+                      item-value="EventosNombreEvento"
+                      style="background-color: transparent"
+                      no-data-text="No hay eventos con esa coincidencia"
+                    >
                       <template v-slot:item="{ item }">
                         <tr class="v-data-table__tr">
-                          <td v-for="encabezado in encabezadosEvento" :key="encabezado.key" :data-label="encabezado.title"
-                            class="text-body-2 text-medium-emphasis py-1">
+                          <td
+                            v-for="encabezado in encabezadosEvento"
+                            :key="encabezado.key"
+                            :data-label="encabezado.title"
+                            class="text-body-2 text-medium-emphasis py-1"
+                          >
                             <span class="text-body-2 font-weight-bold">
                               {{ item[encabezado.key] }}
                             </span>
@@ -107,35 +189,70 @@
                       <template v-slot:bottom="{ pageCount }">
                         <v-divider />
                         <div class="text-center my-3 mx-3">
-                          <v-switch v-model="eventosPorPagina" :base-color="colores.grisOscuro" :color="colores.rojoIMPC"
-                            :false-value="1" :inline="false" :true-value="item.raw.dataset.length"
-                            class="switch-all my-4 font-weight-bold d-flex justify-center" density="compact"
-                            false-icon="mdi-eye-off-outline" hide-details inset label="Ver todos los eventos"
-                            true-icon="mdi-eye-outline" />
-                          <v-pagination v-model="paginaEvento[item.raw.areaEspecialidad]" :active-color="colores.rojoIMPC"
-                            :color="colores.grisOscuro" :length="pageCount" :show-first-last-page="true" ellipsis="..."
-                            next-icon="mdi-arrow-right" prev-icon="mdi-arrow-left" size="small" total-visible="1"
-                            variant="flat" />
+                          <v-switch
+                            v-model="eventosPorPagina"
+                            :base-color="colores.grisOscuro"
+                            :color="colores.rojoIMPC"
+                            :false-value="1"
+                            :inline="false"
+                            :true-value="item.raw.dataset.length"
+                            class="switch-all my-4 font-weight-bold d-flex justify-center"
+                            density="compact"
+                            false-icon="mdi-eye-off-outline"
+                            hide-details
+                            inset
+                            label="Ver todos los eventos"
+                            true-icon="mdi-eye-outline"
+                            v-if="item.raw.dataset.length > 1"
+                          />
+                          <v-pagination
+                            v-model="paginaEvento[item.raw.areaEspecialidad]"
+                            :active-color="colores.rojoIMPC"
+                            :color="colores.grisOscuro"
+                            :length="pageCount"
+                            :show-first-last-page="true"
+                            ellipsis="..."
+                            next-icon="mdi-arrow-right"
+                            prev-icon="mdi-arrow-left"
+                            size="small"
+                            total-visible="1"
+                            variant="flat"
+                            v-if="item.raw.dataset.length > 1"
+                          />
                         </div>
                       </template>
                     </v-data-table>
                   </v-card>
                   <v-card border class="py-1" elevation="0" rounded="0">
                     <div class="d-flex justify-space-between px-3 my-3">
-                      <div class="d-flex align-center text-caption text-medium-emphasis me-1">
-                        <span class="text-subtitle-1 text-grey-darken-1 font-weight-bold">
+                      <div
+                        class="d-flex align-center text-caption text-medium-emphasis me-1"
+                      >
+                        <span
+                          class="text-subtitle-1 text-grey-darken-1 font-weight-bold"
+                        >
                           Total de horas:
                         </span>
-                        <span class="text-h6 font-weight-bold" style="color: #b80000">
+                        <span
+                          class="text-h6 font-weight-bold"
+                          style="color: #b80000"
+                        >
                           {{ item.raw.total.SumHora }}
                         </span>
                       </div>
 
-                      <div class="d-flex align-center text-caption text-medium-emphasis me-1">
-                        <span class="text-subtitle-1 text-grey-darken-1 font-weight-bold">
+                      <div
+                        class="d-flex align-center text-caption text-medium-emphasis me-1"
+                      >
+                        <span
+                          class="text-subtitle-1 text-grey-darken-1 font-weight-bold"
+                        >
                           Total de puntos:
                         </span>
-                        <span class="text-h6 font-weight-bold" style="color: #b80000">
+                        <span
+                          class="text-h6 font-weight-bold"
+                          style="color: #b80000"
+                        >
                           {{ item.raw.total.SumEspecialidad }}
                         </span>
                       </div>
@@ -148,30 +265,71 @@
 
           <template v-slot:footer="{ page, pageCount, prevPage, nextPage }">
             <div class="d-flex align-center justify-center pa-4">
-              <v-switch v-model="itemsPorPagina" :base-color="colores.grisOscuro" :color="colores.rojoIMPC"
-                :false-value="3" :inline="false" :true-value="desgloseEspecialidades.PuntosEvento.length"
-                class="switch-all font-weight-bold d-flex justify-center" density="compact"
-                false-icon="mdi-eye-off-outline" hide-details inset label="Ver todas las especialidades"
-                true-icon="mdi-eye-outline" />
+              <v-switch
+                v-model="itemsPorPagina"
+                :base-color="colores.grisOscuro"
+                :color="colores.rojoIMPC"
+                :false-value="3"
+                :inline="false"
+                :true-value="desgloseEspecialidades.PuntosEvento.length"
+                class="switch-all font-weight-bold d-flex justify-center"
+                density="compact"
+                false-icon="mdi-eye-off-outline"
+                hide-details
+                inset
+                label="Ver todas las especialidades"
+                true-icon="mdi-eye-outline"
+                v-if="desgloseEspecialidades.PuntosEvento.length > 3"
+              />
             </div>
-            <div class="d-flex align-center justify-center pa-4">
-              <v-btn :color="colores.rojoIMPC" :disabled="page === 1" icon="mdi-arrow-left" rounded size="small"
-                @click="prevPage" />
+            <div
+              class="d-flex align-center justify-center pa-4"
+              v-if="desgloseEspecialidades.PuntosEvento.length > 3"
+            >
+              <v-btn
+                :color="colores.rojoIMPC"
+                :disabled="page === 1"
+                icon="mdi-arrow-left"
+                rounded
+                size="small"
+                @click="prevPage"
+              />
 
-              <div class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold">
+              <div
+                class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold"
+              >
                 Página {{ page }} de {{ pageCount }}
               </div>
 
-              <v-btn :color="colores.rojoIMPC" :disabled="page >= pageCount" icon="mdi-arrow-right" rounded size="small"
-                @click="nextPage" />
+              <v-btn
+                :color="colores.rojoIMPC"
+                :disabled="page >= pageCount"
+                icon="mdi-arrow-right"
+                rounded
+                size="small"
+                @click="nextPage"
+              />
             </div>
           </template>
-
         </v-data-iterator>
-        <v-card color="transparent" rounded="lg" class="mx-auto my-4" elevation="0">
+        <v-card
+          color="transparent"
+          rounded="lg"
+          class="mx-auto my-4"
+          elevation="0"
+          v-if="desgloseEspecialidades.PuntosEvento.length > 0"
+        >
           <v-card-actions>
-            <v-btn :color="colores.verdeBoton" @click="descargarPdf" block class="text-none" rounded="large" size="large"
-              text="DESCARGAR REPORTE PDF" variant="flat" />
+            <v-btn
+              :color="colores.verdeBoton"
+              @click="descargarPdf"
+              block
+              class="text-none"
+              rounded="large"
+              size="large"
+              text="DESCARGAR REPORTE PDF"
+              variant="flat"
+            />
           </v-card-actions>
         </v-card>
       </v-container>
@@ -180,97 +338,96 @@
 </template>
 
 <script lang="ts">
-import { IonPage, IonContent } from "@ionic/vue";
-import { defineComponent, ref, computed, onMounted, Ref } from "vue";
+import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
+import { defineComponent, ref } from "vue";
 import { VDataIterator, VDataTable } from "vuetify/lib/labs/components.mjs";
 import { useCertificadoStore } from "@/store/certificado";
 import { useRoute } from "vue-router";
 
-
 export interface Result {
-  anhio: string
-  CuentasUsuarios: CuentasUsuarios
-  certificado: Certificado
-  total: number
-  PuntosEvento: PuntosEvento[]
-  totales_general: TotalesGeneral
+  anhio: string;
+  CuentasUsuarios: CuentasUsuarios;
+  certificado: Certificado;
+  total: number;
+  PuntosEvento: PuntosEvento[];
+  totales_general: TotalesGeneral;
 }
 
 export interface CuentasUsuarios {
-  cuentasUsuariosId: number
-  idColegio: number
-  idSector: number
-  cuentaRfc: string
-  cuentaNombre: string
-  cuentaApaterno: string
-  cuentaAmatarno: string
-  cuentaSocio: string
-  cuentaSexo: string
-  cuentaEmail: string
-  registroAgaff: string
-  registroImss: string
-  tipoUsusario: string
-  puntos: string
-  articulo: string
-  anhioNacimiento: number
-  status: string
-  colegio: string
+  cuentasUsuariosId: number;
+  idColegio: number;
+  idSector: number;
+  cuentaRfc: string;
+  cuentaNombre: string;
+  cuentaApaterno: string;
+  cuentaAmatarno: string;
+  cuentaSocio: string;
+  cuentaSexo: string;
+  cuentaEmail: string;
+  registroAgaff: string;
+  registroImss: string;
+  tipoUsusario: string;
+  puntos: string;
+  articulo: string;
+  anhioNacimiento: number;
+  status: string;
+  colegio: string;
+  sector: string;
 }
 
 export interface Certificado {
-  idCertificado: number
-  idEstudiante: number
-  idColegio: number
-  idTipo: number
-  idTipoCertificado: number
-  idCertificadoDis: number
-  numCertificado: string
-  fechaVigencia: string
-  fechaInicio: string
-  cadenaCertificado: string
-  cadenaUrl: string
-  statusCertificado: string
-  proviene: string
-  idCertificadoNuevo: number
-  status: string
-  idCertificadoViejo: number
-  nombre: string
-  puntosObtenidos: number
-  puntosTotales: number
-  statusAutorizar: string
-  infoCertificado: string
-  noPedidoXpertshop: string
-  dateupdate: string
-  datecreation: string
+  idCertificado: number;
+  idEstudiante: number;
+  idColegio: number;
+  idTipo: number;
+  idTipoCertificado: number;
+  idCertificadoDis: number;
+  numCertificado: string;
+  fechaVigencia: string;
+  fechaInicio: string;
+  cadenaCertificado: string;
+  cadenaUrl: string;
+  statusCertificado: string;
+  proviene: string;
+  idCertificadoNuevo: number;
+  status: string;
+  idCertificadoViejo: number;
+  nombre: string;
+  puntosObtenidos: number;
+  puntosTotales: number;
+  statusAutorizar: string;
+  infoCertificado: string;
+  noPedidoXpertshop: string;
+  dateupdate: string;
+  datecreation: string;
 }
 
 export interface PuntosEvento {
-  areaEspecialidad: string
-  dataset: Dataset[]
-  total: Total
+  areaEspecialidad: string;
+  dataset: Dataset[];
+  total: Total;
 }
 
 export interface Dataset {
-  EventosNombreEvento: string
-  NombreColegio: string
-  NumeroRegistro: string
-  EventosFechaFin: string
-  AsistenciaHora: number
-  AsistenciaPuntos: number
+  EventosNombreEvento: string;
+  NombreColegio: string;
+  NumeroRegistro: string;
+  EventosFechaFin: string;
+  AsistenciaHora: number;
+  AsistenciaPuntos: number;
 }
 
 export interface Total {
-  TotalEspecialidad: string
-  SumEspecialidad: number
-  SumHora: number
+  TotalEspecialidad: string;
+  SumEspecialidad: number;
+  SumHora: number;
 }
 
 export interface TotalesGeneral {
-  TotalPuntos: string
-  SumEspecialidadTotal: number
-  sumEspecialidadTotalHora: number
+  TotalPuntos: string;
+  SumEspecialidadTotal: number;
+  sumEspecialidadTotalHora: number;
 }
-
 
 export default defineComponent({
   name: "certificadoPuntosDesglose",
@@ -329,6 +486,7 @@ export default defineComponent({
         anhioNacimiento: 0,
         status: "",
         colegio: "",
+        sector: "",
       },
       certificado: {
         idCertificado: 0,
@@ -362,7 +520,7 @@ export default defineComponent({
         TotalPuntos: "",
         SumEspecialidadTotal: 0,
         sumEspecialidadTotalHora: 0,
-      }
+      },
     });
 
     const keys = ref([
@@ -404,25 +562,92 @@ export default defineComponent({
 
     async function cargarDesglosePorEjercicio(idCertificado: any, anhio: any) {
       try {
-        await certificadoStore.desglosePuntosPorCertificado(idCertificado, anhio);
-        desgloseEspecialidades.value = certificadoStore.object.desglosePuntos as Result;
-
-      } catch (error) { }
+        desgloseEspecialidades.value = {
+          anhio: "",
+          CuentasUsuarios: {
+            cuentasUsuariosId: 0,
+            idColegio: 0,
+            idSector: 0,
+            cuentaRfc: "",
+            cuentaNombre: "",
+            cuentaApaterno: "",
+            cuentaAmatarno: "",
+            cuentaSocio: "",
+            cuentaSexo: "",
+            cuentaEmail: "",
+            registroAgaff: "",
+            registroImss: "",
+            tipoUsusario: "",
+            puntos: "",
+            articulo: "",
+            anhioNacimiento: 0,
+            status: "",
+            colegio: "",
+            sector: "",
+          },
+          certificado: {
+            idCertificado: 0,
+            idEstudiante: 0,
+            idColegio: 0,
+            idTipo: 0,
+            idTipoCertificado: 0,
+            idCertificadoDis: 0,
+            numCertificado: "",
+            fechaVigencia: "",
+            fechaInicio: "",
+            cadenaCertificado: "",
+            cadenaUrl: "",
+            statusCertificado: "",
+            proviene: "",
+            idCertificadoNuevo: 0,
+            status: "",
+            idCertificadoViejo: 0,
+            nombre: "",
+            puntosObtenidos: 0,
+            puntosTotales: 0,
+            statusAutorizar: "",
+            infoCertificado: "",
+            noPedidoXpertshop: "",
+            dateupdate: "",
+            datecreation: "",
+          },
+          total: 0,
+          PuntosEvento: [],
+          totales_general: {
+            TotalPuntos: "",
+            SumEspecialidadTotal: 0,
+            sumEspecialidadTotalHora: 0,
+          },
+        };
+        await certificadoStore.desglosePuntosPorCertificado(
+          idCertificado,
+          anhio
+        );
+        desgloseEspecialidades.value = certificadoStore.object
+          .desglosePuntos as Result;
+      } catch (error) {}
     }
 
-    async function cargarPdfDesglosePorEjercicio(idCertificado: any, anhio: any) {
+    async function cargarPdfDesglosePorEjercicio(
+      idCertificado: any,
+      anhio: any
+    ) {
+      rutaPdf.value = "";
       try {
-        await certificadoStore.desglosePuntosPorEjercicioPdf(idCertificado, anhio);
+        await certificadoStore.desglosePuntosPorEjercicioPdf(
+          idCertificado,
+          anhio
+        );
         rutaPdf.value = certificadoStore.object.rutaPdf;
-
-      } catch (error) { }
+      } catch (error) {}
     }
 
     function descargarPdf() {
+      rutaPdf.value = "";
       window.open(rutaPdf.value, "_blank");
     }
 
-    onMounted(() => {
+    onIonViewDidEnter(() => {
       const idCertificado = route.params.idCertificado;
       const anhio = route.params.anhio;
       cargarDesglosePorEjercicio(idCertificado, anhio);
@@ -442,7 +667,7 @@ export default defineComponent({
       sortBy,
       sortDesc,
       desgloseEspecialidades,
-      descargarPdf
+      descargarPdf,
     };
   },
 });
@@ -481,7 +706,7 @@ export default defineComponent({
   border-bottom: 0;
 }
 
-.v-data-table tr:not(:first-child)>td:first-child {
+.v-data-table tr:not(:first-child) > td:first-child {
   border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
 
