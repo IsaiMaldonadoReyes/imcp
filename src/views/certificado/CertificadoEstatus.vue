@@ -4,7 +4,10 @@
       <v-container fluid>
         <v-card elevation="0" color="transparent">
           <v-card-item>
-            <v-card-title class="text-uppercase text-center" style="white-space: normal">
+            <v-card-title
+              class="text-uppercase text-center"
+              style="white-space: normal"
+            >
               Certificados en proceso
             </v-card-title>
           </v-card-item>
@@ -70,7 +73,9 @@
               color="transparent"
               elevation="0"
             >
-              <v-icon color="grey-lighten-1" size="60">mdi-database-eye-off</v-icon>
+              <v-icon color="grey-lighten-1" size="60"
+                >mdi-database-eye-off</v-icon
+              >
               <v-card-text class="text-grey-darken-1">
                 No se encontraron certificados que coincidan con la búsqueda.
               </v-card-text>
@@ -100,7 +105,9 @@
                       <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
                         Núm. Certificado:
                       </td>
-                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify">
+                      <td
+                        class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify"
+                      >
                         {{ item.raw.num_certificado }}
                       </td>
                     </tr>
@@ -108,7 +115,9 @@
                       <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
                         Fecha vigencia:
                       </td>
-                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify">
+                      <td
+                        class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify"
+                      >
                         {{ item.raw.fecha_vigencia }}
                       </td>
                     </tr>
@@ -116,7 +125,9 @@
                       <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
                         Sector:
                       </td>
-                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify">
+                      <td
+                        class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify"
+                      >
                         {{ item.raw.sector }}
                       </td>
                     </tr>
@@ -229,9 +240,13 @@
                 inset
                 label="Ver todos los certificados"
                 true-icon="mdi-eye-outline"
+                v-if="certificadosPendientes.dataset.length > 3"
               />
             </div>
-            <div class="d-flex align-center justify-center pa-4">
+            <div
+              class="d-flex align-center justify-center pa-4"
+              v-if="certificadosPendientes.dataset.length > 3"
+            >
               <v-btn
                 :color="colores.rojoIMPC"
                 :disabled="page === 1"
@@ -241,7 +256,9 @@
                 @click="prevPage"
               />
 
-              <div class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold">
+              <div
+                class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold"
+              >
                 Página {{ page }} de {{ pageCount }}
               </div>
 
@@ -262,8 +279,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted } from "vue";
-import { IonPage, IonContent } from "@ionic/vue";
+import { defineComponent, ref, computed } from "vue";
+import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
 import { VDataIterator } from "vuetify/lib/labs/components.mjs";
 import { useCertificadoStore } from "@/store/certificado";
 import { useRoute } from "vue-router";
@@ -364,11 +381,12 @@ export default defineComponent({
       },
     ]);
 
-    const getDotColor = computed(() => (status: string) =>
-      status === "Cumplido" ? "#468C00" : "#B20000"
+    const getDotColor = computed(
+      () => (status: string) => status === "Cumplido" ? "#468C00" : "#B20000"
     );
-    const getIcon = computed(() => (status: string) =>
-      status === "Cumplido" ? "mdi-check-circle" : "mdi-close-circle"
+    const getIcon = computed(
+      () => (status: string) =>
+        status === "Cumplido" ? "mdi-check-circle" : "mdi-close-circle"
     );
 
     const keysProps = ref((item: any) => {
@@ -394,6 +412,13 @@ export default defineComponent({
     });
 
     async function cargarDesglosePorEjercicio() {
+      certificadosPendientes.value = {
+        dataset: [],
+        totalSize: 0,
+        pageSize: 0,
+        nombreListado: "",
+      };
+
       try {
         await certificadoStore.cargarCertificadosPendientes();
         certificadosPendientes.value = certificadoStore.object
@@ -401,7 +426,7 @@ export default defineComponent({
       } catch (error) {}
     }
 
-    onMounted(() => {
+    onIonViewDidEnter(() => {
       cargarDesglosePorEjercicio();
     });
 
