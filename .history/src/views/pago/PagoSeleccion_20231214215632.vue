@@ -201,13 +201,12 @@ export default defineComponent({
       document.addEventListener("click", closeTooltipOnClickOutside);
     });
 
-    let isMenuOpen = ref(false);
-    let formattedDate = ref("");
+    const isMenuOpen = ref(false);
+    let formattedDate = ref("assaassa");
 
     function handleDateChange(event: any) {
       // El valor seleccionado estará en event.detail.value
-      isMenuOpen.value = false;
-      formattedDate.value = event.detail.value;
+      formattedDate = event.detail.value;
       console.log("Fecha seleccionada:", event.detail.value);
       // Puedes asignar el valor a una variable si es necesario
     }

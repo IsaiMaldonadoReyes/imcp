@@ -105,21 +105,31 @@
               placeholder="Seleccione tipo de tarjeta"
               variant="outlined"
             ></v-select>
-            <v-menu v-model="isMenuOpen" :close-on-content-click="false">
+            <v-menu
+              v-model="monthMenu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
               <template v-slot:activator="{ props }">
                 <v-text-field
-                  v-model="formattedDate"
+                  v-model="txtMonth"
+                  label="Month"
+                  prepend-icon="mdi-calendar"
                   readonly
                   v-bind="props"
-                  variant="outlined"
-                  label="Fecha de expiración *"
-                  hide-details
                 ></v-text-field>
               </template>
-              <ion-datetime
-                presentation="month-year"
-                @ionChange="handleDateChange"
-              ></ion-datetime>
+              <v-date-picker
+                v-model="month"
+                @input="onInput"
+                color="primary"
+                scrollable
+                view-mode="monts"
+                ref="picker"
+              ></v-date-picker>
             </v-menu>
             <v-text-field
               class="my-4"
@@ -155,9 +165,9 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, watch, computed, defineProps, defineEmits } from "vue";
-import { IonPage, IonContent, onIonViewDidEnter, IonDatetime } from "@ionic/vue";
-import { VDatePicker, VDatePickerMonth } from "vuetify/lib/labs/components.mjs";
+import { ref, defineComponent, watch } from "vue";
+import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
+import { VDatePicker } from "vuetify/lib/labs/components.mjs";
 
 export default defineComponent({
   name: "PagoSeleccion",
@@ -165,10 +175,7 @@ export default defineComponent({
     IonContent,
     IonPage,
     VDatePicker,
-    VDatePickerMonth,
-    IonDatetime,
   },
-
   setup() {
     const show = ref(false);
     const colores = ref({
@@ -176,6 +183,10 @@ export default defineComponent({
       rojoClaro: "#FAE6EA",
       grisOscuro: "#222222",
     });
+
+    const monthMenu = ref(false);
+    const txtMonth = ref("");
+    const month = ref("");
 
     const tooltipVisible = ref(false);
 
@@ -201,16 +212,24 @@ export default defineComponent({
       document.addEventListener("click", closeTooltipOnClickOutside);
     });
 
-    let isMenuOpen = ref(false);
-    let formattedDate = ref("");
+    const onInput = (dateStr: any) => {
+      const month = dateStr.split("-")[1];
+      const year = dateStr.split("-")[0];
+      txtMonth.value = `${month}, ${year}`;
+    };
 
-    function handleDateChange(event: any) {
-      // El valor seleccionado estará en event.detail.value
-      isMenuOpen.value = false;
-      formattedDate.value = event.detail.value;
-      console.log("Fecha seleccionada:", event.detail.value);
-      // Puedes asignar el valor a una variable si es necesario
-    }
+    watch(monthMenu, (val) => {
+      if (val) {
+        setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
+      }
+    });
+
+    watch(
+      () => txtMonth.value,
+      (val) => {
+        monthMenu.value = false;
+      }
+    );
 
     return {
       colores,
@@ -218,16 +237,11 @@ export default defineComponent({
       tooltipVisible,
       toggleTooltip,
       closeTooltipOnClickOutside,
-      isMenuOpen,
-      formattedDate,
-      handleDateChange,
+      monthMenu,
+      txtMonth,
+      month,
+      onInput,
     };
   },
 });
 </script>
-
-<style>
-.v-overlay__content:has(> .v-date-picker) {
-  min-width: auto !important;
-}
-</style>

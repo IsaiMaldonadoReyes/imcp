@@ -108,18 +108,25 @@
             <v-menu v-model="isMenuOpen" :close-on-content-click="false">
               <template v-slot:activator="{ props }">
                 <v-text-field
-                  v-model="formattedDate"
+                  v-model="selectedDate"
                   readonly
                   v-bind="props"
+                  label="Fecha"
                   variant="outlined"
-                  label="Fecha de expiración *"
                   hide-details
                 ></v-text-field>
               </template>
-              <ion-datetime
-                presentation="month-year"
-                @ionChange="handleDateChange"
-              ></ion-datetime>
+              <v-date-picker v-model="selectedDate">
+                <template v-slot:header></template>
+              </v-date-picker>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+
+                <v-btn variant="text" @click="isMenuOpen = false"> Cancel </v-btn>
+                <v-btn color="primary" variant="text" @click="isMenuOpen = false">
+                  Save
+                </v-btn>
+              </v-card-actions>
             </v-menu>
             <v-text-field
               class="my-4"
@@ -156,8 +163,8 @@
 
 <script lang="ts">
 import { ref, defineComponent, watch, computed, defineProps, defineEmits } from "vue";
-import { IonPage, IonContent, onIonViewDidEnter, IonDatetime } from "@ionic/vue";
-import { VDatePicker, VDatePickerMonth } from "vuetify/lib/labs/components.mjs";
+import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
+import { VDatePicker } from "vuetify/lib/labs/components.mjs";
 
 export default defineComponent({
   name: "PagoSeleccion",
@@ -165,10 +172,7 @@ export default defineComponent({
     IonContent,
     IonPage,
     VDatePicker,
-    VDatePickerMonth,
-    IonDatetime,
   },
-
   setup() {
     const show = ref(false);
     const colores = ref({
@@ -201,16 +205,12 @@ export default defineComponent({
       document.addEventListener("click", closeTooltipOnClickOutside);
     });
 
-    let isMenuOpen = ref(false);
-    let formattedDate = ref("");
+    const isMenuOpen = ref(false);
+    const selectedDate = ref(new Date());
 
-    function handleDateChange(event: any) {
-      // El valor seleccionado estará en event.detail.value
-      isMenuOpen.value = false;
-      formattedDate.value = event.detail.value;
-      console.log("Fecha seleccionada:", event.detail.value);
-      // Puedes asignar el valor a una variable si es necesario
-    }
+    const formattedDate = computed(() => {
+      return selectedDate.value ? selectedDate.value.toLocaleDateString("en") : "";
+    });
 
     return {
       colores,
@@ -220,7 +220,7 @@ export default defineComponent({
       closeTooltipOnClickOutside,
       isMenuOpen,
       formattedDate,
-      handleDateChange,
+      selectedDate,
     };
   },
 });

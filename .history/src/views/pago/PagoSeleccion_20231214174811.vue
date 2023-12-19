@@ -105,22 +105,7 @@
               placeholder="Seleccione tipo de tarjeta"
               variant="outlined"
             ></v-select>
-            <v-menu v-model="isMenuOpen" :close-on-content-click="false">
-              <template v-slot:activator="{ props }">
-                <v-text-field
-                  v-model="formattedDate"
-                  readonly
-                  v-bind="props"
-                  variant="outlined"
-                  label="Fecha de expiración *"
-                  hide-details
-                ></v-text-field>
-              </template>
-              <ion-datetime
-                presentation="month-year"
-                @ionChange="handleDateChange"
-              ></ion-datetime>
-            </v-menu>
+            <v-date-picker color="primary"></v-date-picker>
             <v-text-field
               class="my-4"
               clearable
@@ -155,20 +140,15 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, watch, computed, defineProps, defineEmits } from "vue";
-import { IonPage, IonContent, onIonViewDidEnter, IonDatetime } from "@ionic/vue";
-import { VDatePicker, VDatePickerMonth } from "vuetify/lib/labs/components.mjs";
+import { ref, computed, defineComponent, onMounted, onBeforeUnmount } from "vue";
+import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
 
 export default defineComponent({
   name: "PagoSeleccion",
   components: {
     IonContent,
     IonPage,
-    VDatePicker,
-    VDatePickerMonth,
-    IonDatetime,
   },
-
   setup() {
     const show = ref(false);
     const colores = ref({
@@ -201,33 +181,13 @@ export default defineComponent({
       document.addEventListener("click", closeTooltipOnClickOutside);
     });
 
-    let isMenuOpen = ref(false);
-    let formattedDate = ref("");
-
-    function handleDateChange(event: any) {
-      // El valor seleccionado estará en event.detail.value
-      isMenuOpen.value = false;
-      formattedDate.value = event.detail.value;
-      console.log("Fecha seleccionada:", event.detail.value);
-      // Puedes asignar el valor a una variable si es necesario
-    }
-
     return {
       colores,
       show,
       tooltipVisible,
       toggleTooltip,
       closeTooltipOnClickOutside,
-      isMenuOpen,
-      formattedDate,
-      handleDateChange,
     };
   },
 });
 </script>
-
-<style>
-.v-overlay__content:has(> .v-date-picker) {
-  min-width: auto !important;
-}
-</style>

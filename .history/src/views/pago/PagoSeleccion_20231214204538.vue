@@ -108,7 +108,7 @@
             <v-menu v-model="isMenuOpen" :close-on-content-click="false">
               <template v-slot:activator="{ props }">
                 <v-text-field
-                  v-model="formattedDate"
+                  :model-value="formattedDate"
                   readonly
                   v-bind="props"
                   variant="outlined"
@@ -116,10 +116,7 @@
                   hide-details
                 ></v-text-field>
               </template>
-              <ion-datetime
-                presentation="month-year"
-                @ionChange="handleDateChange"
-              ></ion-datetime>
+              <v-date-picker :v-model="selectedDate" :color="color"> </v-date-picker>
             </v-menu>
             <v-text-field
               class="my-4"
@@ -156,8 +153,8 @@
 
 <script lang="ts">
 import { ref, defineComponent, watch, computed, defineProps, defineEmits } from "vue";
-import { IonPage, IonContent, onIonViewDidEnter, IonDatetime } from "@ionic/vue";
-import { VDatePicker, VDatePickerMonth } from "vuetify/lib/labs/components.mjs";
+import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
+import { VDatePicker } from "vuetify/lib/labs/components.mjs";
 
 export default defineComponent({
   name: "PagoSeleccion",
@@ -165,11 +162,15 @@ export default defineComponent({
     IonContent,
     IonPage,
     VDatePicker,
-    VDatePickerMonth,
-    IonDatetime,
   },
 
-  setup() {
+  props: {
+    label: String,
+    color: String,
+    modelValue: Date,
+  },
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
     const show = ref(false);
     const colores = ref({
       rojoIMPC: "#B20000",
@@ -201,16 +202,26 @@ export default defineComponent({
       document.addEventListener("click", closeTooltipOnClickOutside);
     });
 
-    let isMenuOpen = ref(false);
-    let formattedDate = ref("");
+    const isMenuOpen = ref(false);
+    const selectedDate = ref(props.modelValue);
 
-    function handleDateChange(event: any) {
-      // El valor seleccionado estará en event.detail.value
-      isMenuOpen.value = false;
-      formattedDate.value = event.detail.value;
-      console.log("Fecha seleccionada:", event.detail.value);
-      // Puedes asignar el valor a una variable si es necesario
-    }
+    const formattedDate = computed(() => {
+      return selectedDate.value ? selectedDate.value.toLocaleDateString("en") : "";
+    });
+
+    watch(
+      () => props.modelValue,
+      (newDate) => {
+        selectedDate.value = newDate;
+      }
+    );
+
+    watch(
+      () => selectedDate.value,
+      (newDate) => {
+        emit("update:modelValue", newDate);
+      }
+    );
 
     return {
       colores,
@@ -220,7 +231,7 @@ export default defineComponent({
       closeTooltipOnClickOutside,
       isMenuOpen,
       formattedDate,
-      handleDateChange,
+      selectedDate,
     };
   },
 });
