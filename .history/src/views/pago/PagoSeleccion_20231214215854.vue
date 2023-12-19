@@ -206,8 +206,8 @@ export default defineComponent({
 
     function handleDateChange(event: any) {
       // El valor seleccionado estará en event.detail.value
-      isMenuOpen.value = false;
       formattedDate.value = event.detail.value;
+      isMenuOpen.value = false;
       console.log("Fecha seleccionada:", event.detail.value);
       // Puedes asignar el valor a una variable si es necesario
     }
