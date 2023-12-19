@@ -643,7 +643,6 @@ export default defineComponent({
     }
 
     function descargarPdf() {
-      rutaPdf.value = "";
       window.open(rutaPdf.value, "_blank");
     }
 

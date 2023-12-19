@@ -65,12 +65,18 @@ const routes = [
         component: () => import("@/views/certificado/CertificadoPuntosDesglosados.vue"),
       },
       {
+        path: "seleccionAccion/:idCertificado", // certificado pago  ISAI
+        name: "seleccionAccion",
+        component: () => import("@/views/pago/SeleccionAccion.vue"),
+      },
+      {
         path: "seleccionPago/:idCertificado", // certificado pago 
         name: "seleccionPagoCertificado",
         component: () => import("@/views/pago/PagoSeleccion.vue"),
       },
       {
-        path: "actualizacionDatos", // certificado pago 
+        path: "actualizacionDatos/:idCertificado", // certificado pago 
+        name: "actualizacionDatos",
         component: () => import("@/views/pago/ActualizacionDatos.vue"),
       },
       {

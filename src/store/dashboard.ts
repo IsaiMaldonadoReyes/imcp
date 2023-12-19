@@ -33,35 +33,58 @@ export const useDashboardStore = defineStore({
         responseMessage: null,
     }),
     actions: {
-        async loadNotifications(rfc: string) {
 
+        async loadNotifications() {
+
+            /*
             this.object.notificaciones = [
                 {
-                    title: "Tu certificación EUC",
-                    subtitle: "Debes tener",
+                    titulo: "Tu certificación EUC",
+                    mensaje: "Debes tener",
                     pointsRequired: "50",
-                    pointsOwned: "40"
+                    pointsOwned: "40",
+                    url: ""
                 },
                 {
-                    title: "Tu certificación X",
-                    subtitle: "Debes tener",
+                    titulo: "Tu certificación X",
+                    mensaje: "Debes tener",
                     pointsRequired: "50",
-                    pointsOwned: "40"
+                    pointsOwned: "40",
+                    url: ""
                 },
                 {
-                    title: "Tu certificación Y",
-                    subtitle: "Debes tener:",
+                    titulo: "Tu certificación Y",
+                    mensaje: "Debes tener:",
                     pointsRequired: "50",
-                    pointsOwned: "40"
+                    pointsOwned: "40",
+                    url: ""
                 },
-            ];
-            /*
+            ];*/
+
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+            const rfcParam = await storage.get("rfc");
+
             try {
-                const response = await axios.post("/api/notificaciones", rfc);
-                this.object.notificaciones = response.data;
+                const params = {
+                    datos: {
+                        cuenta_rfc: rfcParam
+                    }
+                };
+
+                const response = await axios.get("/users/notificaciones", {
+                    params,
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.notificaciones = response.data.result.search.dataset;
+                }
             } catch (error) {
-                throw new Error("Error al solicitar las notificaciones");
-            }*/
+                throw new Error("Error al cargar las notificaciones");
+            }
         },
 
         async loadEjercicios(rfc: string) {

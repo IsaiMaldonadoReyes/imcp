@@ -567,6 +567,8 @@ export default defineComponent({
     }
 
     async function cargarPdfDesglosePorEjercicio(id: any) {
+      rutaPdf.value = "";
+
       try {
         await dashStore.desglosePuntosPorEjercicioPdf(id);
         rutaPdf.value = dashStore.object.rutaPdf;
@@ -574,7 +576,6 @@ export default defineComponent({
     }
 
     function descargarPdf() {
-      rutaPdf.value = "";
       window.open(rutaPdf.value, "_blank");
     }
 

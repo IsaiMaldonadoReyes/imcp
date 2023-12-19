@@ -177,6 +177,7 @@
                 </v-slide-group>
               </v-card>
               <v-divider />
+              
               <v-card-actions>
                 <v-btn
                   v-if="
@@ -189,8 +190,8 @@
                   size="large"
                   text="Realizar pago"
                   :to="{
-                    name: 'seleccionPagoCertificado',
-                    params: { idCertificado: 200 },
+                    name: 'seleccionAccion',
+                    params: { idCertificado: item.raw.id_certificado },
                   }"
                   variant="flat"
                 >
