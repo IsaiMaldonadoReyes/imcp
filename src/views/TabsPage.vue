@@ -6,21 +6,45 @@
           <v-app-bar color="#EBEFF0" elevation="1">
             <div class="back" />
             <div class="esquina-tl-toolbar" />
-            <img class="ml-5" style="max-height: 45%; max-width: 45%" src="../assets/images/logotipo.svg" />
+            <img
+              class="ml-5"
+              style="max-height: 45%; max-width: 45%"
+              src="../assets/images/logotipo.svg"
+            />
             <v-spacer></v-spacer>
 
-            <v-list bg-color="transparent" class="imcp-header" max-width="250px">
+            <v-list
+              bg-color="transparent"
+              class="imcp-header"
+              max-width="250px"
+            >
               <v-list-item :title="nombreUsuario" :subtitle="'RFC:' + rfc">
                 <template v-slot:append>
                   <div class="text-center">
-                    <v-menu v-model="menu" :close-on-content-click="true" location="bottom">
+                    <v-menu
+                      v-model="menu"
+                      :close-on-content-click="true"
+                      location="bottom"
+                    >
                       <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" icon="mdi-menu-down" size="x-small" variant="text"></v-btn>
+                        <v-btn
+                          v-bind="props"
+                          icon="mdi-menu-down"
+                          size="x-small"
+                          variant="text"
+                        ></v-btn>
                       </template>
 
                       <v-card color="transparent">
-                        <v-list class="imcp-header mx-auto pa-2" color="transparent">
-                          <v-list-item :title="nombreUsuario" :subtitle="'RFC ' + rfc" class="mb-3">
+                        <v-list
+                          class="imcp-header mx-auto pa-2"
+                          color="transparent"
+                        >
+                          <v-list-item
+                            :title="nombreUsuario"
+                            :subtitle="'RFC ' + rfc"
+                            class="mb-3"
+                          >
                             <template v-slot:prepend>
                               <v-avatar color="#AAAAAA" size="small">
                                 <span class="text-h6">RJ</span>
@@ -28,11 +52,19 @@
                             </template>
                           </v-list-item>
                           <v-divider></v-divider>
-                          <v-list-item class="mx-auto text-left" variant="plain" color="red" :value="1" rounded="xl">
+                          <v-list-item
+                            class="mx-auto text-left"
+                            variant="plain"
+                            color="red"
+                            :value="1"
+                            rounded="xl"
+                          >
                             <template v-slot:prepend>
                               <v-icon size="16" color="#B20000">
                                 <svg ref="icon" class="v-icon">
-                                  <use xlink:href="../assets/images/ico.svg#ico-menu-micuenta"></use>
+                                  <use
+                                    xlink:href="../assets/images/ico.svg#ico-menu-micuenta"
+                                  ></use>
                                 </svg>
                               </v-icon>
                             </template>
@@ -55,7 +87,9 @@
                           </v-list-item-->
                           <v-list-item variant="plain" @click="logout">
                             <template v-slot:prepend>
-                              <v-icon size="16" color="#B20000">mdi-logout</v-icon>
+                              <v-icon size="16" color="#B20000"
+                                >mdi-logout</v-icon
+                              >
                             </template>
                             <v-list-item-title>Cerrar sesión</v-list-item-title>
                           </v-list-item>
@@ -68,10 +102,26 @@
             </v-list>
 
             <template v-slot:append>
-              <v-menu v-model="menuNotificacion" :close-on-content-click="false" location="bottom">
+              <v-menu
+                v-model="menuNotificacion"
+                :close-on-content-click="false"
+                location="bottom"
+              >
                 <template v-slot:activator="{ props }">
-                  <v-btn class="text-none text-left" color="#B20000" icon variant="outlined" size="small" v-bind="props">
-                    <v-badge class="small-dot" :content="cantidadNotificaciones" text-color="#ffffff" location="center">
+                  <v-btn
+                    class="text-none text-left"
+                    color="#B20000"
+                    icon
+                    variant="outlined"
+                    size="small"
+                    v-bind="props"
+                  >
+                    <v-badge
+                      class="small-dot"
+                      :content="cantidadNotificaciones"
+                      text-color="#ffffff"
+                      location="center"
+                    >
                       <v-icon color="#B20000" size="30">mdi-bell</v-icon>
                     </v-badge>
                   </v-btn>
@@ -79,8 +129,44 @@
 
                 <v-card>
                   <v-list :items="notificaciones" item-props lines="three">
-                    <template v-slot:subtitle="{ subtitle }">
-                      <div v-html="subtitle"></div>
+                    <template v-for="(notificacion, index) in notificaciones">
+                      <template v-if="notificacion.type === 'subheader'">
+                        <!-- Lógica para las subcabeceras -->
+                        <v-list-subheader :key="index">{{
+                          notificacion.title
+                        }}</v-list-subheader>
+                      </template>
+                      <template v-else-if="notificacion.type === 'divider'">
+                        <!-- Lógica para los divisores -->
+                        <v-divider :key="index"></v-divider>
+                      </template>
+                      <template v-else>
+                        <!-- Lógica para las notificaciones individuales -->
+                        <v-list-item
+                          :key="index"
+                          :to="notificacion.url"
+                          v-if="notificacion.url !== ''"
+                        >
+                          <v-list-item-content>
+                            <v-list-item-title
+                              v-html="notificacion.title"
+                            ></v-list-item-title>
+                            <v-list-item-subtitle
+                              v-html="notificacion.subtitle"
+                            ></v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item v-else>
+                          <v-list-item-content>
+                            <v-list-item-title
+                              v-html="notificacion.title"
+                            ></v-list-item-title>
+                            <v-list-item-subtitle
+                              v-html="notificacion.subtitle"
+                            ></v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </template>
                     </template>
                   </v-list>
                 </v-card>
@@ -113,18 +199,23 @@
             </v-icon>
           </ion-tab-button>
 
-          <ion-tab-button tab="emitidos" href="/tabs/certificadoEstatus">
+          <ion-tab-button tab="pendientes" href="/tabs/certificadoEstatus">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-certificados"></use>
+                <use
+                  xlink:href="../assets/images/ico.svg#ico-certificados"
+                ></use>
               </svg>
             </v-icon>
           </ion-tab-button>
 
-          <ion-tab-button tab="certificado" href="/tabs/emitidos">
+          <!--ion-tab-button tab="emitidos" href="/tabs/actualizacionDatos"-->
+          <ion-tab-button tab="emitidos" href="/tabs/emitidos">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"></use>
+                <use
+                  xlink:href="../assets/images/ico.svg#ico-certificados-emitidos"
+                ></use>
               </svg>
             </v-icon>
           </ion-tab-button>
@@ -132,7 +223,9 @@
           <ion-tab-button tab="cuenta" href="/tabs/cuenta">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-menu-micuenta"></use>
+                <use
+                  xlink:href="../assets/images/ico.svg#ico-menu-micuenta"
+                ></use>
               </svg>
             </v-icon>
           </ion-tab-button>
@@ -198,11 +291,13 @@ export default defineComponent({
     let cantidadNotificaciones = ref<number>(0);
 
     const notificaciones = ref<
-      Array<
-        | { title: string; subtitle: string }
-        | { type: string; inset: boolean; title: string; subtitle: string }
-        | { type: string; inset: boolean }
-      >
+      Array<{
+        type: string;
+        inset: boolean;
+        title: string;
+        subtitle: string;
+        url: string;
+      }>
     >([]);
 
     async function cargarTabs() {
@@ -214,32 +309,52 @@ export default defineComponent({
 
       rfc.value = await storage.get("rfc");
       nombreUsuario.value = await storage.get("nombreUsuario");
-      cargarNotificaciones(rfc.value);
-    };
+      cargarNotificaciones();
+    }
 
-    async function cargarNotificaciones(rfcUser: string) {
+    async function cargarNotificaciones() {
       notificaciones.value.length = 0;
       notificaciones.value = [];
 
-      await dash.loadNotifications(rfcUser);
+      await dash.loadNotifications();
 
       const notifications = dash.object.notificaciones;
 
-      notificaciones.value.push({ type: "subheader", title: "Notificaciones", subtitle: "" });
-      notificaciones.value.push({ type: "divider", inset: false, title: "", subtitle: "" });
-
       if (Array.isArray(notifications)) {
         cantidadNotificaciones.value = notifications.length;
+
+        notificaciones.value.push({
+          type: "subheader",
+          inset: false,
+          title:
+            notifications.length > 0 ? "Notificaciones" : "Sin notificaciones",
+          subtitle: "",
+          url: "",
+        });
+        notificaciones.value.push({
+          type: "divider",
+          inset: false,
+          title: "",
+          subtitle: "",
+          url: "",
+        });
 
         notifications.forEach((notification) => {
           notificaciones.value.push({
             type: "divider",
             inset: false,
+            title: "",
+            subtitle: "",
+            url: "",
           });
 
           notificaciones.value.push({
-            title: notification.title,
-            subtitle: `<span class="text-grey-darken-4">${notification.subtitle}</span> : <span class="text-red-darken-4">${notification.pointsRequired} puntos </span> <br/> <span class="text-grey-darken-4">Cuentas con:</span> : <span class="text-red-darken-4">${notification.pointsOwned} puntos </span>`,
+            type: "",
+            inset: false,
+            title: notification.titulo,
+            subtitle: `<span class="text-grey-darken-4">${notification.mensaje}</span>`,
+            url: notification.url,
+            //subtitle: `<span class="text-grey-darken-4">${notification.mensaje}</span> : <span class="text-red-darken-4">${notification.pointsRequired} puntos </span> <br/> <span class="text-grey-darken-4">Cuentas con:</span> : <span class="text-red-darken-4">${notification.pointsOwned} puntos </span>`,
           });
         });
       } else {
@@ -333,7 +448,8 @@ ion-tab-button.tab-selected {
 }
 
 .esquina-tl-toolbar {
-  background: url("../assets/images/esquina_superior_izquierda.png") top left no-repeat;
+  background: url("../assets/images/esquina_superior_izquierda.png") top left
+    no-repeat;
   z-index: -1;
   background-size: 22px;
 }
