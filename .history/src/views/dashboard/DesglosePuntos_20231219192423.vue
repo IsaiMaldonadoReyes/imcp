@@ -414,9 +414,12 @@ export default defineComponent({
   },
   setup() {
     const dashStore = useDashboardStore();
-    const eventosPorPagina = ref<{ [key: string]: number }>({});
+    const eventosPorPagina = ref([1]);
+    eventosPorPagina.value = {
+      "0": 1,
+    };
     const itemsPorPagina = ref(3);
-    const paginaEvento = ref([]);
+    const paginaEvento = ref([1]);
     const route = useRoute();
     let busquedaEspecialidad = ref("");
     let busquedaEvento = ref([]);
@@ -544,10 +547,6 @@ export default defineComponent({
         };
         await dashStore.desglosePuntosPorEjercicio(id);
         desgloseEspecialidades.value = dashStore.object.desglosePuntos as Result;
-
-        desgloseEspecialidades.value.PuntosEvento.forEach((item) => {
-          eventosPorPagina.value[item.areaEspecialidad] = 1; // Puedes ajustar el valor predeterminado si es necesario
-        });
       } catch (error) {}
     }
 

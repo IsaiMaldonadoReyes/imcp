@@ -194,7 +194,6 @@
                           v-if="item.raw.dataset.length > 1"
                         >
                           <v-select
-                            v-model="eventosPorPagina[item.raw.areaEspecialidad]"
                             :items="[
                               { value: 1, title: '1' },
                               { value: 3, title: '3' },
@@ -414,7 +413,7 @@ export default defineComponent({
   },
   setup() {
     const dashStore = useDashboardStore();
-    const eventosPorPagina = ref<{ [key: string]: number }>({});
+    let eventosPorPagina = ref([1]);
     const itemsPorPagina = ref(3);
     const paginaEvento = ref([]);
     const route = useRoute();
@@ -423,6 +422,9 @@ export default defineComponent({
     let sortBy = ref([]);
     let sortDesc = ref("asc");
     let rutaPdf = ref("");
+
+    console.log("!!!");
+    console.log(eventosPorPagina.value);
 
     const encabezadosEvento = ref([
       { title: "Evento", key: "EventosNombreEvento" },
@@ -544,10 +546,6 @@ export default defineComponent({
         };
         await dashStore.desglosePuntosPorEjercicio(id);
         desgloseEspecialidades.value = dashStore.object.desglosePuntos as Result;
-
-        desgloseEspecialidades.value.PuntosEvento.forEach((item) => {
-          eventosPorPagina.value[item.areaEspecialidad] = 1; // Puedes ajustar el valor predeterminado si es necesario
-        });
       } catch (error) {}
     }
 
