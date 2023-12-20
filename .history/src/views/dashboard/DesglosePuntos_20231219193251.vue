@@ -414,7 +414,7 @@ export default defineComponent({
   },
   setup() {
     const dashStore = useDashboardStore();
-    const eventosPorPagina = ref<{ [key: string]: number }>({});
+    const eventosPorPagina = ref([]);
     const itemsPorPagina = ref(3);
     const paginaEvento = ref([]);
     const route = useRoute();
@@ -423,6 +423,10 @@ export default defineComponent({
     let sortBy = ref([]);
     let sortDesc = ref("asc");
     let rutaPdf = ref("");
+
+    for (const especialidad of desgloseEspecialidades.value.PuntosEvento) {
+      eventosPorPagina.value[especialidad.areaEspecialidad] = 1;
+    }
 
     const encabezadosEvento = ref([
       { title: "Evento", key: "EventosNombreEvento" },
@@ -544,10 +548,6 @@ export default defineComponent({
         };
         await dashStore.desglosePuntosPorEjercicio(id);
         desgloseEspecialidades.value = dashStore.object.desglosePuntos as Result;
-
-        desgloseEspecialidades.value.PuntosEvento.forEach((item) => {
-          eventosPorPagina.value[item.areaEspecialidad] = 1; // Puedes ajustar el valor predeterminado si es necesario
-        });
       } catch (error) {}
     }
 

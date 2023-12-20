@@ -424,6 +424,9 @@ export default defineComponent({
     let sortDesc = ref("asc");
     let rutaPdf = ref("");
 
+    console.log("!!!");
+    console.log(eventosPorPagina.value);
+
     const encabezadosEvento = ref([
       { title: "Evento", key: "EventosNombreEvento" },
       { title: "Colegio", key: "NombreColegio" },

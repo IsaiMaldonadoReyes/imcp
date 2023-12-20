@@ -105,7 +105,7 @@
               placeholder="Seleccione tipo de tarjeta"
               variant="outlined"
             ></v-select>
-            <v-menu v-model="isMenuOpen" :close-on-content-click="true">
+            <v-menu v-model="isMenuOpen" :close-on-content-click="false">
               <template v-slot:activator="{ props }">
                 <v-text-field
                   v-model="formattedDate"
@@ -139,7 +139,7 @@
                       @click="toggleTooltip"
                       class="informacion-adicional"
                     >
-                      mdi-help-circle-outline
+                      mdi-information-outline
                     </v-icon>
                   </template>
                   <span>

@@ -151,7 +151,7 @@
                   <v-card border class="ma-3" elevation="0">
                     <v-data-table
                       :headers="encabezadosEvento"
-                      :items-per-page="eventosPorPagina[item.raw.areaEspecialidad]"
+                      :items-per-page="eventosPorPagina"
                       :items="item.raw.dataset"
                       :page="paginaEvento[item.raw.areaEspecialidad]"
                       :search="busquedaEvento[item.raw.areaEspecialidad]"
@@ -189,24 +189,23 @@
                       </template>
                       <template v-slot:bottom="{ pageCount }">
                         <v-divider />
-                        <div
-                          class="text-center my-3 mx-3"
-                          v-if="item.raw.dataset.length > 1"
-                        >
-                          <v-select
-                            v-model="eventosPorPagina[item.raw.areaEspecialidad]"
-                            :items="[
-                              { value: 1, title: '1' },
-                              { value: 3, title: '3' },
-                              { value: 5, title: '5' },
-                              { value: 10, title: '10' },
-                              { value: -1, title: 'Todos' },
-                            ]"
-                            class="my-2"
+                        <div class="text-center my-3 mx-3">
+                          <v-switch
+                            v-model="eventosPorPagina"
+                            :base-color="colores.grisOscuro"
+                            :color="colores.rojoIMPC"
+                            :false-value="1"
+                            :inline="false"
+                            :true-value="item.raw.dataset.length"
+                            class="switch-all my-4 font-weight-bold d-flex justify-center"
+                            density="compact"
+                            false-icon="mdi-eye-off-outline"
                             hide-details
-                            label="Eventos por página"
-                            variant="solo"
-                          ></v-select>
+                            inset
+                            label="Ver todos los eventos"
+                            true-icon="mdi-eye-outline"
+                            v-if="item.raw.dataset.length > 1"
+                          />
                           <v-pagination
                             v-model="paginaEvento[item.raw.areaEspecialidad]"
                             :active-color="colores.rojoIMPC"
@@ -219,15 +218,8 @@
                             size="small"
                             total-visible="1"
                             variant="flat"
-                          >
-                            <template v-slot:item="{ page }">
-                              <div
-                                class="mx-2 my-1 text-subtitle-1 text-grey-darken-1 font-weight-bold"
-                              >
-                                {{ page }} de {{ pageCount }}
-                              </div>
-                            </template>
-                          </v-pagination>
+                            v-if="item.raw.dataset.length > 1"
+                          />
                         </div>
                       </template>
                     </v-data-table>
@@ -414,7 +406,7 @@ export default defineComponent({
   },
   setup() {
     const dashStore = useDashboardStore();
-    const eventosPorPagina = ref<{ [key: string]: number }>({});
+    const eventosPorPagina = ref(1);
     const itemsPorPagina = ref(3);
     const paginaEvento = ref([]);
     const route = useRoute();
@@ -544,10 +536,6 @@ export default defineComponent({
         };
         await dashStore.desglosePuntosPorEjercicio(id);
         desgloseEspecialidades.value = dashStore.object.desglosePuntos as Result;
-
-        desgloseEspecialidades.value.PuntosEvento.forEach((item) => {
-          eventosPorPagina.value[item.areaEspecialidad] = 1; // Puedes ajustar el valor predeterminado si es necesario
-        });
       } catch (error) {}
     }
 

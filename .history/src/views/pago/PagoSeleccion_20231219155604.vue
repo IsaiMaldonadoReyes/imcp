@@ -105,7 +105,7 @@
               placeholder="Seleccione tipo de tarjeta"
               variant="outlined"
             ></v-select>
-            <v-menu v-model="isMenuOpen" :close-on-content-click="true">
+            <v-menu v-model="isMenuOpen">
               <template v-slot:activator="{ props }">
                 <v-text-field
                   v-model="formattedDate"
@@ -113,9 +113,8 @@
                   v-bind="props"
                   variant="outlined"
                   label="Fecha de expiración *"
-                  placeholder="mm/yy*"
+                  placeholder="mm/yy"
                   hide-details
-                  clearable
                 ></v-text-field>
               </template>
               <ion-datetime
@@ -139,7 +138,7 @@
                       @click="toggleTooltip"
                       class="informacion-adicional"
                     >
-                      mdi-help-circle-outline
+                      mdi-information-outline
                     </v-icon>
                   </template>
                   <span>

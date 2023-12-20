@@ -139,7 +139,7 @@
                       @click="toggleTooltip"
                       class="informacion-adicional"
                     >
-                      mdi-help-circle-outline
+                      mdi-information-outline
                     </v-icon>
                   </template>
                   <span>

@@ -151,7 +151,7 @@
                   <v-card border class="ma-3" elevation="0">
                     <v-data-table
                       :headers="encabezadosEvento"
-                      :items-per-page="eventosPorPagina[item.raw.areaEspecialidad]"
+                      :items-per-page="eventosPorPagina"
                       :items="item.raw.dataset"
                       :page="paginaEvento[item.raw.areaEspecialidad]"
                       :search="busquedaEvento[item.raw.areaEspecialidad]"
@@ -188,13 +188,13 @@
                         </v-card>
                       </template>
                       <template v-slot:bottom="{ pageCount }">
-                        <v-divider />
                         <div
                           class="text-center my-3 mx-3"
                           v-if="item.raw.dataset.length > 1"
                         >
+                          <v-divider />
                           <v-select
-                            v-model="eventosPorPagina[item.raw.areaEspecialidad]"
+                            v-model="eventosPorPagina"
                             :items="[
                               { value: 1, title: '1' },
                               { value: 3, title: '3' },
@@ -414,7 +414,7 @@ export default defineComponent({
   },
   setup() {
     const dashStore = useDashboardStore();
-    const eventosPorPagina = ref<{ [key: string]: number }>({});
+    const eventosPorPagina = ref(1);
     const itemsPorPagina = ref(3);
     const paginaEvento = ref([]);
     const route = useRoute();
@@ -544,10 +544,6 @@ export default defineComponent({
         };
         await dashStore.desglosePuntosPorEjercicio(id);
         desgloseEspecialidades.value = dashStore.object.desglosePuntos as Result;
-
-        desgloseEspecialidades.value.PuntosEvento.forEach((item) => {
-          eventosPorPagina.value[item.areaEspecialidad] = 1; // Puedes ajustar el valor predeterminado si es necesario
-        });
       } catch (error) {}
     }
 

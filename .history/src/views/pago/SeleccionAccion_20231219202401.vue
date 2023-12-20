@@ -9,27 +9,25 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card color="transparent" rounded="lg" class="mx-auto my-4" elevation="0">
-          <div>
-            <v-btn
-              block
-              class="text-none"
-              prepend-icon="mdi-file-download-outline"
-              rounded="large"
-              size="large"
-              text="ACTUALIZAR DATOS"
-              variant="flat"
-              :color="colores.verdeBoton"
-              :to="{
-                name: 'actualizacionDatos',
-                params: { idCertificado: idCertificadoActualizacion },
-              }"
-            >
-              <template v-slot:prepend>
-                <v-icon class="mr-3" size="large"></v-icon>
-              </template>
-            </v-btn>
-          </div>
+        <v-card color="transparent" class="mx-auto my-4" elevation="0">
+          <v-btn
+            block
+            class="text-none"
+            prepend-icon="mdi-file-download-outline"
+            size="large"
+            text="ACTUALIZAR DATOS"
+            variant="flat"
+            :color="colores.verdeBoton"
+            :to="{
+              name: 'actualizacionDatos',
+              params: { idCertificado: idCertificadoActualizacion },
+            }"
+          >
+            <template v-slot:prepend>
+              <v-icon class="mr-3" size="large"></v-icon>
+            </template>
+          </v-btn>
+
           <br />
           <div>
             <v-btn
