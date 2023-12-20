@@ -15,10 +15,39 @@ export const usePagoStore = defineStore({
             catalogoSector: {},
             catalogoEspecialidad: {},
             puntosPorCertificado: {},
+            contacto: {}
         },
         responseMessage: null,
     }),
     actions: {
+
+        async cargarContacto() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+            const rfcParam = await storage.get("rfc");
+
+            try {
+
+                const params = {
+                    datos: {
+                        cuenta_rfc: rfcParam,
+                    }
+                };
+
+                const response = await axios.get("/users/contacto", {
+                    headers: configAuthToken.headers,
+                    params
+                });
+
+                if (response.data.type === "success") {
+                    this.object.contacto = response.data.result;
+                }
+            } catch (error) {
+                throw new Error("Solicitud incorrecta");
+            }
+        },
 
         async cargarCatalogoGenero() {
             const storage = new Storage();
@@ -27,13 +56,13 @@ export const usePagoStore = defineStore({
             const configAuthToken = await storage.get("configToken");
 
             try {
-                
+
                 const response = await axios.get("/users/catalogos/sexo", {
                     headers: configAuthToken.headers,
                 });
 
                 if (response.data.type === "success") {
-                    this.object.catalogoGenero = response.data.result;
+                    this.object.catalogoGenero = response.data;
                 }
             } catch (error) {
                 throw new Error("Solicitud incorrecta");
@@ -47,7 +76,7 @@ export const usePagoStore = defineStore({
             const configAuthToken = await storage.get("configToken");
 
             try {
-                
+
                 const response = await axios.get("/users/catalogos/estadoCivil", {
                     headers: configAuthToken.headers,
                 });
@@ -67,7 +96,7 @@ export const usePagoStore = defineStore({
             const configAuthToken = await storage.get("configToken");
 
             try {
-                
+
                 const response = await axios.get("/users/catalogos/colegios", {
                     headers: configAuthToken.headers,
                 });
@@ -87,7 +116,7 @@ export const usePagoStore = defineStore({
             const configAuthToken = await storage.get("configToken");
 
             try {
-                
+
                 const response = await axios.get("/users/catalogos/sectores", {
                     headers: configAuthToken.headers,
                 });
@@ -107,7 +136,7 @@ export const usePagoStore = defineStore({
             const configAuthToken = await storage.get("configToken");
 
             try {
-                
+
                 const response = await axios.get("/users/catalogos/especialidades", {
                     headers: configAuthToken.headers,
                 });

@@ -12,7 +12,9 @@
         <v-card class="my-3" elevation="0" border>
           <v-card-title
             >Estimado (a)
-            <span class="font-weight-bold">Nombre</span></v-card-title
+            <span class="font-weight-bold">{{
+              dataContacto.informacion.nombre
+            }}</span></v-card-title
           >
           <v-card-text>
             <span class="text-subtitle-1 text-grey-darken-1">
@@ -21,24 +23,38 @@
           </v-card-text>
           <v-card-text>
             <span class="text-subtitle-1 text-grey-darken-1">Certificado:</span>
-            <span class="text-subtitle-1 font-weight-bold"
-              >Nombre certificado</span
-            >
+            <span class="text-subtitle-1 font-weight-bold">{{
+              certificadoActual.dataset.length > 0
+                ? certificadoActual.dataset[0].certificado_dis
+                : ""
+            }}</span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1"
               >No. de certificado:</span
             >
-            <span class="text-subtitle-1 font-weight-bold">1880</span>
+            <span class="text-subtitle-1 font-weight-bold">{{
+              certificadoActual.dataset.length > 0
+                ? certificadoActual.dataset[0].num_certificado
+                : ""
+            }}</span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1"
               >Fecha emisión:</span
             >
-            <span class="text-subtitle-1 font-weight-bold">01-Nov-2022</span>
+            <span class="text-subtitle-1 font-weight-bold">{{
+              certificadoActual.dataset.length > 0
+                ? certificadoActual.dataset[0].fecha_vigencia
+                : ""
+            }}</span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1"
               >Fecha emisión:</span
             >
-            <span class="text-subtitle-1 font-weight-bold">01-Nov-2022</span>
+            <span class="text-subtitle-1 font-weight-bold">{{
+              certificadoActual.dataset.length > 0
+                ? certificadoActual.dataset[0].fecha_inicio
+                : ""
+            }}</span>
           </v-card-text>
           <v-card-text>
             <span class="text-subtitle-1 text-grey-darken-1"
@@ -60,6 +76,7 @@
               label="Nombre *"
               placeholder="Nombre(s)"
               variant="outlined"
+              v-model="dataContacto.informacion.cuenta_nombre"
             ></v-text-field>
             <v-text-field
               class="my-4"
@@ -68,6 +85,7 @@
               label="Apellido paterno *"
               placeholder="Apellido paterno"
               variant="outlined"
+              v-model="dataContacto.informacion.cuenta_apaterno"
             ></v-text-field>
             <v-text-field
               class="my-4"
@@ -76,6 +94,7 @@
               label="Apellido materno *"
               placeholder="Apellido materno"
               variant="outlined"
+              v-model="dataContacto.informacion.cuenta_amatarno"
             ></v-text-field>
             <br />
             <br />
@@ -92,6 +111,7 @@
               label="RFC *"
               placeholder="RFC"
               variant="outlined"
+              v-model="dataContacto.informacion.cuenta_rfc"
             ></v-text-field>
             <v-select
               class="my-4"
@@ -100,6 +120,9 @@
               label="Sexo *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
+              :item="dataGenero"
+              item-value="value"
+              item-title="label"
             ></v-select>
             <v-select
               class="my-4"
@@ -116,6 +139,7 @@
               label="Lugar de nacimiento *"
               placeholder="Estado"
               variant="outlined"
+              v-model="dataContacto.informacion.lugar_nacimiento"
             ></v-text-field>
 
             <v-text-field
@@ -125,6 +149,7 @@
               label="AGAFF *"
               placeholder="Dato AGAFF"
               variant="outlined"
+              v-model="dataContacto.informacion.registro_agaff"
             ></v-text-field>
 
             <v-text-field
@@ -134,6 +159,7 @@
               label="IMSS *"
               placeholder="Dato IMMS"
               variant="outlined"
+              v-model="dataContacto.informacion.registro_imss"
             ></v-text-field>
 
             <v-text-field
@@ -143,6 +169,7 @@
               label="Email *"
               placeholder="Email"
               variant="outlined"
+              v-model="dataContacto.informacion.cuenta_email"
             ></v-text-field>
           </v-card-text>
         </v-card>
@@ -171,17 +198,29 @@
             <span class="text-subtitle-1 text-grey-darken-1"
               >Grado académico:
             </span>
-            <span class="text-subtitle-1 font-weight-bold">LCP</span>
+            <span class="text-subtitle-1 font-weight-bold">{{
+              dataContacto.Grados.length > 0
+                ? dataContacto.Grados[0].gradoAcademico
+                : ""
+            }}</span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1"
               >Institución:
             </span>
-            <span class="text-subtitle-1 font-weight-bold">UNAM</span>
+            <span class="text-subtitle-1 font-weight-bold">{{
+              dataContacto.Grados.length > 0
+                ? dataContacto.Grados[0].institucion
+                : ""
+            }}</span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1"
               >Año titulación:
             </span>
-            <span class="text-subtitle-1 font-weight-bold">2008</span>
+            <span class="text-subtitle-1 font-weight-bold">{{
+              dataContacto.Grados.length > 0
+                ? dataContacto.Grados[0].anhioTitulo
+                : ""
+            }}</span>
             <br />
           </v-card-text>
         </v-card>
@@ -197,6 +236,7 @@
               label="Calle y número *"
               placeholder="Domicilio"
               variant="outlined"
+              v-model="dataContacto.informacion.direccion_calle_numero_personal"
             ></v-text-field>
             <v-text-field
               class="my-4"
@@ -205,6 +245,7 @@
               label="C.P."
               placeholder="Código postal"
               variant="outlined"
+              v-model="dataContacto.informacion.direccion_cp_personal"
             ></v-text-field>
             <v-select
               class="my-4"
@@ -237,6 +278,7 @@
               label="Teléfono *"
               placeholder="Teléfono"
               variant="outlined"
+              v-model="dataContacto.informacion.num_personal"
             ></v-text-field>
           </v-card-text>
         </v-card>
@@ -361,6 +403,7 @@
               label="Nombre *"
               placeholder="Nombre"
               variant="outlined"
+              v-model="dataContacto.informacion.nombre"
             ></v-text-field>
             <v-text-field
               class="my-4"
@@ -369,6 +412,7 @@
               label="RFC *"
               placeholder="RFC"
               variant="outlined"
+              v-model="dataContacto.informacion.rfc"
             ></v-text-field>
             <v-text-field
               class="my-4"
@@ -377,6 +421,7 @@
               label="Calle y número *"
               placeholder="Domicilio"
               variant="outlined"
+              v-model="dataContacto.informacion.direccion_calle_numero_personal"
             ></v-text-field>
             <v-text-field
               class="my-4"
@@ -385,6 +430,7 @@
               label="C.P."
               placeholder="Código postal"
               variant="outlined"
+              v-model="dataContacto.informacion.cp"
             ></v-text-field>
             <v-select
               class="my-4"
@@ -481,7 +527,60 @@
 import { ref, computed, defineComponent } from "vue";
 import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
 import { usePagoStore } from "@/store/pago";
-import { stringifyQuery } from "vue-router";
+import { useCertificadoStore } from "@/store/certificado";
+import { useRoute } from "vue-router";
+
+export interface Certificados {
+  dataset: Dataset[];
+  totalSize: number;
+  pageSize: number;
+  nombreListado: string;
+}
+
+export interface Dataset {
+  id_certificado: number;
+  id_estudiante: number;
+  id_colegio: number;
+  id_tipo: number;
+  id_tipo_certificado: number;
+  id_certificado_dis: number;
+  num_certificado: string;
+  fecha_vigencia: string;
+  fecha_inicio: string;
+  status_certificado: string;
+  proviene: string;
+  id_certificado_nuevo: number;
+  status: string;
+  id_certificado_viejo: number;
+  nombre: string;
+  puntos_obtenidos: number;
+  puntos_totales: number;
+  status_autorizar: string;
+  info_certificado: string;
+  dateupdate: string;
+  datecreation: string;
+  anhio_inicio_vigencia: string;
+  anhio_fin_vigencia: string;
+  cuenta_rfc: string;
+  cuenta_nombre: string;
+  cuenta_apaterno: string;
+  cuenta_amatarno: string;
+  cuenta_email: string;
+  status_contacto: string;
+  registro_agaff: string;
+  anhio_inicio_vigencia_nuevo: string;
+  anhio_fin_vigencia_nuevo: string;
+  tipo: string;
+  tipo_certificado: string;
+  certificado_dis: string;
+  sector: string;
+  revisionAnual: RevisionAnual[];
+}
+
+export interface RevisionAnual {
+  anhio: string;
+  status: string;
+}
 
 export interface Genero {
   result: ResultGenero[];
@@ -533,6 +632,93 @@ export interface ResultEspecialidad {
   label: string;
 }
 
+export interface InformacionUsuario {
+  informacion: Informacion;
+  empresa: Empresa[];
+  Grados: Grado[];
+  especialidad: EspecialidadContanto[];
+}
+
+export interface Informacion {
+  cuentas_usuarios_id: number;
+  id_sector: number;
+  id_tipo_origen: number;
+  cuenta_rfc: string;
+  cuenta_nombre: string;
+  cuenta_apaterno: string;
+  cuenta_amatarno: string;
+  cuenta_sexo: string;
+  cuenta_email: string;
+  cuenta_civil: string;
+  lugar_nacimiento: string;
+  registro_agaff: string;
+  anhio_titulo: string;
+  tipo_ususario: string;
+  expositor: string;
+  status: string;
+  registro_imss: string;
+  infonavit: string;
+  datecreation: string;
+  dateupdate: string;
+  id_colegio: number;
+  organismo: string;
+  cuenta_pagado: number;
+  cuenta_socio: string;
+  cuenta_status: string;
+  articulo: string;
+  anhio_nacimiento: string;
+  nombre_colegio: string;
+  dato_facturacion_id: number;
+  nombre: string;
+  rfc: string;
+  cp: string;
+  calle: string;
+  colinia: string;
+  delegacion: string;
+  ciudad: string;
+  estado: string;
+  tipo_persona: any;
+  regimen_fiscal_id: any;
+  direccion_id_personal: number;
+  num_personal: string;
+  direccion_nombre_personal: string;
+  direccion_calle_numero_personal: string;
+  direccion_cp_personal: string;
+  direccion_colonia_personal: string;
+  direccion_delegacion_personal: string;
+  direccion_estado_personal: string;
+  direccion_id_empresa: number;
+  num_empresa: string;
+  direccion_nombre_empresa: string;
+  direccion_calle_numero_empresa: string;
+  direccion_cp_empresa: string;
+  direccion_colonia_empresa: string;
+  direccion_delegacion_empresa: string;
+  direccion_estado_empresa: string;
+}
+
+export interface Empresa {
+  empresaId: number;
+  idSector: number;
+  cuentasUsuariosId: number;
+  nombreEmpresa: string;
+  antiguedad: string;
+  puesto: string;
+}
+
+export interface Grado {
+  idGradoAcademico: number;
+  cuentasUsuariosId: number;
+  gradoAcademico: string;
+  institucion: string;
+  anhioTitulo: number;
+}
+
+export interface EspecialidadContanto {
+  cuentasUsuariosId: number;
+  catalogoEspecialidadId: number;
+}
+
 export default defineComponent({
   name: "ActualizacionDatos",
   components: {
@@ -541,6 +727,16 @@ export default defineComponent({
   },
   setup() {
     const pagoStore = usePagoStore();
+    const route = useRoute();
+
+    const certificadoStore = useCertificadoStore();
+
+    const certificadoActual = ref<Certificados>({
+      dataset: [],
+      totalSize: 0,
+      pageSize: 0,
+      nombreListado: "",
+    });
 
     const show = ref(false);
     const colores = ref({
@@ -548,6 +744,69 @@ export default defineComponent({
       rojoClaro: "#FAE6EA",
       grisOscuro: "#222222",
       verdeBoton: "#468C00",
+    });
+
+    const dataContacto = ref<InformacionUsuario>({
+      informacion: {
+        cuentas_usuarios_id: 0,
+        id_sector: 0,
+        id_tipo_origen: 0,
+        cuenta_rfc: "",
+        cuenta_nombre: "",
+        cuenta_apaterno: "",
+        cuenta_amatarno: "",
+        cuenta_sexo: "",
+        cuenta_email: "",
+        cuenta_civil: "",
+        lugar_nacimiento: "",
+        registro_agaff: "",
+        anhio_titulo: "",
+        tipo_ususario: "",
+        expositor: "",
+        status: "",
+        registro_imss: "",
+        infonavit: "",
+        datecreation: "",
+        dateupdate: "",
+        id_colegio: 0,
+        organismo: "",
+        cuenta_pagado: 0,
+        cuenta_socio: "",
+        cuenta_status: "",
+        articulo: "",
+        anhio_nacimiento: "",
+        nombre_colegio: "",
+        dato_facturacion_id: 0,
+        nombre: "",
+        rfc: "",
+        cp: "",
+        calle: "",
+        colinia: "",
+        delegacion: "",
+        ciudad: "",
+        estado: "",
+        tipo_persona: null,
+        regimen_fiscal_id: null,
+        direccion_id_personal: 0,
+        num_personal: "",
+        direccion_nombre_personal: "",
+        direccion_calle_numero_personal: "",
+        direccion_cp_personal: "",
+        direccion_colonia_personal: "",
+        direccion_delegacion_personal: "",
+        direccion_estado_personal: "",
+        direccion_id_empresa: 0,
+        num_empresa: "",
+        direccion_nombre_empresa: "",
+        direccion_calle_numero_empresa: "",
+        direccion_cp_empresa: "",
+        direccion_colonia_empresa: "",
+        direccion_delegacion_empresa: "",
+        direccion_estado_empresa: "",
+      },
+      empresa: [],
+      Grados: [],
+      especialidad: [],
     });
 
     const dataGenero = ref<Genero>({
@@ -575,29 +834,13 @@ export default defineComponent({
       type: "",
     });
 
-    const tooltipVisible = ref(false);
-
-    const toggleTooltip = () => {
-      tooltipVisible.value = !tooltipVisible.value;
-      console.log("Clic en icono!");
-    };
-
-    const closeTooltipOnClickOutside = (event: any) => {
-      const tooltipActivator = document.querySelector(".informacion-adicional");
-      const tooltip = document.querySelector(".v-tooltip");
-
-      if (
-        tooltip &&
-        !tooltip.contains(event.target) &&
-        (!tooltipActivator || !tooltipActivator.contains(event.target))
-      ) {
-        tooltipVisible.value = false;
-      }
-    };
-
     async function catalogoGenero() {
       try {
         await pagoStore.cargarCatalogoGenero();
+
+        dataGenero.value = pagoStore.object.catalogoGenero as Genero;
+
+        console.log(dataGenero.value.result);
       } catch (error) {
         console.log(error);
       }
@@ -635,22 +878,58 @@ export default defineComponent({
       }
     }
 
-    onIonViewDidEnter(() => {
-      document.addEventListener("click", closeTooltipOnClickOutside);
+    async function cargarDesglosePorEjercicio(idCertificado: any) {
+      certificadoActual.value = {
+        dataset: [],
+        totalSize: 0,
+        pageSize: 0,
+        nombreListado: "",
+      };
 
-      catalogoGenero();
-      catalogoEstadoCivil();
-      catalogoColegio();
-      catalogoSector();
-      catalogoEspecialidad();
+      try {
+        await certificadoStore.cargarCertificadosPendientes();
+
+        certificadoActual.value = certificadoStore.object
+          .certificadosPendientes as Certificados;
+
+        certificadoActual.value.dataset = (
+          certificadoActual.value.dataset as Dataset[]
+        ).filter(
+          (certificado) => certificado.id_certificado == idCertificado
+        ) as Dataset[];
+      } catch (error) {}
+    }
+
+    async function cargarContacto() {
+      try {
+        await pagoStore.cargarContacto();
+
+        dataContacto.value = pagoStore.object.contacto as InformacionUsuario;
+
+        console.log(dataContacto.value);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    onIonViewDidEnter(async () => {
+      const idCertificado = route.params.idCertificado;
+
+      await cargarDesglosePorEjercicio(idCertificado);
+      await cargarContacto();
+      await catalogoGenero();
+      await catalogoEstadoCivil();
+      await catalogoColegio();
+      await catalogoSector();
+      await catalogoEspecialidad();
     });
 
     return {
       colores,
       show,
-      tooltipVisible,
-      toggleTooltip,
-      closeTooltipOnClickOutside,
+      certificadoActual,
+      dataContacto,
+      dataGenero,
     };
   },
 });

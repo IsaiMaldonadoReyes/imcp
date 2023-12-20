@@ -147,24 +147,20 @@
                           :to="notificacion.url"
                           v-if="notificacion.url !== ''"
                         >
-                          <v-list-item-content>
-                            <v-list-item-title
-                              v-html="notificacion.title"
-                            ></v-list-item-title>
-                            <v-list-item-subtitle
-                              v-html="notificacion.subtitle"
-                            ></v-list-item-subtitle>
-                          </v-list-item-content>
+                          <v-list-item-title
+                            v-html="notificacion.title"
+                          ></v-list-item-title>
+                          <v-list-item-subtitle
+                            v-html="notificacion.subtitle"
+                          ></v-list-item-subtitle>
                         </v-list-item>
                         <v-list-item v-else>
-                          <v-list-item-content>
-                            <v-list-item-title
-                              v-html="notificacion.title"
-                            ></v-list-item-title>
-                            <v-list-item-subtitle
-                              v-html="notificacion.subtitle"
-                            ></v-list-item-subtitle>
-                          </v-list-item-content>
+                          <v-list-item-title
+                            v-html="notificacion.title"
+                          ></v-list-item-title>
+                          <v-list-item-subtitle
+                            v-html="notificacion.subtitle"
+                          ></v-list-item-subtitle>
                         </v-list-item>
                       </template>
                     </template>
