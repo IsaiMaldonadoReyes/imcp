@@ -19,6 +19,9 @@ export const useCertificadoStore = defineStore({
     actions: {
 
         async cargarCertificadosPendientes() {
+            
+            this.object.certificadosPendientes= {};
+            
             const storage = new Storage();
             await storage.create();
 
