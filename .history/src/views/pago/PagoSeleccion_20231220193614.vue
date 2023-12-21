@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-content>
-      <v-container class="big-container" fluid>
+      <v-container fluid>
         <v-card elevation="0" color="transparent">
           <v-card-item>
             <v-card-title
@@ -12,7 +12,7 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card class="" elevation="0" border="">
+        <v-card class="pa-2" elevation="0" border="">
           <v-card-text>
             <v-select
               class="my-4"
@@ -67,7 +67,7 @@
               class="my-4"
               clearable
               hide-details="auto"
-              label="Código postal *"
+              label="Código *"
               placeholder="Código postal del tarjetahabiente"
               variant="outlined"
             ></v-text-field>
@@ -108,7 +108,6 @@
             <v-menu v-model="isMenuOpen" :close-on-content-click="true">
               <template v-slot:activator="{ props }">
                 <v-text-field
-                  class="my-4"
                   v-model="formattedDate"
                   readonly
                   v-bind="props"
@@ -117,6 +116,7 @@
                   placeholder="mm/yy*"
                   hide-details
                   clearable
+                  class="my-4"
                 ></v-text-field>
               </template>
               <ion-datetime
@@ -125,8 +125,8 @@
               ></ion-datetime>
             </v-menu>
             <v-text-field
-              clearable
               class="my-4"
+              clearable
               hide-details="auto"
               label="Código de seguridad *"
               placeholder="CVV"
@@ -193,7 +193,6 @@
                 </v-menu>
               </template>
             </v-text-field>
-
             <v-btn class="mb-2" variant="text">
               <a
                 class="text-decoration-underline text-none text-grey-darken-1"
@@ -219,7 +218,7 @@
                     <template v-slot:activator="{ props }">
                       <a
                         target="_blank"
-                        href="https://www.xpertshop.mx"
+                        href="https://www.xpertshop.mx/v2/contenidos/terminos_condiciones_xpertshop.php"
                         v-bind="props"
                         @click.stop
                       >
@@ -232,9 +231,9 @@
               </template>
               <template v-slot:append>
                 <a
-                  class="text-grey-darken-1"
                   target="_blank"
-                  href="https://www.xpertshop.mx/v2/contenidos/aviso_privacidad_xpertshop.php"
+                  href="https://www.xpertshop.mx"
+                  v-bind="props"
                   @click.stop
                 >
                   <v-icon>mdi-open-in-new</v-icon>
@@ -246,9 +245,9 @@
             </v-checkbox>
             <v-checkbox
               :center-affix="true"
-              :color="colores.verdeBoton"
-              hide-details
               true-icon="mdi-receipt-text-check"
+              hide-details
+              :color="colores.verdeBoton"
             >
               <template v-slot:label>Si desea factura</template>
             </v-checkbox>
@@ -256,14 +255,14 @@
           <v-card-actions>
             <v-btn
               :color="colores.verdeBoton"
-              :to="{
-                name: 'seleccionAccion',
-                params: { idCertificado: 2 },
-              }"
               block
               prepend-icon="mdi-account-credit-card"
               size="large"
               text="Pagar"
+              :to="{
+                name: 'seleccionAccion',
+                params: { idCertificado: 2 },
+              }"
               variant="flat"
             >
               <template v-slot:prepend>

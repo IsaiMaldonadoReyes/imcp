@@ -108,7 +108,6 @@
             <v-menu v-model="isMenuOpen" :close-on-content-click="true">
               <template v-slot:activator="{ props }">
                 <v-text-field
-                  class="my-4"
                   v-model="formattedDate"
                   readonly
                   v-bind="props"
@@ -126,7 +125,6 @@
             </v-menu>
             <v-text-field
               clearable
-              class="my-4"
               hide-details="auto"
               label="Código de seguridad *"
               placeholder="CVV"

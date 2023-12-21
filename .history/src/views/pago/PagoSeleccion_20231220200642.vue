@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-content>
-      <v-container class="big-container" fluid>
+      <v-container fluid>
         <v-card elevation="0" color="transparent">
           <v-card-item>
             <v-card-title
@@ -12,7 +12,7 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card class="" elevation="0" border="">
+        <v-card class="pa-2" elevation="0" border="">
           <v-card-text>
             <v-select
               class="my-4"
@@ -105,10 +105,10 @@
               placeholder="Seleccione tipo de tarjeta"
               variant="outlined"
             ></v-select>
+
             <v-menu v-model="isMenuOpen" :close-on-content-click="true">
               <template v-slot:activator="{ props }">
                 <v-text-field
-                  class="my-4"
                   v-model="formattedDate"
                   readonly
                   v-bind="props"
@@ -124,9 +124,9 @@
                 @ionChange="handleDateChange"
               ></ion-datetime>
             </v-menu>
+
             <v-text-field
               clearable
-              class="my-4"
               hide-details="auto"
               label="Código de seguridad *"
               placeholder="CVV"
