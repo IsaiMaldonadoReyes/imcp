@@ -15,7 +15,8 @@ export const usePagoStore = defineStore({
             catalogoSector: {},
             catalogoEspecialidad: {},
             puntosPorCertificado: {},
-            contacto: {}
+            contacto: {},
+            codigoPostal: {},
         },
         responseMessage: null,
     }),
@@ -82,7 +83,7 @@ export const usePagoStore = defineStore({
                 });
 
                 if (response.data.type === "success") {
-                    this.object.catalogoEstadoCivil = response.data.result;
+                    this.object.catalogoEstadoCivil = response.data;
                 }
             } catch (error) {
                 throw new Error("Solicitud incorrecta");
@@ -102,7 +103,7 @@ export const usePagoStore = defineStore({
                 });
 
                 if (response.data.type === "success") {
-                    this.object.catalogoColegio = response.data.result;
+                    this.object.catalogoColegio = response.data;
                 }
             } catch (error) {
                 throw new Error("Solicitud incorrecta");
@@ -122,7 +123,27 @@ export const usePagoStore = defineStore({
                 });
 
                 if (response.data.type === "success") {
-                    this.object.catalogoSector = response.data.result;
+                    this.object.catalogoSector = response.data;
+                }
+            } catch (error) {
+                throw new Error("Solicitud incorrecta");
+            }
+        },
+
+        async cargarCatalogoSectorEspecial() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+
+            try {
+
+                const response = await axios.get("/users/catalogos/sectoresEspecial", {
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.catalogoSector = response.data;
                 }
             } catch (error) {
                 throw new Error("Solicitud incorrecta");
@@ -142,7 +163,30 @@ export const usePagoStore = defineStore({
                 });
 
                 if (response.data.type === "success") {
-                    this.object.catalogoEspecialidad = response.data.result;
+                    this.object.catalogoEspecialidad = response.data;
+                }
+            } catch (error) {
+                throw new Error("Solicitud incorrecta");
+            }
+        },
+        async cargarCatalogoCodigoPostal(codigo: string) {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+
+            try {
+                const params = {
+                    code: codigo,
+                };
+
+                const response = await axios.get("/users/catalogos/cpostal", {
+                    headers: configAuthToken.headers,
+                    params: params
+                });
+
+                if (response.data.type === "success") {
+                    this.object.codigoPostal = response.data;
                 }
             } catch (error) {
                 throw new Error("Solicitud incorrecta");
