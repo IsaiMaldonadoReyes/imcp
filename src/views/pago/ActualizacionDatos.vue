@@ -71,30 +71,30 @@
           <v-card-text>
             <v-text-field
               class="my-4"
-              clearable
               hide-details="auto"
               label="Nombre *"
               placeholder="Nombre(s)"
-              variant="outlined"
               v-model="dataContacto.informacion.cuenta_nombre"
+              readonly
+              selectable="false"
             ></v-text-field>
             <v-text-field
               class="my-4"
-              clearable
               hide-details="auto"
               label="Apellido paterno *"
               placeholder="Apellido paterno"
-              variant="outlined"
               v-model="dataContacto.informacion.cuenta_apaterno"
+              readonly
+              selectable="false"
             ></v-text-field>
             <v-text-field
               class="my-4"
-              clearable
               hide-details="auto"
               label="Apellido materno *"
               placeholder="Apellido materno"
-              variant="outlined"
               v-model="dataContacto.informacion.cuenta_amatarno"
+              readonly
+              selectable="false"
             ></v-text-field>
             <br />
             <br />
@@ -120,7 +120,8 @@
               label="Sexo *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
-              :item="dataGenero"
+              v-model="dataContacto.informacion.cuenta_sexo"
+              :items="dataGenero.result"
               item-value="value"
               item-title="label"
             ></v-select>
@@ -131,6 +132,10 @@
               label="Estado civil *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
+              v-model="dataContacto.informacion.cuenta_civil"
+              :items="dataEstadoCivil.result"
+              item-value="value"
+              item-title="label"
             ></v-select>
             <v-text-field
               class="my-4"
@@ -187,6 +192,10 @@
               label="Colegio afiliados *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
+              v-model="dataContacto.informacion.id_colegio"
+              :items="dataColegio.result"
+              item-value="value"
+              item-title="label"
             ></v-select>
           </v-card-text>
         </v-card>
@@ -199,6 +208,8 @@
               >Grado académico:
             </span>
             <span class="text-subtitle-1 font-weight-bold">{{
+              dataContacto.Grados &&
+              Array.isArray(dataContacto.Grados) &&
               dataContacto.Grados.length > 0
                 ? dataContacto.Grados[0].gradoAcademico
                 : ""
@@ -208,6 +219,8 @@
               >Institución:
             </span>
             <span class="text-subtitle-1 font-weight-bold">{{
+              dataContacto.Grados &&
+              Array.isArray(dataContacto.Grados) &&
               dataContacto.Grados.length > 0
                 ? dataContacto.Grados[0].institucion
                 : ""
@@ -217,6 +230,8 @@
               >Año titulación:
             </span>
             <span class="text-subtitle-1 font-weight-bold">{{
+              dataContacto.Grados &&
+              Array.isArray(dataContacto.Grados) &&
               dataContacto.Grados.length > 0
                 ? dataContacto.Grados[0].anhioTitulo
                 : ""
@@ -236,7 +251,7 @@
               label="Calle y número *"
               placeholder="Domicilio"
               variant="outlined"
-              v-model="dataContacto.informacion.direccion_calle_numero_personal"
+              v-model="dataContacto.informacion.calle"
             ></v-text-field>
             <v-text-field
               class="my-4"
@@ -245,32 +260,40 @@
               label="C.P."
               placeholder="Código postal"
               variant="outlined"
-              v-model="dataContacto.informacion.direccion_cp_personal"
+              v-model="dataContacto.informacion.cp"
+              v-on:keyup="cambiarCodigoPostal"
             ></v-text-field>
             <v-select
               class="my-4"
-              clearable
               hide-details="auto"
               label="Colonia *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
+              v-model="dataContacto.informacion.colinia"
+              :items="nuevasColoniasOptions"
+              item-value="value"
+              item-title="label"
             ></v-select>
-            <v-select
+            <v-text-field
               class="my-4"
-              clearable
               hide-details="auto"
               label="Alcaldía o municipio *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
-            ></v-select>
-            <v-select
+              readonly
+              selectable="false"
+              v-model="dataContacto.informacion.delegacion"
+            ></v-text-field>
+            <v-text-field
               class="my-4"
-              clearable
               hide-details="auto"
               label="Estado *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
-            ></v-select>
+              readonly
+              selectable="false"
+              v-model="dataContacto.informacion.estado"
+            ></v-text-field>
             <v-text-field
               class="my-4"
               clearable
@@ -291,11 +314,14 @@
           <v-card-text>
             <v-select
               class="my-4"
-              clearable
               hide-details="auto"
               label="Sector *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
+              v-model="dataContacto.informacion.id_sector"
+              :items="dataSector.result"
+              item-value="value"
+              item-title="label"
             ></v-select>
             <v-text-field
               class="my-4"
@@ -304,30 +330,57 @@
               label="Empresa *"
               placeholder="Empresa en la que labora"
               variant="outlined"
+              v-model="dataEmpresa.nombreEmpresa"
             ></v-text-field>
             <v-text-field
               class="my-4"
-              clearable
               hide-details="auto"
               label="Antiguedad *"
               placeholder="Antiguedad en la empresa en la que labora"
               variant="outlined"
+              v-model="dataEmpresa.antiguedad"
             ></v-text-field>
-            <v-select
+
+            <v-menu :close-on-content-click="true">
+              <template v-slot:activator="{ props }">
+                <v-text-field
+                  label="Antiguedad"
+                  :model-value="formattedDate"
+                  readonly
+                  v-bind="props"
+                  variant="solo"
+                  hide-details
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="selectedDate"
+                hide-actions
+                title="Seleccione fecha"
+                :color="colores.rojoClaro"
+              >
+                <template v-slot:header></template>
+              </v-date-picker>
+            </v-menu>
+
+            <v-text-field
               class="my-4"
               clearable
               hide-details="auto"
               label="Puesto *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
-            ></v-select>
+              v-model="dataEmpresa.puesto"
+            ></v-text-field>
             <v-select
               class="my-4"
-              clearable
               hide-details="auto"
               label="Especialidad *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
+              v-model="dataEmpresa.idEspecialidad"
+              :items="dataEspecialidad.result"
+              item-value="value"
+              item-title="label"
             ></v-select>
           </v-card-text>
         </v-card>
@@ -346,6 +399,7 @@
               label="Calle y número *"
               placeholder="Domicilio"
               variant="outlined"
+              v-model="dataContacto.informacion.direccion_calle_numero_empresa"
             ></v-text-field>
             <v-text-field
               class="my-4"
@@ -354,31 +408,40 @@
               label="C.P."
               placeholder="Código postal"
               variant="outlined"
+              v-model="dataContacto.informacion.direccion_cp_empresa"
+              v-on:keyup="cambiarCodigoPostalEmpresa"
             ></v-text-field>
             <v-select
               class="my-4"
-              clearable
               hide-details="auto"
               label="Colonia *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
+              v-model="dataContacto.informacion.direccion_colonia_empresa"
+              :items="nuevasColoniasEmpresaOptions"
+              item-value="value"
+              item-title="label"
             ></v-select>
-            <v-select
+            <v-text-field
               class="my-4"
-              clearable
               hide-details="auto"
               label="Alcaldía o municipio *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
-            ></v-select>
-            <v-select
+              readonly
+              selectable="false"
+              v-model="dataContacto.informacion.direccion_delegacion_empresa"
+            ></v-text-field>
+            <v-text-field
               class="my-4"
-              clearable
               hide-details="auto"
               label="Estado *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
-            ></v-select>
+              readonly
+              selectable="false"
+              v-model="dataContacto.informacion.direccion_estado_empresa"
+            ></v-text-field>
             <v-text-field
               class="my-4"
               clearable
@@ -386,6 +449,7 @@
               label="Teléfono empresa *"
               placeholder="Teléfono"
               variant="outlined"
+              v-model="dataContacto.informacion.num_empresa"
             ></v-text-field>
           </v-card-text>
         </v-card>
@@ -430,32 +494,40 @@
               label="C.P."
               placeholder="Código postal"
               variant="outlined"
-              v-model="dataContacto.informacion.cp"
+              v-model="dataContacto.informacion.direccion_cp_personal"
+              v-on:keyup="cambiarCodigoPostalFacturacion"
             ></v-text-field>
             <v-select
               class="my-4"
-              clearable
               hide-details="auto"
               label="Colonia *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
+              v-model="dataContacto.informacion.direccion_colonia_personal"
+              :items="nuevasColoniasFacturacionOptions"
+              item-value="value"
+              item-title="label"
             ></v-select>
-            <v-select
+            <v-text-field
               class="my-4"
-              clearable
               hide-details="auto"
               label="Alcaldía o municipio *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
-            ></v-select>
-            <v-select
+              readonly
+              selectable="false"
+              v-model="dataContacto.informacion.direccion_delegacion_personal"
+            ></v-text-field>
+            <v-text-field
               class="my-4"
-              clearable
               hide-details="auto"
               label="Estado *"
               no-data-text="No hay datos disponibles"
               variant="outlined"
-            ></v-select>
+              readonly
+              selectable="false"
+              v-model="dataContacto.informacion.direccion_estado_personal"
+            ></v-text-field>
           </v-card-text>
         </v-card>
         <v-card
@@ -524,11 +596,22 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent } from "vue";
+import {
+  ref,
+  computed,
+  defineComponent,
+  watch,
+  onMounted,
+  onBeforeMount,
+  onBeforeUnmount,
+  defineProps,
+  defineEmits,
+} from "vue";
 import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
 import { usePagoStore } from "@/store/pago";
 import { useCertificadoStore } from "@/store/certificado";
 import { useRoute } from "vue-router";
+import { VDatePicker } from "vuetify/lib/labs/components.mjs";
 
 export interface Certificados {
   dataset: Dataset[];
@@ -588,7 +671,7 @@ export interface Genero {
 }
 
 export interface ResultGenero {
-  value: any;
+  value: string;
   label: string;
 }
 
@@ -719,13 +802,28 @@ export interface EspecialidadContanto {
   catalogoEspecialidadId: number;
 }
 
+export interface CodigoPostal {
+  result: ResultCodigoPostal[];
+  type: string;
+}
+
+export interface ResultCodigoPostal {
+  codigoPostal: string;
+  estadoId: number;
+  estado: string;
+  colonia: string;
+  delegacion: string;
+}
+
 export default defineComponent({
   name: "ActualizacionDatos",
   components: {
     IonContent,
     IonPage,
+    VDatePicker,
   },
-  setup() {
+  props: ["label", "color", "modelValue"],
+  setup(props, { emit }) {
     const pagoStore = usePagoStore();
     const route = useRoute();
 
@@ -824,6 +922,11 @@ export default defineComponent({
       type: "",
     });
 
+    const dataCodigoPostal = ref<CodigoPostal>({
+      result: [],
+      type: "",
+    });
+
     const dataSector = ref<Sector>({
       result: [],
       type: "",
@@ -834,13 +937,40 @@ export default defineComponent({
       type: "",
     });
 
+    const nuevasColoniasOptions = ref([
+      {
+        label: "",
+        value: "",
+      },
+    ]);
+
+    const nuevasColoniasFacturacionOptions = ref([
+      {
+        label: "",
+        value: "",
+      },
+    ]);
+
+    const nuevasColoniasEmpresaOptions = ref([
+      {
+        label: "",
+        value: "",
+      },
+    ]);
+
+    const dataEmpresa = ref({
+      nombreEmpresa: "",
+      idSector: 0,
+      empresaId: 0,
+      antiguedad: "",
+      puesto: "",
+      idEspecialidad: 0,
+    });
+
     async function catalogoGenero() {
       try {
         await pagoStore.cargarCatalogoGenero();
-
         dataGenero.value = pagoStore.object.catalogoGenero as Genero;
-
-        console.log(dataGenero.value.result);
       } catch (error) {
         console.log(error);
       }
@@ -849,6 +979,8 @@ export default defineComponent({
     async function catalogoEstadoCivil() {
       try {
         await pagoStore.cargarCatalogoEstadoCivil();
+        dataEstadoCivil.value = pagoStore.object
+          .catalogoEstadoCivil as EstadoCivil;
       } catch (error) {
         console.log(error);
       }
@@ -857,6 +989,8 @@ export default defineComponent({
     async function catalogoColegio() {
       try {
         await pagoStore.cargarCatalogoColegio();
+
+        dataColegio.value = pagoStore.object.catalogoColegio as Colegio;
       } catch (error) {
         console.log(error);
       }
@@ -864,7 +998,13 @@ export default defineComponent({
 
     async function catalogoSector() {
       try {
-        await pagoStore.cargarCatalogoSector();
+        if (dataContacto.value.informacion.articulo == "Inactivo") {
+          await pagoStore.cargarCatalogoSector();
+        } else {
+          await pagoStore.cargarCatalogoSectorEspecial();
+        }
+
+        dataSector.value = pagoStore.object.catalogoSector as Sector;
       } catch (error) {
         console.log(error);
       }
@@ -873,6 +1013,9 @@ export default defineComponent({
     async function catalogoEspecialidad() {
       try {
         await pagoStore.cargarCatalogoEspecialidad();
+
+        dataEspecialidad.value = pagoStore.object
+          .catalogoEspecialidad as Especialidad;
       } catch (error) {
         console.log(error);
       }
@@ -906,9 +1049,165 @@ export default defineComponent({
 
         dataContacto.value = pagoStore.object.contacto as InformacionUsuario;
 
-        console.log(dataContacto.value);
+        await cargarCodigoPostal(dataContacto.value.informacion.cp);
+
+        await cargarCodigoPostalFacturacion(
+          dataContacto.value.informacion.direccion_cp_personal
+        );
+
+        await cargarCodigoPostalEmpresa(
+          dataContacto.value.informacion.direccion_cp_empresa
+        );
+
+        if (dataContacto.value.empresa.length > 0) {
+          dataEmpresa.value.empresaId = dataContacto.value.empresa[0].empresaId;
+          dataEmpresa.value.idSector = dataContacto.value.empresa[0].idSector;
+          dataEmpresa.value.nombreEmpresa =
+            dataContacto.value.empresa[0].nombreEmpresa;
+          dataEmpresa.value.antiguedad =
+            dataContacto.value.empresa[0].antiguedad;
+          dataEmpresa.value.puesto = dataContacto.value.empresa[0].puesto;
+
+          dataEmpresa.value.idEspecialidad =
+            dataContacto.value.especialidad[0].catalogoEspecialidadId;
+        }
+
+        await catalogoSector();
       } catch (error) {
         console.log(error);
+      }
+    }
+
+    async function cargarCodigoPostalEmpresa(codigoPostal: string) {
+      await pagoStore.cargarCatalogoCodigoPostal(codigoPostal);
+
+      dataCodigoPostal.value = pagoStore.object.codigoPostal as CodigoPostal;
+
+      if (dataCodigoPostal.value.result.length > 0) {
+        dataContacto.value.informacion.direccion_delegacion_empresa =
+          dataCodigoPostal.value.result[0].delegacion;
+        dataContacto.value.informacion.direccion_estado_empresa =
+          dataCodigoPostal.value.result[0].estado;
+      }
+
+      await cargarColoniasEmpresa();
+    }
+
+    async function cargarColoniasEmpresa() {
+      nuevasColoniasEmpresaOptions.value = [];
+
+      try {
+        const coloniasOptions = dataCodigoPostal.value.result.map(
+          (colonia) => ({
+            value: colonia.colonia,
+            label: colonia.colonia,
+          })
+        );
+
+        nuevasColoniasEmpresaOptions.value = coloniasOptions;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    function cambiarCodigoPostalEmpresa() {
+      dataContacto.value.informacion.direccion_delegacion_empresa = "";
+      dataContacto.value.informacion.direccion_estado_empresa = "";
+      dataContacto.value.informacion.direccion_colonia_empresa = "";
+      nuevasColoniasEmpresaOptions.value = [];
+
+      if (dataContacto.value.informacion.direccion_cp_empresa.length == 5) {
+        cargarCodigoPostalEmpresa(
+          dataContacto.value.informacion.direccion_cp_empresa
+        );
+      }
+    }
+
+    async function cargarCodigoPostalFacturacion(codigoPostal: string) {
+      await pagoStore.cargarCatalogoCodigoPostal(codigoPostal);
+
+      dataCodigoPostal.value = pagoStore.object.codigoPostal as CodigoPostal;
+
+      if (dataCodigoPostal.value.result.length > 0) {
+        dataContacto.value.informacion.direccion_delegacion_personal =
+          dataCodigoPostal.value.result[0].delegacion;
+        dataContacto.value.informacion.direccion_estado_personal =
+          dataCodigoPostal.value.result[0].estado;
+      }
+
+      await cargarColoniasFacturacion();
+    }
+
+    async function cargarColoniasFacturacion() {
+      nuevasColoniasFacturacionOptions.value = [];
+
+      try {
+        const coloniasOptions = dataCodigoPostal.value.result.map(
+          (colonia) => ({
+            value: colonia.colonia,
+            label: colonia.colonia,
+          })
+        );
+
+        nuevasColoniasFacturacionOptions.value = coloniasOptions;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    function cambiarCodigoPostalFacturacion() {
+      dataContacto.value.informacion.direccion_delegacion_personal = "";
+      dataContacto.value.informacion.direccion_estado_personal = "";
+      dataContacto.value.informacion.direccion_colonia_personal = "";
+      nuevasColoniasFacturacionOptions.value = [];
+
+      if (dataContacto.value.informacion.direccion_cp_personal.length == 5) {
+        cargarCodigoPostalFacturacion(
+          dataContacto.value.informacion.direccion_cp_personal
+        );
+      }
+    }
+
+    async function cargarCodigoPostal(codigoPostal: string) {
+      await pagoStore.cargarCatalogoCodigoPostal(codigoPostal);
+
+      dataCodigoPostal.value = pagoStore.object.codigoPostal as CodigoPostal;
+
+      if (dataCodigoPostal.value.result.length > 0) {
+        dataContacto.value.informacion.delegacion =
+          dataCodigoPostal.value.result[0].delegacion;
+        dataContacto.value.informacion.estado =
+          dataCodigoPostal.value.result[0].estado;
+      }
+
+      await cargarColonias();
+    }
+
+    async function cargarColonias() {
+      nuevasColoniasOptions.value = [];
+
+      try {
+        const coloniasOptions = dataCodigoPostal.value.result.map(
+          (colonia) => ({
+            value: colonia.colonia,
+            label: colonia.colonia,
+          })
+        );
+
+        nuevasColoniasOptions.value = coloniasOptions;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    function cambiarCodigoPostal() {
+      dataContacto.value.informacion.delegacion = "";
+      dataContacto.value.informacion.estado = "";
+      dataContacto.value.informacion.colinia = "";
+      nuevasColoniasOptions.value = [];
+
+      if (dataContacto.value.informacion.cp.length == 5) {
+        cargarCodigoPostal(dataContacto.value.informacion.cp);
       }
     }
 
@@ -916,13 +1215,40 @@ export default defineComponent({
       const idCertificado = route.params.idCertificado;
 
       await cargarDesglosePorEjercicio(idCertificado);
-      await cargarContacto();
       await catalogoGenero();
       await catalogoEstadoCivil();
       await catalogoColegio();
-      await catalogoSector();
+      //await catalogoSector();
       await catalogoEspecialidad();
+      await cargarContacto();
     });
+
+    const isMenuOpen = ref(false);
+    const selectedDate = ref(props.modelValue);
+
+    const formattedDate = computed(() => {
+      return selectedDate.value
+        ? selectedDate.value.toLocaleString("en-GB", {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          })
+        : "";
+    });
+
+    watch(
+      () => props.modelValue,
+      (newDate) => {
+        selectedDate.value = newDate;
+      }
+    );
+
+    watch(
+      () => selectedDate.value,
+      (newDate) => {
+        emit("update:modelValue", newDate);
+      }
+    );
 
     return {
       colores,
@@ -930,6 +1256,20 @@ export default defineComponent({
       certificadoActual,
       dataContacto,
       dataGenero,
+      dataEstadoCivil,
+      dataColegio,
+      dataSector,
+      nuevasColoniasOptions,
+      cambiarCodigoPostal,
+      nuevasColoniasFacturacionOptions,
+      cambiarCodigoPostalFacturacion,
+      nuevasColoniasEmpresaOptions,
+      cambiarCodigoPostalEmpresa,
+      dataEmpresa,
+      dataEspecialidad,
+      selectedDate,
+      isMenuOpen,
+      formattedDate,
     };
   },
 });
