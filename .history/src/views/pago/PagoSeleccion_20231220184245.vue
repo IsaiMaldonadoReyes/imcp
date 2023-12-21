@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-content>
-      <v-container class="big-container" fluid>
+      <v-container fluid>
         <v-card elevation="0" color="transparent">
           <v-card-item>
             <v-card-title
@@ -12,7 +12,7 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card class="" elevation="0" border="">
+        <v-card class="pa-2" elevation="0" border="">
           <v-card-text>
             <v-select
               class="my-4"
@@ -67,7 +67,7 @@
               class="my-4"
               clearable
               hide-details="auto"
-              label="Código postal *"
+              label="Código *"
               placeholder="Código postal del tarjetahabiente"
               variant="outlined"
             ></v-text-field>
@@ -108,7 +108,6 @@
             <v-menu v-model="isMenuOpen" :close-on-content-click="true">
               <template v-slot:activator="{ props }">
                 <v-text-field
-                  class="my-4"
                   v-model="formattedDate"
                   readonly
                   v-bind="props"
@@ -125,8 +124,8 @@
               ></ion-datetime>
             </v-menu>
             <v-text-field
-              clearable
               class="my-4"
+              clearable
               hide-details="auto"
               label="Código de seguridad *"
               placeholder="CVV"
@@ -149,69 +148,39 @@
                   </span>
                 </v-tooltip>
               </template-->
-              <template v-slot:append-inner>
+              <template v-slot:append>
                 <v-menu v-model="menu" :close-on-content-click="false" location="end">
                   <template v-slot:activator="{ props }">
                     <v-icon v-bind="props">mdi-help-circle-outline</v-icon>
                   </template>
 
-                  <v-card max-width="250">
+                  <v-card min-width="300">
                     <v-card-text>
-                      El código
-                      <span
-                        class="font-weight-bold"
-                        :style="`color:${colores.verdeBoton}`"
-                      >
-                        CVV
-                      </span>
-                      o
-                      <span
-                        class="font-weight-bold"
-                        :style="`color:${colores.verdeBoton}`"
-                      >
-                        CVC
-                      </span>
-                      es un grupo de 3 o 4 números situado en el reverso de la tarjeta de
-                      crédito o débito.
+                      El código CVV o CVC es un grupo de 3 o 4 números situado en el
+                      reverso de la tarjeta de crédito o débito.
                     </v-card-text>
+
                     <v-divider></v-divider>
-                    <v-card-item class="text-center ma-0 pa-0">
-                      <img src="../../assets/images/cvv.png" style="max-width: 150px" />
-                    </v-card-item>
-                    <v-divider></v-divider>
+                    <img
+                      style="width: 512px; max-height: 512px"
+                      src="../../assets/images/cvv.png"
+                    />
+
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn
-                        :color="colores.verdeBoton"
-                        class="me-2"
-                        variant="text"
-                        @click="menu = false"
-                        text="Cerrar"
-                      />
+
+                      <v-btn variant="text" @click="menu = false"> Cancel </v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-menu>
               </template>
             </v-text-field>
-
-            <v-btn class="mb-2" variant="text">
-              <a
-                class="text-decoration-underline text-none text-grey-darken-1"
-                target="_blank"
-                href="https://www.xpertshop.mx/v2/contenidos/terminos_condiciones_xpertshop.php"
-                @click.stop
-              >
-                <span>
-                  Políticas de compra segura <v-icon size="14">mdi-open-in-new</v-icon>
-                </span>
-              </a>
+            <v-btn class="text-grey-darken-1" variant="text">
+              <span class="text-decoration-underline text-none">
+                Políticas de compra segura
+              </span>
             </v-btn>
-            <v-checkbox
-              :center-affix="true"
-              true-icon="mdi-shield-check"
-              :color="colores.verdeBoton"
-              hide-details
-            >
+            <v-checkbox :center-affix="true" true-icon="mdi-shield-check" hide-details>
               <template v-slot:label>
                 <div>
                   Estoy de acuerdo en la políticas de
@@ -231,39 +200,31 @@
                 </div>
               </template>
               <template v-slot:append>
-                <a
-                  class="text-grey-darken-1"
-                  target="_blank"
-                  href="https://www.xpertshop.mx/v2/contenidos/aviso_privacidad_xpertshop.php"
-                  @click.stop
-                >
-                  <v-icon>mdi-open-in-new</v-icon>
-                </a>
-                <!--span class="text-caption text-medium-emphasis ms-1 font-weight-light">
-                  ver
-                </span-->
+                <v-icon>mdi-shield-link-variant</v-icon>
               </template>
             </v-checkbox>
             <v-checkbox
               :center-affix="true"
-              :color="colores.verdeBoton"
-              hide-details
               true-icon="mdi-receipt-text-check"
+              append-icon="mdi-help-circle-outline"
+              hide-details
             >
-              <template v-slot:label>Si desea factura</template>
+              <template v-slot:label>
+                <div>Si desea factura</div>
+              </template>
             </v-checkbox>
           </v-card-text>
           <v-card-actions>
             <v-btn
               :color="colores.verdeBoton"
-              :to="{
-                name: 'seleccionAccion',
-                params: { idCertificado: 2 },
-              }"
               block
               prepend-icon="mdi-account-credit-card"
               size="large"
               text="Pagar"
+              :to="{
+                name: 'seleccionAccion',
+                params: { idCertificado: 2 },
+              }"
               variant="flat"
             >
               <template v-slot:prepend>

@@ -131,6 +131,7 @@
               label="Código de seguridad *"
               placeholder="CVV"
               variant="outlined"
+              style="width: calc(50% - 10px)"
             >
               <!--template v-slot:append>
                 <v-tooltip class="text-justify" location="top" v-model="tooltipVisible">

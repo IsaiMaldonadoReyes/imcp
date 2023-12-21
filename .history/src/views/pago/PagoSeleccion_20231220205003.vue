@@ -117,6 +117,7 @@
                   placeholder="mm/yy*"
                   hide-details
                   clearable
+                  style="width: calc(50% - 10px)"
                 ></v-text-field>
               </template>
               <ion-datetime
@@ -124,6 +125,7 @@
                 @ionChange="handleDateChange"
               ></ion-datetime>
             </v-menu>
+            <v-spacer></v-spacer>
             <v-text-field
               clearable
               class="my-4"
@@ -131,6 +133,7 @@
               label="Código de seguridad *"
               placeholder="CVV"
               variant="outlined"
+              style="width: calc(50% - 10px)"
             >
               <!--template v-slot:append>
                 <v-tooltip class="text-justify" location="top" v-model="tooltipVisible">

@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-content>
-      <v-container class="big-container" fluid>
+      <v-container fluid>
         <v-card elevation="0" color="transparent">
           <v-card-item>
             <v-card-title
@@ -12,7 +12,7 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card class="" elevation="0" border="">
+        <v-card class="pa-1" elevation="0" border="">
           <v-card-text>
             <v-select
               class="my-4"
@@ -105,34 +105,37 @@
               placeholder="Seleccione tipo de tarjeta"
               variant="outlined"
             ></v-select>
-            <v-menu v-model="isMenuOpen" :close-on-content-click="true">
-              <template v-slot:activator="{ props }">
+            <v-row>
+              <v-col cols="12" sm="12" md="6" lg="6">
+                <v-menu v-model="isMenuOpen" :close-on-content-click="true">
+                  <template v-slot:activator="{ props }">
+                    <v-text-field
+                      v-model="formattedDate"
+                      readonly
+                      v-bind="props"
+                      variant="outlined"
+                      rounded="large"
+                      label="Fecha de expiración *"
+                      placeholder="mm/yy*"
+                      hide-details
+                      clearable
+                    ></v-text-field>
+                  </template>
+                  <ion-datetime
+                    presentation="month-year"
+                    @ionChange="handleDateChange"
+                  ></ion-datetime>
+                </v-menu>
+              </v-col>
+              <v-col cols="12" sm="12" md="6" lg="6">
                 <v-text-field
-                  class="my-4"
-                  v-model="formattedDate"
-                  readonly
-                  v-bind="props"
-                  variant="outlined"
-                  label="Fecha de expiración *"
-                  placeholder="mm/yy*"
-                  hide-details
                   clearable
-                ></v-text-field>
-              </template>
-              <ion-datetime
-                presentation="month-year"
-                @ionChange="handleDateChange"
-              ></ion-datetime>
-            </v-menu>
-            <v-text-field
-              clearable
-              class="my-4"
-              hide-details="auto"
-              label="Código de seguridad *"
-              placeholder="CVV"
-              variant="outlined"
-            >
-              <!--template v-slot:append>
+                  hide-details="auto"
+                  label="Código de seguridad *"
+                  placeholder="CVV"
+                  variant="solo"
+                >
+                  <!--template v-slot:append>
                 <v-tooltip class="text-justify" location="top" v-model="tooltipVisible">
                   <template v-slot:activator="{ props }">
                     <v-icon
@@ -149,50 +152,55 @@
                   </span>
                 </v-tooltip>
               </template-->
-              <template v-slot:append-inner>
-                <v-menu v-model="menu" :close-on-content-click="false" location="end">
-                  <template v-slot:activator="{ props }">
-                    <v-icon v-bind="props">mdi-help-circle-outline</v-icon>
-                  </template>
+                  <template v-slot:append-inner>
+                    <v-menu v-model="menu" :close-on-content-click="false" location="end">
+                      <template v-slot:activator="{ props }">
+                        <v-icon v-bind="props">mdi-help-circle-outline</v-icon>
+                      </template>
 
-                  <v-card max-width="250">
-                    <v-card-text>
-                      El código
-                      <span
-                        class="font-weight-bold"
-                        :style="`color:${colores.verdeBoton}`"
-                      >
-                        CVV
-                      </span>
-                      o
-                      <span
-                        class="font-weight-bold"
-                        :style="`color:${colores.verdeBoton}`"
-                      >
-                        CVC
-                      </span>
-                      es un grupo de 3 o 4 números situado en el reverso de la tarjeta de
-                      crédito o débito.
-                    </v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-item class="text-center ma-0 pa-0">
-                      <img src="../../assets/images/cvv.png" style="max-width: 150px" />
-                    </v-card-item>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        :color="colores.verdeBoton"
-                        class="me-2"
-                        variant="text"
-                        @click="menu = false"
-                        text="Cerrar"
-                      />
-                    </v-card-actions>
-                  </v-card>
-                </v-menu>
-              </template>
-            </v-text-field>
+                      <v-card max-width="250">
+                        <v-card-text>
+                          El código
+                          <span
+                            class="font-weight-bold"
+                            :style="`color:${colores.verdeBoton}`"
+                          >
+                            CVV
+                          </span>
+                          o
+                          <span
+                            class="font-weight-bold"
+                            :style="`color:${colores.verdeBoton}`"
+                          >
+                            CVC
+                          </span>
+                          es un grupo de 3 o 4 números situado en el reverso de la tarjeta
+                          de crédito o débito.
+                        </v-card-text>
+                        <v-divider></v-divider>
+                        <v-card-item class="text-center ma-0 pa-0">
+                          <img
+                            src="../../assets/images/cvv.png"
+                            style="max-width: 150px"
+                          />
+                        </v-card-item>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            :color="colores.verdeBoton"
+                            class="me-2"
+                            variant="text"
+                            @click="menu = false"
+                            text="Cerrar"
+                          />
+                        </v-card-actions>
+                      </v-card>
+                    </v-menu>
+                  </template>
+                </v-text-field>
+              </v-col>
+            </v-row>
 
             <v-btn class="mb-2" variant="text">
               <a
