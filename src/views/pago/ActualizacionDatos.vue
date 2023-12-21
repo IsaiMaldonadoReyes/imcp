@@ -560,7 +560,7 @@
             <v-btn
               block
               class="text-none"
-              prepend-icon="mdi-file-download-outline"
+              prepend-icon="mdi-content-save-edit-outline"
               rounded="large"
               size="large"
               text="GUARDAR"
@@ -577,7 +577,7 @@
             <v-btn
               block
               class="text-none"
-              prepend-icon="mdi-file-download-outline"
+              prepend-icon="mdi-content-save-off-outline"
               rounded="large"
               size="large"
               text="CANCELAR"

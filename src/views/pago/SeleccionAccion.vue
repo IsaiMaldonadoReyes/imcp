@@ -9,7 +9,12 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card color="transparent" rounded="lg" class="mx-auto my-4" elevation="0">
+        <v-card
+          color="transparent"
+          rounded="lg"
+          class="mx-auto my-4"
+          elevation="0"
+        >
           <div>
             <v-btn
               block
@@ -40,7 +45,7 @@
               size="large"
               text="REALIZAR PAGO"
               variant="flat"
-              :color="colores.rojoIMPC"
+              :color="colores.grisOscuro"
               :to="{
                 name: 'seleccionPagoCertificado',
                 params: { idCertificado: idCertificadoActualizacion },
