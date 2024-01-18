@@ -16,6 +16,7 @@ export const usePagoStore = defineStore({
             catalogoEspecialidad: {},
             puntosPorCertificado: {},
             contacto: {},
+            informacion: {},
             codigoPostal: {},
         },
         responseMessage: null,
@@ -46,9 +47,38 @@ export const usePagoStore = defineStore({
                     this.object.contacto = response.data.result;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
+
+        async cargarContactoInformacion() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+            const rfcParam = await storage.get("rfc");
+
+            try {
+
+                const params = {
+                    datos: {
+                        cuenta_rfc: rfcParam,
+                    }
+                };
+
+                const response = await axios.get("/users/informacion", {
+                    headers: configAuthToken.headers,
+                    params
+                });
+
+                if (response.data.type === "success") {
+                    this.object.informacion = response.data.result;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
 
         async cargarCatalogoGenero() {
             const storage = new Storage();
@@ -66,7 +96,7 @@ export const usePagoStore = defineStore({
                     this.object.catalogoGenero = response.data;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
 
@@ -86,7 +116,7 @@ export const usePagoStore = defineStore({
                     this.object.catalogoEstadoCivil = response.data;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
 
@@ -106,7 +136,7 @@ export const usePagoStore = defineStore({
                     this.object.catalogoColegio = response.data;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
 
@@ -126,7 +156,7 @@ export const usePagoStore = defineStore({
                     this.object.catalogoSector = response.data;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
 
@@ -146,7 +176,7 @@ export const usePagoStore = defineStore({
                     this.object.catalogoSector = response.data;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
 
@@ -166,7 +196,7 @@ export const usePagoStore = defineStore({
                     this.object.catalogoEspecialidad = response.data;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
         async cargarCatalogoCodigoPostal(codigo: string) {
@@ -189,7 +219,7 @@ export const usePagoStore = defineStore({
                     this.object.codigoPostal = response.data;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
 
@@ -220,7 +250,7 @@ export const usePagoStore = defineStore({
                     this.object.puntosPorCertificado = response.data.result.search;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
     }

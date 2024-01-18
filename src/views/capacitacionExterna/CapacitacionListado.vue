@@ -17,7 +17,7 @@
             class="mr-1 text-none"
             rounded="t-lg"
             size="small"
-            text="Periodo anual"
+            text="Nuevo aviso"
             variant="flat"
           />
           <v-tab
@@ -27,7 +27,7 @@
             class="text-none"
             rounded="t-lg"
             size="small"
-            text="Periodo 4 años"
+            text="Avisos realizados"
             variant="flat"
           />
         </v-tabs>
@@ -37,95 +37,29 @@
               <v-card class="mx-auto" color="transparent" elevation="0">
                 <v-card-item>
                   <v-card-title
-                    class="text-uppercase text-center"
+                    class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
                     style="white-space: normal"
                   >
-                    {{ title }} anual
+                    Aviso de capacitacion
                   </v-card-title>
-                  <v-card-subtitle class="text-capitalize text-center">
-                    {{ subtitle }}
-                  </v-card-subtitle>
                 </v-card-item>
               </v-card>
-
-              <v-card class="mx-auto my-2" elevation="0" rounded="lg">
-                <v-card-text>
-                  <BarChart v-bind="barChartPropsAnual" />
-                </v-card-text>
-              </v-card>
-
               <v-card class="mx-auto my-4" elevation="0" rounded="lg">
-                <v-list
-                  bg-color="transparent"
-                  class="d-flex flex-column justify-end"
-                  density="compact"
-                >
-                  <v-list-item title="Puntaje principal">
-                    <v-progress-linear
-                      :model-value="80"
-                      class="mx-n5"
-                      color="rgba(178, 0, 0, 0.6)"
-                      height="15"
-                      rounded
-                    />
-                    <template v-slot:append>
-                      <div class="rating-values">
-                        <span>18/20</span>
-                      </div>
+                <v-divider />
+                <v-card-actions>
+                  <v-btn
+                    :color="colores.grisOscuro"
+                    block
+                    prepend-icon="mdi-eye-arrow-right-outline"
+                    size="large"
+                    text="Nuevo aviso de capacitación"
+                    variant="flat"
+                  >
+                    <template v-slot:prepend>
+                      <v-icon class="mr-3" size="large"></v-icon>
                     </template>
-                  </v-list-item>
-
-                  <v-list-item title="Puntaje otros cursos">
-                    <v-progress-linear
-                      :model-value="70"
-                      class="mx-n5"
-                      color="rgba(178, 0, 0, 0.6)"
-                      height="15"
-                      rounded
-                    />
-                    <template v-slot:append>
-                      <div class="rating-values">
-                        <span>20/25</span>
-                      </div>
-                    </template>
-                  </v-list-item>
-
-                  <v-list-item title="Puntaje ética">
-                    <v-progress-linear
-                      :model-value="30"
-                      class="mx-n5"
-                      color="rgba(178, 0, 0, 0.6)"
-                      height="15"
-                      rounded
-                    />
-                    <template v-slot:append>
-                      <div class="rating-values">
-                        <span>2/5</span>
-                      </div>
-                    </template>
-                  </v-list-item>
-                </v-list>
-              </v-card>
-
-              <v-card class="mx-auto my-4" color="transparent" elevation="0" rounded="lg">
-                <v-btn
-                  :color="colores.rojoIMPC"
-                  block
-                  class="text-none mb-4"
-                  rounded="lg"
-                  size="large"
-                  text="Histórico de capacitaciones"
-                  variant="flat"
-                />
-                <v-btn
-                  :color="colores.grisOscuro"
-                  block
-                  class="text-none"
-                  rounded="lg"
-                  size="large"
-                  text="Desglose de puntos"
-                  variant="flat"
-                />
+                  </v-btn>
+                </v-card-actions>
               </v-card>
             </v-card>
           </v-window-item>
@@ -137,151 +71,13 @@
                     class="text-uppercase text-center"
                     style="white-space: normal"
                   >
-                    {{ title }} por 4 años
+                    Listado de avisos
                   </v-card-title>
-                  <v-card-subtitle class="text-capitalize text-center">
-                    {{ subtitle }}
-                  </v-card-subtitle>
                 </v-card-item>
               </v-card>
 
               <v-card class="mx-auto my-2" elevation="0" rounded="lg">
-                <v-card-text>
-                  <BarChart v-bind="barChartPropsPor4" />
-                </v-card-text>
-              </v-card>
-
-              <v-card class="mx-auto my-4" elevation="0" rounded="lg">
-                <v-card-title class="text-none text-center" style="white-space: normal">
-                  2022
-                </v-card-title>
-                <v-list
-                  bg-color="transparent"
-                  class="d-flex flex-column justify-end"
-                  density="compact"
-                >
-                  <v-list-item title="Puntaje principal">
-                    <v-progress-linear
-                      :model-value="80"
-                      class="mx-n5"
-                      color="rgba(178, 0, 0, 0.6)"
-                      height="15"
-                      rounded
-                    />
-                    <template v-slot:append>
-                      <div class="rating-values">
-                        <span>18/20</span>
-                      </div>
-                    </template>
-                  </v-list-item>
-
-                  <v-list-item title="Puntaje otros cursos">
-                    <v-progress-linear
-                      :model-value="70"
-                      class="mx-n5"
-                      color="rgba(178, 0, 0, 0.6)"
-                      height="15"
-                      rounded
-                    />
-                    <template v-slot:append>
-                      <div class="rating-values">
-                        <span>20/25</span>
-                      </div>
-                    </template>
-                  </v-list-item>
-
-                  <v-list-item title="Puntaje ética">
-                    <v-progress-linear
-                      :model-value="30"
-                      class="mx-n5"
-                      color="rgba(178, 0, 0, 0.6)"
-                      height="15"
-                      rounded
-                    />
-                    <template v-slot:append>
-                      <div class="rating-values">
-                        <span>2/5</span>
-                      </div>
-                    </template>
-                  </v-list-item>
-                </v-list>
-              </v-card>
-
-              <v-card class="mx-auto my-4" elevation="0" rounded="lg">
-                <v-card-title class="text-none text-center" style="white-space: normal">
-                  2021
-                </v-card-title>
-                <v-list
-                  bg-color="transparent"
-                  class="d-flex flex-column justify-end"
-                  density="compact"
-                >
-                  <v-list-item title="Puntaje principal">
-                    <v-progress-linear
-                      :model-value="80"
-                      class="mx-n5"
-                      color="rgba(178, 0, 0, 0.6)"
-                      height="15"
-                      rounded
-                    />
-                    <template v-slot:append>
-                      <div class="rating-values d-flex align-self-end">
-                        <span>18/20</span>
-                      </div>
-                    </template>
-                  </v-list-item>
-
-                  <v-list-item title="Puntaje otros cursos">
-                    <v-progress-linear
-                      :model-value="70"
-                      class="mx-n5"
-                      color="rgba(178, 0, 0, 0.6)"
-                      height="15"
-                      rounded
-                    />
-                    <template v-slot:append>
-                      <div class="rating-values">
-                        <span>20/25</span>
-                      </div>
-                    </template>
-                  </v-list-item>
-
-                  <v-list-item title="Puntaje ética">
-                    <v-progress-linear
-                      :model-value="30"
-                      class="mx-n5"
-                      color="rgba(178, 0, 0, 0.6)"
-                      height="15"
-                      rounded
-                    />
-                    <template v-slot:append>
-                      <div class="rating-values">
-                        <span>2/5</span>
-                      </div>
-                    </template>
-                  </v-list-item>
-                </v-list>
-              </v-card>
-
-              <v-card class="mx-auto my-4" color="transparent" elevation="0" rounded="lg">
-                <v-btn
-                  :color="colores.rojoIMPC"
-                  block
-                  class="text-none mb-4"
-                  rounded="lg"
-                  size="large"
-                  text="Histórico de capacitaciones"
-                  variant="flat"
-                />
-                <v-btn
-                  :color="colores.grisOscuro"
-                  block
-                  class="text-none"
-                  rounded="lg"
-                  size="large"
-                  text="Desglose de puntos"
-                  variant="flat"
-                />
+                <v-card-text> </v-card-text>
               </v-card>
             </v-card>
           </v-window-item>
@@ -292,102 +88,89 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent } from "vue";
-import { BarChart, useBarChart } from "vue-chart-3";
-import { Chart, registerables, ScriptableContext } from "chart.js";
-import { IonPage, IonContent } from "@ionic/vue";
+import { ref, defineComponent } from "vue";
+import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
+import { useCapacitacionStore } from "@/store/capacitacionExterna";
 
-Chart.register(...registerables);
+export interface Capacitaciones {
+  dataset: Dataset[];
+  totalSize: number;
+  pageSize: number;
+  intervaloSeccion: number;
+  nombreListado: string;
+}
+
+export interface Dataset {
+  externo_evento_id: number;
+  usuario_id: any;
+  cuentas_usuarios_id: number;
+  id_colegio: number;
+  nombre_evento: string;
+  eventos_sede: string;
+  expositor: string;
+  eventos_fecha_inicio: string;
+  eventos_fecha_fin: string;
+  comentarios_autorizacion: string;
+  comentarios_rechazo: string;
+  telefono: string;
+  email: string;
+  status: string;
+  datecreation: string;
+  externo_archivos_id: string;
+  externo_puntos_id: string;
+  archivo: any;
+  status_archivo: string;
+  disiplinas_id: number;
+  puntos: number;
+  horas: number;
+  modalidad: string;
+  status_puntos: string;
+  cuenta_rfc: string;
+  cuenta_nombre: string;
+  cuenta_apaterno: string;
+  cuenta_amatarno: string;
+  expositor_status: string;
+  externo_archivos: ExternoArchivo[];
+  externo_puntos: ExternoPunto[];
+}
+
+export interface ExternoArchivo {
+  externoArchivosId: number;
+  externoEventoId: number;
+  status: string;
+}
+
+export interface ExternoPunto {
+  externoPuntosId: number;
+  externoEventoId: number;
+  disiplinasId: number;
+  disiplinas: string;
+  puntos: number;
+  horas: number;
+  modalidad: string;
+  status: string;
+}
 
 export default defineComponent({
-  name: "App",
+  name: "CapacitacionExterna",
   components: {
-    BarChart,
     IonContent,
     IonPage,
   },
   setup() {
+    const capacitacionStore = useCapacitacionStore();
+
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
       grisOscuro: "#222222",
     });
-    const data = [20, 18];
-    const data2 = [25, 20];
-    const data3 = [5, 2];
 
-    const dataC1Por4 = [20, 18, 30, 26, 30, 20, 30, 20, 19];
-    const dataC2Por4 = [25, 20, 25, 23, 30, 15, 35, 30];
-    const dataC3Por4 = [5, 2, 10, 9, 15, 8, 20, 14];
-    const title = ref("Estatus de capacitación");
-    const subtitle = ref("Sector Gubernamental");
     const tabs = ref(null);
-
-    const cursos = [
-      {
-        label: "Principales",
-        data: data,
-        backgroundColor: "rgba(178, 0, 0, 0.6)",
-      },
-      {
-        label: "Otros cursos",
-        data: data2,
-        backgroundColor: "rgba(89, 89, 89, 0.6)",
-      },
-      {
-        label: "Ética",
-        data: data3,
-        backgroundColor: "rgba(166, 166, 166, 0.6)",
-      },
-    ];
-
-    const cursosPor4 = [
-      {
-        label: "Principales",
-        data: dataC1Por4,
-        backgroundColor: "rgba(178, 0, 0, 0.6)",
-      },
-      {
-        label: "Otros cursos",
-        data: dataC2Por4,
-        backgroundColor: "rgba(89, 89, 89, 0.6)",
-      },
-      {
-        label: "Ética",
-        data: dataC3Por4,
-        backgroundColor: "rgba(166, 166, 166, 0.6)",
-      },
-    ];
-
-    const chartData = computed(() => ({
-      labels: ["Esperado", "Obtenido"],
-      datasets: cursos,
-    }));
-
-    const chartPor4 = computed(() => ({
-      labels: [
-        "Esperado 2022",
-        "Obtenido 2022",
-        "Esperado 2021",
-        "Obtenido 2021",
-        "Esperado 2020",
-        "Obtenido 2020",
-        "Esperado 2019",
-        "Obtenido 2019",
-      ],
-      datasets: cursosPor4,
-    }));
-
-    let delayed = ref(false);
+    const dataLoaded = ref(false);
 
     const options = ref({
-      indexAxis: "y",
-      plugins: {
-        title: {
-          display: true,
-          text: "Porcentaje de alcance Norma DCP",
-        },
-      },
+      indexAxis: "x",
       responsive: true,
       scales: {
         x: {
@@ -399,23 +182,57 @@ export default defineComponent({
       },
     });
 
-    const { barChartProps: barChartPropsAnual } = useBarChart({
-      chartData,
-      options,
+    const listadoCapacitaciones = ref<Capacitaciones>({
+      dataset: [],
+      totalSize: 0,
+      pageSize: 0,
+      intervaloSeccion: 0,
+      nombreListado: "",
     });
 
-    const { barChartProps: barChartPropsPor4 } = useBarChart({
-      chartData: chartPor4, // Cambié la variable a chartPor4
-      options,
+    async function cargarDashboard() {
+      dataLoaded.value = false;
+
+      listadoCapacitaciones.value = {
+        dataset: [],
+        totalSize: 0,
+        pageSize: 0,
+        intervaloSeccion: 0,
+        nombreListado: "",
+      };
+
+      try {
+        await capacitacionStore.cargarListado();
+
+        listadoCapacitaciones.value = capacitacionStore.object
+          .listado as Capacitaciones;
+
+
+      } catch (error) {}
+    }
+
+    onIonViewDidEnter(() => {
+      cargarDashboard();
     });
 
-    return { barChartPropsAnual, barChartPropsPor4, options, title, subtitle, tabs, colores };
+    return {
+      dataLoaded,
+      colores,
+      options,
+      tabs,
+      listadoCapacitaciones
+    };
   },
 });
 </script>
 
 <style scoped lang="scss">
 .blue-tab {
-  background-color: white !important; /* Cambia 'blue' por el color que desees */
+  background-color: white !important;
+  /* Cambia 'blue' por el color que desees */
+}
+.rating-values {
+  margin-left: 10px;
+  min-width: 65px;
 }
 </style>

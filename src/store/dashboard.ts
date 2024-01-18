@@ -83,11 +83,11 @@ export const useDashboardStore = defineStore({
                     this.object.notificaciones = response.data.result.search.dataset;
                 }
             } catch (error) {
-                throw new Error("Error al cargar las notificaciones");
+                //throw new Error("Error al cargar las notificaciones");
             }
         },
 
-        async loadEjercicios(rfc: string) {
+        async loadEjercicios() {
             const storage = new Storage();
             await storage.create();
 
@@ -110,7 +110,7 @@ export const useDashboardStore = defineStore({
                     this.object.ejercicios = response.data.result.search;
                 }
             } catch (error) {
-                throw new Error("Error al cargar los ejercicios Dashboard");
+                //throw new Error("Error al cargar los ejercicios Dashboard");
             }
         },
 
@@ -138,7 +138,7 @@ export const useDashboardStore = defineStore({
                     this.object.desglosePuntos = response.data.result;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
 
@@ -166,7 +166,7 @@ export const useDashboardStore = defineStore({
                     this.object.rutaPdf = response.data.result.dir;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
 

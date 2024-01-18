@@ -106,6 +106,8 @@
                 v-model="menuNotificacion"
                 :close-on-content-click="false"
                 location="bottom"
+                max-width="330px"
+                class="notificaciones"
               >
                 <template v-slot:activator="{ props }">
                   <v-btn
@@ -142,7 +144,7 @@
                       </template>
                       <template v-else>
                         <!-- Lógica para las notificaciones individuales -->
-                        <v-list-item
+                        <!--v-list-item
                           :key="index"
                           :to="notificacion.url"
                           v-if="notificacion.url !== ''"
@@ -154,12 +156,15 @@
                             v-html="notificacion.subtitle"
                           ></v-list-item-subtitle>
                         </v-list-item>
-                        <v-list-item v-else>
+                        <v-list-item v-else-->
+                        <v-list-item>
                           <v-list-item-title
                             v-html="notificacion.title"
+                            class="notificacion-title"
                           ></v-list-item-title>
                           <v-list-item-subtitle
                             v-html="notificacion.subtitle"
+                            class="notificacion-subtitle"
                           ></v-list-item-subtitle>
                         </v-list-item>
                       </template>
@@ -354,6 +359,14 @@ export default defineComponent({
           });
         });
       } else {
+        notificaciones.value.push({
+          type: "subheader",
+          inset: false,
+          title: "Sin notificaciones",
+          subtitle: "",
+          url: "",
+        });
+        
         console.error("Hubo un error al cargar las notificaciones");
       }
     }
@@ -421,6 +434,14 @@ ion-tab-button.tab-selected {
   color: #b20000;
   font-weight: bold;
   font-size: 0.7rem;
+}
+
+.notificacion-title {
+  font-size: 0.9rem !important;
+}
+
+.notificacion-subtitle {
+  font-size: 0.6rem !important;
 }
 
 .v-icon {

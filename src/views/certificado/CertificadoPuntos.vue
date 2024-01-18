@@ -5,7 +5,7 @@
         <v-card elevation="0" color="transparent">
           <v-card-item>
             <v-card-title
-              class="text-grey-darken-3 text-center"
+              class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
               style="white-space: normal"
             >
               Certificado <span class="font-weight-bold">EUC 2023</span>

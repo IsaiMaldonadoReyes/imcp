@@ -4,7 +4,10 @@
       <v-container fluid>
         <v-card class="mx-auto" color="transparent" elevation="0">
           <v-card-item>
-            <v-card-title class="text-center" style="white-space: normal">
+            <v-card-title
+              class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
+              style="white-space: normal"
+            >
               Desglose de puntos <span class="font-weight-bold">DCP</span>
             </v-card-title>
           </v-card-item>
@@ -65,7 +68,7 @@
         >
           <template v-slot:header>
             <v-row dense>
-              <v-col cols="12" lg="6" md="12" sm="12" xs="12">
+              <!--v-col cols="12" lg="6" md="12" sm="12" xs="12">
                 <v-text-field
                   v-model="busquedaEspecialidad"
                   clearable
@@ -75,7 +78,7 @@
                   prepend-inner-icon="mdi-magnify"
                   variant="solo"
                 />
-              </v-col>
+              </v-col-->
               <v-col cols="12" lg="6" md="12" sm="12" xs="12">
                 <v-row dense>
                   <v-col cols="8">
@@ -135,7 +138,7 @@
               >
                 <v-card border class="mb-3" color="transparent" elevation="0">
                   <v-card class="py-1" elevation="0" border rounded="0">
-                    <v-list-item class="">
+                    <v-list-item class="text-justify">
                       <template v-slot:title>
                         <span
                           class="text-body-2 text-medium-emphasis"
@@ -151,7 +154,7 @@
                   </v-card>
 
                   <v-text-field
-                    v-model="busquedaEvento"
+                    v-model="busquedaEvento[item.raw.areaEspecialidad]"
                     class="ma-3"
                     clearable
                     density="comfortable"
@@ -164,13 +167,14 @@
                   <v-card border class="ma-3" elevation="0">
                     <v-data-table
                       :headers="encabezadosEvento"
-                      :items-per-page="eventosPorPagina"
+                      :items-per-page="
+                        eventosPorPagina[item.raw.areaEspecialidad]
+                      "
                       :items="item.raw.dataset"
                       :page="paginaEvento[item.raw.areaEspecialidad]"
-                      :search="busquedaEvento"
+                      :search="busquedaEvento[item.raw.areaEspecialidad]"
                       item-value="EventosNombreEvento"
                       style="background-color: transparent"
-                      no-data-text="No hay eventos con esa coincidencia"
                     >
                       <template v-slot:item="{ item }">
                         <tr class="v-data-table__tr">
@@ -186,25 +190,45 @@
                           </td>
                         </tr>
                       </template>
+                      <template v-slot:no-data>
+                        <v-card
+                          border
+                          class="my-5 pa-10 text-center"
+                          color="transparent"
+                          elevation="0"
+                        >
+                          <v-icon color="grey-lighten-1" size="60">
+                            mdi-database-eye-off
+                          </v-icon>
+
+                          <v-card-text class="text-grey-darken-1">
+                            No se encontraron eventos que coincidan con la
+                            búsqueda.
+                          </v-card-text>
+                        </v-card>
+                      </template>
                       <template v-slot:bottom="{ pageCount }">
                         <v-divider />
-                        <div class="text-center my-3 mx-3">
-                          <v-switch
-                            v-model="eventosPorPagina"
-                            :base-color="colores.grisOscuro"
-                            :color="colores.rojoIMPC"
-                            :false-value="1"
-                            :inline="false"
-                            :true-value="item.raw.dataset.length"
-                            class="switch-all my-4 font-weight-bold d-flex justify-center"
-                            density="compact"
-                            false-icon="mdi-eye-off-outline"
+                        <div
+                          class="text-center my-3 mx-3"
+                          v-if="item.raw.dataset.length > 1"
+                        >
+                          <v-select
+                            v-model="
+                              eventosPorPagina[item.raw.areaEspecialidad]
+                            "
+                            :items="[
+                              { value: 1, title: '1' },
+                              { value: 3, title: '3' },
+                              { value: 5, title: '5' },
+                              { value: 10, title: '10' },
+                              { value: -1, title: 'Todos' },
+                            ]"
+                            class="my-2"
                             hide-details
-                            inset
-                            label="Ver todos los eventos"
-                            true-icon="mdi-eye-outline"
-                            v-if="item.raw.dataset.length > 1"
-                          />
+                            label="Eventos por página"
+                            variant="solo"
+                          ></v-select>
                           <v-pagination
                             v-model="paginaEvento[item.raw.areaEspecialidad]"
                             :active-color="colores.rojoIMPC"
@@ -218,7 +242,15 @@
                             total-visible="1"
                             variant="flat"
                             v-if="item.raw.dataset.length > 1"
-                          />
+                          >
+                            <template v-slot:item="{ page }">
+                              <div
+                                class="mx-2 my-1 text-subtitle-1 text-grey-darken-1 font-weight-bold"
+                              >
+                                {{ page }} de {{ pageCount }}
+                              </div>
+                            </template>
+                          </v-pagination>
                         </div>
                       </template>
                     </v-data-table>
@@ -266,6 +298,7 @@
           <template v-slot:footer="{ page, pageCount, prevPage, nextPage }">
             <div class="d-flex align-center justify-center pa-4">
               <v-switch
+                v-if="desgloseEspecialidades.PuntosEvento.length > 3"
                 v-model="itemsPorPagina"
                 :base-color="colores.grisOscuro"
                 :color="colores.rojoIMPC"
@@ -279,7 +312,6 @@
                 inset
                 label="Ver todas las especialidades"
                 true-icon="mdi-eye-outline"
-                v-if="desgloseEspecialidades.PuntosEvento.length > 3"
               />
             </div>
             <div
@@ -325,11 +357,16 @@
               @click="descargarPdf"
               block
               class="text-none"
+              prepend-icon="mdi-file-download-outline"
               rounded="large"
               size="large"
               text="DESCARGAR REPORTE PDF"
               variant="flat"
-            />
+            >
+              <template v-slot:prepend>
+                <v-icon class="mr-3" size="large"></v-icon>
+              </template>
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-container>
@@ -430,7 +467,7 @@ export interface TotalesGeneral {
 }
 
 export default defineComponent({
-  name: "certificadoPuntosDesglose",
+  name: "CertificadoPuntosDesglose",
   components: {
     IonContent,
     IonPage,
@@ -439,7 +476,7 @@ export default defineComponent({
   },
   setup() {
     const certificadoStore = useCertificadoStore();
-    const eventosPorPagina = ref(1);
+    const eventosPorPagina = ref<{ [key: string]: number }>({});
     const itemsPorPagina = ref(3);
     const paginaEvento = ref([]);
     const route = useRoute();
@@ -529,11 +566,11 @@ export default defineComponent({
         order: sortDesc,
       },
       {
-        key: "totalHoras",
+        key: "total.SumHora",
         order: sortDesc,
       },
       {
-        key: "totalPuntos",
+        key: "total.SumEspecialidad",
         order: sortDesc,
       },
     ]);
@@ -545,12 +582,12 @@ export default defineComponent({
             title: "Área de especialidad",
             value: [item],
           };
-        case "totalPuntos":
+        case "total.SumHora":
           return {
             title: "Total de puntos",
             value: [item],
           };
-        case "totalHoras":
+        case "total.SumEspecialidad":
           return {
             title: "Total de horas",
             value: [item],

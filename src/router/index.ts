@@ -6,11 +6,11 @@ import { Storage } from '@ionic/storage';
 import Login from "../views/Login.vue";
 import ResetPassword from "../views/ResetPassword.vue";
 
-import Dashboard from "../views/dashboard/Dashboard.vue";
-import DesglosePuntos from "../views/dashboard/DesglosePuntos.vue";
-import CertificadoEstatus from "../views/certificado/CertificadoEstatus.vue";
-import CertificadoPuntos from "../views/certificado/CertificadoPuntos.vue";
-import CertificadoPuntosDesglose from "../views/certificado/CertificadoPuntosDesglosados.vue";
+//import Dashboard from "../views/dashboard/Dashboard.vue";
+//import DesglosePuntos from "../views/dashboard/DesglosePuntos.vue";
+//import CertificadoEstatus from "../views/certificado/CertificadoEstatus.vue";
+//import CertificadoPuntos from "../views/certificado/CertificadoPuntos.vue";
+//import CertificadoPuntosDesglose from "../views/certificado/CertificadoPuntosDesglosados.vue";
 //import CertificadoPagoSeleccionado from "../views/pago/PagoSeleccion.vue";
 
 const routes = [
@@ -42,22 +42,22 @@ const routes = [
       {
         path: "dashboard", // vista principal - dashboard
         name: "dashboard",
-        component: Dashboard,
+        component: () => import("@/views/dashboard/Dashboard.vue"),
       },
       {
         path: "desglosePuntos/:id", // dashboard
         name: "desglosePuntos",
-        component: DesglosePuntos,
+        component: () => import("@/views/dashboard/DesglosePuntos.vue"),
       },
       {
         path: "certificadoEstatus", // vista principal - certificado estatus
-        name: "certificado",
-        component: CertificadoEstatus,
+        name: "certificadoEstatus",
+        component: () => import("@/views/certificado/CertificadoEstatus.vue"),
       },
       {
         path: "certificadoPuntos/:idCertificado/:anhioInicio/:anhioFin/:numCertificado", // certificado estatus
         name: "certificadoPuntos",
-        component: CertificadoPuntos
+        component: () => import("@/views/certificado/CertificadoPuntos.vue"),
       },
       {
         path: "certificadoPuntosDesglosados/:idCertificado/:anhio", // certificado estatus
@@ -65,22 +65,24 @@ const routes = [
         component: () => import("@/views/certificado/CertificadoPuntosDesglosados.vue"),
       },
       {
-        path: "seleccionAccion/:idCertificado", // certificado pago  ISAI
+        path: "seleccionAccion/:idCertificado/:estatus", // certificado pago  ISAI
         name: "seleccionAccion",
         component: () => import("@/views/pago/SeleccionAccion.vue"),
       },
+      /*
       {
-        path: "seleccionPago/:idCertificado", // certificado pago 
+        path: "seleccionPagoCertificado/:idCertificado/:estatus", // certificado pago 
         name: "seleccionPagoCertificado",
         component: () => import("@/views/pago/PagoSeleccion.vue"),
-      },
+      },*/
       {
         path: "actualizacionDatos/:idCertificado", // certificado pago 
         name: "actualizacionDatos",
         component: () => import("@/views/pago/ActualizacionDatos.vue"),
       },
       {
-        path: "tarjetaDatos", // certificado pago 
+        path: "tarjetaDatos/:idCertificado", // certificado pago 
+        name: "tarjetaDatos",
         component: () => import("@/views/pago/TarjetaDatos.vue"),
       },
       {
@@ -89,10 +91,12 @@ const routes = [
       },
       {
         path: "emitidos", // vista principal
+        name: "emitidos",
         component: () => import("@/views/certificado/CertificadoEmitidos.vue"),
       },
       {
         path: "cuenta", // vista principal
+        name: "cuenta",
         component: () => import("@/views/cuenta/MiCuenta.vue"),
       },
       {
