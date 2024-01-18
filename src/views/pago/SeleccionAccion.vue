@@ -2,33 +2,34 @@
   <ion-page>
     <ion-content>
       <v-container fluid>
-        <v-card class="mx-auto" color="transparent" elevation="0">
+        <v-card color="transparent" elevation="0">
           <v-card-item>
-            <v-card-title class="text-center" style="white-space: normal">
+            <v-card-title
+            class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
+              style="white-space: normal"
+            >
               Pagar certificado
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card
-          color="transparent"
-          rounded="lg"
-          class="mx-auto my-4"
-          elevation="0"
-        >
+        <v-card color="transparent" class="mx-auto my-4" elevation="0">
           <div>
             <v-btn
               block
               class="text-none"
               prepend-icon="mdi-file-download-outline"
               rounded="large"
-              size="large"
+              size="x-large"
               text="ACTUALIZAR DATOS"
               variant="flat"
-              :color="colores.verdeBoton"
+              :color="
+                estatusBotones == '1' ? colores.verdeBoton : colores.grisOscuro
+              "
               :to="{
                 name: 'actualizacionDatos',
                 params: { idCertificado: idCertificadoActualizacion },
               }"
+              :disabled="estatusBotones !== '1'"
             >
               <template v-slot:prepend>
                 <v-icon class="mr-3" size="large"></v-icon>
@@ -42,14 +43,19 @@
               class="text-none"
               prepend-icon="mdi-file-download-outline"
               rounded="large"
-              size="large"
+              size="x-large"
               text="REALIZAR PAGO"
               variant="flat"
-              :color="colores.grisOscuro"
+              :color="
+                estatusBotones === '2' ? colores.verdeBoton : colores.grisOscuro
+              "
               :to="{
-                name: 'seleccionPagoCertificado',
-                params: { idCertificado: idCertificadoActualizacion },
+                name: 'tarjetaDatos',
+                params: {
+                  idCertificado: idCertificadoActualizacion,
+                },
               }"
+              :disabled="estatusBotones !== '2'"
             >
               <template v-slot:prepend>
                 <v-icon class="mr-3" size="large"></v-icon>
@@ -76,6 +82,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const idCertificadoActualizacion = ref(0);
+    const estatusBotones = ref("");
 
     const show = ref(false);
     const colores = ref({
@@ -85,20 +92,24 @@ export default defineComponent({
       verdeBoton: "#468C00",
     });
 
-    function cargarSeleccion(idCertificado: any) {
+    function cargarSeleccion(idCertificado: any, estatus: any) {
       idCertificadoActualizacion.value = idCertificado;
+
+      estatusBotones.value = estatus;
     }
 
     onIonViewDidEnter(() => {
       const idCertificado = route.params.idCertificado;
+      const estatusAccion = route.params.estatus;
 
-      cargarSeleccion(idCertificado);
+      cargarSeleccion(idCertificado, estatusAccion);
     });
 
     return {
       colores,
       show,
       idCertificadoActualizacion,
+      estatusBotones,
     };
   },
 });

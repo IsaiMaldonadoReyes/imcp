@@ -104,14 +104,12 @@ export const useSessionStore = defineStore({
                         //this.userInformation();
                     }
                 } catch (error) {
-                    throw new Error("Usuario y/o contraseñas incorrectas");
+                    //throw new Error("Usuario y/o contraseñas incorrectas");
                 }
             }
         },
 
         async userInformation() {
-
-            console.log("userInformation");
             const storage = new Storage();
             await storage.create();
 
@@ -135,7 +133,7 @@ export const useSessionStore = defineStore({
                     await storage.set('nombreUsuario', response.data.result.info[0].cuenta_nombre + " " + response.data.result.info[0].cuenta_apaterno + " " + response.data.result.info[0].cuenta_amatarno);
                 }
             } catch (error) {
-                throw new Error("Error al cargar los ejercicios Dashboard");
+                //throw new Error("Error al cargar los ejercicios Dashboard");
             }
 
 
@@ -172,7 +170,7 @@ export const useSessionStore = defineStore({
                 this.object = {};
 
             } catch (error) {
-                throw new Error("Error al cerrar la sesión");
+                //throw new Error("Error al cerrar la sesión");
             }
 
         },

@@ -10,18 +10,34 @@ export const useCertificadoStore = defineStore({
     state: () => ({
         object: {
             certificadosPendientes: {},
+            certificadosEmitidos: {},
             puntosPorCertificado: {},
             desglosePuntos: {},
             rutaPdf: '',
         },
-        responseMessage: null,
+        responseMessage: "",
+        type: ""
     }),
     actions: {
 
+        async actualizarDatos(informacion: any) {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+            try {
+                const response = await axios.put("/users/editar", informacion, configAuthToken);
+                this.responseMessage = response.data.sys.mensaje_operacion;
+                this.type = response.data.type;
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
         async cargarCertificadosPendientes() {
-            
-            this.object.certificadosPendientes= {};
-            
+
+            this.object.certificadosPendientes = {};
+
             const storage = new Storage();
             await storage.create();
 
@@ -44,7 +60,37 @@ export const useCertificadoStore = defineStore({
                     this.object.certificadosPendientes = response.data.result.search;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
+        async cargarCertificadosEmitidos() {
+
+            this.object.certificadosEmitidos = {};
+
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+            const rfcParam = await storage.get("rfc");
+
+            try {
+                const params = {
+                    datos: {
+                        cuenta_rfc: rfcParam,
+                    }
+                };
+
+                const response = await axios.get("/users/certificados_listado", {
+                    params,
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.certificadosEmitidos = response.data.result.search;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
             }
         },
 
@@ -74,7 +120,7 @@ export const useCertificadoStore = defineStore({
                     this.object.puntosPorCertificado = response.data.result.search;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
 
@@ -103,7 +149,7 @@ export const useCertificadoStore = defineStore({
                     this.object.desglosePuntos = response.data.result;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
 
@@ -132,7 +178,7 @@ export const useCertificadoStore = defineStore({
                     this.object.rutaPdf = response.data.result.dir;
                 }
             } catch (error) {
-                throw new Error("Solicitud incorrecta");
+                //throw new Error("Solicitud incorrecta");
             }
         },
     }

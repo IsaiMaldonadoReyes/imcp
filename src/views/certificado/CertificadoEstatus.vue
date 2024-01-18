@@ -5,7 +5,7 @@
         <v-card elevation="0" color="transparent">
           <v-card-item>
             <v-card-title
-              class="text-uppercase text-center"
+              class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
               style="white-space: normal"
             >
               Certificados en proceso
@@ -177,7 +177,7 @@
                 </v-slide-group>
               </v-card>
               <v-divider />
-              
+
               <v-card-actions>
                 <v-btn
                   v-if="
@@ -191,7 +191,10 @@
                   text="Realizar pago"
                   :to="{
                     name: 'seleccionAccion',
-                    params: { idCertificado: item.raw.id_certificado },
+                    params: {
+                      idCertificado: item.raw.id_certificado,
+                      estatus: '1',
+                    },
                   }"
                   variant="flat"
                 >

@@ -4,7 +4,10 @@
       <v-container fluid>
         <v-card class="mx-auto" color="transparent" elevation="0">
           <v-card-item>
-            <v-card-title class="text-center" style="white-space: normal">
+            <v-card-title
+              class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
+              style="white-space: normal"
+            >
               Desglose de puntos <span class="font-weight-bold">DCP</span>
             </v-card-title>
           </v-card-item>
@@ -25,17 +28,23 @@
               {{ desgloseEspecialidades.CuentasUsuarios.sector }}
             </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1"> Registro Agaff: </span>
+            <span class="text-subtitle-1 text-grey-darken-1">
+              Registro Agaff:
+            </span>
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.CuentasUsuarios.registroAgaff }}
             </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Registro IMSS:</span>
+            <span class="text-subtitle-1 text-grey-darken-1"
+              >Registro IMSS:</span
+            >
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.CuentasUsuarios.registroImss }}
             </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Total de puntos:</span>
+            <span class="text-subtitle-1 text-grey-darken-1"
+              >Total de puntos:</span
+            >
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.total }}
             </span>
@@ -58,7 +67,7 @@
         >
           <template v-slot:header>
             <v-row dense>
-              <v-col cols="12" lg="6" md="12" sm="12" xs="12">
+              <!--v-col cols="12" lg="6" md="12" sm="12" xs="12">
                 <v-text-field
                   v-model="busquedaEspecialidad"
                   clearable
@@ -68,7 +77,7 @@
                   prepend-inner-icon="mdi-magnify"
                   variant="solo"
                 />
-              </v-col>
+              </v-col-->
               <v-col cols="12" lg="6" md="12" sm="12" xs="12">
                 <v-row dense>
                   <v-col cols="8">
@@ -110,7 +119,9 @@
               color="transparent"
               elevation="0"
             >
-              <v-icon color="grey-lighten-1" size="60">mdi-database-eye-off</v-icon>
+              <v-icon color="grey-lighten-1" size="60"
+                >mdi-database-eye-off</v-icon
+              >
               <v-card-text class="text-grey-darken-1">
                 No se encontraron especialidades que coincidan con la búsqueda.
               </v-card-text>
@@ -119,7 +130,11 @@
 
           <template v-slot:default="{ items }">
             <v-row dense>
-              <v-col v-for="item in items" :key="item.raw.areaEspecialidad" cols="12">
+              <v-col
+                v-for="item in items"
+                :key="item.raw.areaEspecialidad"
+                cols="12"
+              >
                 <v-card border class="mb-3" color="transparent" elevation="0">
                   <v-card class="py-1" elevation="0" border rounded="0">
                     <v-list-item class="text-justify">
@@ -151,7 +166,9 @@
                   <v-card border class="ma-3" elevation="0">
                     <v-data-table
                       :headers="encabezadosEvento"
-                      :items-per-page="eventosPorPagina[item.raw.areaEspecialidad]"
+                      :items-per-page="
+                        eventosPorPagina[item.raw.areaEspecialidad]
+                      "
                       :items="item.raw.dataset"
                       :page="paginaEvento[item.raw.areaEspecialidad]"
                       :search="busquedaEvento[item.raw.areaEspecialidad]"
@@ -183,7 +200,8 @@
                             mdi-database-eye-off
                           </v-icon>
                           <v-card-text class="text-grey-darken-1">
-                            No se encontraron eventos que coincidan con la búsqueda.
+                            No se encontraron eventos que coincidan con la
+                            búsqueda.
                           </v-card-text>
                         </v-card>
                       </template>
@@ -194,7 +212,9 @@
                           v-if="item.raw.dataset.length > 1"
                         >
                           <v-select
-                            v-model="eventosPorPagina[item.raw.areaEspecialidad]"
+                            v-model="
+                              eventosPorPagina[item.raw.areaEspecialidad]
+                            "
                             :items="[
                               { value: 1, title: '1' },
                               { value: 3, title: '3' },
@@ -219,6 +239,7 @@
                             size="small"
                             total-visible="1"
                             variant="flat"
+                            v-if="item.raw.dataset.length > 1"
                           >
                             <template v-slot:item="{ page }">
                               <div
@@ -237,10 +258,15 @@
                       <div
                         class="d-flex align-center text-caption text-medium-emphasis me-1"
                       >
-                        <span class="text-subtitle-1 text-grey-darken-1 font-weight-bold">
+                        <span
+                          class="text-subtitle-1 text-grey-darken-1 font-weight-bold"
+                        >
                           Total de horas:
                         </span>
-                        <span class="text-h6 font-weight-bold" style="color: #b80000">
+                        <span
+                          class="text-h6 font-weight-bold"
+                          style="color: #b80000"
+                        >
                           {{ item.raw.total.SumHora }}
                         </span>
                       </div>
@@ -248,10 +274,15 @@
                       <div
                         class="d-flex align-center text-caption text-medium-emphasis me-1"
                       >
-                        <span class="text-subtitle-1 text-grey-darken-1 font-weight-bold">
+                        <span
+                          class="text-subtitle-1 text-grey-darken-1 font-weight-bold"
+                        >
                           Total de puntos:
                         </span>
-                        <span class="text-h6 font-weight-bold" style="color: #b80000">
+                        <span
+                          class="text-h6 font-weight-bold"
+                          style="color: #b80000"
+                        >
                           {{ item.raw.total.SumEspecialidad }}
                         </span>
                       </div>
@@ -294,7 +325,9 @@
                 @click="prevPage"
               />
 
-              <div class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold">
+              <div
+                class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold"
+              >
                 Página {{ page }} de {{ pageCount }}
               </div>
 
@@ -405,7 +438,7 @@ export interface TotalesGeneral {
 }
 
 export default defineComponent({
-  name: "desglosePuntos",
+  name: "DesglosePuntos",
   components: {
     IonContent,
     IonPage,
@@ -478,11 +511,11 @@ export default defineComponent({
         order: sortDesc,
       },
       {
-        key: "totalHoras",
+        key: "total.SumHora",
         order: sortDesc,
       },
       {
-        key: "totalPuntos",
+        key: "total.SumEspecialidad",
         order: sortDesc,
       },
     ]);
@@ -494,12 +527,12 @@ export default defineComponent({
             title: "Área de especialidad",
             value: [item],
           };
-        case "totalPuntos":
+        case "total.SumHora":
           return {
             title: "Total de puntos",
             value: [item],
           };
-        case "totalHoras":
+        case "total.SumEspecialidad":
           return {
             title: "Total de horas",
             value: [item],
@@ -543,7 +576,8 @@ export default defineComponent({
           },
         };
         await dashStore.desglosePuntosPorEjercicio(id);
-        desgloseEspecialidades.value = dashStore.object.desglosePuntos as Result;
+        desgloseEspecialidades.value = dashStore.object
+          .desglosePuntos as Result;
 
         desgloseEspecialidades.value.PuntosEvento.forEach((item) => {
           eventosPorPagina.value[item.areaEspecialidad] = 1; // Puedes ajustar el valor predeterminado si es necesario
