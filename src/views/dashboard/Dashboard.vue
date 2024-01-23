@@ -4,7 +4,6 @@
       <v-container>
         <v-tabs
           v-model="tabs"
-          bg-color="transparent"
           color="red"
           density="compact"
           grow
@@ -127,7 +126,7 @@
               <v-card class="mx-auto" color="transparent" elevation="0">
                 <v-card-item>
                   <v-card-title
-                    class="text-uppercase text-center"
+                  class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
                     style="white-space: normal"
                   >
                     {{ title }} <br />
