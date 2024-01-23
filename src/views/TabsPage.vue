@@ -1,7 +1,7 @@
 <template>
   <ion-page>
-    <ion-header style="height: 64px">
-      <v-card>
+    <ion-header>
+      <v-card style="height: 64px">
         <v-layout>
           <v-app-bar color="#EBEFF0" elevation="1">
             <div class="back" />
@@ -366,8 +366,8 @@ export default defineComponent({
           subtitle: "",
           url: "",
         });
-        
-        console.error("Hubo un error al cargar las notificaciones");
+
+        //console.error("Hubo un error al cargar las notificaciones");
       }
     }
 
