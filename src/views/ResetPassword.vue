@@ -9,7 +9,7 @@
           <v-card color="transparent" elevation="0">
             <v-form v-model="isValid" @submit.prevent="validateAndSend" lazy-validation ref="formEl">
               <v-row dense>
-                <v-col class="d-flex justify-center align-center pb-10" cols="12" lg="12" md="12" sm="12">
+                <v-col class="d-flex justify-center align-center pb-10 text-grey-darken-3" cols="12" lg="12" md="12" sm="12">
                   <v-label style="font-size: 28px; font-weight: bold">
                     Recuperar contraseña
                   </v-label>

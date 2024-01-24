@@ -5,8 +5,8 @@
         <ion-grid color="#EBEFF0" elevation="1">
           <div class="back"></div>
           <div class="esquina-tl-toolbar"></div>
-          <ion-row  class="d-flex align-center justify-center">
-            <ion-col size="4" >
+          <ion-row class="d-flex align-center justify-center">
+            <ion-col size="4">
               <img
                 style="width: 110px"
                 src="../assets/images/logotipo.svg"
@@ -14,7 +14,7 @@
               />
             </ion-col>
             <ion-col size="6" class="d-flex align-center justify-end">
-              <v-list bg-color="transparent" class="imcp-header" >
+              <v-list bg-color="transparent" class="imcp-header">
                 <v-list-item :title="nombreUsuario" :subtitle="'RFC:' + rfc">
                   <template v-slot:append>
                     <div class="text-center">
@@ -87,7 +87,7 @@
                 </v-list-item>
               </v-list>
             </ion-col>
-            <ion-col size="2"  class="d-flex align-center justify-end">
+            <ion-col size="2" class="d-flex align-center justify-end">
               <v-menu
                 v-model="menuNotificacion"
                 :close-on-content-click="false"
@@ -115,7 +115,7 @@
                   </v-btn>
                 </template>
 
-                <v-card >
+                <v-card>
                   <v-list :items="notificaciones" item-props lines="three">
                     <template v-for="(notificacion, index) in notificaciones">
                       <template v-if="notificacion.type === 'subheader'">
@@ -396,6 +396,7 @@ ion-tab-button.tab-selected {
 }
 
 .imcp-header .v-list-item-title {
+  color: #424242;
   font-size: 0.8rem;
 }
 
