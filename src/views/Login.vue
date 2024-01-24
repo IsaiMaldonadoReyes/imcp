@@ -10,7 +10,7 @@
             <v-form v-model="isValid" @submit.prevent="validateAndLogin" lazy-validation ref="formEl">
               <v-row dense>
                 <v-col class="d-flex justify-center align-center pb-10" cols="12" lg="12" md="12" sm="12">
-                  <v-label style="font-size: 28px; font-weight: bold">Acceso al Sistema</v-label>
+                  <v-label style="font-size: 28px; font-weight: bold; color: #424242;">Acceso al Sistema</v-label>
                 </v-col>
                 <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
                   <v-text-field v-model="form.rfc" :rules="[rules.required, rules.validRFC]" clearable hide-details="auto"
