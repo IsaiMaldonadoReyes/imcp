@@ -1,77 +1,82 @@
 <template>
   <ion-page>
     <ion-header>
-      <v-card style="height: 64px">
-        <v-layout>
-          <v-app-bar color="#EBEFF0" elevation="1">
-            <div class="back" />
-            <div class="esquina-tl-toolbar" />
-            <img
-              class="ml-5"
-              style="max-height: 45%; max-width: 45%"
-              src="../assets/images/logotipo.svg"
-            />
-            <v-spacer></v-spacer>
+      <ion-toolbar>
+        <ion-grid color="#EBEFF0" elevation="1">
+          <div class="back"></div>
+          <div class="esquina-tl-toolbar"></div>
+          <ion-row>
+            <ion-col size="4">
+              <img
+                style="
+                  max-height: 85%;
+                  max-width: 85%;
+                  margin-top: 15px;
+                  margin-left: 15px;
+                "
+                src="../assets/images/logotipo.svg"
+              />
+            </ion-col>
+            <ion-col size="6">
+              <v-list
+                bg-color="transparent"
+                class="imcp-header"
+                style="margin-left: 10px"
+              >
+                <v-list-item :title="nombreUsuario" :subtitle="'RFC:' + rfc">
+                  <template v-slot:append>
+                    <div class="text-center">
+                      <v-menu
+                        v-model="menu"
+                        :close-on-content-click="true"
+                        location="bottom"
+                      >
+                        <template v-slot:activator="{ props }">
+                          <v-btn
+                            v-bind="props"
+                            icon="mdi-menu-down"
+                            size="x-small"
+                            variant="text"
+                          ></v-btn>
+                        </template>
 
-            <v-list
-              bg-color="transparent"
-              class="imcp-header"
-              max-width="250px"
-            >
-              <v-list-item :title="nombreUsuario" :subtitle="'RFC:' + rfc">
-                <template v-slot:append>
-                  <div class="text-center">
-                    <v-menu
-                      v-model="menu"
-                      :close-on-content-click="true"
-                      location="bottom"
-                    >
-                      <template v-slot:activator="{ props }">
-                        <v-btn
-                          v-bind="props"
-                          icon="mdi-menu-down"
-                          size="x-small"
-                          variant="text"
-                        ></v-btn>
-                      </template>
-
-                      <v-card color="transparent">
-                        <v-list
-                          class="imcp-header mx-auto pa-2"
-                          color="transparent"
-                        >
-                          <v-list-item
-                            :title="nombreUsuario"
-                            :subtitle="'RFC ' + rfc"
-                            class="mb-3"
+                        <v-card color="transparent">
+                          <v-list
+                            class="imcp-header mx-auto pa-2"
+                            color="transparent"
                           >
-                            <template v-slot:prepend>
-                              <v-avatar color="#AAAAAA" size="small">
-                                <span class="text-h6">RJ</span>
-                              </v-avatar>
-                            </template>
-                          </v-list-item>
-                          <v-divider></v-divider>
-                          <v-list-item
-                            class="mx-auto text-left"
-                            variant="plain"
-                            color="red"
-                            :value="1"
-                            rounded="xl"
-                          >
-                            <template v-slot:prepend>
-                              <v-icon size="16" color="#B20000">
-                                <svg ref="icon" class="v-icon">
-                                  <use
-                                    xlink:href="../assets/images/ico.svg#ico-menu-micuenta"
-                                  ></use>
-                                </svg>
-                              </v-icon>
-                            </template>
-                            <v-list-item-title>Mi cuenta</v-list-item-title>
-                          </v-list-item>
-                          <v-divider></v-divider>
-                          <!--v-list-item class="mx-auto">
+                            <v-list-item
+                              :title="nombreUsuario"
+                              :subtitle="'RFC ' + rfc"
+                              class="mb-3"
+                            >
+                              <template v-slot:prepend>
+                                <v-avatar color="#AAAAAA" size="small">
+                                  <span class="text-h6">RJ</span>
+                                </v-avatar>
+                              </template>
+                            </v-list-item>
+                            <v-divider></v-divider>
+                            <v-list-item
+                              class="mx-auto text-left"
+                              variant="plain"
+                              color="red"
+                              :value="1"
+                              rounded="xl"
+                            >
+                              <template v-slot:prepend>
+                                <v-icon size="16" color="#B20000">
+                                  <svg ref="icon" class="v-icon">
+                                    <use
+                                      xlink:href="../assets/images/ico.svg#ico-menu-micuenta"
+                                    ></use>
+                                  </svg>
+                                </v-icon>
+                              </template>
+                              <v-list-item-title>Mi cuenta</v-list-item-title>
+                            </v-list-item>
+                            <v-divider></v-divider>
+                            <!--v-list-item class="mx-auto">
                             <v-btn
                               block
                               rounded="lg"
@@ -85,23 +90,25 @@
                               Cerrar sesión
                             </v-btn>
                           </v-list-item-->
-                          <v-list-item variant="plain" @click="logout">
-                            <template v-slot:prepend>
-                              <v-icon size="16" color="#B20000"
-                                >mdi-logout</v-icon
+                            <v-list-item variant="plain" @click="logout">
+                              <template v-slot:prepend>
+                                <v-icon size="16" color="#B20000"
+                                  >mdi-logout</v-icon
+                                >
+                              </template>
+                              <v-list-item-title
+                                >Cerrar sesión</v-list-item-title
                               >
-                            </template>
-                            <v-list-item-title>Cerrar sesión</v-list-item-title>
-                          </v-list-item>
-                        </v-list>
-                      </v-card>
-                    </v-menu>
-                  </div>
-                </template>
-              </v-list-item>
-            </v-list>
-
-            <template v-slot:append>
+                            </v-list-item>
+                          </v-list>
+                        </v-card>
+                      </v-menu>
+                    </div>
+                  </template>
+                </v-list-item>
+              </v-list>
+            </ion-col>
+            <ion-col size="2">
               <v-menu
                 v-model="menuNotificacion"
                 :close-on-content-click="false"
@@ -117,6 +124,7 @@
                     variant="outlined"
                     size="small"
                     v-bind="props"
+                    style="margin-top: 10px; margin-left: 10px"
                   >
                     <v-badge
                       class="small-dot"
@@ -133,30 +141,14 @@
                   <v-list :items="notificaciones" item-props lines="three">
                     <template v-for="(notificacion, index) in notificaciones">
                       <template v-if="notificacion.type === 'subheader'">
-                        <!-- Lógica para las subcabeceras -->
                         <v-list-subheader :key="index">{{
                           notificacion.title
                         }}</v-list-subheader>
                       </template>
                       <template v-else-if="notificacion.type === 'divider'">
-                        <!-- Lógica para los divisores -->
                         <v-divider :key="index"></v-divider>
                       </template>
                       <template v-else>
-                        <!-- Lógica para las notificaciones individuales -->
-                        <!--v-list-item
-                          :key="index"
-                          :to="notificacion.url"
-                          v-if="notificacion.url !== ''"
-                        >
-                          <v-list-item-title
-                            v-html="notificacion.title"
-                          ></v-list-item-title>
-                          <v-list-item-subtitle
-                            v-html="notificacion.subtitle"
-                          ></v-list-item-subtitle>
-                        </v-list-item>
-                        <v-list-item v-else-->
                         <v-list-item>
                           <v-list-item-title
                             v-html="notificacion.title"
@@ -172,23 +164,12 @@
                   </v-list>
                 </v-card>
               </v-menu>
-            </template>
-            <!--v-btn class="text-none" icon color="#AAAAAA" variant="outlined">
-            <v-badge content="2" color="#B01F24">
-              <v-icon color="#AAAAAA">mdi-bell</v-icon>
-            </v-badge>
-          </v-btn>
-
-          <v-btn class="text-none" icon color="#AAAAAA" >
-            <v-badge content="2" color="#B01F24">
-              <v-icon color="#AAAAAA">mdi-bell</v-icon>
-            </v-badge>
-          </v-btn-->
-          </v-app-bar>
-        </v-layout>
-      </v-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-toolbar>
     </ion-header>
-    <ion-content>
+    <ion-content class="ion-padding">
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
         <ion-tab-bar>
@@ -255,6 +236,11 @@ import {
   IonContent,
   IonHeader,
   onIonViewWillEnter,
+  IonToolbar,
+  IonTitle,
+  IonCol,
+  IonGrid,
+  IonRow,
 } from "@ionic/vue";
 import { ellipse, helpCircle, square, triangle } from "ionicons/icons";
 import { defineComponent, ref } from "vue";
@@ -273,6 +259,11 @@ export default defineComponent({
     IonRouterOutlet,
     IonContent,
     IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonCol,
+    IonGrid,
+    IonRow,
   },
   setup() {
     const session = useSessionStore();
@@ -469,5 +460,8 @@ ion-tab-button.tab-selected {
     no-repeat;
   z-index: -1;
   background-size: 22px;
+}
+ion-toolbar {
+  --min-height: 50px !important;
 }
 </style>
