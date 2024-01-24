@@ -5,24 +5,16 @@
         <ion-grid color="#EBEFF0" elevation="1">
           <div class="back"></div>
           <div class="esquina-tl-toolbar"></div>
-          <ion-row>
-            <ion-col size="4">
+          <ion-row  class="d-flex align-center justify-center">
+            <ion-col size="4" >
               <img
-                style="
-                  max-height: 85%;
-                  max-width: 85%;
-                  margin-top: 15px;
-                  margin-left: 15px;
-                "
+                style="width: 110px"
                 src="../assets/images/logotipo.svg"
+                class="ml-5 mt-2"
               />
             </ion-col>
-            <ion-col size="6">
-              <v-list
-                bg-color="transparent"
-                class="imcp-header"
-                style="margin-left: 10px"
-              >
+            <ion-col size="6" class="d-flex align-center justify-end">
+              <v-list bg-color="transparent" class="imcp-header" >
                 <v-list-item :title="nombreUsuario" :subtitle="'RFC:' + rfc">
                   <template v-slot:append>
                     <div class="text-center">
@@ -37,6 +29,7 @@
                             icon="mdi-menu-down"
                             size="x-small"
                             variant="text"
+                            class="ml-3"
                           ></v-btn>
                         </template>
 
@@ -76,20 +69,6 @@
                               <v-list-item-title>Mi cuenta</v-list-item-title>
                             </v-list-item>
                             <v-divider></v-divider>
-                            <!--v-list-item class="mx-auto">
-                            <v-btn
-                              block
-                              rounded="lg"
-                              variant="text"
-                              class="text-none"
-                              @click="logout"
-                            >
-                              <template v-slot:prepend>
-                                <v-icon size="12" color="#B20000"> mdi-logout </v-icon>
-                              </template>
-                              Cerrar sesión
-                            </v-btn>
-                          </v-list-item-->
                             <v-list-item variant="plain" @click="logout">
                               <template v-slot:prepend>
                                 <v-icon size="16" color="#B20000"
@@ -108,7 +87,7 @@
                 </v-list-item>
               </v-list>
             </ion-col>
-            <ion-col size="2">
+            <ion-col size="2"  class="d-flex align-center justify-end">
               <v-menu
                 v-model="menuNotificacion"
                 :close-on-content-click="false"
@@ -118,13 +97,12 @@
               >
                 <template v-slot:activator="{ props }">
                   <v-btn
-                    class="text-none text-left"
+                    class="text-none text-left mr-3"
                     color="#B20000"
                     icon
                     variant="outlined"
                     size="small"
                     v-bind="props"
-                    style="margin-top: 10px; margin-left: 10px"
                   >
                     <v-badge
                       class="small-dot"
@@ -137,7 +115,7 @@
                   </v-btn>
                 </template>
 
-                <v-card>
+                <v-card >
                   <v-list :items="notificaciones" item-props lines="three">
                     <template v-for="(notificacion, index) in notificaciones">
                       <template v-if="notificacion.type === 'subheader'">
