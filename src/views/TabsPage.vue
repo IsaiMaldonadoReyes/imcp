@@ -15,7 +15,11 @@
             </ion-col>
             <ion-col size="6" class="d-flex align-center justify-end">
               <v-list bg-color="transparent" class="imcp-header">
-                <v-list-item :title="nombreUsuario" :subtitle="'RFC:' + rfc">
+                <v-list-item
+                  class="text-right"
+                  :title="nombreUsuario"
+                  :subtitle="'RFC:' + rfc"
+                >
                   <template v-slot:append>
                     <div class="text-center">
                       <v-menu
@@ -30,6 +34,7 @@
                             size="x-small"
                             variant="text"
                             class="ml-3"
+                            color="#424242"
                           ></v-btn>
                         </template>
 
