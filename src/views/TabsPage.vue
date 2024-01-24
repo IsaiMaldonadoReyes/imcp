@@ -30,6 +30,7 @@
                             size="x-small"
                             variant="text"
                             class="ml-3"
+                            color="#424242"
                           ></v-btn>
                         </template>
 
