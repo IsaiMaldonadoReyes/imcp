@@ -445,13 +445,4 @@ ion-tab-button.tab-selected {
   z-index: -1;
   background-size: 22px;
 }
-ion-header {
-  border-radius: 0 0 40px 40px;
-  overflow: hidden;
-}
-
-ion-toolbar {
-  border-radius: 0 0 40px 40px;
-  overflow: hidden;
-}
 </style>
