@@ -8,11 +8,13 @@
           density="compact"
           grow
           style="border-bottom: 5px solid #b20000"
+          active-class="active"
         >
           <v-tab
             :color="colores.rojoIMPC"
             :slider-color="colores.rojoIMPC"
             :value="1"
+            :inactive-class="'inactive-tab'"
             class="mr-1 text-none"
             rounded="t-lg"
             size="small"
@@ -23,6 +25,7 @@
             :color="colores.rojoIMPC"
             :slider-color="colores.rojoIMPC"
             :value="2"
+            :inactive-class="'inactive-tab'"
             class="text-none"
             rounded="t-lg"
             size="small"
@@ -126,7 +129,7 @@
               <v-card class="mx-auto" color="transparent" elevation="0">
                 <v-card-item>
                   <v-card-title
-                  class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
+                    class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
                     style="white-space: normal"
                   >
                     {{ title }} <br />
@@ -517,5 +520,11 @@ export default defineComponent({
 .rating-values {
   margin-left: 10px;
   min-width: 65px;
+}
+.active {
+  color: white !important;
+}
+.inactive-tab {
+  color: #424242; /* Set the desired color for the inactive tabs */
 }
 </style>
