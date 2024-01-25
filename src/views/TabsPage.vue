@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-grid color="#EBEFF0" elevation="1">
+        <ion-grid>
           <div class="back"></div>
           <div class="esquina-tl-toolbar"></div>
           <ion-row class="d-flex align-center justify-center">
@@ -152,7 +152,7 @@
         </ion-grid>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content>
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
         <ion-tab-bar>
@@ -445,7 +445,13 @@ ion-tab-button.tab-selected {
   z-index: -1;
   background-size: 22px;
 }
+ion-header {
+  border-radius: 0 0 40px 40px;
+  overflow: hidden;
+}
+
 ion-toolbar {
-  --min-height: 50px !important;
+  border-radius: 0 0 40px 40px;
+  overflow: hidden;
 }
 </style>
