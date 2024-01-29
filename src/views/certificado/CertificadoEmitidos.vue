@@ -341,22 +341,24 @@ export default defineComponent({
         certificadosEmitidos.value = certificadoStore.object
           .certificadosEmitidos as Certificados;
 
-        certificadosEmitidos.value = {
-          dataset: certificadoStore.object.certificadosEmitidos
-            ? certificadoStore.object.certificadosEmitidos.dataset.filter(
-                (certificado: Dataset) => certificado.Descargar !== ""
-              )
-            : [],
-          totalSize: certificadoStore.object.certificadosEmitidos
-            ? certificadoStore.object.certificadosEmitidos.totalSize
-            : 0,
-          pageSize: certificadoStore.object.certificadosEmitidos
-            ? certificadoStore.object.certificadosEmitidos.pageSize
-            : 0,
-          nombreListado: certificadoStore.object.certificadosEmitidos
-            ? certificadoStore.object.certificadosEmitidos.nombreListado
-            : "",
-        } as Certificados;
+        if (certificadosEmitidos.value.dataset.length > 0) {
+          certificadosEmitidos.value = {
+            dataset: certificadoStore.object.certificadosEmitidos
+              ? certificadoStore.object.certificadosEmitidos.dataset.filter(
+                  (certificado: Dataset) => certificado.Descargar !== ""
+                )
+              : [],
+            totalSize: certificadoStore.object.certificadosEmitidos
+              ? certificadoStore.object.certificadosEmitidos.totalSize
+              : 0,
+            pageSize: certificadoStore.object.certificadosEmitidos
+              ? certificadoStore.object.certificadosEmitidos.pageSize
+              : 0,
+            nombreListado: certificadoStore.object.certificadosEmitidos
+              ? certificadoStore.object.certificadosEmitidos.nombreListado
+              : "",
+          } as Certificados;
+        }
       } catch (error) {}
     }
 
