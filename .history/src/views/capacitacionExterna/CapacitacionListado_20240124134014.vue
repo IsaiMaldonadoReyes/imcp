@@ -1,0 +1,399 @@
+<template>
+  <ion-page>
+    <ion-content>
+      <v-container>
+        <v-tabs
+          v-model="tabs"
+          bg-color="transparent"
+          color="red"
+          density="compact"
+          grow
+          style="border-bottom: 5px solid #b20000"
+        >
+          <v-tab
+            :color="colores.rojoIMPC"
+            :slider-color="colores.rojoIMPC"
+            :value="1"
+            class="mr-1 text-none"
+            rounded="t-lg"
+            size="small"
+            text="Nuevo aviso"
+            variant="flat"
+          />
+          <v-tab
+            :color="colores.rojoIMPC"
+            :slider-color="colores.rojoIMPC"
+            :value="2"
+            class="text-none"
+            rounded="t-lg"
+            size="small"
+            text="Avisos realizados"
+            variant="flat"
+          />
+        </v-tabs>
+        <v-window v-model="tabs">
+          <v-window-item :value="1">
+            <v-card color="transparent" elevation="0" rounded="b-lg">
+              <v-card class="mx-auto" color="transparent" elevation="0">
+                <v-card-item>
+                  <v-card-title
+                    class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
+                    style="white-space: normal"
+                  >
+                    Aviso de capacitacion
+                  </v-card-title>
+                </v-card-item>
+              </v-card>
+              <v-card class="mx-auto my-4" elevation="0" rounded="lg">
+                <v-divider />
+                <v-card-actions>
+                  <v-btn
+                    :color="colores.grisOscuro"
+                    block
+                    prepend-icon="mdi-eye-arrow-right-outline"
+                    size="large"
+                    text="Nuevo aviso de capacitación"
+                    variant="flat"
+                  >
+                    <template v-slot:prepend>
+                      <v-icon class="mr-3" size="large"></v-icon>
+                    </template>
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-card>
+          </v-window-item>
+          <v-window-item :value="2">
+            <v-card color="transparent" elevation="0" rounded="b-lg">
+              <v-card class="mx-auto" color="transparent" elevation="0">
+                <v-card-item>
+                  <v-card-title
+                    class="text-uppercase text-center"
+                    style="white-space: normal"
+                  >
+                    Listado de avisos
+                  </v-card-title>
+                </v-card-item>
+              </v-card>
+
+              <v-data-table
+                :headers="encabezadosEvento"
+                :items-per-page="avisosCapacitacionPorPagina"
+                :items="listadoCapacitaciones.dataset"
+                :page="paginaAvisoCapacitacion"
+                :search="busquedaAvisoCapacitacion"
+                item-value="EventosNombreEvento"
+                style="background-color: transparent"
+                class="tb-avisos"
+              >
+                <template v-slot:item="{ item }">
+                  <tr class="v-data-table__tr">
+                    <td
+                      v-for="encabezado in encabezadosEvento"
+                      :key="encabezado.key"
+                      :data-label="encabezado.title"
+                      class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
+                    >
+                      <span class="text-body-2 font-weight-bold">
+                        {{ item[encabezado.key] }}
+                      </span>
+                    </td>
+                  </tr>
+                </template>
+
+                <!--template v-slot:item="{ item }">
+                    <tr>
+                      <td
+                        v-for="(value, key) in item.columns"
+                        :key="value"
+                        :data-label="
+                          encabezadosEvento
+                            .filter((e) => e.key === key.toString())
+                            .map((e) => e.title)
+                        "
+                      >
+                        <template>{{ value }}</template>
+                      </td>
+                    </tr>
+                  </template-->
+
+                <template v-slot:no-data>
+                  <v-card
+                    border
+                    class="my-5 pa-10 text-center"
+                    color="transparent"
+                    elevation="0"
+                  >
+                    <v-icon color="grey-lighten-1" size="60">
+                      mdi-database-eye-off
+                    </v-icon>
+                    <v-card-text class="text-grey-darken-1">
+                      No se encontraron eventos que coincidan con la búsqueda.
+                    </v-card-text>
+                  </v-card>
+                </template>
+                <template v-slot:bottom="{ pageCount }">
+                  <v-divider />
+                  <div
+                    class="text-center my-3 mx-3"
+                    v-if="listadoCapacitaciones.dataset.length > 1"
+                  >
+                    <v-select
+                      v-model="avisosCapacitacionPorPagina"
+                      :items="[
+                        { value: 1, title: '1' },
+                        { value: 3, title: '3' },
+                        { value: 5, title: '5' },
+                        { value: 10, title: '10' },
+                        { value: -1, title: 'Todos' },
+                      ]"
+                      class="my-2"
+                      hide-details
+                      label="Eventos por página"
+                      variant="solo"
+                    ></v-select>
+                    <v-pagination
+                      v-model="paginaAvisoCapacitacion"
+                      :active-color="colores.rojoIMPC"
+                      :color="colores.grisOscuro"
+                      :length="pageCount"
+                      :show-first-last-page="true"
+                      ellipsis="..."
+                      next-icon="mdi-arrow-right"
+                      prev-icon="mdi-arrow-left"
+                      size="small"
+                      total-visible="1"
+                      variant="flat"
+                      v-if="listadoCapacitaciones.dataset.length > 1"
+                    >
+                      <template v-slot:item="{ page }">
+                        <div
+                          class="mx-2 my-1 text-subtitle-1 text-grey-darken-1 font-weight-bold"
+                        >
+                          {{ page }} de {{ pageCount }}
+                        </div>
+                      </template>
+                    </v-pagination>
+                  </div>
+                </template>
+              </v-data-table>
+
+              <v-card class="mx-auto my-2" elevation="0" rounded="lg">
+                <v-card-text> </v-card-text>
+              </v-card>
+            </v-card>
+          </v-window-item>
+        </v-window>
+      </v-container>
+    </ion-content>
+  </ion-page>
+</template>
+
+<script lang="ts">
+import { ref, defineComponent } from "vue";
+import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
+import { useCapacitacionStore } from "@/store/capacitacionExterna";
+import { VDataTable } from "vuetify/lib/labs/components.mjs";
+//import MobileTableHelper from "@/components/MobileTableHelper.vue";
+
+export interface Capacitaciones {
+  dataset: Dataset[];
+  totalSize: number;
+  pageSize: number;
+  intervaloSeccion: number;
+  nombreListado: string;
+}
+
+export interface Dataset {
+  externo_evento_id: number;
+  usuario_id: any;
+  cuentas_usuarios_id: number;
+  id_colegio: number;
+  nombre_evento: string;
+  eventos_sede: string;
+  expositor: string;
+  eventos_fecha_inicio: string;
+  eventos_fecha_fin: string;
+  comentarios_autorizacion: string;
+  comentarios_rechazo: string;
+  telefono: string;
+  email: string;
+  status: string;
+  datecreation: string;
+  externo_archivos_id: string;
+  externo_puntos_id: string;
+  archivo: any;
+  status_archivo: string;
+  disiplinas_id: number;
+  puntos: number;
+  horas: number;
+  modalidad: string;
+  status_puntos: string;
+  cuenta_rfc: string;
+  cuenta_nombre: string;
+  cuenta_apaterno: string;
+  cuenta_amatarno: string;
+  expositor_status: string;
+  externo_archivos: ExternoArchivo[];
+  externo_puntos: ExternoPunto[];
+}
+
+export interface ExternoArchivo {
+  externoArchivosId: number;
+  externoEventoId: number;
+  status: string;
+}
+
+export interface ExternoPunto {
+  externoPuntosId: number;
+  externoEventoId: number;
+  disiplinasId: number;
+  disiplinas: string;
+  puntos: number;
+  horas: number;
+  modalidad: string;
+  status: string;
+}
+
+export default defineComponent({
+  name: "CapacitacionExterna",
+  components: {
+    IonContent,
+    IonPage,
+    VDataTable,
+  },
+  setup() {
+    const capacitacionStore = useCapacitacionStore();
+
+    const colores = ref({
+      rojoIMPC: "#B20000",
+      rojoClaro: "#FAE6EA",
+      grisOscuro: "#222222",
+    });
+
+    const encabezadosEvento = ref([
+      { title: "Especialidad", key: "modalidad" },
+      { title: "Fecha", key: "eventos_fecha_inicio" },
+      { title: "Lugar", key: "eventos_sede" },
+      { title: "Puntos generados", key: "puntos" },
+      { title: "Estatus", key: "status" },
+    ]);
+
+    const avisosCapacitacionPorPagina = ref(5);
+    const paginaAvisoCapacitacion = ref(1);
+    const busquedaAvisoCapacitacion = ref("");
+
+    const tabs = ref(null);
+    const dataLoaded = ref(false);
+
+    const options = ref({
+      indexAxis: "x",
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true,
+        },
+      },
+    });
+
+    const listadoCapacitaciones = ref<Capacitaciones>({
+      dataset: [],
+      totalSize: 0,
+      pageSize: 0,
+      intervaloSeccion: 0,
+      nombreListado: "",
+    });
+
+    async function cargarDashboard() {
+      dataLoaded.value = false;
+
+      listadoCapacitaciones.value = {
+        dataset: [],
+        totalSize: 0,
+        pageSize: 0,
+        intervaloSeccion: 0,
+        nombreListado: "",
+      };
+
+      try {
+        await capacitacionStore.cargarListado();
+
+        listadoCapacitaciones.value = capacitacionStore.object.listado as Capacitaciones;
+
+        console.log(listadoCapacitaciones.value);
+      } catch (error) {}
+    }
+
+    onIonViewDidEnter(() => {
+      cargarDashboard();
+    });
+
+    return {
+      dataLoaded,
+      colores,
+      options,
+      tabs,
+      listadoCapacitaciones,
+      encabezadosEvento,
+      avisosCapacitacionPorPagina,
+      paginaAvisoCapacitacion,
+      busquedaAvisoCapacitacion,
+    };
+  },
+});
+</script>
+
+<style>
+.blue-tab {
+  background-color: white !important;
+  /* Cambia 'blue' por el color que desees */
+}
+.rating-values {
+  margin-left: 10px;
+  min-width: 65px;
+}
+
+.tb-avisos thead {
+  font-size: 1.8vw;
+}
+
+.tb-avisos tbody td {
+  font-size: 1.5vw !important;
+}
+
+@media screen and (max-width: 600px) {
+  .tb-avisos thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  .tb-avisos.v-data-table td {
+    border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+    display: grid;
+    text-align: justify;
+    line-height: none;
+    height: auto !important;
+  }
+
+  .tb-avisos.v-data-table td::before {
+    content: attr(data-label);
+  }
+
+  .tb-avisos.v-data-table td:last-child {
+    border-bottom: 0;
+  }
+
+  .tb-avisos.v-data-table tr:not(:first-child) > td:first-child {
+    border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
+  }
+}
+</style>
