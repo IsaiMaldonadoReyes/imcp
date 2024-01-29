@@ -4,17 +4,13 @@
       <v-container>
         <v-tabs
           v-model="tabs"
-          color="red"
           density="compact"
           grow
           style="border-bottom: 5px solid #b20000"
-          active-class="active"
         >
           <v-tab
             :color="colores.rojoIMPC"
-            :slider-color="colores.rojoIMPC"
             :value="1"
-            :inactive-class="'inactive-tab'"
             class="mr-1 text-none"
             rounded="t-lg"
             size="small"
@@ -23,9 +19,7 @@
           />
           <v-tab
             :color="colores.rojoIMPC"
-            :slider-color="colores.rojoIMPC"
             :value="2"
-            :inactive-class="'inactive-tab'"
             class="text-none"
             rounded="t-lg"
             size="small"

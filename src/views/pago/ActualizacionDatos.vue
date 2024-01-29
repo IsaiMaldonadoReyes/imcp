@@ -15,14 +15,14 @@
         <v-form v-model="isValid" lazy-validation ref="formEl">
           <v-card class="my-3" elevation="0" border>
             <v-card-title
-              >Estimado (a)
+              >Estimado(a):
               <span class="font-weight-bold">{{
                 dataModel.nombre
               }}</span></v-card-title
             >
             <v-card-text>
               <span class="text-subtitle-1 text-grey-darken-1">
-                La información del certificado que esta actualizando
+                La información del certificado que esta actualizando es:
               </span>
             </v-card-text>
             <v-card-text>
@@ -54,7 +54,7 @@
               }}</span>
               <br />
               <span class="text-subtitle-1 text-grey-darken-1"
-                >Fecha emisión:</span
+                >Fecha vigencia:</span
               >
               <span class="text-subtitle-1 font-weight-bold">{{
                 certificadoActual.dataset.length > 0
@@ -70,472 +70,655 @@
               >
             </v-card-text>
           </v-card>
-          <v-card class="my-3" elevation="0" border>
-            <v-card-title>
-              <span class="font-weight-bold"
-                >Datos personales</span
-              ></v-card-title
-            >
-            <v-card-text>
-              <v-text-field
-                class="my-4"
-                hide-details="auto"
-                label="Nombre *"
-                placeholder="Nombre(s)"
-                v-model="dataModel.cuenta_nombre"
-                readonly
-                selectable="false"
-              ></v-text-field>
-              <v-text-field
-                class="my-4"
-                hide-details="auto"
-                label="Apellido paterno *"
-                placeholder="Apellido paterno"
-                v-model="dataModel.cuenta_apaterno"
-                readonly
-                selectable="false"
-              ></v-text-field>
-              <v-text-field
-                class="my-4"
-                hide-details="auto"
-                label="Apellido materno *"
-                placeholder="Apellido materno"
-                v-model="dataModel.cuenta_amatarno"
-                readonly
-                selectable="false"
-              ></v-text-field>
-              <br />
-              <br />
-              <span class="text-subtitle-1 text-red-darken-1">
-                * En caso de requerir actualizar el nombre y/o apellidos, favor
-                de enviar un correo a la direccion
-                soporte.certificacion@imcp.org.mx
-              </span>
-              <br />
-              <br />
-              <v-text-field
-                class="my-4"
-                hide-details="auto"
-                label="RFC *"
-                placeholder="RFC"
-                readonly
-                selectable="false"
-                v-model="dataModel.cuenta_rfc"
-              ></v-text-field>
-              <v-select
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Sexo *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                v-model="dataModel.cuenta_sexo"
-                :items="dataGenero.result"
-                item-value="value"
-                item-title="label"
-              ></v-select>
-              <v-select
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Estado civil *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                v-model="dataModel.cuenta_civil"
-                :items="dataEstadoCivil.result"
-                item-value="value"
-                item-title="label"
-              ></v-select>
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Lugar de nacimiento *"
-                placeholder="Estado"
-                variant="outlined"
-                v-model="dataModel.lugar_nacimiento"
-                :rules="[rules.required]"
-              ></v-text-field>
-
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="AGAFF *"
-                placeholder="Dato AGAFF"
-                variant="outlined"
-                v-model="dataModel.registro_agaff"
-                :rules="[rules.required]"
-              ></v-text-field>
-
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="IMSS *"
-                placeholder="Dato IMMS"
-                variant="outlined"
-                v-model="dataModel.registro_imss"
-                :rules="[rules.required]"
-              ></v-text-field>
-
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Email *"
-                placeholder="Email"
-                variant="outlined"
-                v-model="dataModel.cuenta_email"
-                :rules="[rules.required, rules.validEmail]"
-              ></v-text-field>
-            </v-card-text>
-          </v-card>
-          <v-card class="my-3" elevation="0" border>
-            <v-card-title>
-              <span class="font-weight-bold"
-                >Organismos profesionales a los que perteneces</span
-              ></v-card-title
-            >
-            <v-card-text>
-              <v-select
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Colegio afiliados *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                v-model="dataModel.id_colegio"
-                :items="dataColegio.result"
-                item-value="value"
-                item-title="label"
-              ></v-select>
-            </v-card-text>
-          </v-card>
-          <v-card class="my-3" elevation="0" border>
-            <v-card-title>
-              <span class="font-weight-bold"
-                >Grado académico</span
-              ></v-card-title
-            >
-            <v-card-text>
-              <span class="text-subtitle-1 text-grey-darken-1"
-                >Grado académico:
-              </span>
-              <span class="text-subtitle-1 font-weight-bold">{{
-                dataModel.grado_academico
-              }}</span>
-              <br />
-              <span class="text-subtitle-1 text-grey-darken-1"
-                >Institución:
-              </span>
-              <span class="text-subtitle-1 font-weight-bold">{{
-                dataModel.grado_academico_institucion
-              }}</span>
-              <br />
-              <span class="text-subtitle-1 text-grey-darken-1"
-                >Año titulación:
-              </span>
-              <span class="text-subtitle-1 font-weight-bold">{{
-                dataModel.grado_academico_anhio_titulo
-              }}</span>
-              <br />
-            </v-card-text>
-          </v-card>
-          <v-card class="my-3" elevation="0" border>
-            <v-card-title>
-              <span class="font-weight-bold">Domicilio</span></v-card-title
-            >
-            <v-card-text>
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Calle y número *"
-                placeholder="Domicilio"
-                variant="outlined"
-                v-model="dataModel.direccion_calle_numero"
-                :rules="[rules.required]"
-              ></v-text-field>
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="C.P."
-                placeholder="Código postal"
-                variant="outlined"
-                v-model="dataModel.direccion_cp"
-                v-on:keyup="cambiarCodigoPostal"
-                :rules="[rules.required]"
-              ></v-text-field>
-              <v-select
-                class="my-4"
-                hide-details="auto"
-                label="Colonia *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                v-model="dataModel.direccion_colonia"
-                :items="nuevasColoniasOptions"
-                item-value="value"
-                item-title="label"
-              ></v-select>
-              <v-text-field
-                class="my-4"
-                hide-details="auto"
-                label="Alcaldía o municipio *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                readonly
-                selectable="false"
-                v-model="dataModel.direccion_delegacion"
-              ></v-text-field>
-              <v-text-field
-                class="my-4"
-                hide-details="auto"
-                label="Estado *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                readonly
-                selectable="false"
-                v-model="dataModel.direccion_estado"
-              ></v-text-field>
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Teléfono *"
-                placeholder="Teléfono"
-                variant="outlined"
-                v-model="dataModel.telefono"
-                :rules="[rules.required, rules.validTelefono]"
-              ></v-text-field>
-            </v-card-text>
-          </v-card>
-          <v-card class="my-3" elevation="0" border>
-            <v-card-title>
-              <span class="font-weight-bold"
-                >Empresas, institución o despacho en que labora</span
-              ></v-card-title
-            >
-            <v-card-text>
-              <v-select
-                class="my-4"
-                hide-details="auto"
-                label="Sector *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                v-model="dataModel.empresa_id_sector"
-                :items="dataSector.result"
-                item-value="value"
-                item-title="label"
-              ></v-select>
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Empresa *"
-                placeholder="Empresa en la que labora"
-                variant="outlined"
-                v-model="dataModel.empresa_nombre_empresa"
-                :rules="[rules.required]"
-              ></v-text-field>
-
-              <v-menu :close-on-content-click="true">
-                <template v-slot:activator="{ props }">
-                  <v-text-field
-                    label="Antiguedad"
-                    v-model="dataModel.empresa_antiguedad"
-                    readonly
-                    v-bind="props"
-                    variant="solo"
-                    hide-details
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="selectedDate"
-                  hide-actions
-                  title="Seleccione fecha"
-                  :color="colores.rojoClaro"
+          <v-card border class="mb-3" color="transparent" elevation="0">
+            <v-card class="py-1" elevation="0" border rounded="0">
+              <v-card-item>
+                <v-card-title
+                  class="text-uppercase text-center"
+                  style="white-space: normal"
                 >
-                  <template v-slot:header></template>
-                </v-date-picker>
-              </v-menu>
+                  Datos personales
+                </v-card-title>
+              </v-card-item>
+            </v-card>
+            <v-card border class="ma-3" elevation="0">
+              <v-card-text class="text-justify">
+                <v-text-field
+                  class="my-4"
+                  hide-details="auto"
+                  label="Nombre *"
+                  placeholder="Nombre(s)"
+                  v-model="dataModel.cuenta_nombre"
+                  readonly
+                  selectable="false"
+                ></v-text-field>
+                <v-text-field
+                  class="my-4"
+                  hide-details="auto"
+                  label="Apellido paterno *"
+                  placeholder="Apellido paterno"
+                  v-model="dataModel.cuenta_apaterno"
+                  readonly
+                  selectable="false"
+                ></v-text-field>
+                <v-text-field
+                  class="my-4"
+                  hide-details="auto"
+                  label="Apellido materno *"
+                  placeholder="Apellido materno"
+                  v-model="dataModel.cuenta_amatarno"
+                  readonly
+                  selectable="false"
+                ></v-text-field>
+                <br />
+                <br />
+                <span class="text-body text-red-darken-1">
+                  * En caso de requerir actualizar el nombre y/o apellidos,
+                  favor de enviar un correo a la dirección
+                  soporte.certificacion@imcp.org.mx
+                </span>
+                <br />
+                <br />
+                <v-text-field
+                  class="my-4"
+                  hide-details="auto"
+                  label="RFC *"
+                  placeholder="RFC"
+                  readonly
+                  selectable="false"
+                  v-model="dataModel.cuenta_rfc"
+                ></v-text-field>
+                <v-select
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Sexo *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.cuenta_sexo"
+                  :items="dataGenero.result"
+                  item-value="value"
+                  item-title="label"
+                ></v-select>
+                <v-select
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Estado civil *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.cuenta_civil"
+                  :items="dataEstadoCivil.result"
+                  item-value="value"
+                  item-title="label"
+                ></v-select>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Lugar de nacimiento *"
+                  placeholder="Estado"
+                  variant="outlined"
+                  v-model="dataModel.lugar_nacimiento"
+                  :rules="[rules.required]"
+                ></v-text-field>
+                <v-select
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Año de nacimiento *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.anhio_nacimiento"
+                  :items="dataAnioNacimiento.result"
+                  item-value="value"
+                  item-title="label"
+                ></v-select>
+                <v-select
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Antigüedad en el colegio *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.anhio_titulo"
+                  :items="dataAnioTitulacion.result"
+                  item-value="value"
+                  item-title="label"
+                ></v-select>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="AGAFF *"
+                  placeholder="Dato AGAFF"
+                  variant="outlined"
+                  v-model="dataModel.registro_agaff"
+                  :rules="[rules.required]"
+                ></v-text-field>
 
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Puesto *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                v-model="dataModel.empresa_puesto"
-              ></v-text-field>
-              <v-select
-                class="my-4"
-                hide-details="auto"
-                label="Especialidad *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                v-model="dataModel.empresa_catalogo_especialidad_id"
-                :items="dataEspecialidad.result"
-                :rules="[rules.required]"
-                item-value="value"
-                item-title="label"
-              ></v-select>
-            </v-card-text>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="IMSS *"
+                  placeholder="Dato IMMS"
+                  variant="outlined"
+                  v-model="dataModel.registro_imss"
+                  :rules="[rules.required]"
+                ></v-text-field>
+
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Email *"
+                  placeholder="Email"
+                  variant="outlined"
+                  v-model="dataModel.cuenta_email"
+                  :rules="[rules.required, rules.validEmail]"
+                ></v-text-field>
+              </v-card-text>
+            </v-card>
           </v-card>
-          <v-card class="my-3" elevation="0" border>
-            <v-card-title>
-              <span class="font-weight-bold"
-                >Domicilio: Lugar de residencia de empresa, institución o
-                despacho en que labora</span
-              ></v-card-title
-            >
-            <v-card-text>
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Calle y número *"
-                placeholder="Domicilio"
-                variant="outlined"
-                v-model="dataModel.direccion_empresa_calle_numero"
-                :rules="[rules.required]"
-              ></v-text-field>
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="C.P."
-                placeholder="Código postal"
-                variant="outlined"
-                v-model="dataModel.direccion_empresa_cp"
-                v-on:keyup="cambiarCodigoPostalEmpresa"
-                :rules="[rules.required]"
-              ></v-text-field>
-              <v-select
-                class="my-4"
-                hide-details="auto"
-                label="Colonia *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                v-model="dataModel.direccion_empresa_colonia"
-                :items="nuevasColoniasEmpresaOptions"
-                item-value="value"
-                item-title="label"
-              ></v-select>
-              <v-text-field
-                class="my-4"
-                hide-details="auto"
-                label="Alcaldía o municipio *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                readonly
-                selectable="false"
-                v-model="dataModel.direccion_empresa_delegacion"
-              ></v-text-field>
-              <v-text-field
-                class="my-4"
-                hide-details="auto"
-                label="Estado *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                readonly
-                selectable="false"
-                v-model="dataModel.direccion_empresa_estado"
-              ></v-text-field>
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Teléfono empresa *"
-                placeholder="Teléfono"
-                variant="outlined"
-                v-model="dataModel.direccion_empresa_telefono"
-                :rules="[rules.required, rules.validTelefono]"
-              ></v-text-field>
-            </v-card-text>
+          <v-card border class="mb-3" color="transparent" elevation="0">
+            <v-card class="py-1" elevation="0" border rounded="0">
+              <v-card-item>
+                <v-card-title
+                  class="text-uppercase text-center"
+                  style="white-space: normal"
+                >
+                  Organismos profesionales a los que pertenece
+                </v-card-title>
+              </v-card-item>
+            </v-card>
+            <v-card border class="ma-3" elevation="0">
+              <v-card-text>
+                <v-select
+                  class="my-4"
+                  hide-details="auto"
+                  label="Colegio afiliados *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.id_colegio"
+                  :items="dataColegio.result"
+                  item-value="value"
+                  item-title="label"
+                  readonly
+                  selectable="false"
+                ></v-select>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Otros organismos profesionales"
+                  placeholder="Organismos profesionales"
+                  variant="outlined"
+                  v-model="dataModel.otroOrganismo"
+                ></v-text-field>
+              </v-card-text>
+            </v-card>
           </v-card>
-          <v-card class="my-3" elevation="0" border>
-            <v-card-title>
-              <span class="font-weight-bold"
-                >Datos para la facturación</span
-              ></v-card-title
-            >
-            <v-card-text>
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Nombre *"
-                placeholder="Nombre"
-                variant="outlined"
-                v-model="dataModel.facturacion_nombre"
-                :rules="[rules.required]"
-              ></v-text-field>
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="RFC *"
-                placeholder="RFC"
-                variant="outlined"
-                v-model="dataModel.facturacion_rfc"
-                :rules="[rules.required, rules.validRFC]"
-              ></v-text-field>
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="Calle y número *"
-                placeholder="Domicilio"
-                variant="outlined"
-                v-model="dataModel.facturacion_calle"
-                :rules="[rules.required]"
-              ></v-text-field>
-              <v-text-field
-                class="my-4"
-                clearable
-                hide-details="auto"
-                label="C.P."
-                placeholder="Código postal"
-                variant="outlined"
-                v-model="dataModel.facturacion_cp"
-                v-on:keyup="cambiarCodigoPostalFacturacion"
-              ></v-text-field>
-              <v-select
-                class="my-4"
-                hide-details="auto"
-                label="Colonia *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                v-model="dataModel.facturacion_colonia"
-                :items="nuevasColoniasFacturacionOptions"
-                :rules="[rules.required]"
-                item-value="value"
-                item-title="label"
-              ></v-select>
-              <v-text-field
-                class="my-4"
-                hide-details="auto"
-                label="Alcaldía o municipio *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                readonly
-                selectable="false"
-                v-model="dataModel.facturacion_delegacion"
-              ></v-text-field>
-              <v-text-field
-                class="my-4"
-                hide-details="auto"
-                label="Estado *"
-                no-data-text="No hay datos disponibles"
-                variant="outlined"
-                readonly
-                selectable="false"
-                v-model="dataModel.facturacion_estado"
-              ></v-text-field>
-            </v-card-text>
+          <v-card border class="mb-3" color="transparent" elevation="0">
+            <v-card class="py-1" elevation="0" border rounded="0">
+              <v-card-item>
+                <v-card-title
+                  class="text-uppercase text-center"
+                  style="white-space: normal"
+                >
+                  Grado académico
+                </v-card-title>
+              </v-card-item>
+            </v-card>
+            <v-card border class="ma-3" elevation="0">
+              <v-data-table
+                :headers="encabezadosGrado"
+                :show-footer="false"
+                :items="dataModel.grado_academico_listado"
+                class="tb-grados pa-2"
+                item-value="EventosNombreEvento"
+                style="background-color: transparent"
+              >
+                <template v-slot:top>
+                  <v-toolbar flat>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      :color="colores.verdeBoton"
+                      class="text-none ma-3"
+                      prepend-icon="mdi-content-save-edit-outline"
+                      text="Agregar grado"
+                      variant="flat"
+                      @click="openDialogGrado"
+                    >
+                      <template v-slot:prepend>
+                        <v-icon class="mr-3" size="large"></v-icon>
+                      </template>
+                    </v-btn>
+                  </v-toolbar>
+                </template>
+
+                <template v-slot:[`item`]="{ item }">
+                  <tr class="v-data-table__tr">
+                    <td
+                      v-for="encabezado in encabezadosGrado"
+                      :key="encabezado.key"
+                      :data-label="encabezado.title"
+                      class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
+                    >
+                      <v-btn-toggle
+                        v-if="encabezado.key == 'actions'"
+                        color="primary"
+                        divided
+                      >
+                        <v-btn color="#85B201">
+                          <v-icon @click="editarGrado(item)">
+                            mdi-pencil
+                          </v-icon>
+                        </v-btn>
+                        <v-btn color="grey">
+                          <v-icon @click="eliminarGrado(item)">
+                            mdi-delete
+                          </v-icon>
+                        </v-btn>
+                      </v-btn-toggle>
+                      <span v-else class="text-body-2 font-weight-bold">
+                        {{ item[encabezado.key] }}
+                      </span>
+                    </td>
+                  </tr>
+                </template>
+                <template v-slot:no-data>
+                  <v-card
+                    border
+                    class="my-5 pa-10 text-center"
+                    color="transparent"
+                    elevation="0"
+                  >
+                    <v-icon color="grey-lighten-1" size="60">
+                      mdi-school
+                    </v-icon>
+                    <v-card-text class="text-grey-darken-1">
+                      Aún no hay grados académicos registrados.
+                    </v-card-text>
+                  </v-card>
+                </template>
+                <template #bottom></template>
+              </v-data-table>
+            </v-card>
+          </v-card>
+          <v-card border class="mb-3" color="transparent" elevation="0">
+            <v-card class="py-1" elevation="0" border rounded="0">
+              <v-card-item>
+                <v-card-title
+                  class="text-uppercase text-center"
+                  style="white-space: normal"
+                >
+                  Domicilio
+                </v-card-title>
+              </v-card-item>
+            </v-card>
+            <v-card border class="ma-3" elevation="0">
+              <v-card-text>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Calle y número *"
+                  placeholder="Domicilio"
+                  variant="outlined"
+                  v-model="dataModel.direccion_calle_numero"
+                  :rules="[rules.required]"
+                ></v-text-field>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="C.P."
+                  placeholder="Código postal"
+                  variant="outlined"
+                  v-model="dataModel.direccion_cp"
+                  v-on:keyup="cambiarCodigoPostal"
+                  :rules="[rules.required]"
+                ></v-text-field>
+                <v-select
+                  class="my-4"
+                  hide-details="auto"
+                  label="Colonia *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.direccion_colonia"
+                  :items="nuevasColoniasOptions"
+                  item-value="value"
+                  item-title="label"
+                ></v-select>
+                <v-text-field
+                  class="my-4"
+                  hide-details="auto"
+                  label="Alcaldía o municipio *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  readonly
+                  selectable="false"
+                  v-model="dataModel.direccion_delegacion"
+                ></v-text-field>
+                <v-text-field
+                  class="my-4"
+                  hide-details="auto"
+                  label="Estado *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  readonly
+                  selectable="false"
+                  v-model="dataModel.direccion_estado"
+                ></v-text-field>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Teléfono *"
+                  placeholder="Teléfono"
+                  variant="outlined"
+                  v-model="dataModel.telefono"
+                  :rules="[rules.required, rules.validTelefono]"
+                ></v-text-field>
+              </v-card-text>
+            </v-card>
+          </v-card>
+          <v-card border class="mb-3" color="transparent" elevation="0">
+            <v-card class="py-1" elevation="0" border rounded="0">
+              <v-card-item>
+                <v-card-title
+                  class="text-uppercase text-center"
+                  style="white-space: normal"
+                >
+                  Empresas, institución o despacho en que labora
+                </v-card-title>
+              </v-card-item>
+            </v-card>
+            <v-card border class="ma-3" elevation="0">
+              <v-card-text class="text-justify">
+                <span class="text-body text-red-darken-1">
+                  * Importante: Solo podrás actualizar el año en curso, si
+                  necesitas modificar información de otros años favor de enviar
+                  un correo electrónico a soporte.certificacion@imcp.org.mx con
+                  el asunto "Actualización de nombre para Certificación",
+                  agradecemos tu colaboración.
+                </span>
+                <br />
+                <v-select
+                  class="my-4"
+                  hide-details="auto"
+                  label="Sector *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.empresa_id_sector"
+                  :items="dataSector.result"
+                  item-value="value"
+                  item-title="label"
+                ></v-select>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Empresa *"
+                  placeholder="Empresa en la que labora"
+                  variant="outlined"
+                  v-model="dataModel.empresa_nombre_empresa"
+                  :rules="[rules.required]"
+                ></v-text-field>
+
+                <v-menu :close-on-content-click="true">
+                  <template v-slot:activator="{ props }">
+                    <v-text-field
+                      label="Antiguedad"
+                      v-model="dataModel.empresa_antiguedad"
+                      readonly
+                      v-bind="props"
+                      variant="solo"
+                      hide-details
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="selectedDate"
+                    hide-actions
+                    title="Seleccione fecha"
+                    :color="colores.rojoClaro"
+                  >
+                    <template v-slot:header></template>
+                  </v-date-picker>
+                </v-menu>
+
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Puesto *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.empresa_puesto"
+                ></v-text-field>
+              </v-card-text>
+            </v-card>
+          </v-card>
+          <v-card border class="mb-3" color="transparent" elevation="0">
+            <v-card class="py-1" elevation="0" border rounded="0">
+              <v-card-item>
+                <v-card-title
+                  class="text-uppercase text-center"
+                  style="white-space: normal"
+                >
+                  Especialidad
+                </v-card-title>
+              </v-card-item>
+            </v-card>
+            <v-card border class="ma-3" elevation="0">
+              <v-card-text>
+                <v-select
+                  class="my-4"
+                  hide-details="auto"
+                  label="Especilidad *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.especialidad_id"
+                  :items="dataEspecialidad.result"
+                  item-value="value"
+                  item-title="label"
+                  multiple
+                ></v-select>
+              </v-card-text>
+            </v-card>
+          </v-card>
+          <v-card border class="mb-3" color="transparent" elevation="0">
+            <v-card class="py-1" elevation="0" border rounded="0">
+              <v-card-item>
+                <v-card-title
+                  class="text-uppercase text-center"
+                  style="white-space: normal"
+                >
+                  Domicilio: Lugar de residencia de empresa, institución o
+                  despacho en que labora
+                </v-card-title>
+              </v-card-item>
+            </v-card>
+            <v-card border class="ma-3" elevation="0">
+              <v-card-text>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Calle y número *"
+                  placeholder="Domicilio"
+                  variant="outlined"
+                  v-model="dataModel.direccion_empresa_calle_numero"
+                  :rules="[rules.required]"
+                ></v-text-field>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="C.P."
+                  placeholder="Código postal"
+                  variant="outlined"
+                  v-model="dataModel.direccion_empresa_cp"
+                  v-on:keyup="cambiarCodigoPostalEmpresa"
+                  :rules="[rules.required]"
+                ></v-text-field>
+                <v-select
+                  class="my-4"
+                  hide-details="auto"
+                  label="Colonia *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.direccion_empresa_colonia"
+                  :items="nuevasColoniasEmpresaOptions"
+                  item-value="value"
+                  item-title="label"
+                ></v-select>
+                <v-text-field
+                  class="my-4"
+                  hide-details="auto"
+                  label="Alcaldía o municipio *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  readonly
+                  selectable="false"
+                  v-model="dataModel.direccion_empresa_delegacion"
+                ></v-text-field>
+                <v-text-field
+                  class="my-4"
+                  hide-details="auto"
+                  label="Estado *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  readonly
+                  selectable="false"
+                  v-model="dataModel.direccion_empresa_estado"
+                ></v-text-field>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Teléfono empresa *"
+                  placeholder="Teléfono"
+                  variant="outlined"
+                  v-model="dataModel.direccion_empresa_telefono"
+                  :rules="[rules.required, rules.validTelefono]"
+                ></v-text-field>
+              </v-card-text>
+            </v-card>
+          </v-card>
+          <v-card border class="mb-3" color="transparent" elevation="0">
+            <v-card class="py-1" elevation="0" border rounded="0">
+              <v-card-item>
+                <v-card-title
+                  class="text-uppercase text-center"
+                  style="white-space: normal"
+                >
+                  Datos para la facturación
+                </v-card-title>
+              </v-card-item>
+            </v-card>
+            <v-card border class="ma-3" elevation="0">
+              <v-card-text>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Nombre *"
+                  placeholder="Nombre"
+                  variant="outlined"
+                  v-model="dataModel.facturacion_nombre"
+                  :rules="[rules.required]"
+                ></v-text-field>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="RFC *"
+                  placeholder="RFC"
+                  variant="outlined"
+                  v-model="dataModel.facturacion_rfc"
+                  :rules="[rules.required, rules.validRFC]"
+                ></v-text-field>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Calle y número *"
+                  placeholder="Domicilio"
+                  variant="outlined"
+                  v-model="dataModel.facturacion_calle"
+                  :rules="[rules.required]"
+                ></v-text-field>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="C.P."
+                  placeholder="Código postal"
+                  variant="outlined"
+                  v-model="dataModel.facturacion_cp"
+                  v-on:keyup="cambiarCodigoPostalFacturacion"
+                ></v-text-field>
+                <v-select
+                  class="my-4"
+                  hide-details="auto"
+                  label="Colonia *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.facturacion_colonia"
+                  :items="nuevasColoniasFacturacionOptions"
+                  :rules="[rules.required]"
+                  item-value="value"
+                  item-title="label"
+                ></v-select>
+                <v-text-field
+                  class="my-4"
+                  hide-details="auto"
+                  label="Alcaldía o municipio *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  readonly
+                  selectable="false"
+                  v-model="dataModel.facturacion_delegacion"
+                ></v-text-field>
+                <v-text-field
+                  class="my-4"
+                  hide-details="auto"
+                  label="Estado *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  readonly
+                  selectable="false"
+                  v-model="dataModel.facturacion_estado"
+                ></v-text-field>
+                <v-select
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Tipo persona *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.tipo_persona"
+                  :items="dataTipoPersona.result"
+                  item-value="value"
+                  item-title="label"
+                  @update:modelValue="buscarRegimen"
+                ></v-select>
+                <v-select
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Régimen fiscal *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.regimen_fiscal_id"
+                  :items="dataRegimenFiscal.result"
+                  item-value="value"
+                  item-title="label"
+                ></v-select>
+              </v-card-text>
+            </v-card>
           </v-card>
           <v-card
             color="transparent"
@@ -543,8 +726,8 @@
             class="mx-auto my-4"
             elevation="0"
           >
-            <v-card-text>
-              <span class="text-subtitle-1 text-grey-darken-1"
+            <v-card-text class="text-justify">
+              <span class="text-body text-grey-darken-1"
                 >Instituto Mexicano de Contadores Públicos, A.C. aprovecha para
                 informarle que de conformidad con la Ley Federal de Protección
                 de Datos Personales en Posesión de Particulares, se entenderá
@@ -552,7 +735,7 @@
                 transferencia y almacenamiento de datos personales,
                 patrimoniales y, en su caso, sensibles que nos sean
                 proporcionados con motivo de "Solicitud de Exámen Uniforme de
-                Certificación, Certificación por Disciplinas", para moayor
+                Certificación, Certificación por Disciplinas", para mayor
                 información respecto a nuestras políticas de privacidad por
                 favor consulte la página (www.imcp.org.mx).
               </span>
@@ -596,13 +779,104 @@
             </div>
           </v-card>
         </v-form>
+        <v-dialog v-model="dialogFormGradoAcademico" max-width="500px">
+          <v-form
+            v-model="isValidGradoAcademico"
+            lazy-validation
+            ref="formGradoAcademico"
+          >
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">Grado académico</span>
+              </v-card-title>
+
+              <v-card-text>
+                <v-select
+                  class="my-4"
+                  hide-details="auto"
+                  label="Grado académido *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.grado_academico"
+                  item-value="value"
+                  item-title="label"
+                  :items="dataGradoAcademico.result"
+                  :rules="[rules.requiredSelection]"
+                ></v-select>
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="Institución *"
+                  placeholder="Institución"
+                  variant="outlined"
+                  v-model="dataModel.grado_academico_institucion"
+                  :rules="[rules.required]"
+                ></v-text-field>
+                <v-select
+                  class="my-4"
+                  hide-details="auto"
+                  label="Año de titulación *"
+                  no-data-text="No hay datos disponibles"
+                  variant="outlined"
+                  v-model="dataModel.grado_academico_anhio_titulo"
+                  item-value="value"
+                  item-title="label"
+                  :items="dataAnioTitulacion.result"
+                  :rules="[rules.requiredSelection]"
+                ></v-select>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="text-grey-darken-1"
+                  variant="text"
+                  @click="cerrarDialogGrado"
+                >
+                  Cancelar
+                </v-btn>
+                <v-btn
+                  color="text-grey-darken-1"
+                  variant="text"
+                  @click="agregarGrado"
+                >
+                  Guardar
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-form>
+        </v-dialog>
+        <v-dialog v-model="dialogConfirmationGradoAcademico" max-width="500px">
+          <v-card>
+            <v-card-title class="text-subtitle-1 text-grey-darken-1"
+              >¿Está seguro de eliminar el registro?</v-card-title
+            >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="text-grey-darken-1"
+                variant="text"
+                @click="cerrarDialogConfirmationGrado"
+                >Cancelar</v-btn
+              >
+              <v-btn
+                color="text-grey-darken-1"
+                variant="text"
+                @click="confirmarDialogConfirmationGrado"
+                >Aceptar</v-btn
+              >
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-container>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, watch } from "vue";
+import { ref, computed, defineComponent, watch, reactive } from "vue";
 import {
   IonPage,
   IonContent,
@@ -612,7 +886,7 @@ import {
 import { usePagoStore } from "@/store/pago";
 import { useCertificadoStore } from "@/store/certificado";
 import { useRouter, Router, useRoute } from "vue-router";
-import { VDatePicker } from "vuetify/lib/labs/components.mjs";
+import { VDatePicker, VDataTable } from "vuetify/lib/labs/components.mjs";
 
 const showAlert = async (header: string, message: string) => {
   const alert = await alertController.create({
@@ -676,6 +950,46 @@ export interface RevisionAnual {
   status: string;
 }
 
+export interface TipoPersona {
+  result: ResultTipoPersona[];
+  type: string;
+}
+
+export interface ResultTipoPersona {
+  value: string;
+  label: string;
+}
+
+export interface RegimenFisico {
+  result: ResultRegimenFisico[];
+  type: string;
+}
+
+export interface ResultRegimenFisico {
+  value: string;
+  label: string;
+}
+
+export interface RegimenFiscal {
+  result: ResultRegimenFiscal[];
+  type: string;
+}
+
+export interface ResultRegimenFiscal {
+  value: string;
+  label: string;
+}
+
+export interface RegimenMoral {
+  result: ResultRegimenMoral[];
+  type: string;
+}
+
+export interface ResultRegimenMoral {
+  value: string;
+  label: string;
+}
+
 export interface Genero {
   result: ResultGenero[];
   type: string;
@@ -696,12 +1010,42 @@ export interface ResultEstadoCivil {
   label: string;
 }
 
+export interface AnioTitulacion {
+  result: ResultAnioTitulacion[];
+  type: string;
+}
+
+export interface ResultAnioTitulacion {
+  value: any;
+  label: string;
+}
+
+export interface AnioNacimiento {
+  result: ResultAnioNacimiento[];
+  type: string;
+}
+
+export interface ResultAnioNacimiento {
+  value: any;
+  label: string;
+}
+
 export interface Colegio {
   result: ResultColegio[];
   type: string;
 }
 
 export interface ResultColegio {
+  value: any;
+  label: string;
+}
+
+export interface GradoAcademico {
+  result: ResultGradoAcademico[];
+  type: string;
+}
+
+export interface ResultGradoAcademico {
   value: any;
   label: string;
 }
@@ -832,15 +1176,28 @@ export default defineComponent({
     IonContent,
     IonPage,
     VDatePicker,
+    VDataTable,
   },
   props: ["label", "color", "modelValue"],
   setup(props, { emit }) {
     const pagoStore = usePagoStore();
     const route = useRoute();
     const router: Router = useRouter();
-    const isValid = ref(true);
-    const formEl = ref<any>(null);
     const certificadoStore = useCertificadoStore();
+    const isValid = ref(true);
+    const isValidGradoAcademico = ref(true);
+    const formEl = ref<any>(null);
+    const formGradoAcademico = ref<any>(null);
+    const editedIndex = ref(-1);
+    const encabezadosGrado = ref([
+      { title: "Grado académico", key: "grado_academico" },
+      { title: "Institución", key: "grado_academico_institucion" },
+      { title: "Año de titulación", key: "grado_academico_anhio_titulo" },
+      { title: "", key: "actions", sortable: true },
+    ]);
+
+    const dialogFormGradoAcademico = ref(false);
+    const dialogConfirmationGradoAcademico = ref(false);
 
     const certificadoActual = ref<Certificados>({
       dataset: [],
@@ -860,6 +1217,8 @@ export default defineComponent({
       validTelefono: (v: string) =>
         telefonoRegex.test(v) || "Teléfono no válido",
       required: (v: string) => !!v || "Este campo es requerido",
+      requiredSelection: (v: string | null | undefined) =>
+        !!v || "Por favor, selecciona una opción",
     };
 
     const idCertificadoParams = ref(0);
@@ -869,6 +1228,72 @@ export default defineComponent({
       rojoClaro: "#FAE6EA",
       grisOscuro: "#222222",
       verdeBoton: "#468C00",
+    });
+
+    const dataModel = ref({
+      nombre: "",
+      cuentas_usuarios_id: 0,
+      cuenta_socio: "Si",
+      cuenta_nombre: "",
+      cuenta_apaterno: "",
+      cuenta_amatarno: "",
+      cuenta_rfc: "",
+      cuenta_sexo: "",
+      cuenta_civil: "",
+      lugar_nacimiento: "",
+      anhio_titulo: "",
+      anhio_nacimiento: "",
+      registro_agaff: "",
+      registro_imss: "",
+      cuenta_email: "",
+
+      id_colegio: 0,
+      otroOrganismo: "",
+
+      grado_academico: "",
+      grado_academico_institucion: "",
+      grado_academico_anhio_titulo: "",
+
+      grado_academico_listado: [] as {
+        grado_academico: string;
+        grado_academico_institucion: string;
+        grado_academico_anhio_titulo: string;
+      }[],
+
+      direccion_id: 0,
+      direccion_calle_numero: "",
+      direccion_cp: "",
+      direccion_colonia: "",
+      direccion_delegacion: "",
+      direccion_estado: "",
+      telefono: "",
+
+      empresa_id: 0,
+      empresa_id_sector: 0,
+      empresa_nombre_empresa: "",
+      empresa_antiguedad: "",
+      empresa_puesto: "",
+
+      especialidad_id: [] as number[],
+
+      direccion_empresa_id: 0,
+      direccion_empresa_calle_numero: "",
+      direccion_empresa_cp: "",
+      direccion_empresa_colonia: "",
+      direccion_empresa_delegacion: "",
+      direccion_empresa_estado: "",
+      direccion_empresa_telefono: "",
+
+      dato_facturacion_id: 0,
+      facturacion_nombre: "",
+      facturacion_rfc: "",
+      facturacion_calle: "",
+      facturacion_cp: "",
+      facturacion_colonia: "",
+      facturacion_delegacion: "",
+      facturacion_estado: "",
+      tipo_persona: "",
+      regimen_fiscal_id: "",
     });
 
     const dataContacto = ref<InformacionUsuario>({
@@ -910,8 +1335,8 @@ export default defineComponent({
         delegacion: "",
         ciudad: "",
         estado: "",
-        tipo_persona: null,
-        regimen_fiscal_id: null,
+        tipo_persona: "",
+        regimen_fiscal_id: "",
         direccion_id_personal: 0,
         num_personal: "",
         direccion_nombre_personal: "",
@@ -934,6 +1359,36 @@ export default defineComponent({
       especialidad: [],
     });
 
+    const dataAnioTitulacion = ref<AnioTitulacion>({
+      result: [],
+      type: "",
+    });
+
+    const dataTipoPersona = ref<TipoPersona>({
+      result: [],
+      type: "",
+    });
+
+    const dataTipoPersonaFisico = ref<RegimenFisico>({
+      result: [],
+      type: "",
+    });
+
+    const dataTipoPersonaMoral = ref<RegimenMoral>({
+      result: [],
+      type: "",
+    });
+
+    const dataRegimenFiscal = ref<RegimenFiscal>({
+      result: [],
+      type: "",
+    });
+
+    const dataAnioNacimiento = ref<AnioNacimiento>({
+      result: [],
+      type: "",
+    });
+
     const dataGenero = ref<Genero>({
       result: [],
       type: "",
@@ -945,6 +1400,11 @@ export default defineComponent({
     });
 
     const dataColegio = ref<Colegio>({
+      result: [],
+      type: "",
+    });
+
+    const dataGradoAcademico = ref<GradoAcademico>({
       result: [],
       type: "",
     });
@@ -994,6 +1454,44 @@ export default defineComponent({
       idEspecialidad: 0,
     });
 
+    async function catalogoAnioTitulacion() {
+      try {
+        await pagoStore.cargarCatalogoAnioTitulacion();
+        dataAnioTitulacion.value = pagoStore.object
+          .catalogoAnioTitulacion as AnioTitulacion;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    async function catalogoTipoRegimen() {
+      try {
+        await pagoStore.cargarCatalogoTipoPersona();
+        dataTipoPersona.value = pagoStore.object
+          .catalogoTipoPersona as TipoPersona;
+
+        await pagoStore.cargarCatalogoTipoPersonaFisica();
+        dataTipoPersonaFisico.value = pagoStore.object
+          .catalogoFisico as RegimenFisico;
+
+        await pagoStore.cargarCatalogoTipoPersonaMoral();
+        dataTipoPersonaMoral.value = pagoStore.object
+          .catalogoMoral as RegimenMoral;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    async function catalogoAnioNacimiento() {
+      try {
+        await pagoStore.cargarCatalogoAnioNacimiento();
+        dataAnioNacimiento.value = pagoStore.object
+          .catalogoAnioNacimiento as AnioNacimiento;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     async function catalogoGenero() {
       try {
         await pagoStore.cargarCatalogoGenero();
@@ -1018,6 +1516,17 @@ export default defineComponent({
         await pagoStore.cargarCatalogoColegio();
 
         dataColegio.value = pagoStore.object.catalogoColegio as Colegio;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    async function catalogoGradoAcademico() {
+      try {
+        await pagoStore.cargarCatalogoGradoAcademico();
+
+        dataGradoAcademico.value = pagoStore.object
+          .catalogoGradoAcademico as GradoAcademico;
       } catch (error) {
         console.log(error);
       }
@@ -1072,57 +1581,6 @@ export default defineComponent({
       } catch (error) {}
     }
 
-    const dataModel = ref({
-      nombre: "",
-      cuentas_usuarios_id: 0,
-      cuenta_socio: "Si",
-      cuenta_nombre: "",
-      cuenta_apaterno: "",
-      cuenta_amatarno: "",
-      cuenta_rfc: "",
-      cuenta_sexo: "",
-      cuenta_civil: "",
-      lugar_nacimiento: "",
-      registro_agaff: "",
-      registro_imss: "",
-      cuenta_email: "",
-      id_colegio: 0,
-      grado_academico: "",
-      grado_academico_institucion: "",
-      grado_academico_anhio_titulo: 0,
-      direccion_id: 0,
-      direccion_calle_numero: "",
-      direccion_cp: "",
-      direccion_colonia: "",
-      direccion_delegacion: "",
-      direccion_estado: "",
-      telefono: "",
-      empresa_id: 0,
-      empresa_id_sector: 0,
-      empresa_nombre_empresa: "",
-      empresa_antiguedad: "",
-      empresa_puesto: "",
-      empresa_catalogo_especialidad_id: 0,
-      direccion_empresa_id: 0,
-      direccion_empresa_calle_numero: "",
-      direccion_empresa_cp: "",
-      direccion_empresa_colonia: "",
-      direccion_empresa_delegacion: "",
-      direccion_empresa_estado: "",
-      direccion_empresa_telefono: "",
-
-      dato_facturacion_id: 0,
-      facturacion_nombre: "",
-      facturacion_rfc: "",
-      facturacion_calle: "",
-      facturacion_cp: "",
-      facturacion_colonia: "",
-      facturacion_delegacion: "",
-      facturacion_estado: "",
-      tipo_persona: "",
-      regimen_fiscal_id: "",
-    });
-
     async function cargarContacto() {
       try {
         await pagoStore.cargarContacto();
@@ -1164,7 +1622,7 @@ export default defineComponent({
         dataModel.value.cuenta_amatarno =
           dataContacto.value.informacion.cuenta_amatarno;
 
-        // cuenta_usuarios[]
+        // cuenta_usuarios[] DATOS PERSONALES
         dataModel.value.cuenta_rfc = dataContacto.value.informacion.cuenta_rfc;
         dataModel.value.cuenta_sexo =
           dataContacto.value.informacion.cuenta_sexo;
@@ -1172,6 +1630,10 @@ export default defineComponent({
           dataContacto.value.informacion.cuenta_civil;
         dataModel.value.lugar_nacimiento =
           dataContacto.value.informacion.lugar_nacimiento;
+        dataModel.value.anhio_titulo =
+          dataContacto.value.informacion.anhio_titulo;
+        dataModel.value.anhio_nacimiento =
+          dataContacto.value.informacion.anhio_nacimiento;
         dataModel.value.registro_agaff =
           dataContacto.value.informacion.registro_agaff;
         dataModel.value.registro_imss =
@@ -1179,10 +1641,13 @@ export default defineComponent({
         dataModel.value.cuenta_email =
           dataContacto.value.informacion.cuenta_email;
 
-        // cuenta_usuarios[]
+        // cuenta_usuarios[] ORGANISMOS PROFESIONALES A LOS QUE PERTENECE
         dataModel.value.id_colegio = dataContacto.value.informacion.id_colegio;
+        dataModel.value.otroOrganismo =
+          dataContacto.value.informacion.organismo;
 
         // grados_academicos_cuentas[]
+        /*
         dataModel.value.grado_academico =
           dataContacto.value.Grados &&
           Array.isArray(dataContacto.value.Grados) &&
@@ -1201,6 +1666,8 @@ export default defineComponent({
           dataContacto.value.Grados.length > 0
             ? dataContacto.value.Grados[0].anhioTitulo
             : 0;
+
+            */
 
         // direccionesUs[]
         dataModel.value.direccion_id =
@@ -1251,12 +1718,21 @@ export default defineComponent({
             : "";
 
         // cuentas_especialidades[]
-        dataModel.value.empresa_catalogo_especialidad_id =
+        /*
+            dataModel.value.empresa_catalogo_especialidad_id =
           dataContacto.value.especialidad &&
           Array.isArray(dataContacto.value.especialidad) &&
           dataContacto.value.especialidad.length > 0
             ? dataContacto.value.especialidad[0].catalogoEspecialidadId
             : 0;
+            */
+        if (dataContacto.value.especialidad.length > 0) {
+          dataContacto.value.especialidad.forEach((especialidad) => {
+            dataModel.value.especialidad_id.push(
+              especialidad.catalogoEspecialidadId
+            );
+          });
+        }
 
         // direccionesEmpresa[]
         dataModel.value.direccion_empresa_id =
@@ -1295,6 +1771,14 @@ export default defineComponent({
           dataContacto.value.informacion.tipo_persona;
         dataModel.value.regimen_fiscal_id =
           dataContacto.value.informacion.regimen_fiscal_id;
+
+        if (dataContacto.value.informacion.tipo_persona == "1") {
+          dataRegimenFiscal.value =
+            dataTipoPersonaFisico.value as RegimenFiscal;
+        } else if (dataContacto.value.informacion.tipo_persona == "2") {
+          dataRegimenFiscal.value = dataTipoPersonaMoral.value as RegimenFiscal;
+        }
+
         await catalogoSector();
       } catch (error) {
         console.log(error);
@@ -1439,6 +1923,10 @@ export default defineComponent({
       await catalogoGenero();
       await catalogoEstadoCivil();
       await catalogoColegio();
+      await catalogoGradoAcademico();
+      await catalogoAnioTitulacion();
+      await catalogoAnioNacimiento();
+      await catalogoTipoRegimen();
       //await catalogoSector();
       await catalogoEspecialidad();
       await cargarContacto();
@@ -1676,6 +2164,81 @@ export default defineComponent({
       }
     }
 
+    function buscarRegimen() {
+      if (dataModel.value.tipo_persona == "1") {
+        dataRegimenFiscal.value = dataTipoPersonaFisico.value as RegimenFiscal;
+      } else if (dataModel.value.tipo_persona == "2") {
+        dataRegimenFiscal.value = dataTipoPersonaMoral.value as RegimenFiscal;
+      }
+    }
+
+    async function agregarGrado() {
+      const isValidForm = await formGradoAcademico.value?.validate();
+      if (isValidForm.valid) {
+        const nuevoGradoAcademico = {
+          grado_academico: dataModel.value.grado_academico,
+          grado_academico_institucion:
+            dataModel.value.grado_academico_institucion,
+          grado_academico_anhio_titulo:
+            dataModel.value.grado_academico_anhio_titulo,
+        };
+
+        if (!Array.isArray(dataModel.value.grado_academico_listado)) {
+          dataModel.value.grado_academico_listado = [];
+        }
+
+        if (editedIndex.value > -1) {
+          Object.assign(
+            dataModel.value.grado_academico_listado[editedIndex.value],
+            nuevoGradoAcademico
+          );
+        } else {
+          dataModel.value.grado_academico_listado.push(nuevoGradoAcademico);
+        }
+
+        dataModel.value.grado_academico = "";
+        dataModel.value.grado_academico_institucion = "";
+        dataModel.value.grado_academico_anhio_titulo = "";
+        dialogFormGradoAcademico.value = false;
+      }
+    }
+
+    function cerrarDialogGrado() {
+      dataModel.value.grado_academico = "";
+      dataModel.value.grado_academico_institucion = "";
+      dataModel.value.grado_academico_anhio_titulo = "";
+      dialogFormGradoAcademico.value = false;
+    }
+    function cerrarDialogConfirmationGrado() {
+      dialogConfirmationGradoAcademico.value = false;
+    }
+
+    function openDialogGrado() {
+      dialogFormGradoAcademico.value = true;
+    }
+
+    function editarGrado(item) {
+      editedIndex.value = dataModel.value.grado_academico_listado.indexOf(item);
+      dataModel.value.grado_academico = item.grado_academico;
+      dataModel.value.grado_academico_institucion =
+        item.grado_academico_institucion;
+      dataModel.value.grado_academico_anhio_titulo =
+        item.grado_academico_anhio_titulo;
+
+      dialogFormGradoAcademico.value = true;
+    }
+
+    function eliminarGrado(item) {
+      editedIndex.value = dataModel.value.grado_academico_listado.indexOf(item);
+      dialogConfirmationGradoAcademico.value = true;
+    }
+
+    function confirmarDialogConfirmationGrado() {
+      dataModel.value.grado_academico_listado.splice(editedIndex.value, 1);
+
+      dialogConfirmationGradoAcademico.value = false;
+    }
+
     watch(
       () => props.modelValue,
       (newDate) => {
@@ -1715,7 +2278,66 @@ export default defineComponent({
       formEl,
       isValid,
       actualizarDatos,
+      dataAnioTitulacion,
+      dataAnioNacimiento,
+      dataTipoPersona,
+      dataRegimenFiscal,
+      dataGradoAcademico,
+      buscarRegimen,
+      encabezadosGrado,
+      dialogFormGradoAcademico,
+      dialogConfirmationGradoAcademico,
+      agregarGrado,
+      cerrarDialogGrado,
+      formGradoAcademico,
+      isValidGradoAcademico,
+      openDialogGrado,
+      editarGrado,
+      eliminarGrado,
+      cerrarDialogConfirmationGrado,
+      confirmarDialogConfirmationGrado,
     };
   },
 });
 </script>
+
+<style>
+.tb-grados thead {
+  font-size: 0.875rem;
+}
+
+@media screen and (max-width: 600px) {
+  .tb-grados thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  .tb-grados.v-data-table td {
+    border-bottom: thin solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
+    display: grid;
+    text-align: justify;
+    line-height: none;
+    height: auto !important;
+  }
+
+  .tb-grados.v-data-table td::before {
+    content: attr(data-label);
+  }
+
+  .tb-grados.v-data-table td:last-child {
+    border-bottom: 0;
+  }
+
+  .tb-grados.v-data-table tr:not(:first-child) > td:first-child {
+    border-top: medium solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
+  }
+}
+</style>

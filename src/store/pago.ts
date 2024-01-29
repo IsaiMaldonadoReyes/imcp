@@ -14,6 +14,12 @@ export const usePagoStore = defineStore({
             catalogoColegio: {},
             catalogoSector: {},
             catalogoEspecialidad: {},
+            catalogoAnioTitulacion: {},
+            catalogoAnioNacimiento: {},
+            catalogoTipoPersona: {},
+            catalogoFisico: {},
+            catalogoMoral: {},
+            catalogoGradoAcademico: {},
             puntosPorCertificado: {},
             contacto: {},
             informacion: {},
@@ -79,6 +85,125 @@ export const usePagoStore = defineStore({
             }
         },
 
+
+        async cargarCatalogoTipoPersona() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+
+            try {
+
+                const response = await axios.get("/users/catalogos/tipoPersona", {
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.catalogoTipoPersona = response.data;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
+        async cargarCatalogoTipoPersonaFisica() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+
+            try {
+
+                const response = await axios.get("/users/catalogos/fisica", {
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.catalogoFisico = response.data;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+        async cargarCatalogoTipoPersonaMoral() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+
+            try {
+
+                const response = await axios.get("/users/catalogos/moral", {
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.catalogoMoral = response.data;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
+        async cargarCatalogoAnioNacimiento() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+
+            try {
+
+                const response = await axios.get("/users/catalogos/anhiosListado1", {
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.catalogoAnioNacimiento = response.data;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
+        async cargarCatalogoGradoAcademico() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+
+            try {
+
+                const response = await axios.get("/users/catalogos/gradoAcademico", {
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.catalogoGradoAcademico = response.data;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
+        async cargarCatalogoAnioTitulacion() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+
+            try {
+
+                const response = await axios.get("/users/catalogos/anhiosListado", {
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.catalogoAnioTitulacion = response.data;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
 
         async cargarCatalogoGenero() {
             const storage = new Storage();
