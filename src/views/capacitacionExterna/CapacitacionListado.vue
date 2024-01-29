@@ -144,7 +144,9 @@
                           style="width: 50"
                           class="ma-2"
                         >
-                          <v-icon size="x-small" class="mr-2">mdi-circle</v-icon>
+                          <v-icon size="x-small" class="mr-2"
+                            >mdi-circle</v-icon
+                          >
                           Solicitud
                         </v-chip>
                       </v-col>
@@ -156,7 +158,9 @@
                           label
                           class="ma-2"
                         >
-                          <v-icon size="x-small" class="mr-2">mdi-circle</v-icon>
+                          <v-icon size="x-small" class="mr-2"
+                            >mdi-circle</v-icon
+                          >
                           Revisión
                         </v-chip>
                       </v-col>
@@ -168,7 +172,9 @@
                           label
                           class="ma-2"
                         >
-                          <v-icon size="x-small" class="mr-2">mdi-circle</v-icon>
+                          <v-icon size="x-small" class="mr-2"
+                            >mdi-circle</v-icon
+                          >
                           Autorizado
                         </v-chip>
                       </v-col>
@@ -180,7 +186,9 @@
                           label
                           class="ma-2"
                         >
-                          <v-icon size="x-small" class="mr-2">mdi-circle</v-icon>
+                          <v-icon size="x-small" class="mr-2"
+                            >mdi-circle</v-icon
+                          >
                           Rechazado
                         </v-chip>
                       </v-col>
@@ -233,141 +241,183 @@
             </v-card>
           </v-window-item>
         </v-window>
-        <v-dialog v-model="dialogFormCapacitacionExterna" max-width="500px">
-          <v-form
-            v-model="isValidCapacitacionExterna"
-            lazy-validation
-            ref="formCapacitacionExterna"
-          >
-            <v-card>
-              <v-card-title>
-                <span class="text-h5">Nuevo aviso</span>
-              </v-card-title>
-
-              <v-card-text>
-                <v-select
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Colegio *"
-                  no-data-text="No hay datos disponibles"
-                  variant="outlined"
-                  item-value="value"
-                  item-title="label"
-                ></v-select>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Nombre del evento *"
-                  placeholder="Nombre del evento"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Sede *"
-                  placeholder="Sede"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Expositor *"
-                  placeholder="Expositor"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Telefono *"
-                  placeholder="Telefono"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Email *"
-                  placeholder="Email"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Fecha de inicio *"
-                  placeholder="Fecha de inicio"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Fecha de fin *"
-                  placeholder="Fecha de fin"
-                  variant="outlined"
-                ></v-text-field>
-              </v-card-text>
-              <v-spacer></v-spacer>
-              <v-card-text>
-                <v-select
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Disciplina *"
-                  no-data-text="No hay datos disponibles"
-                  variant="outlined"
-                  item-value="value"
-                  item-title="label"
-                ></v-select>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Puntos *"
-                  placeholder="Puntos"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Horas *"
-                  placeholder="Horas"
-                  variant="outlined"
-                ></v-text-field>
-                <v-select
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Modalidad *"
-                  no-data-text="No hay datos disponibles"
-                  variant="outlined"
-                  item-value="value"
-                  item-title="label"
-                ></v-select>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  color="text-grey-darken-1"
-                  variant="text"
-                  @click="cerrarDialogAviso"
-                >
-                  Cancelar
-                </v-btn>
-                <v-btn color="text-grey-darken-1" variant="text" @click="agregarAviso">
-                  Guardar
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-form>
-        </v-dialog>
       </v-container>
+      <v-dialog v-model="dialogFormCapacitacionExterna" max-width="500px">
+        <v-card>
+          <v-card-title>
+            <span class="text-h5">Nuevo aviso</span>
+          </v-card-title>
+
+          <v-card-text>
+            <v-row>
+              <v-select
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Colegio *"
+                no-data-text="No hay datos disponibles"
+                variant="outlined"
+                item-value="value"
+                item-title="label"
+              ></v-select>
+            </v-row>
+            <v-row>
+              <v-text-field
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Nombre del evento *"
+                placeholder="Nombre del evento"
+                variant="outlined"
+              ></v-text-field>
+            </v-row>
+            <v-row>
+              <v-text-field
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Sede *"
+                placeholder="Sede"
+                variant="outlined"
+              ></v-text-field>
+            </v-row>
+            <v-row>
+              <v-text-field
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Expositor *"
+                placeholder="Expositor"
+                variant="outlined"
+              ></v-text-field>
+            </v-row>
+            <v-row>
+              <v-text-field
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Telefono *"
+                placeholder="Telefono"
+                variant="outlined"
+              ></v-text-field>
+            </v-row>
+            <v-row>
+              <v-text-field
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Email *"
+                placeholder="Email"
+                variant="outlined"
+              ></v-text-field>
+            </v-row>
+            <v-row>
+              <v-text-field
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Fecha de inicio *"
+                placeholder="Fecha de inicio"
+                variant="outlined"
+              ></v-text-field>
+              <v-text-field
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Fecha de fin *"
+                placeholder="Fecha de fin"
+                variant="outlined"
+              ></v-text-field>
+            </v-row>
+          </v-card-text>
+          <v-spacer></v-spacer>
+
+          <v-card-text>
+            <v-row>
+              <v-select
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Disciplina *"
+                no-data-text="No hay datos disponibles"
+                variant="outlined"
+                item-value="value"
+                item-title="label"
+              ></v-select>
+            </v-row>
+            <v-row>
+              <v-text-field
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Puntos *"
+                placeholder="Puntos"
+                variant="outlined"
+              ></v-text-field>
+              <v-text-field
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Horas *"
+                placeholder="Horas"
+                variant="outlined"
+              ></v-text-field>
+            </v-row>
+            <v-row>
+              <v-select
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Modalidad *"
+                no-data-text="No hay datos disponibles"
+                variant="outlined"
+                item-value="value"
+                item-title="label"
+              ></v-select>
+            </v-row>
+          </v-card-text>
+          <v-data-table
+            :show-footer="false"
+            class="tb-grados pa-2"
+            item-value="EventosNombreEvento"
+            style="background-color: transparent"
+          >
+            <template v-slot:no-data>
+              <v-card
+                border
+                class="my-5 pa-10 text-center"
+                color="transparent"
+                elevation="0"
+              >
+                <v-icon color="grey-lighten-1" size="60"> mdi-school </v-icon>
+                <v-card-text class="text-grey-darken-1">
+                  Aún no hay grados académicos registrados.
+                </v-card-text>
+              </v-card>
+            </template>
+            <template #bottom></template>
+          </v-data-table>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="text-grey-darken-1"
+              variant="text"
+              @click="cerrarDialogAviso"
+            >
+              Cancelar
+            </v-btn>
+            <v-btn
+              color="text-grey-darken-1"
+              variant="text"
+              @click="agregarAviso"
+            >
+              Guardar
+            </v-btn>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </ion-content>
   </ion-page>
 </template>
@@ -469,6 +519,7 @@ export default defineComponent({
 
     const dialogFormCapacitacionExterna = ref(false);
     const isValidCapacitacionExterna = ref(true);
+    const formCapacitacionExterna = ref<any>(null);
 
     const tabs = ref(null);
     const dataLoaded = ref(false);
@@ -521,7 +572,8 @@ export default defineComponent({
       try {
         await capacitacionStore.cargarListado();
 
-        listadoCapacitaciones.value = capacitacionStore.object.listado as Capacitaciones;
+        listadoCapacitaciones.value = capacitacionStore.object
+          .listado as Capacitaciones;
 
         console.log(listadoCapacitaciones.value);
       } catch (error) {}
@@ -590,7 +642,8 @@ export default defineComponent({
   }
 
   .tb-avisos.v-data-table td {
-    border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+    border-bottom: thin solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
     display: grid;
     text-align: justify;
     line-height: none;
@@ -606,7 +659,8 @@ export default defineComponent({
   }
 
   .tb-avisos.v-data-table tr:not(:first-child) > td:first-child {
-    border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
+    border-top: medium solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
   }
 }
 </style>
