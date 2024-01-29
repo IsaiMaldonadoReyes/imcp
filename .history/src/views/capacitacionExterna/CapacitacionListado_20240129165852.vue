@@ -245,16 +245,6 @@
               </v-card-title>
 
               <v-card-text>
-                <v-select
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Colegio *"
-                  no-data-text="No hay datos disponibles"
-                  variant="outlined"
-                  item-value="value"
-                  item-title="label"
-                ></v-select>
                 <v-text-field
                   class="my-4"
                   clearable
@@ -279,78 +269,8 @@
                   placeholder="Expositor"
                   variant="outlined"
                 ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Telefono *"
-                  placeholder="Telefono"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Email *"
-                  placeholder="Email"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Fecha de inicio *"
-                  placeholder="Fecha de inicio"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Fecha de fin *"
-                  placeholder="Fecha de fin"
-                  variant="outlined"
-                ></v-text-field>
               </v-card-text>
-              <v-spacer></v-spacer>
-              <v-card-text>
-                <v-select
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Disciplina *"
-                  no-data-text="No hay datos disponibles"
-                  variant="outlined"
-                  item-value="value"
-                  item-title="label"
-                ></v-select>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Puntos *"
-                  placeholder="Puntos"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Horas *"
-                  placeholder="Horas"
-                  variant="outlined"
-                ></v-text-field>
-                <v-select
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Modalidad *"
-                  no-data-text="No hay datos disponibles"
-                  variant="outlined"
-                  item-value="value"
-                  item-title="label"
-                ></v-select>
-              </v-card-text>
+
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
