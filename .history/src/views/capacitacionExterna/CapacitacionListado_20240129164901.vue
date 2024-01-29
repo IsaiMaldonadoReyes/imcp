@@ -54,7 +54,6 @@
                     size="large"
                     text="Nuevo aviso de capacitación"
                     variant="flat"
-                    @click="abrirDialogAviso"
                   >
                     <template v-slot:prepend>
                       <v-icon class="mr-3" size="large"></v-icon>
@@ -245,112 +244,16 @@
               </v-card-title>
 
               <v-card-text>
-                <v-select
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Colegio *"
-                  no-data-text="No hay datos disponibles"
-                  variant="outlined"
-                  item-value="value"
-                  item-title="label"
-                ></v-select>
                 <v-text-field
                   class="my-4"
                   clearable
                   hide-details="auto"
-                  label="Nombre del evento *"
-                  placeholder="Nombre del evento"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Sede *"
-                  placeholder="Sede"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Expositor *"
-                  placeholder="Expositor"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Telefono *"
-                  placeholder="Telefono"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Email *"
-                  placeholder="Email"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Fecha de inicio *"
-                  placeholder="Fecha de inicio"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Fecha de fin *"
-                  placeholder="Fecha de fin"
+                  label="Institución *"
+                  placeholder="Institución"
                   variant="outlined"
                 ></v-text-field>
               </v-card-text>
-              <v-spacer></v-spacer>
-              <v-card-text>
-                <v-select
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Disciplina *"
-                  no-data-text="No hay datos disponibles"
-                  variant="outlined"
-                  item-value="value"
-                  item-title="label"
-                ></v-select>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Puntos *"
-                  placeholder="Puntos"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Horas *"
-                  placeholder="Horas"
-                  variant="outlined"
-                ></v-text-field>
-                <v-select
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Modalidad *"
-                  no-data-text="No hay datos disponibles"
-                  variant="outlined"
-                  item-value="value"
-                  item-title="label"
-                ></v-select>
-              </v-card-text>
+
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
@@ -527,15 +430,9 @@ export default defineComponent({
       } catch (error) {}
     }
 
-    function cerrarDialogAviso() {
-      dialogFormCapacitacionExterna.value = false;
-    }
+    function cerrarDialogAviso() {}
 
     function agregarAviso() {}
-
-    function abrirDialogAviso() {
-      dialogFormCapacitacionExterna.value = true;
-    }
 
     onIonViewDidEnter(() => {
       cargarDashboard();
@@ -553,10 +450,7 @@ export default defineComponent({
       busquedaAvisoCapacitacion,
       getColor,
       cerrarDialogAviso,
-      abrirDialogAviso,
       agregarAviso,
-      dialogFormCapacitacionExterna,
-      isValidCapacitacionExterna,
     };
   },
 });
@@ -567,7 +461,6 @@ export default defineComponent({
   background-color: white !important;
   /* Cambia 'blue' por el color que desees */
 }
-
 .rating-values {
   margin-left: 10px;
   min-width: 65px;

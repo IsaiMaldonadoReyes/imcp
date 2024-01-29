@@ -40,7 +40,7 @@
                     class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
                     style="white-space: normal"
                   >
-                    Aviso de capacitación
+                    Aviso de capacitacion
                   </v-card-title>
                 </v-card-item>
               </v-card>
@@ -48,13 +48,12 @@
                 <v-divider />
                 <v-card-actions>
                   <v-btn
-                    :color="colores.verdeBoton"
+                    :color="colores.grisOscuro"
                     block
-                    prepend-icon="mdi-account-school-outline"
+                    prepend-icon="mdi-eye-arrow-right-outline"
                     size="large"
                     text="Nuevo aviso de capacitación"
                     variant="flat"
-                    @click="abrirDialogAviso"
                   >
                     <template v-slot:prepend>
                       <v-icon class="mr-3" size="large"></v-icon>
@@ -233,140 +232,6 @@
             </v-card>
           </v-window-item>
         </v-window>
-        <v-dialog v-model="dialogFormCapacitacionExterna" max-width="500px">
-          <v-form
-            v-model="isValidCapacitacionExterna"
-            lazy-validation
-            ref="formCapacitacionExterna"
-          >
-            <v-card>
-              <v-card-title>
-                <span class="text-h5">Nuevo aviso</span>
-              </v-card-title>
-
-              <v-card-text>
-                <v-select
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Colegio *"
-                  no-data-text="No hay datos disponibles"
-                  variant="outlined"
-                  item-value="value"
-                  item-title="label"
-                ></v-select>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Nombre del evento *"
-                  placeholder="Nombre del evento"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Sede *"
-                  placeholder="Sede"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Expositor *"
-                  placeholder="Expositor"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Telefono *"
-                  placeholder="Telefono"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Email *"
-                  placeholder="Email"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Fecha de inicio *"
-                  placeholder="Fecha de inicio"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Fecha de fin *"
-                  placeholder="Fecha de fin"
-                  variant="outlined"
-                ></v-text-field>
-              </v-card-text>
-              <v-spacer></v-spacer>
-              <v-card-text>
-                <v-select
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Disciplina *"
-                  no-data-text="No hay datos disponibles"
-                  variant="outlined"
-                  item-value="value"
-                  item-title="label"
-                ></v-select>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Puntos *"
-                  placeholder="Puntos"
-                  variant="outlined"
-                ></v-text-field>
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Horas *"
-                  placeholder="Horas"
-                  variant="outlined"
-                ></v-text-field>
-                <v-select
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Modalidad *"
-                  no-data-text="No hay datos disponibles"
-                  variant="outlined"
-                  item-value="value"
-                  item-title="label"
-                ></v-select>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  color="text-grey-darken-1"
-                  variant="text"
-                  @click="cerrarDialogAviso"
-                >
-                  Cancelar
-                </v-btn>
-                <v-btn color="text-grey-darken-1" variant="text" @click="agregarAviso">
-                  Guardar
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-form>
-        </v-dialog>
       </v-container>
     </ion-content>
   </ion-page>
@@ -452,7 +317,6 @@ export default defineComponent({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
       grisOscuro: "#222222",
-      verdeBoton: "#468C00",
     });
 
     const encabezadosEvento = ref([
@@ -466,9 +330,6 @@ export default defineComponent({
     const avisosCapacitacionPorPagina = ref(5);
     const paginaAvisoCapacitacion = ref(1);
     const busquedaAvisoCapacitacion = ref("");
-
-    const dialogFormCapacitacionExterna = ref(false);
-    const isValidCapacitacionExterna = ref(true);
 
     const tabs = ref(null);
     const dataLoaded = ref(false);
@@ -527,16 +388,6 @@ export default defineComponent({
       } catch (error) {}
     }
 
-    function cerrarDialogAviso() {
-      dialogFormCapacitacionExterna.value = false;
-    }
-
-    function agregarAviso() {}
-
-    function abrirDialogAviso() {
-      dialogFormCapacitacionExterna.value = true;
-    }
-
     onIonViewDidEnter(() => {
       cargarDashboard();
     });
@@ -552,11 +403,6 @@ export default defineComponent({
       paginaAvisoCapacitacion,
       busquedaAvisoCapacitacion,
       getColor,
-      cerrarDialogAviso,
-      abrirDialogAviso,
-      agregarAviso,
-      dialogFormCapacitacionExterna,
-      isValidCapacitacionExterna,
     };
   },
 });
@@ -567,7 +413,6 @@ export default defineComponent({
   background-color: white !important;
   /* Cambia 'blue' por el color que desees */
 }
-
 .rating-values {
   margin-left: 10px;
   min-width: 65px;

@@ -126,56 +126,6 @@ export const useCapacitacionStore = defineStore({
                                 "comentarios_rechazo": "",
                                 "telefono": "134678999",
                                 "email": "prueba@corre.com",
-                                "status": "Revisión",
-                                "datecreation": "2023-12-21 16:54:04",
-                                "externo_archivos_id": "1",
-                                "externo_puntos_id": "1",
-                                "archivo": null,
-                                "status_archivo": "Activo",
-                                "disiplinas_id": 7,
-                                "puntos": 1,
-                                "horas": 1,
-                                "modalidad": "Presencial",
-                                "status_puntos": "Activo",
-                                "cuenta_rfc": "AUGA700511779",
-                                "cuenta_nombre": "Alejandro",
-                                "cuenta_apaterno": "...",
-                                "cuenta_amatarno": "Garcia",
-                                "expositor_status": "No",
-                                "externo_archivos": [
-                                    {
-                                        "externoArchivosId": 1,
-                                        "externoEventoId": 1,
-                                        "status": "Activo"
-                                    }
-                                ],
-                                "externo_puntos": [
-                                    {
-                                        "externoPuntosId": 1,
-                                        "externoEventoId": 1,
-                                        "disiplinasId": 7,
-                                        "disiplinas": "Economía",
-                                        "puntos": 1,
-                                        "horas": 1,
-                                        "modalidad": "Presencial",
-                                        "status": "Activo"
-                                    }
-                                ]
-                            },
-                            {
-                                "externo_evento_id": 1,
-                                "usuario_id": null,
-                                "cuentas_usuarios_id": 16084,
-                                "id_colegio": 4,
-                                "nombre_evento": "Tres comisiones: CROSS, CONAA y Comisión fiscal 2024",
-                                "eventos_sede": "CCP Culiacán",
-                                "expositor": "Colegioados",
-                                "eventos_fecha_inicio": "2023-12-21 16:54:04",
-                                "eventos_fecha_fin": "2023-12-21 16:54:04",
-                                "comentarios_autorizacion": "",
-                                "comentarios_rechazo": "",
-                                "telefono": "134678999",
-                                "email": "prueba@corre.com",
                                 "status": "Rechazado",
                                 "datecreation": "2023-12-21 16:54:04",
                                 "externo_archivos_id": "1",
