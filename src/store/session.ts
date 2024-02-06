@@ -53,7 +53,7 @@ export const useSessionStore = defineStore({
                         await storage.set('configToken', configToken);
                     }
                 } catch (error) {
-                    throw new Error("Ocurrio un problema al conectarse con el servidor");
+                    //throw new Error("Ocurrio un problema al conectarse con el servidor");
                 }
             } else {
                 console.error('API_USER or API_PASS is undefined');

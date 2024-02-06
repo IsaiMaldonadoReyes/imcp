@@ -175,7 +175,7 @@ const showAlert = async (header: string, message: string) => {
     buttons: ["OK"],
   });
 
-  await alert.present();
+  return alert;
 };
 
 export interface InformacionUsuario {
@@ -478,19 +478,24 @@ export default defineComponent({
           if (dataCuenta.value.password != "") {
             formData.append("datos[password]", dataCuenta.value.password);
           }
-
-          console.log(formData);
           await cuentaStore.actualizarCuenta(formData);
 
-          await showAlert(
+          const alert = await showAlert(
             "Actualización de datos",
             cuentaStore.responseMessage
           );
 
-          if (cuentaStore.type == "success") {
+          if (alert) {
+            await alert.present();
+            await alert.onDidDismiss();
+
             await formEl.value?.reset();
+
             router.push({ name: "dashboard" });
           }
+
+          //if (cuentaStore.type == "success") {
+          //}
         } else {
           await showAlert("Actualización de datos", "Revise los datos");
         }
