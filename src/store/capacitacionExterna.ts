@@ -9,27 +9,85 @@ export const useCapacitacionStore = defineStore({
     id: 'capacitacionExterna',
     state: () => ({
         object: {
-            certificadosPendientes: {},
-            certificadosEmitidos: {},
-            puntosPorCertificado: {},
-            desglosePuntos: {},
-            listado: {}
-
+            listado: {},
+            catalogoDisciplina: {},
+            catalogoModalidad: {},
+            catalogoColegio: {},
         },
         responseMessage: "",
         type: ""
     }),
     actions: {
 
-        async actualizarDatos(informacion: any) {
+        async registrarCapacitacion(informacion: any) {
             const storage = new Storage();
             await storage.create();
 
             const configAuthToken = await storage.get("configToken");
             try {
-                const response = await axios.put("/users/editar", informacion, configAuthToken);
+                const response = await axios.post("/users/eventos_externos", informacion, configAuthToken);
                 this.responseMessage = response.data.sys.mensaje_operacion;
                 this.type = response.data.type;
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
+        async cargarCatalogoDisciplina() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+
+            try {
+
+                const response = await axios.get("/users/catalogos/especialidades", {
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.catalogoDisciplina = response.data;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
+        async cargarCatalogoColegios() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+
+            try {
+
+                const response = await axios.get("/users/catalogos/colegios", {
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.catalogoColegio = response.data;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
+        async cargarCatalogoModalidad() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+
+            try {
+
+                const response = await axios.get("/users/catalogos/eventoModalidad", {
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.catalogoModalidad = response.data;
+                }
             } catch (error) {
                 //throw new Error("Solicitud incorrecta");
             }
@@ -269,125 +327,6 @@ export const useCapacitacionStore = defineStore({
                         "intervaloSeccion": 10,
                         "nombreListado": "VIEW"
                     };
-                }
-            } catch (error) {
-                //throw new Error("Solicitud incorrecta");
-            }
-        },
-
-        async cargarCertificadosPendientes() {
-
-            this.object.certificadosPendientes = {};
-
-            const storage = new Storage();
-            await storage.create();
-
-            const configAuthToken = await storage.get("configToken");
-            const rfcParam = await storage.get("rfc");
-
-            try {
-                const params = {
-                    datos: {
-                        cuenta_rfc: rfcParam,
-                    }
-                };
-
-                const response = await axios.get("/users/certificados", {
-                    params,
-                    headers: configAuthToken.headers,
-                });
-
-                if (response.data.type === "success") {
-                    this.object.certificadosPendientes = response.data.result.search;
-                }
-            } catch (error) {
-                //throw new Error("Solicitud incorrecta");
-            }
-        },
-
-        async cargarCertificadosEmitidos() {
-
-            this.object.certificadosEmitidos = {};
-
-            const storage = new Storage();
-            await storage.create();
-
-            const configAuthToken = await storage.get("configToken");
-            const rfcParam = await storage.get("rfc");
-
-            try {
-                const params = {
-                    datos: {
-                        cuenta_rfc: rfcParam,
-                    }
-                };
-
-                const response = await axios.get("/users/certificados_listado", {
-                    params,
-                    headers: configAuthToken.headers,
-                });
-
-                if (response.data.type === "success") {
-                    this.object.certificadosEmitidos = response.data.result.search;
-                }
-            } catch (error) {
-                //throw new Error("Solicitud incorrecta");
-            }
-        },
-
-        async cargarPuntosPorCertificado(idCertificado: any, anhioInicio: any, anhioFin: any) {
-            const storage = new Storage();
-            await storage.create();
-
-            const configAuthToken = await storage.get("configToken");
-            const rfcParam = await storage.get("rfc");
-
-            try {
-                const params = {
-                    datos: {
-                        cuenta_rfc: rfcParam,
-                        id_certificado_dis: idCertificado,
-                        anhio_inicio_vigencia: anhioInicio,
-                        anhio_fin_vigencia: anhioFin
-                    }
-                };
-
-                const response = await axios.get("/users/revison_puntos", {
-                    params,
-                    headers: configAuthToken.headers,
-                });
-
-                if (response.data.type === "success") {
-                    this.object.puntosPorCertificado = response.data.result.search;
-                }
-            } catch (error) {
-                //throw new Error("Solicitud incorrecta");
-            }
-        },
-
-        async desglosePuntosPorCertificado(id_certificado: any, ejercicio: any) {
-            const storage = new Storage();
-            await storage.create();
-
-            const configAuthToken = await storage.get("configToken");
-            const rfcParam = await storage.get("rfc");
-
-            try {
-                const params = {
-                    datos: {
-                        cuenta_rfc: rfcParam,
-                        anhio: ejercicio,
-                        id_certificado_dis: id_certificado
-                    }
-                };
-
-                const response = await axios.get("/users/puntos_desglose", {
-                    params,
-                    headers: configAuthToken.headers,
-                });
-
-                if (response.data.type === "success") {
-                    this.object.desglosePuntos = response.data.result;
                 }
             } catch (error) {
                 //throw new Error("Solicitud incorrecta");

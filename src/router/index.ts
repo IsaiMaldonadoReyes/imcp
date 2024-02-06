@@ -101,10 +101,17 @@ const routes = [
       },
       {
         path: "capacitacionExterna", // vista principal capacitacion externa
+        name: "capacitacionExternaListado",
         component: () => import("@/views/capacitacionExterna/CapacitacionListado.vue"),
       },
       {
-        path: "detalleCapacitacion", // capacitacion externa
+        path: "capacitacionExternaRegistro", // vista registro capacitacion externa
+        name: "capacitacionExternaRegistro",
+        component: () => import("@/views/capacitacionExterna/RegistroCapacitacion.vue"),
+      },
+      {
+        path: "capacitacionExternaDetalle", // capacitacion externa creada
+        name: "capacitacionExternaDetalle", // capacitacion externa creada
         component: () => import("@/views/capacitacionExterna/DetalleCapacitacion.vue"),
       },
     ],

@@ -54,7 +54,7 @@
                     size="large"
                     text="Nuevo aviso de capacitación"
                     variant="flat"
-                    @click="abrirDialogAviso"
+                    :to="{ name: 'capacitacionExternaRegistro' }"
                   >
                     <template v-slot:prepend>
                       <v-icon class="mr-3" size="large"></v-icon>
