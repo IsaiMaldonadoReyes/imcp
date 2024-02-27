@@ -13,6 +13,7 @@ export const useCapacitacionStore = defineStore({
             catalogoDisciplina: {},
             catalogoModalidad: {},
             catalogoColegio: {},
+            catalogoImss: {},
         },
         responseMessage: "",
         type: ""
@@ -47,6 +48,26 @@ export const useCapacitacionStore = defineStore({
 
                 if (response.data.type === "success") {
                     this.object.catalogoDisciplina = response.data;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
+        async cargarCatalogoImss() {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+
+            try {
+
+                const response = await axios.get("/users/catalogos/temasImss", {
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.catalogoImss = response.data;
                 }
             } catch (error) {
                 //throw new Error("Solicitud incorrecta");

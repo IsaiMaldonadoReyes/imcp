@@ -506,6 +506,12 @@ export default defineComponent({
 });
 </script>
 
+<style>
+.v-btn[aria-selected="false"] .v-btn__content {
+  color: #333333 !important; /* Cambia el color del texto a verde */
+}
+</style>
+
 <style scoped lang="scss">
 .blue-tab {
   background-color: white !important;

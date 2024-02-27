@@ -13,6 +13,12 @@
           </v-card-item>
         </v-card>
         <v-card class="" elevation="0" border="">
+          <iframe
+            src="https://ultreya.xpertpay.com.mx/payme/inicio/i/1234567890"
+            width="390px"
+            height="600px"
+            frameborder="0"
+          ></iframe>
           <v-card-text>
             <v-select
               class="my-4"

@@ -237,7 +237,7 @@
                 <v-select
                   class="my-4"
                   hide-details="auto"
-                  label="Colegio afiliados *"
+                  label="Afiliado a Colegio: *"
                   no-data-text="No hay datos disponibles"
                   variant="outlined"
                   v-model="dataModel.id_colegio"
@@ -305,22 +305,18 @@
                       :data-label="encabezado.title"
                       class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
                     >
-                      <v-btn-toggle
-                        v-if="encabezado.key == 'actions'"
-                        color="primary"
-                        divided
-                      >
-                        <v-btn color="#85B201">
+                      <v-btn-group v-if="encabezado.key == 'actions'">
+                        <v-btn color="#0080FF" size="small">
                           <v-icon @click="editarGrado(item)">
                             mdi-pencil
                           </v-icon>
                         </v-btn>
-                        <v-btn color="grey">
+                        <v-btn color="#B20000" size="small">
                           <v-icon @click="eliminarGrado(item)">
                             mdi-delete
                           </v-icon>
                         </v-btn>
-                      </v-btn-toggle>
+                      </v-btn-group>
                       <span v-else class="text-body-2 font-weight-bold">
                         {{ item[encabezado.key] }}
                       </span>
@@ -431,7 +427,7 @@
                   class="text-uppercase text-center"
                   style="white-space: normal"
                 >
-                  Empresas, institución o despacho en que labora
+                  Empresa, institución o despacho en que labora
                 </v-card-title>
               </v-card-item>
             </v-card>
@@ -466,27 +462,27 @@
                   v-model="dataModel.empresa_nombre_empresa"
                   :rules="[rules.required]"
                 ></v-text-field>
+                <!--v-text-field
+                  class="my-4"
+                  hide-details="auto"
+                  label="Antiguedad *"
+                  placeholder="Antiguedad"
+                  variant="outlined"
+                  v-model="dataModel.empresa_antiguedad"
+                  type="date"
+                ></v-text-field-->
 
-                <v-menu :close-on-content-click="true">
-                  <template v-slot:activator="{ props }">
-                    <v-text-field
-                      label="Antiguedad"
-                      v-model="dataModel.empresa_antiguedad"
-                      readonly
-                      v-bind="props"
-                      variant="solo"
-                      hide-details
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker
-                    v-model="selectedDate"
-                    hide-actions
-                    title="Seleccione fecha"
-                    :color="colores.rojoClaro"
-                  >
-                    <template v-slot:header></template>
-                  </v-date-picker>
-                </v-menu>
+                <Datepicker
+                  class="my-4"
+                  v-model="dataModel.empresa_antiguedad"
+                  cancelText="Cancelar"
+                  selectText="Aceptar"
+                  :format-locale="es"
+                  format="dd/MM/yyyy"
+                  placeholder="Antiguedad *"
+                  :rules="[rules.required]"
+                  :enable-time-picker="false"
+                />
 
                 <v-text-field
                   class="my-4"
@@ -498,6 +494,105 @@
                   v-model="dataModel.empresa_puesto"
                 ></v-text-field>
               </v-card-text>
+            </v-card>
+          </v-card>
+          <v-card border class="mb-3" color="transparent" elevation="0">
+            <v-card class="py-1" elevation="0" border rounded="0">
+              <v-card-item>
+                <v-card-title
+                  class="text-uppercase text-center"
+                  style="white-space: normal"
+                >
+                  Empresas, instituciones o despachos en los que ha laborado
+                </v-card-title>
+              </v-card-item>
+            </v-card>
+            <v-card border class="ma-3" elevation="0">
+              <v-data-table
+                :headers="encabezadosEmpresa"
+                :items-per-page="empresasPorPagina"
+                :show-footer="false"
+                :items="dataModel.empresa_listado"
+                :page="paginaEmpresa"
+                class="tb-grados pa-2"
+                item-value="EventosNombreEvento"
+                style="background-color: transparent"
+              >
+                <template v-slot:[`item`]="{ item }">
+                  <tr class="v-data-table__tr">
+                    <td
+                      v-for="encabezado in encabezadosEmpresa"
+                      :key="encabezado.key"
+                      :data-label="encabezado.title"
+                      class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
+                    >
+                      <span class="text-body-2 font-weight-bold">
+                        {{ item[encabezado.key] }}
+                      </span>
+                    </td>
+                  </tr>
+                </template>
+                <template v-slot:no-data>
+                  <v-card
+                    border
+                    class="my-5 pa-10 text-center"
+                    color="transparent"
+                    elevation="0"
+                  >
+                    <v-icon color="grey-lighten-1" size="60">
+                      mdi-school
+                    </v-icon>
+                    <v-card-text class="text-grey-darken-1">
+                      No hay empresas registradas.
+                    </v-card-text>
+                  </v-card>
+                </template>
+                <template v-slot:bottom="{ pageCount }">
+                  <v-divider />
+
+                  <div
+                    class="text-center my-3 mx-3"
+                    v-if="dataModel.empresa_listado.length > 4"
+                  >
+                    <v-select
+                      v-model="empresasPorPagina"
+                      :items="[
+                        { value: 1, title: '1' },
+                        { value: 3, title: '3' },
+                        { value: 5, title: '5' },
+                        { value: 10, title: '10' },
+                        { value: -1, title: 'Todos' },
+                      ]"
+                      class="my-2"
+                      hide-details
+                      label="Eventos por página"
+                      variant="solo"
+                    ></v-select>
+                    <v-pagination
+                      v-model="paginaEmpresa"
+                      :active-color="colores.rojoIMPC"
+                      :color="colores.grisOscuro"
+                      :length="pageCount"
+                      :show-first-last-page="true"
+                      ellipsis="..."
+                      next-icon="mdi-arrow-right"
+                      prev-icon="mdi-arrow-left"
+                      size="small"
+                      total-visible="1"
+                      variant="flat"
+                      v-if="dataModel.empresa_listado.length > 1"
+                    >
+                      <template v-slot:item="{ page }">
+                        <div
+                          class="mx-2 my-1 text-subtitle-1 text-grey-darken-1 font-weight-bold"
+                        >
+                          {{ page }} de {{ pageCount }}
+                        </div>
+                      </template>
+                    </v-pagination>
+                  </div>
+                </template>
+              </v-data-table>
             </v-card>
           </v-card>
           <v-card border class="mb-3" color="transparent" elevation="0">
@@ -887,6 +982,10 @@ import { usePagoStore } from "@/store/pago";
 import { useCertificadoStore } from "@/store/certificado";
 import { useRouter, Router, useRoute } from "vue-router";
 import { VDatePicker, VDataTable } from "vuetify/lib/labs/components.mjs";
+import Datepicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+import "v-calendar/style.css";
+import { es } from "date-fns/locale";
 
 const showAlert = async (header: string, message: string) => {
   const alert = await alertController.create({
@@ -1142,6 +1241,7 @@ export interface Empresa {
   nombreEmpresa: string;
   antiguedad: string;
   puesto: string;
+  anhioAplicaSector: string;
 }
 
 export interface Grado {
@@ -1149,7 +1249,7 @@ export interface Grado {
   cuentasUsuariosId: number;
   gradoAcademico: string;
   institucion: string;
-  anhioTitulo: number;
+  anhioTitulo: string;
 }
 
 export interface EspecialidadContanto {
@@ -1177,6 +1277,7 @@ export default defineComponent({
     IonPage,
     VDatePicker,
     VDataTable,
+    Datepicker,
   },
   props: ["label", "color", "modelValue"],
   setup(props, { emit }) {
@@ -1195,6 +1296,16 @@ export default defineComponent({
       { title: "Año de titulación", key: "grado_academico_anhio_titulo" },
       { title: "", key: "actions", sortable: true },
     ]);
+
+    const encabezadosEmpresa = ref([
+      { title: "Empresa", key: "empresa_nombre_empresa" },
+      { title: "Antiguedad", key: "empresa_antiguedad" },
+      { title: "Puesto", key: "empresa_puesto" },
+      { title: "Año", key: "anhio_aplica_sector" },
+    ]);
+
+    const empresasPorPagina = ref(1);
+    const paginaEmpresa = ref(1);
 
     const dialogFormGradoAcademico = ref(false);
     const dialogConfirmationGradoAcademico = ref(false);
@@ -1233,16 +1344,18 @@ export default defineComponent({
     const dataModel = ref({
       nombre: "",
       cuentas_usuarios_id: 0,
+      id_sector: "",
       cuenta_socio: "Si",
       cuenta_nombre: "",
       cuenta_apaterno: "",
       cuenta_amatarno: "",
+
       cuenta_rfc: "",
       cuenta_sexo: "",
       cuenta_civil: "",
       lugar_nacimiento: "",
-      anhio_titulo: "",
       anhio_nacimiento: "",
+      anhio_titulo: "",
       registro_agaff: "",
       registro_imss: "",
       cuenta_email: "",
@@ -1268,6 +1381,16 @@ export default defineComponent({
       direccion_estado: "",
       telefono: "",
 
+      empresa_listado: [] as {
+        empresa_id: number;
+        empresa_id_sector: number;
+        empresa_nombre_empresa: string;
+        empresa_antiguedad: string;
+        empresa_puesto: string;
+        anhio_aplica_sector: string;
+      }[],
+
+      // index 0 para modificar
       empresa_id: 0,
       empresa_id_sector: 0,
       empresa_nombre_empresa: "",
@@ -1582,6 +1705,84 @@ export default defineComponent({
     }
 
     async function cargarContacto() {
+      dataModel.value = {
+        nombre: "",
+        cuentas_usuarios_id: 0,
+        id_sector: "",
+        cuenta_socio: "Si",
+        cuenta_nombre: "",
+        cuenta_apaterno: "",
+        cuenta_amatarno: "",
+
+        cuenta_rfc: "",
+        cuenta_sexo: "",
+        cuenta_civil: "",
+        lugar_nacimiento: "",
+        anhio_nacimiento: "",
+        anhio_titulo: "",
+        registro_agaff: "",
+        registro_imss: "",
+        cuenta_email: "",
+
+        id_colegio: 0,
+        otroOrganismo: "",
+
+        grado_academico: "",
+        grado_academico_institucion: "",
+        grado_academico_anhio_titulo: "",
+
+        grado_academico_listado: [] as {
+          grado_academico: string;
+          grado_academico_institucion: string;
+          grado_academico_anhio_titulo: string;
+        }[],
+
+        direccion_id: 0,
+        direccion_calle_numero: "",
+        direccion_cp: "",
+        direccion_colonia: "",
+        direccion_delegacion: "",
+        direccion_estado: "",
+        telefono: "",
+
+        empresa_listado: [] as {
+          empresa_id: number;
+          empresa_id_sector: number;
+          empresa_nombre_empresa: string;
+          empresa_antiguedad: string;
+          empresa_puesto: string;
+          anhio_aplica_sector: string;
+        }[],
+
+        // index 0 para modificar
+        empresa_id: 0,
+        empresa_id_sector: 0,
+        empresa_nombre_empresa: "",
+        empresa_antiguedad: "",
+        empresa_puesto: "",
+
+        especialidad_id: [] as number[],
+
+        direccion_empresa_id: 0,
+        direccion_empresa_calle_numero: "",
+        direccion_empresa_cp: "",
+        direccion_empresa_colonia: "",
+        direccion_empresa_delegacion: "",
+        direccion_empresa_estado: "",
+        direccion_empresa_telefono: "",
+
+        dato_facturacion_id: 0,
+        facturacion_nombre: "",
+        facturacion_rfc: "",
+        facturacion_calle: "",
+        facturacion_cp: "",
+        facturacion_colonia: "",
+        facturacion_delegacion: "",
+        facturacion_estado: "",
+        tipo_persona: "",
+        regimen_fiscal_id: "",
+      };
+
       try {
         await pagoStore.cargarContacto();
 
@@ -1597,23 +1798,11 @@ export default defineComponent({
           dataContacto.value.informacion.direccion_cp_empresa
         );
 
-        /*
-        if (dataContacto.value.empresa.length > 0) {
-          dataEmpresa.value.empresaId = dataContacto.value.empresa[0].empresaId;
-          dataEmpresa.value.idSector = dataContacto.value.empresa[0].idSector;
-          dataEmpresa.value.nombreEmpresa =
-            dataContacto.value.empresa[0].nombreEmpresa;
-          dataEmpresa.value.antiguedad =
-            dataContacto.value.empresa[0].antiguedad;
-          dataEmpresa.value.puesto = dataContacto.value.empresa[0].puesto;
-
-          dataEmpresa.value.idEspecialidad =
-            dataContacto.value.especialidad[0].catalogoEspecialidadId;
-        }*/
-
         // cuenta_usuarios[]
         dataModel.value.cuentas_usuarios_id =
           dataContacto.value.informacion.cuentas_usuarios_id;
+        dataModel.value.id_sector =
+          dataContacto.value.informacion.id_sector.toString();
         dataModel.value.nombre = dataContacto.value.informacion.nombre;
         dataModel.value.cuenta_nombre =
           dataContacto.value.informacion.cuenta_nombre;
@@ -1647,27 +1836,18 @@ export default defineComponent({
           dataContacto.value.informacion.organismo;
 
         // grados_academicos_cuentas[]
-        /*
-        dataModel.value.grado_academico =
-          dataContacto.value.Grados &&
-          Array.isArray(dataContacto.value.Grados) &&
-          dataContacto.value.Grados.length > 0
-            ? dataContacto.value.Grados[0].gradoAcademico
-            : "";
-        dataModel.value.grado_academico_institucion =
-          dataContacto.value.Grados &&
-          Array.isArray(dataContacto.value.Grados) &&
-          dataContacto.value.Grados.length > 0
-            ? dataContacto.value.Grados[0].institucion
-            : "";
-        dataModel.value.grado_academico_anhio_titulo =
-          dataContacto.value.Grados &&
-          Array.isArray(dataContacto.value.Grados) &&
-          dataContacto.value.Grados.length > 0
-            ? dataContacto.value.Grados[0].anhioTitulo
-            : 0;
 
-            */
+        if (dataContacto.value.Grados.length > 0) {
+          for (let i = 0; i < dataContacto.value.Grados.length; i++) {
+            const grado = dataContacto.value.Grados[i];
+            const nuevoGrado = {
+              grado_academico: grado.gradoAcademico,
+              grado_academico_institucion: grado.institucion,
+              grado_academico_anhio_titulo: grado.anhioTitulo,
+            };
+            dataModel.value.grado_academico_listado.push(nuevoGrado);
+          }
+        }
 
         // direccionesUs[]
         dataModel.value.direccion_id =
@@ -1686,46 +1866,32 @@ export default defineComponent({
           dataContacto.value.informacion.num_personal.replace(/\s/g, "");
 
         // empresa[0][]
-        dataModel.value.empresa_id =
-          dataContacto.value.empresa &&
-          Array.isArray(dataContacto.value.empresa) &&
-          dataContacto.value.empresa.length > 0
-            ? dataContacto.value.empresa[0].empresaId
-            : 0;
-        dataModel.value.empresa_id_sector =
-          dataContacto.value.empresa &&
-          Array.isArray(dataContacto.value.empresa) &&
-          dataContacto.value.empresa.length > 0
-            ? dataContacto.value.empresa[0].idSector
-            : 0;
-        dataModel.value.empresa_nombre_empresa =
-          dataContacto.value.empresa &&
-          Array.isArray(dataContacto.value.empresa) &&
-          dataContacto.value.empresa.length > 0
-            ? dataContacto.value.empresa[0].nombreEmpresa
-            : "";
-        dataModel.value.empresa_antiguedad =
-          dataContacto.value.empresa &&
-          Array.isArray(dataContacto.value.empresa) &&
-          dataContacto.value.empresa.length > 0
-            ? dataContacto.value.empresa[0].antiguedad
-            : "";
-        dataModel.value.empresa_puesto =
-          dataContacto.value.empresa &&
-          Array.isArray(dataContacto.value.empresa) &&
-          dataContacto.value.empresa.length > 0
-            ? dataContacto.value.empresa[0].puesto
-            : "";
+        if (dataContacto.value.empresa.length > 0) {
+          for (let i = 1; i < dataContacto.value.empresa.length; i++) {
+            const empresa = dataContacto.value.empresa[i];
+            const nuevaEmpresa = {
+              empresa_id: empresa.empresaId,
+              empresa_id_sector: empresa.idSector,
+              empresa_nombre_empresa: empresa.nombreEmpresa,
+              empresa_antiguedad: empresa.antiguedad,
+              empresa_puesto: empresa.puesto,
+              anhio_aplica_sector: empresa.anhioAplicaSector,
+            };
+            dataModel.value.empresa_listado.push(nuevaEmpresa);
+          }
+
+          dataModel.value.empresa_id = dataContacto.value.empresa[0].empresaId;
+          dataModel.value.empresa_id_sector =
+            dataContacto.value.empresa[0].idSector;
+
+          dataModel.value.empresa_nombre_empresa =
+            dataContacto.value.empresa[0].nombreEmpresa;
+          dataModel.value.empresa_antiguedad =
+            dataContacto.value.empresa[0].antiguedad;
+          dataModel.value.empresa_puesto = dataContacto.value.empresa[0].puesto;
+        }
 
         // cuentas_especialidades[]
-        /*
-            dataModel.value.empresa_catalogo_especialidad_id =
-          dataContacto.value.especialidad &&
-          Array.isArray(dataContacto.value.especialidad) &&
-          dataContacto.value.especialidad.length > 0
-            ? dataContacto.value.especialidad[0].catalogoEspecialidadId
-            : 0;
-            */
         if (dataContacto.value.especialidad.length > 0) {
           dataContacto.value.especialidad.forEach((especialidad) => {
             dataModel.value.especialidad_id.push(
@@ -1778,7 +1944,6 @@ export default defineComponent({
         } else if (dataContacto.value.informacion.tipo_persona == "2") {
           dataRegimenFiscal.value = dataTipoPersonaMoral.value as RegimenFiscal;
         }
-
         await catalogoSector();
       } catch (error) {
         console.log(error);
@@ -1932,27 +2097,6 @@ export default defineComponent({
       await cargarContacto();
     });
 
-    const isMenuOpen = ref(false);
-    const selectedDate = ref(props.modelValue);
-
-    const formattedDate = computed(() => {
-      return selectedDate.value
-        ? selectedDate.value.toLocaleString("en-GB", {
-            year: "numeric",
-            month: "numeric",
-            day: "numeric",
-          })
-        : "";
-    });
-
-    const formattedAntiguedad = computed(() => {
-      if (dataEmpresa.value && dataEmpresa.value.antiguedad) {
-        const [year, month, day] = dataEmpresa.value.antiguedad.split("-");
-        return `${day}/${month}/${year}`;
-      }
-      return "";
-    });
-
     async function actualizarDatos() {
       try {
         const isValidForm = await formEl.value?.validate();
@@ -1964,12 +2108,12 @@ export default defineComponent({
             dataModel.value.cuentas_usuarios_id.toString()
           );
           formData.append(
-            "cuentas_usuarios[cuenta_rfc]",
-            dataModel.value.cuenta_rfc
+            "cuentas_usuarios[id_sector]",
+            dataModel.value.id_sector.toString()
           );
           formData.append(
-            "cuentas_usuarios[cuenta_email]",
-            dataModel.value.cuenta_email
+            "cuentas_usuarios[cuenta_socio]",
+            dataModel.value.cuenta_socio
           );
           formData.append(
             "cuentas_usuarios[cuenta_nombre]",
@@ -1983,6 +2127,11 @@ export default defineComponent({
             "cuentas_usuarios[cuenta_amatarno]",
             dataModel.value.cuenta_amatarno
           );
+
+          formData.append(
+            "cuentas_usuarios[cuenta_rfc]",
+            dataModel.value.cuenta_rfc
+          );
           formData.append(
             "cuentas_usuarios[cuenta_sexo]",
             dataModel.value.cuenta_sexo
@@ -1990,6 +2139,18 @@ export default defineComponent({
           formData.append(
             "cuentas_usuarios[cuenta_civil]",
             dataModel.value.cuenta_civil
+          );
+          formData.append(
+            "cuentas_usuarios[lugar_nacimiento]",
+            dataModel.value.lugar_nacimiento
+          );
+          formData.append(
+            "cuentas_usuarios[anhio_nacimiento]",
+            dataModel.value.anhio_nacimiento
+          );
+          formData.append(
+            "cuentas_usuarios[antiguedad]",
+            dataModel.value.anhio_titulo
           );
           formData.append(
             "cuentas_usuarios[registro_agaff]",
@@ -2000,22 +2161,33 @@ export default defineComponent({
             dataModel.value.registro_imss
           );
           formData.append(
-            "cuentas_usuarios[id_colegio]",
-            dataModel.value.id_colegio.toString()
+            "cuentas_usuarios[cuenta_email]",
+            dataModel.value.cuenta_email
           );
 
           formData.append(
-            "grados_academicos_cuentas[grado_academico][]",
-            dataModel.value.grado_academico
+            "cuentas_usuarios[id_colegio]",
+            dataModel.value.id_colegio.toString()
           );
           formData.append(
-            "grados_academicos_cuentas[institucion][]",
-            dataModel.value.grado_academico_institucion
+            "cuentas_usuarios[organismo]",
+            dataModel.value.otroOrganismo
           );
-          formData.append(
-            "grados_academicos_cuentas[anhio_titulo][]",
-            dataModel.value.grado_academico_anhio_titulo.toString()
-          );
+
+          dataModel.value.grado_academico_listado.forEach((grado, index) => {
+            formData.append(
+              "grados_academicos_cuentas[grado_academico][]",
+              grado.grado_academico
+            );
+            formData.append(
+              "grados_academicos_cuentas[institucion][]",
+              grado.grado_academico_institucion
+            );
+            formData.append(
+              "grados_academicos_cuentas[anhio_titulo][]",
+              grado.grado_academico_anhio_titulo.toString()
+            );
+          });
 
           formData.append(
             "direccionesUs[direccion_id]",
@@ -2057,15 +2229,33 @@ export default defineComponent({
           );
           formData.append(
             "empresa[0][antiguedad]",
-            dataModel.value.empresa_antiguedad
+            cambiarFormatoFecha(dataModel.value.empresa_antiguedad)
           );
           formData.append("empresa[0][puesto]", dataModel.value.empresa_puesto);
-          //formData.append("empresa[0][anhio_aplica_sector]", dataModel.value.empresa_id_sector);
 
-          formData.append(
-            "cuentas_especialidades[catalogo_especialidad_id][]",
-            dataModel.value.empresa_catalogo_especialidad_id.toString()
-          );
+          for (let i = 1; i < dataModel.value.empresa_listado.length; i++) {
+            const empresa = dataModel.value.empresa_listado[i];
+            formData.append(
+              `empresa[${i}][empresa_id]`,
+              empresa.empresa_id.toString()
+            );
+            formData.append(
+              `empresa[${i}][id_sector]`,
+              empresa.empresa_id_sector.toString()
+            );
+            formData.append(
+              `empresa[${i}][antiguedad]`,
+              empresa.empresa_antiguedad
+            );
+            formData.append(`empresa[${i}][puesto]`, empresa.empresa_puesto);
+          }
+
+          dataModel.value.especialidad_id.forEach((especialidad, index) => {
+            formData.append(
+              "cuentas_especialidades[catalogo_especialidad_id][]",
+              especialidad.toString()
+            );
+          });
 
           formData.append(
             "direccionesEmpresa[direccion_id]",
@@ -2138,6 +2328,8 @@ export default defineComponent({
             dataModel.value.regimen_fiscal_id
           );
 
+          console.log(formData);
+
           await certificadoStore.actualizarDatos(formData);
           /*
           await showAlert(
@@ -2172,6 +2364,15 @@ export default defineComponent({
       } else if (dataModel.value.tipo_persona == "2") {
         dataRegimenFiscal.value = dataTipoPersonaMoral.value as RegimenFiscal;
       }
+    }
+
+    function cambiarFormatoFecha(fecha: string): string {
+      const fechaObj = new Date(fecha);
+      const dia = fechaObj.getDate().toString().padStart(2, "0");
+      const mes = (fechaObj.getMonth() + 1).toString().padStart(2, "0"); // Meses en JavaScript son base 0
+      const anio = fechaObj.getFullYear();
+
+      return `${dia}/${mes}/${anio}`;
     }
 
     async function agregarGrado() {
@@ -2241,20 +2442,6 @@ export default defineComponent({
       dialogConfirmationGradoAcademico.value = false;
     }
 
-    watch(
-      () => props.modelValue,
-      (newDate) => {
-        selectedDate.value = newDate;
-      }
-    );
-
-    watch(
-      () => selectedDate.value,
-      (newDate) => {
-        emit("update:modelValue", newDate);
-      }
-    );
-
     return {
       colores,
       show,
@@ -2271,10 +2458,9 @@ export default defineComponent({
       cambiarCodigoPostalEmpresa,
       dataEmpresa,
       dataEspecialidad,
-      selectedDate,
-      isMenuOpen,
-      formattedDate,
-      formattedAntiguedad,
+      empresasPorPagina,
+      paginaEmpresa,
+
       rules,
       dataModel,
       formEl,
@@ -2287,6 +2473,7 @@ export default defineComponent({
       dataGradoAcademico,
       buscarRegimen,
       encabezadosGrado,
+      encabezadosEmpresa,
       dialogFormGradoAcademico,
       dialogConfirmationGradoAcademico,
       agregarGrado,
@@ -2298,12 +2485,17 @@ export default defineComponent({
       eliminarGrado,
       cerrarDialogConfirmationGrado,
       confirmarDialogConfirmationGrado,
+      es,
     };
   },
 });
 </script>
 
 <style>
+.dp__pointer {
+  height: 56px;
+}
+
 .tb-grados thead {
   font-size: 0.875rem;
 }
