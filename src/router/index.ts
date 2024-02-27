@@ -81,7 +81,7 @@ const routes = [
         component: () => import("@/views/pago/ActualizacionDatos.vue"),
       },
       {
-        path: "tarjetaDatos/:idCertificado", // certificado pago 
+        path: "tarjetaDatos/:idCertificado/:estatus", // certificado pago 
         name: "tarjetaDatos",
         component: () => import("@/views/pago/TarjetaDatos.vue"),
       },
@@ -110,9 +110,14 @@ const routes = [
         component: () => import("@/views/capacitacionExterna/RegistroCapacitacion.vue"),
       },
       {
-        path: "capacitacionExternaDetalle", // capacitacion externa creada
-        name: "capacitacionExternaDetalle", // capacitacion externa creada
-        component: () => import("@/views/capacitacionExterna/DetalleCapacitacion.vue"),
+        path: "manifestacionListado", // vista principal capacitacion externa
+        name: "manifestacionListado",
+        component: () => import("@/views/manifestacion/ManifestacionListado.vue"),
+      },
+      {
+        path: "manifestacionRegistro", // vista registro capacitacion externa
+        name: "manifestacionRegistro",
+        component: () => import("@/views/manifestacion/RegistroManifestacion.vue"),
       },
     ],
   },

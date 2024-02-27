@@ -61,33 +61,40 @@
 
               <v-text-field
                 class="my-4"
+                clearable
                 hide-details="auto"
                 label="Email *"
                 placeholder="Email"
+                variant="outlined"
                 v-model="dataCuenta.cuenta_email"
-                readonly
                 selectable="false"
+                :rules="[rules.validEmail, rules.required]"
               ></v-text-field>
 
               <v-text-field
                 class="my-4"
+                clearable
                 hide-details="auto"
                 label="AGAFF *"
                 placeholder="Dato AGAFF"
+                variant="outlined"
                 v-model="dataCuenta.registro_agaff"
-                readonly
                 selectable="false"
+                :rules="[rules.required]"
               ></v-text-field>
 
               <v-text-field
                 class="my-4"
+                clearable
                 hide-details="auto"
                 label="IMSS *"
                 placeholder="Dato IMMS"
+                variant="outlined"
                 v-model="dataCuenta.registro_imss"
-                readonly
                 selectable="false"
+                :rules="[rules.required]"
               ></v-text-field>
+
               <v-text-field
                 class="my-4"
                 clearable
@@ -285,6 +292,8 @@ export default defineComponent({
     const formEl = ref<any>(null);
     const show1 = ref(false);
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     const rules = {
       validPassword: (v: string) => {
         if (!v || v.trim().length === 0) {
@@ -293,6 +302,8 @@ export default defineComponent({
         return regexPassword.test(v) || "Contraseña no válida";
       },
       required: (v: string) => !!v || "Este campo es requerido",
+      validEmail: (v: string) =>
+        emailRegex.test(v) || "Correo electrónico no válido",
     };
 
     const show = ref(false);
@@ -441,9 +452,6 @@ export default defineComponent({
           formData.append("datos[cuenta_nombre]", "Abel");
           formData.append("datos[cuenta_apaterno]", "Castro");
           formData.append("datos[cuenta_amatarno]", "Castro");
-          formData.append("datos[cuenta_email]", "abel_asociados@hotmail.com");
-          formData.append("datos[registro_agaff]", "07853");
-          formData.append("datos[registro_imss]", "2425-26-00");
           formData.append("datos[expositor]", "No");
           formData.append("datos[articulo]", "Inactivo");
           formData.append("datos[status]", "Activo");
@@ -455,9 +463,9 @@ export default defineComponent({
           formData.append(
             "datos[users_usuarios_usuario_fecha_contrasena]",
             "2023-12-10 11:51:16"
-          );
-          formData.append("datos[usuario_status_acceso]", "Activo");
-          */
+            );
+            formData.append("datos[usuario_status_acceso]", "Activo");
+            */
           formData.append(
             "datos[cuentas_usuarios_id]",
             dataCuenta.value.cuentas_usuarios_id.toString()
@@ -467,7 +475,22 @@ export default defineComponent({
             dataCuenta.value.users_usuarios_usuario_id.toString()
           );
           formData.append(
+            "datos[registro_agaff]",
+            dataCuenta.value.registro_agaff
+          );
+
+          formData.append(
+            "datos[registro_imss]",
+            dataCuenta.value.registro_imss
+          );
+
+          formData.append(
             "datos[users_usuarios_usuario_email]",
+            dataCuenta.value.cuenta_email
+          );
+
+          formData.append(
+            "datos[cuenta_email]",
             dataCuenta.value.cuenta_email
           );
           formData.append(

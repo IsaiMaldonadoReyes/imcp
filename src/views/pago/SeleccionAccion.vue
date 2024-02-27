@@ -5,7 +5,7 @@
         <v-card color="transparent" elevation="0">
           <v-card-item>
             <v-card-title
-            class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
+              class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
               style="white-space: normal"
             >
               Pagar certificado
@@ -53,6 +53,7 @@
                 name: 'tarjetaDatos',
                 params: {
                   idCertificado: idCertificadoActualizacion,
+                  estatus: 2,
                 },
               }"
               :disabled="estatusBotones !== '2'"

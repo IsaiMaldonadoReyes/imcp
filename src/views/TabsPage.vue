@@ -196,6 +196,12 @@
           </ion-tab-button>
 
           <ion-tab-button tab="avisos" href="/tabs/capacitacionExterna">
+            <v-icon size="30" class="v-icon">
+              mdi-file-certificate-outline
+            </v-icon>
+          </ion-tab-button>
+
+          <ion-tab-button tab="manifestaciones" href="/tabs/manifestacionListado">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
                 <use xlink:href="../assets/images/ico.svg#ico-menu-m"></use>
