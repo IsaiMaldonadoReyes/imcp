@@ -660,6 +660,8 @@ export default defineComponent({
 .v-data-table tr:not(:first-child) > td:first-child {
   border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
-
+.v-field__input > input {
+  color: #333333;
+}
 /** }*/
 </style>
