@@ -397,4 +397,8 @@ export default defineComponent({
   margin-left: 10px;
   min-width: 65px;
 }
+
+.v-field__input > input {
+  color: #333333;
+}
 </style>

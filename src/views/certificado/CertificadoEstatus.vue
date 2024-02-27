@@ -456,4 +456,8 @@ export default defineComponent({
   flex: 0px !important;
   min-width: 15px !important;
 }
+
+.v-field__input > input {
+  color: #333333;
+}
 </style>
