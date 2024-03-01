@@ -80,11 +80,54 @@ import {
   alertController,
 } from "@ionic/vue";
 
-import { useCapacitacionStore } from "@/store/capacitacionExterna";
+import { useManifestacionStore } from "@/store/manifestacion";
 import { useRouter, Router, useRoute } from "vue-router";
 import { VDataTable } from "vuetify/lib/labs/components.mjs";
 import { Storage } from "@ionic/storage";
 import { es } from "date-fns/locale";
+
+export interface Permisos {
+  dataset: Dataset[]
+  totalSize: number
+  pageSize: number
+  intervaloSeccion: number
+  nombreListado: string
+}
+
+export interface Dataset {
+  cuentas_usuarios_id: number
+  cuenta_nombre: string
+  cuenta_apaterno: string
+  cuenta_amatarno: string
+  cuenta_rfc: string
+  id_sector: number
+  registro_agaff: string
+  registro_imss: string
+  id_certificado: number
+  id_tipo: number
+  id_tipo_certificado: number
+  id_certificado_dis: number
+  num_certificado: string
+  fecha_vigencia: string
+  fecha_inicio: string
+  status: string
+  anhio_inicio_vigencia: string
+  anhio_fin_vigencia: string
+  status_certificado: string
+  permitidos: Permitido[]
+  info_solcitar: InfoSolcitar[]
+  sector: string
+  disciplina: string
+}
+
+export interface Permitido {
+  label: string
+}
+
+export interface InfoSolcitar {
+  value: string
+  label: any
+}
 
 export interface Especilidad {
   result: ResultEspecialidad[];
@@ -185,7 +228,7 @@ export default defineComponent({
     const route = useRoute();
     const router: Router = useRouter();
 
-    const capacitacionStore = useCapacitacionStore();
+    const manifestacionStore = useManifestacionStore();
 
     const isValidForm = ref(true);
     const refForm = ref<any>(null);
