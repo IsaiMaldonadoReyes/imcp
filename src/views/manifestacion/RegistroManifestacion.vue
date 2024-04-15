@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container fluid>
         <v-card class="mx-auto" color="transparent" elevation="0">
           <v-card-item>
@@ -8,65 +8,223 @@
               class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
               style="white-space: normal"
             >
-              Nueva manifestación
+              Manifestaciones disponibles
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-form v-model="isValidForm" lazy-validation ref="refForm">
-          <v-card border class="mb-3" color="transparent" elevation="0">
-            <v-card border class="ma-3" elevation="0">
-              <v-card-text class="text-justify">
-                <v-text-field
-                  class="my-4"
-                  clearable
-                  hide-details="auto"
-                  label="Nombre del evento *"
-                  placeholder="Nombre del evento"
-                  variant="outlined"
-                  v-model="dataModel.nombre_evento"
-                ></v-text-field>
+        <v-data-iterator
+          :items="permisosListado.dataset || []"
+          :sort-by="sortBy"
+          item-value="disciplina"
+        >
+          <template v-slot:no-data>
+            <v-card
+              border
+              class="my-5 pa-10 text-center"
+              color="transparent"
+              elevation="0"
+            >
+              <v-icon color="grey-lighten-1" size="60"
+                >mdi-database-eye-off</v-icon
+              >
+              <v-card-text class="text-grey-darken-1">
+                No se encontró información.
               </v-card-text>
             </v-card>
-          </v-card>
-          <v-card color="transparent" class="mx-auto my-4" elevation="0">
-            <div>
-              <v-btn
-                block
-                class="text-none"
-                prepend-icon="mdi-content-save-edit-outline"
-                rounded="large"
-                size="large"
-                text="GUARDAR"
-                variant="flat"
-                :color="colores.verdeBoton"
-                @click="guardarDatos"
-              >
-                <template v-slot:prepend>
-                  <v-icon class="mr-3" size="large"></v-icon>
-                </template>
-              </v-btn>
-            </div>
-            <br />
-            <div>
-              <v-btn
-                block
-                class="text-none"
-                prepend-icon="mdi-content-save-off-outline"
-                rounded="large"
-                size="large"
-                text="CANCELAR"
-                variant="flat"
-                :color="colores.rojoIMPC"
-                :to="{ name: 'manifestacionListado' }"
-              >
-                <template v-slot:prepend>
-                  <v-icon class="mr-3" size="large"></v-icon>
-                </template>
-              </v-btn>
-            </div>
-          </v-card>
-        </v-form>
+          </template>
+
+          <template v-slot:default="{ items }">
+            <v-card
+              class="my-4 manifestaciones"
+              elevation="0"
+              border
+              v-for="itemH in items"
+              :key="itemH.raw.num_certificado"
+            >
+              <v-divider></v-divider>
+              <v-card-text>
+                <v-table density="compact">
+                  <tbody>
+                    <tr>
+                      <input
+                        hidden
+                        class="id_certificado"
+                        :value="itemH.raw.id_certificado"
+                      />
+                    </tr>
+                    <tr>
+                      <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
+                        Disciplina:
+                      </td>
+                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
+                        {{ itemH.raw.disciplina }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
+                        Sector:
+                      </td>
+                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
+                        {{ itemH.raw.sector }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
+                        Número de certificado:
+                      </td>
+                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
+                        {{ itemH.raw.num_certificado }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
+                        Año de inicio de vigencia:
+                      </td>
+                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
+                        {{ itemH.raw.anhio_inicio_vigencia }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
+                        Año de fin de vigencia:
+                      </td>
+                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
+                        {{ itemH.raw.anhio_fin_vigencia }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-table>
+              </v-card-text>
+              <v-divider />
+              <v-card border class="ma-3" elevation="0">
+                <v-card-text class="text-justify">
+                  <template
+                    v-for="(manifestacion, index) in itemH.raw.manifestaciones"
+                    :key="index"
+                    :value="itemH.raw.id_certificado"
+                  >
+                    <v-checkbox
+                      :center-affix="true"
+                      color="#468C00"
+                      false-icon="mdi-checkbox-blank-outline"
+                      true-icon="mdi-checkbox-marked"
+                      v-model="
+                        manifestacionListado[
+                          `${manifestacion.label}_${itemH.raw.id_certificado}`
+                        ]
+                      "
+                    >
+                      <template v-slot:label>
+                        Solicitar {{ manifestacion.label }}</template
+                      >
+                    </v-checkbox>
+                    <template
+                      v-if="
+                        manifestacionListado[
+                          `${manifestacion.label}_${itemH.raw.id_certificado}`
+                        ]
+                      "
+                    >
+                      <v-text-field
+                        class="my-4"
+                        clearable
+                        hide-details="auto"
+                        v-for="(value, index) in manifestacion.value"
+                        :key="index"
+                        :label="value"
+                        :required="
+                          manifestacionListado[
+                            `${manifestacion.label}_${itemH.raw.id_certificado}_${manifestacion.value}`
+                          ]
+                        "
+                        v-model="
+                          manifestacionListado[
+                            `${manifestacion.label}_${itemH.raw.id_certificado}_${value}`
+                          ]
+                        "
+                      ></v-text-field>
+                    </template>
+                  </template>
+                </v-card-text>
+              </v-card>
+            </v-card>
+          </template>
+        </v-data-iterator>
+        <div class="d-flex flex-column">
+          <v-btn
+            block
+            class="mt-4"
+            prepend-icon="mdi-content-save-edit-outline"
+            rounded="large"
+            size="large"
+            text="IR A CAPTURA DE CAPACITACIONES"
+            variant="flat"
+            :color="colores.verdeBoton"
+            @click="capturarCapacitaciones"
+          >
+            <template v-slot:prepend>
+              <v-icon class="mr-3" size="large"></v-icon>
+            </template>
+          </v-btn>
+          <v-btn
+            block
+            class="mt-4"
+            prepend-icon="mdi-content-save-off-outline"
+            rounded="large"
+            size="large"
+            text="CANCELAR"
+            variant="flat"
+            :color="colores.rojoIMPC"
+            :to="{ name: 'manifestacionListado' }"
+          >
+            <template v-slot:prepend>
+              <v-icon class="mr-3" size="large"></v-icon>
+            </template>
+          </v-btn>
+        </div>
       </v-container>
+      <v-dialog v-model="dialogPropiedades.dialog" max-width="500px">
+        <v-card>
+          <v-card-title class="text-grey-darken-1" style="text-align: center">
+            {{ dialogPropiedades.mensajeTitulo }}</v-card-title
+          >
+          <lottie-animation
+            v-if="dialogPropiedades.correcto"
+            ref="anim"
+            :animationData="CorrectAnimation"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <lottie-animation
+            v-else
+            ref="anim"
+            :animationData="IncorrectAnimation"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <v-card-text class="text-justify">
+            <span class="text-subtitle-1 text-grey-darken-1">
+              {{ dialogPropiedades.mensajeCuerpo }}
+            </span>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              :color="colores.verdeBoton"
+              block
+              size="large"
+              variant="flat"
+              @click="cerrardialogPropiedades(dialogPropiedades.correcto)"
+              >Aceptar</v-btn
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </ion-content>
   </ion-page>
 </template>
@@ -85,126 +243,64 @@ import { useRouter, Router, useRoute } from "vue-router";
 import { VDataTable } from "vuetify/lib/labs/components.mjs";
 import { Storage } from "@ionic/storage";
 import { es } from "date-fns/locale";
+import { VDataIterator } from "vuetify/lib/labs/components.mjs";
+
+import { LottieAnimation } from "lottie-web-vue";
+
+import CorrectAnimation from "../../assets/images/correct.json";
+import IncorrectAnimation from "../../assets/images/incorrect.json";
 
 export interface Permisos {
-  dataset: Dataset[]
-  totalSize: number
-  pageSize: number
-  intervaloSeccion: number
-  nombreListado: string
+  dataset: Dataset[];
+  totalSize: number;
+  pageSize: number;
+  intervaloSeccion: number;
+  nombreListado: string;
 }
 
 export interface Dataset {
-  cuentas_usuarios_id: number
-  cuenta_nombre: string
-  cuenta_apaterno: string
-  cuenta_amatarno: string
-  cuenta_rfc: string
-  id_sector: number
-  registro_agaff: string
-  registro_imss: string
-  id_certificado: number
-  id_tipo: number
-  id_tipo_certificado: number
-  id_certificado_dis: number
-  num_certificado: string
-  fecha_vigencia: string
-  fecha_inicio: string
-  status: string
-  anhio_inicio_vigencia: string
-  anhio_fin_vigencia: string
-  status_certificado: string
-  permitidos: Permitido[]
-  info_solcitar: InfoSolcitar[]
-  sector: string
-  disciplina: string
-}
-
-export interface Permitido {
-  label: string
-}
-
-export interface InfoSolcitar {
-  value: string
-  label: any
-}
-
-export interface Especilidad {
-  result: ResultEspecialidad[];
-  type: string;
-}
-
-export interface ResultEspecialidad {
-  value: any;
-  label: string;
-}
-
-export interface Modalidad {
-  result: ResultModalidad[];
-  type: string;
-}
-
-export interface ResultModalidad {
-  value: any;
-  label: string;
-}
-
-export interface Informacion {
   cuentas_usuarios_id: number;
-  id_sector: number;
-  id_tipo_origen: number;
-  cuenta_rfc: string;
   cuenta_nombre: string;
   cuenta_apaterno: string;
   cuenta_amatarno: string;
-  cuenta_sexo: string;
-  cuenta_email: string;
-  cuenta_civil: string;
-  lugar_nacimiento: string;
+  cuenta_rfc: string;
+  id_sector: number;
   registro_agaff: string;
-  anhio_titulo: string;
-  tipo_ususario: string;
-  expositor: string;
-  status: string;
   registro_imss: string;
-  infonavit: string;
-  datecreation: string;
-  dateupdate: string;
-  id_colegio: number;
-  organismo: string;
-  cuenta_pagado: number;
-  cuenta_socio: string;
-  cuenta_status: string;
-  articulo: string;
-  anhio_nacimiento: string;
-  nombre_colegio: string;
-  dato_facturacion_id: number;
-  nombre: string;
-  rfc: string;
-  cp: string;
-  calle: string;
-  colinia: string;
-  delegacion: string;
-  ciudad: string;
-  estado: string;
-  tipo_persona: any;
-  regimen_fiscal_id: any;
-  direccion_id_personal: number;
-  num_personal: string;
-  direccion_nombre_personal: string;
-  direccion_calle_numero_personal: string;
-  direccion_cp_personal: string;
-  direccion_colonia_personal: string;
-  direccion_delegacion_personal: string;
-  direccion_estado_personal: string;
-  direccion_id_empresa: number;
-  num_empresa: string;
-  direccion_nombre_empresa: string;
-  direccion_calle_numero_empresa: string;
-  direccion_cp_empresa: string;
-  direccion_colonia_empresa: string;
-  direccion_delegacion_empresa: string;
-  direccion_estado_empresa: string;
+  id_certificado: number;
+  id_tipo: number;
+  id_tipo_certificado: number;
+  id_certificado_dis: number;
+  num_certificado: string;
+  fecha_vigencia: string;
+  fecha_inicio: string;
+  status: string;
+  anhio_inicio_vigencia: string;
+  anhio_fin_vigencia: string;
+  status_certificado: string;
+  permitidos: Permitido[];
+  info_solcitar: InfoSolcitar[];
+  sector: string;
+  disciplina: string;
+  manifestaciones: manifestaciones[];
+}
+
+export interface Permitido {
+  label: string;
+}
+
+export interface InfoSolcitar {
+  value: string;
+  label: any;
+}
+
+export interface manifestaciones {
+  value: any;
+  label: any;
+}
+
+export interface ManifestacionSeleccionada {
+  [key: string]: boolean;
 }
 
 const showAlert = async (header: string, message: string) => {
@@ -223,53 +319,36 @@ export default defineComponent({
     IonContent,
     IonPage,
     VDataTable,
+    VDataIterator,
+    LottieAnimation,
   },
   setup() {
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
+    const manifestacionListado = ref<ManifestacionSeleccionada>({});
+
     const route = useRoute();
     const router: Router = useRouter();
 
     const manifestacionStore = useManifestacionStore();
 
-    const isValidForm = ref(true);
-    const refForm = ref<any>(null);
+    let sortBy = ref([]);
+    let sortDesc = ref("asc");
+    const itemsPorPagina = ref(3);
 
-    const encabezadosEspecilidad = ref([
-      { title: "Disciplina", key: "disciplina" },
-      { title: "Puntos", key: "puntos" },
-      { title: "Horas", key: "horas" },
-      { title: "Modalidad", key: "modalidad" },
-      { title: "", key: "actions", sortable: true },
-    ]);
+    const eventosPermitidos = ref([]);
 
-
-    const dataModel = ref({
-      id_colegio: 0,
-      nombre_evento: "",
-      eventos_sede: "",
-      expositor: "",
-      eventos_fecha_inicio: "",
-      eventos_fecha_fin: "",
-      telefono: "",
-      email: "",
-      imss_id: [] as number[],
-      id_disciplina: "",
-      disciplina: "",
-      puntos: "",
-      horas: "",
-      modalidad: "",
-      listado_eventos: [] as {
-        id_disciplina: string;
-        disciplina: string;
-        puntos: string;
-        horas: string;
-        modalidad: string;
-      }[],
-      archivos: [] as File[],
-    });
-
-    const dataEspecialidad = ref<Especilidad>({
-      result: [],
-      type: "",
+    const permisosListado = ref<Permisos>({
+      dataset: [],
+      totalSize: 0,
+      pageSize: 0,
+      intervaloSeccion: 0,
+      nombreListado: "",
     });
 
     const colores = ref({
@@ -279,96 +358,397 @@ export default defineComponent({
       verdeBoton: "#468C00",
     });
 
+    let anim = ref();
+
+    const dialogPropiedades = ref({
+      dialog: false,
+      mensajeTitulo: "",
+      mensajeCuerpo: "",
+      correcto: false,
+    });
+
     async function limpiarFormulario() {
-      dataModel.value = {
-        id_colegio: 0,
-        nombre_evento: "",
-        eventos_sede: "",
-        expositor: "",
-        eventos_fecha_inicio: "",
-        eventos_fecha_fin: "",
-        telefono: "",
-        email: "",
-        imss_id: [] as number[],
-        id_disciplina: "",
-        disciplina: "",
-        puntos: "",
-        horas: "",
-        modalidad: "",
-        listado_eventos: [] as {
-          id_disciplina: string;
-          disciplina: string;
-          puntos: string;
-          horas: string;
-          modalidad: string;
-        }[],
-        archivos: [] as File[],
+      permisosListado.value = {
+        dataset: [],
+        totalSize: 0,
+        pageSize: 0,
+        intervaloSeccion: 0,
+        nombreListado: "",
       };
     }
 
+    async function cargarPermisos() {
+      permisosListado.value = {
+        dataset: [],
+        totalSize: 0,
+        pageSize: 0,
+        intervaloSeccion: 0,
+        nombreListado: "",
+      };
+
+      await manifestacionStore.cargarListadoPermisos();
+
+      const listadoPermisos = manifestacionStore.object
+        .listadoPermisos as Permisos;
+
+      listadoPermisos.dataset.forEach((data) => {
+        const manifestaciones: manifestaciones[] = [];
+        // Iterar sobre cada permitido en el elemento actual
+        data.permitidos.forEach((permitido) => {
+          const info = data.info_solcitar.find(
+            (info) => info.value === permitido.label
+          );
+          if (info) {
+            // Verificar si label es un array o un string
+            const label = Array.isArray(info.label) ? info.label : [info.label];
+            manifestaciones.push({
+              value: label,
+              label: permitido.label,
+            });
+          } else {
+            // Si no se encuentra la información, asignar un array vacío
+            manifestaciones.push({
+              value: [],
+              label: permitido.label,
+            });
+          }
+        });
+        // Asignar las manifestaciones al elemento actual
+        data.manifestaciones = manifestaciones;
+      });
+
+      permisosListado.value = listadoPermisos;
+    }
+
     onIonViewDidEnter(async () => {
+      scrollToTop();
       await limpiarFormulario();
+      await cargarPermisos();
     });
+
+    async function capturarCapacitaciones() {
+      let contadorSolicitudes = 0;
+      let mensajeError = "";
+      const manifestacionesSeleccionadas = [];
+
+      for (const key in manifestacionListado.value) {
+        const value = manifestacionListado.value[key];
+
+        // Si el valor es booleano y es true
+        if (typeof value === "boolean" && value) {
+          contadorSolicitudes++;
+          // Extraemos la etiqueta y el id_certificado del key
+          const [label, idCertificado] = key.split("_");
+
+          // Buscamos si ya existe una manifestación con la misma label e id_certificado
+          let manifestacionActual = manifestacionesSeleccionadas.find(
+            (manifestacion) =>
+              manifestacion.label === label &&
+              manifestacion.id_certificado === idCertificado
+          );
+
+          // Si no existe, la creamos
+          if (!manifestacionActual) {
+            manifestacionActual = {
+              label: label,
+              id_certificado: idCertificado,
+              valores: [],
+            };
+            manifestacionesSeleccionadas.push(manifestacionActual);
+          }
+        } else if (typeof value === "string") {
+          // Si es un string
+          // Añadimos el valor a la lista de valores de la manifestación actual
+          const [label, idCertificado, texto] = key.split("_");
+
+          if (value !== "") {
+            const manifestacionActual = manifestacionesSeleccionadas.find(
+              (manifestacion) =>
+                manifestacion.label === label &&
+                manifestacion.id_certificado === idCertificado
+            );
+
+            // Verificamos si encontramos una manifestación existente
+            if (manifestacionActual) {
+              manifestacionActual.valores.push({
+                label: texto,
+                value: value,
+              });
+            }
+          }
+        }
+      }
+
+      for (const manifestacion of manifestacionesSeleccionadas) {
+        const { label, id_certificado, valores } = manifestacion;
+        const permisosByCertificado = permisosListado.value.dataset.find(
+          (data) => data.id_certificado === parseInt(id_certificado, 10)
+        );
+
+        if (permisosByCertificado) {
+          const manifestacionesByLabel =
+            permisosByCertificado.manifestaciones.find(
+              (data) => data.label == label
+            );
+
+          if (manifestacionesByLabel) {
+            // Crear un conjunto con los valores de manifestacionesByLabel.value
+
+            const manifestacionesSet = new Set(manifestacionesByLabel.value);
+
+            // Filtrar los valores que están en manifestacionesByLabel.value pero no en valores
+            const diferencias = manifestacionesByLabel.value.filter(
+              (valor: any) => !valores.find((v: any) => v.label === valor)
+            );
+
+            // Mostrar las diferencias encontradas
+            diferencias.forEach((diferencia: any) => {
+              mensajeError += ` El campo '${diferencia}' debe ser ingresado del certificado: ${permisosByCertificado.disciplina} \n`;
+            });
+          }
+        }
+      }
+
+      if (contadorSolicitudes == 0) {
+        mensajeError += ` No fue seleccionada al menos una manifestación \n`;
+      }
+
+      if (mensajeError != "") {
+        dialogPropiedades.value = {
+          dialog: true,
+          mensajeTitulo: "Verifique lo siguiente",
+          mensajeCuerpo: mensajeError,
+          correcto: false,
+        };
+        //const alert = await showAlert("Verifica lo siguiente", mensajeError);
+        //await alert.present();
+      } else {
+        manifestacionStore.manifestacionesSeleccionadas =
+          manifestacionesSeleccionadas;
+        router.push({ name: "manifestacionCapacitacionListado" });
+      }
+    }
 
     async function guardarDatos() {
       try {
-        const isValidForm = await refForm.value?.validate();
-        if (isValidForm.valid && dataModel.value.listado_eventos.length > 0) {
-          const formData = new FormData();
+        const fechaActual = new Date();
+        const currentYear = fechaActual.getFullYear();
 
-          const storage = new Storage();
-          storage.create();
+        const storage = new Storage();
+        storage.create();
+        const rfc = await storage.get("rfc");
 
-          const rfc = await storage.get("rfc");
+        const manifestacionesSeleccionadas = [];
 
-          formData.append("eventos_externos[cuenta_rfc]", rfc);
-          formData.append(
-            "eventos_externos[id_colegio]",
-            dataModel.value.id_colegio.toString()
-          );
+        let mensajeError = "";
 
-          await capacitacionStore.registrarCapacitacion(formData);
+        for (const key in manifestacionListado.value) {
+          const value = manifestacionListado.value[key];
 
-          if (capacitacionStore.type == "success") {
-            await refForm.value?.reset();
-            const alert = await showAlert(
-              "Capacitación externa",
-              capacitacionStore.responseMessage
+          // Si el valor es booleano y es true
+          if (typeof value === "boolean" && value) {
+            // Extraemos la etiqueta y el id_certificado del key
+            const [label, idCertificado] = key.split("_");
+
+            // Buscamos si ya existe una manifestación con la misma label e id_certificado
+            let manifestacionActual = manifestacionesSeleccionadas.find(
+              (manifestacion) =>
+                manifestacion.label === label &&
+                manifestacion.id_certificado === idCertificado
             );
 
-            if (alert) {
-              await alert.present();
-              await alert.onDidDismiss();
+            // Si no existe, la creamos
+            if (!manifestacionActual) {
+              manifestacionActual = {
+                label: label,
+                id_certificado: idCertificado,
+                valores: [],
+              };
+              manifestacionesSeleccionadas.push(manifestacionActual);
+            }
+          } else if (typeof value === "string") {
+            // Si es un string
+            // Añadimos el valor a la lista de valores de la manifestación actual
+            const [label, idCertificado, texto] = key.split("_");
 
-              router.push({
-                name: "capacitacionExternaListado",
+            if (value !== "") {
+              const manifestacionActual = manifestacionesSeleccionadas.find(
+                (manifestacion) =>
+                  manifestacion.label === label &&
+                  manifestacion.id_certificado === idCertificado
+              );
+
+              // Verificamos si encontramos una manifestación existente
+              if (manifestacionActual) {
+                manifestacionActual.valores.push({
+                  label: texto,
+                  value: value,
+                });
+              }
+            }
+          }
+        }
+
+        for (const manifestacion of manifestacionesSeleccionadas) {
+          const { label, id_certificado, valores } = manifestacion;
+          const permisosByCertificado = permisosListado.value.dataset.find(
+            (data) => data.id_certificado === parseInt(id_certificado, 10)
+          );
+
+          if (permisosByCertificado) {
+            const manifestacionesByLabel =
+              permisosByCertificado.manifestaciones.find(
+                (data) => data.label == label
+              );
+
+            if (manifestacionesByLabel) {
+              // Crear un conjunto con los valores de manifestacionesByLabel.value
+
+              const manifestacionesSet = new Set(manifestacionesByLabel.value);
+
+              // Filtrar los valores que están en manifestacionesByLabel.value pero no en valores
+              const diferencias = manifestacionesByLabel.value.filter(
+                (valor: any) => !valores.find((v: any) => v.label === valor)
+              );
+
+              // Mostrar las diferencias encontradas
+              diferencias.forEach((diferencia: any) => {
+                mensajeError += ` El campo '${diferencia}' debe ser ingresado del certificado: ${permisosByCertificado.disciplina} \n`;
               });
             }
-          } else {
-            await showAlert("Capacitación externa", "Revise los datos");
           }
+        }
+
+        if (mensajeError != "") {
+          //const alert = await showAlert("Verifica lo siguiente", mensajeError);
+          //await alert.present();
+
+          dialogPropiedades.value = {
+            dialog: true,
+            mensajeTitulo: "Verifique lo siguiente",
+            mensajeCuerpo: mensajeError,
+            correcto: false,
+          };
+        } else {
+          for (const manifestacion of manifestacionesSeleccionadas) {
+            const { label, id_certificado, valores } = manifestacion;
+
+            const permisosByCertificado = permisosListado.value.dataset.find(
+              (data) => data.id_certificado === parseInt(id_certificado, 10)
+            );
+
+            if (permisosByCertificado) {
+              const manifestacionesByLabel =
+                permisosByCertificado.manifestaciones.find(
+                  (data) => data.label == label
+                );
+
+              if (manifestacionesByLabel) {
+                // cuando una manifestación no tiene campos que llenar
+                if (manifestacionesByLabel.value.length == valores.length) {
+                  const formData = new FormData();
+                  formData.append("solicitudes[cuenta_rfc]", rfc);
+                  formData.append(
+                    "solicitudes[id_sector]",
+                    permisosByCertificado.id_sector.toString()
+                  );
+                  formData.append("solicitudes[tipo_solicitud]", label);
+                  formData.append("solicitudes[anhio]", currentYear.toString());
+                  formData.append(
+                    "solicitudes[status_solicitud]",
+                    "Solicitada"
+                  );
+                  formData.append(
+                    "solicitudes[catalogo_especialidad_id]",
+                    permisosByCertificado.id_certificado_dis.toString()
+                  );
+                  formData.append("solicitudes[status]", "Activo");
+
+                  if (manifestacionesByLabel.value.length == 0) {
+                    formData.append("solicitudes[registro_contribuciones]", "");
+                    formData.append("solicitudes[contador_public]", "");
+                    formData.append("solicitudes[numero_asociado]", "");
+                    formData.append("solicitudes[dictamina_fiscalmente]", "");
+                  } else {
+                    for (const valor of valores) {
+                      if (valor.label == "REGISTRO CONTRIBUCIONES LOCALES") {
+                        formData.append(
+                          "solicitudes[registro_contribuciones]",
+                          valor.value
+                        );
+                      }
+                      if (valor.label == "DICTAMINA FISCALMENTE") {
+                        formData.append("dictamina_fiscalmente]", valor.value);
+                      }
+                      if (valor.label == "CONTADOR PÚBLICO CERTIFICADO") {
+                        formData.append("contador_public]", valor.value);
+                      }
+                      if (valor.label == "ASOCIADO NÚMERO") {
+                        formData.append("numero_asociado]", valor.value);
+                      }
+                    }
+                  }
+
+                  await manifestacionStore.registrarManifestacion(formData);
+
+                  console.log(formData);
+                }
+              }
+            }
+          }
+          /*
+          const alert = await showAlert(
+            "Su manifestación ha sido creada",
+            "Se notificará cuando esté autorizada para que pueda descargarla"
+          );
+
+          if (alert) {
+            await alert.present();
+            await alert.onDidDismiss();
+
+            router.push({ name: "manifestacionListado" });
+          }
+          */
         }
       } catch (error) {}
     }
 
+    function cerrardialogPropiedades(estado: boolean) {
+      dialogPropiedades.value.dialog = false;
+      if (estado) {
+        router.push({ name: "manifestacionCapacitacionListado" });
+      }
+    }
+
     return {
       colores,
-      dataModel,
-      dataEspecialidad,
-
-      refForm,
-      isValidForm,
-
-      encabezadosEspecilidad,
+      sortBy,
+      sortDesc,
+      itemsPorPagina,
 
       guardarDatos,
       es,
+
+      permisosListado,
+      eventosPermitidos,
+      manifestacionListado,
+      capturarCapacitaciones,
+      anim,
+      dialogPropiedades,
+      CorrectAnimation,
+      IncorrectAnimation,
+      cerrardialogPropiedades,
+      contentRef,
     };
   },
 });
 </script>
 
 <style>
+.lottie-container {
+  height: 150px;
+}
+
 .dp__pointer {
   height: 56px;
 }

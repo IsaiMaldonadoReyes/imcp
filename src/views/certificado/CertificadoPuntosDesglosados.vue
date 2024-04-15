@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container fluid>
         <v-card class="mx-auto" color="transparent" elevation="0">
           <v-card-item>
@@ -8,13 +8,13 @@
               class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
               style="white-space: normal"
             >
-              Desglose de puntos <span class="font-weight-bold">DCP</span>
+              Desglose de puntos <span class="font-weight-bold">DPC</span>
             </v-card-title>
           </v-card-item>
         </v-card>
         <v-card class="my-3" elevation="0" border>
           <v-card-title class="text-h6 font-weight-bold">
-            Total de puntos por certificado
+            Datos generales
           </v-card-title>
 
           <v-card-text>
@@ -475,6 +475,13 @@ export default defineComponent({
     VDataTable,
   },
   setup() {
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
     const certificadoStore = useCertificadoStore();
     const eventosPorPagina = ref<{ [key: string]: number }>({});
     const itemsPorPagina = ref(3);
@@ -684,6 +691,7 @@ export default defineComponent({
     }
 
     onIonViewDidEnter(() => {
+      scrollToTop();
       const idCertificado = route.params.idCertificado;
       const anhio = route.params.anhio;
       cargarDesglosePorEjercicio(idCertificado, anhio);
@@ -704,6 +712,7 @@ export default defineComponent({
       sortDesc,
       desgloseEspecialidades,
       descargarPdf,
+      contentRef,
     };
   },
 });

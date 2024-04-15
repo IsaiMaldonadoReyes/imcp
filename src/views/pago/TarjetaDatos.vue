@@ -12,302 +12,116 @@
             </v-card-title>
           </v-card-item>
         </v-card>
+
         <v-card class="" elevation="0" border="">
           <iframe
-            src="https://ultreya.xpertpay.com.mx/payme/inicio/i/1234567890"
-            width="390px"
+            :src="`https://tienda.imcp.org.mx/api/datos_inv_dpc.php?token=${token}`"
+            width="100%"
             height="600px"
             frameborder="0"
           ></iframe>
-          <v-card-text>
-            <v-select
-              class="my-4"
-              clearable
-              hide-details="auto"
-              label="Tipo de pago *"
-              no-data-text="No hay datos disponibles"
-              placeholder="Débito Visa / Mastercard"
-              variant="outlined"
-            ></v-select>
-            <v-text-field
-              class="my-4"
-              clearable
-              hide-details="auto"
-              label="Nombre(s) *"
-              placeholder="Nombre(s) como aparece en la tarjeta"
-              variant="outlined"
-            ></v-text-field>
-            <v-text-field
-              class="my-4"
-              clearable
-              hide-details="auto"
-              label="Apellido(s) *"
-              placeholder="Apllido(s) como aparece en la tarjeta"
-              variant="outlined"
-            ></v-text-field>
-            <v-text-field
-              class="my-4"
-              clearable
-              hide-details="auto"
-              label="Calle"
-              placeholder="Calle del tarjetahabiente"
-              variant="outlined"
-            ></v-text-field>
-            <v-text-field
-              class="my-4"
-              clearable
-              hide-details="auto"
-              label="País *"
-              placeholder="País del tarjetahabiente"
-              variant="outlined"
-            ></v-text-field>
-            <v-text-field
-              class="my-4"
-              clearable
-              hide-details="auto"
-              label="Estado *"
-              placeholder="Estado del tarjetahabiente"
-              variant="outlined"
-            ></v-text-field>
-            <v-text-field
-              class="my-4"
-              clearable
-              hide-details="auto"
-              label="Código postal *"
-              placeholder="Código postal del tarjetahabiente"
-              variant="outlined"
-            ></v-text-field>
-            <v-text-field
-              class="my-4"
-              clearable
-              hide-details="auto"
-              label="Celular *"
-              placeholder="Celular del tarjetahabiente"
-              variant="outlined"
-            ></v-text-field>
-            <v-text-field
-              class="my-4"
-              clearable
-              hide-details="auto"
-              label="Número de tarjeta *"
-              placeholder="Número de tarjeta"
-              variant="outlined"
-            ></v-text-field>
-            <v-select
-              class="my-4"
-              clearable
-              hide-details="auto"
-              label="Marca de la tarjeta *"
-              no-data-text="No hay datos disponibles"
-              placeholder="Marca de la tarjeta"
-              variant="outlined"
-            ></v-select>
-            <v-select
-              class="my-4"
-              clearable
-              hide-details="auto"
-              label="Tipo de tarjeta *"
-              no-data-text="No hay datos disponibles"
-              placeholder="Seleccione tipo de tarjeta"
-              variant="outlined"
-            ></v-select>
-            <v-menu v-model="isMenuOpen" :close-on-content-click="true">
-              <template v-slot:activator="{ props }">
-                <v-text-field
-                  class="my-4"
-                  v-model="formattedDate"
-                  readonly
-                  v-bind="props"
-                  variant="outlined"
-                  label="Fecha de expiración *"
-                  placeholder="mm/yy*"
-                  hide-details
-                  clearable
-                ></v-text-field>
-              </template>
-              <ion-datetime
-                presentation="month-year"
-                @ionChange="handleDateChange"
-              ></ion-datetime>
-            </v-menu>
-            <v-text-field
-              clearable
-              class="my-4"
-              hide-details="auto"
-              label="Código de seguridad *"
-              placeholder="CVV"
-              variant="outlined"
-            >
-              <!--template v-slot:append>
-                <v-tooltip class="text-justify" location="top" v-model="tooltipVisible">
-                  <template v-slot:activator="{ props }">
-                    <v-icon
-                      v-bind="props"
-                      @click="toggleTooltip"
-                      class="informacion-adicional"
-                    >
-                      mdi-help-circle-outline
-                    </v-icon>
-                  </template>
-                  <span>
-                    El código CVV o CVC es un grupo de 3 o 4 números situado en el reverso
-                    de la tarjeta de crédito o débito.
-                  </span>
-                </v-tooltip>
-              </template-->
-              <template v-slot:append-inner>
-                <v-menu
-                  v-model="menu"
-                  :close-on-content-click="false"
-                  location="end"
-                >
-                  <template v-slot:activator="{ props }">
-                    <v-icon v-bind="props">mdi-help-circle-outline</v-icon>
-                  </template>
-
-                  <v-card max-width="250">
-                    <v-card-text>
-                      El código
-                      <span
-                        class="font-weight-bold"
-                        :style="`color:${colores.verdeBoton}`"
-                      >
-                        CVV
-                      </span>
-                      o
-                      <span
-                        class="font-weight-bold"
-                        :style="`color:${colores.verdeBoton}`"
-                      >
-                        CVC
-                      </span>
-                      es un grupo de 3 o 4 números situado en el reverso de la
-                      tarjeta de crédito o débito.
-                    </v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-item class="text-center ma-0 pa-0">
-                      <img
-                        src="../../assets/images/cvv.png"
-                        style="max-width: 150px"
-                      />
-                    </v-card-item>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        :color="colores.verdeBoton"
-                        class="me-2"
-                        variant="text"
-                        @click="menu = false"
-                        text="Cerrar"
-                      />
-                    </v-card-actions>
-                  </v-card>
-                </v-menu>
-              </template>
-            </v-text-field>
-
-            <v-btn class="mb-2" variant="text">
-              <a
-                class="text-decoration-underline text-none text-grey-darken-1"
-                target="_blank"
-                href="https://www.xpertshop.mx/v2/contenidos/terminos_condiciones_xpertshop.php"
-                @click.stop
-              >
-                <span>
-                  Políticas de compra segura
-                  <v-icon size="14">mdi-open-in-new</v-icon>
-                </span>
-              </a>
-            </v-btn>
-            <v-checkbox
-              :center-affix="true"
-              true-icon="mdi-shield-check"
-              :color="colores.verdeBoton"
-              hide-details
-            >
-              <template v-slot:label>
-                <div>
-                  Estoy de acuerdo en la políticas de
-                  <v-tooltip location="bottom">
-                    <template v-slot:activator="{ props }">
-                      <a
-                        target="_blank"
-                        href="https://www.xpertshop.mx"
-                        v-bind="props"
-                        @click.stop
-                      >
-                        www.xpertshop.mx
-                      </a>
-                    </template>
-                    Abrir en navegador
-                  </v-tooltip>
-                </div>
-              </template>
-              <template v-slot:append>
-                <a
-                  class="text-grey-darken-1"
-                  target="_blank"
-                  href="https://www.xpertshop.mx/v2/contenidos/aviso_privacidad_xpertshop.php"
-                  @click.stop
-                >
-                  <v-icon>mdi-open-in-new</v-icon>
-                </a>
-                <!--span class="text-caption text-medium-emphasis ms-1 font-weight-light">
-                  ver
-                </span-->
-              </template>
-            </v-checkbox>
-            <v-checkbox
-              :center-affix="true"
-              :color="colores.verdeBoton"
-              hide-details
-              true-icon="mdi-receipt-text-check"
-            >
-              <template v-slot:label>Si desea factura</template>
-            </v-checkbox>
+          <v-progress-linear
+            indeterminate
+            color="#FC4876"
+            height="10"
+          ></v-progress-linear>
+          <v-card-text class="text-justify">
+            <span class="text-subtitle-1 text-grey-darken-1">
+              Esperando información del pago...
+            </span>
           </v-card-text>
-          <v-card-actions>
-            <v-btn
-              :color="colores.verdeBoton"
-              :to="{
-                name: 'seleccionAccion',
-                params: { idCertificado: 2 },
-              }"
-              block
-              prepend-icon="mdi-account-credit-card"
-              size="large"
-              text="Pagar"
-              variant="flat"
-            >
-              <template v-slot:prepend>
-                <v-icon class="mr-3" size="large"></v-icon>
-              </template>
-            </v-btn>
-          </v-card-actions>
+          <v-divider></v-divider>
         </v-card>
       </v-container>
+      <v-dialog v-model="dialogPropiedades.dialog" max-width="500px">
+        <v-card>
+          <v-card-title class="text-grey-darken-1" style="text-align: center">
+            {{ dialogPropiedades.mensajeTitulo }}</v-card-title
+          >
+          <lottie-animation
+            v-if="dialogPropiedades.correcto"
+            ref="anim"
+            :animationData="PaymentSuccess"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <lottie-animation
+            v-else
+            ref="anim"
+            :animationData="PaymentError"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <v-card-text class="text-justify">
+            <span class="text-subtitle-1 text-grey-darken-1">
+              {{ dialogPropiedades.mensajeCuerpo }}
+            </span>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              :color="colores.verdeBoton"
+              block
+              size="large"
+              variant="flat"
+              @click="cerrardialogPropiedades(dialogPropiedades.correcto)"
+              >Aceptar</v-btn
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import {
-  ref,
-  defineComponent,
-  watch,
-  computed,
-  defineProps,
-  defineEmits,
-} from "vue";
+import { ref, defineComponent, onMounted, onUnmounted } from "vue";
 import {
   IonPage,
   IonContent,
   onIonViewDidEnter,
+  onIonViewDidLeave,
   IonDatetime,
+  alertController,
 } from "@ionic/vue";
 import { VDatePicker, VDatePickerMonth } from "vuetify/lib/labs/components.mjs";
-import { useRoute } from "vue-router";
+import { useRouter, Router, useRoute } from "vue-router";
+import { usePagoStore } from "@/store/pago";
+import { LottieAnimation } from "lottie-web-vue";
+
+import PaymentLoading from "../../assets/images/payment-loading.json";
+import PaymentError from "../../assets/images/payment-error.json";
+import PaymentSuccess from "../../assets/images/payment-success.json";
+
+const showAlert = async (header: string, message: string) => {
+  const alert = await alertController.create({
+    header,
+    message,
+    buttons: ["OK"],
+  });
+
+  return alert;
+};
+
+export interface Pagos {
+  tienda: Tienda[];
+}
+
+export interface Tienda {
+  id: string;
+  nopedido: string;
+  forma_pago: string;
+  status: string;
+  fecha_modificacion: string;
+  fecha_pago: string;
+  id_token: number;
+  token: string;
+}
 
 export default defineComponent({
   name: "TarjetaDatos",
@@ -317,11 +131,15 @@ export default defineComponent({
     VDatePicker,
     VDatePickerMonth,
     IonDatetime,
+    LottieAnimation,
   },
 
   setup() {
-    const show = ref(false);
-    const menu = ref(false);
+    const route = useRoute();
+    const router: Router = useRouter();
+
+    const pagoStore = usePagoStore();
+
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
@@ -329,55 +147,115 @@ export default defineComponent({
       verdeBoton: "#468C00",
     });
 
-    const route = useRoute();
+    let anim = ref();
 
-    let tooltipVisible = ref(false);
-
-    function toggleTooltip() {
-      tooltipVisible.value = !tooltipVisible.value;
-    }
-
-    function closeTooltipOnClickOutside(event: any) {
-      const tooltipActivator = document.querySelector(".informacion-adicional");
-      const tooltip = document.querySelector(".v-tooltip");
-
-      if (
-        tooltip &&
-        !tooltip.contains(event.target) &&
-        (!tooltipActivator || !tooltipActivator.contains(event.target))
-      ) {
-        tooltipVisible.value = false;
-      }
-    }
-
-    onIonViewDidEnter(() => {
-      const idCertificado = route.params.idCertificado;
-      //const estatusAccion = route.params.estatus;
-
-      document.addEventListener("click", closeTooltipOnClickOutside);
+    const dialogPropiedades = ref({
+      dialog: false,
+      mensajeTitulo: "",
+      mensajeCuerpo: "",
+      correcto: false,
     });
 
-    let isMenuOpen = ref(false);
-    let formattedDate = ref("");
+    const idToken = ref(0);
+    const token = ref("");
 
-    function handleDateChange(event: any) {
-      // El valor seleccionado estará en event.detail.value
-      isMenuOpen.value = false;
-      formattedDate.value = event.detail.value;
-      console.log("Fecha seleccionada:", event.detail.value);
-      // Puedes asignar el valor a una variable si es necesario
+    const dataPagos = ref<Pagos>({
+      tienda: [],
+    });
+
+    async function validarPago(tokenParams: any) {
+      await pagoStore.cargarPago(tokenParams);
+
+      dataPagos.value = pagoStore.object.pago as Pagos;
+
+      console.log("esperando pago");
+      console.log(dataPagos);
+      /*
+      if (dataPagos.value && dataPagos.value.tienda) {
+        console.log(dataPagos.value);
+        console.log(dataPagos.value.tienda?.length);
+
+        if (dataPagos.value.tienda?.length > 0) {
+          if (dataPagos.value.tienda[0].status == "Entregado") {
+            console.log("Intervalo limpiado");
+            clearInterval(intervalId);
+
+            dialogPropiedades.value = {
+              dialog: true,
+              mensajeTitulo: "Información de pago",
+              mensajeCuerpo: "Su pago se ha registrado con éxito",
+              correcto: true,
+            };
+          } else if (dataPagos.value.tienda[0].status == "Pago Pendiente") {
+            clearInterval(intervalId);
+            dialogPropiedades.value = {
+              dialog: true,
+              mensajeTitulo: "Información de pago",
+              mensajeCuerpo: "Se generó un error en su pago",
+              correcto: true,
+            };
+          } else {
+            clearInterval(intervalId);
+            dialogPropiedades.value = {
+              dialog: true,
+              mensajeTitulo: "Información de pago",
+              mensajeCuerpo: "Se generó un error en su pago",
+              correcto: true,
+            };
+            console.log("Pago incorrecto:");
+            console.log(dataPagos.value.tienda[0]);
+            console.log(dataPagos.value.tienda[0].status);
+          }
+        }
+      }
+      */
+    }
+
+    async function inicializar(
+      idCertificadoParams: any,
+      tokenParams: any,
+      idTokenParams: any
+    ) {
+      token.value = tokenParams;
+    }
+
+    let intervalId: any = null;
+
+    onIonViewDidEnter(async () => {
+      const idCertificado = route.params.idCertificado;
+      const tokenCert = route.params.tokenCertificado;
+      const idTokenCert = route.params.idTokenCertificado;
+
+      await inicializar(idCertificado, tokenCert, idTokenCert);
+      //await validarPago(tokenCert);
+
+      intervalId = setInterval(async () => {
+        const tokenCert = route.params.tokenCertificado;
+        await validarPago(tokenCert);
+      }, 15000); // 10 segundos en milisegundos
+    });
+
+    onIonViewDidLeave(() => {
+      console.log("Intervalo limpiado");
+      clearInterval(intervalId); // Detener las peticiones cuando sales de la ventana
+    });
+
+    function cerrardialogPropiedades(estado: boolean) {
+      dialogPropiedades.value.dialog = false;
+      if (estado) {
+        router.push({ name: "certificadoEstatus" });
+      }
     }
 
     return {
       colores,
-      show,
-      tooltipVisible,
-      toggleTooltip,
-      closeTooltipOnClickOutside,
-      isMenuOpen,
-      formattedDate,
-      handleDateChange,
-      menu,
+      token,
+      anim,
+      PaymentLoading,
+      PaymentSuccess,
+      PaymentError,
+      dialogPropiedades,
+      cerrardialogPropiedades,
     };
   },
 });

@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container>
         <v-tabs
           v-model="tabs"
@@ -17,7 +17,7 @@
             class="mr-1 text-none"
             rounded="t-lg"
             size="small"
-            text="Nuevo aviso"
+            text="Aviso de capacitación externa"
             variant="flat"
           />
           <v-tab
@@ -40,9 +40,18 @@
                     class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
                     style="white-space: normal"
                   >
-                    Aviso de capacitación
+                    Aviso de <br />
+                    capacitación externa
                   </v-card-title>
                 </v-card-item>
+              </v-card>
+              <v-card class="mx-auto" color="transparent" elevation="0">
+                <v-card-text class="text-justify">
+                  <span class="text-subtitle-1 text-grey-darken-1">
+                    Para iniciar su proceso de capacitación externa de clic en
+                    el siguiente botón
+                  </span>
+                </v-card-text>
               </v-card>
               <v-card class="mx-auto my-4" elevation="0" rounded="lg">
                 <v-divider />
@@ -52,7 +61,7 @@
                     block
                     prepend-icon="mdi-account-school-outline"
                     size="large"
-                    text="Nuevo aviso de capacitación"
+                    text="Nueva capacitación externa"
                     variant="flat"
                     :to="{ name: 'capacitacionExternaRegistro' }"
                   >
@@ -72,11 +81,12 @@
                     class="text-uppercase text-center"
                     style="white-space: normal"
                   >
-                    Listado de avisos
+                    Listado de capacitaciones externas
                   </v-card-title>
                 </v-card-item>
               </v-card>
               <v-text-field
+                v-model="busquedaAvisoCapacitacion"
                 class="ma-3"
                 clearable
                 density="comfortable"
@@ -111,6 +121,17 @@
                         >
                           mdi-circle
                         </v-icon>
+                        <span
+                          v-else-if="encabezado.key == 'eventos_fecha_inicio'"
+                          class="text-body-2 font-weight-bold"
+                        >
+                          {{
+                            item[encabezado.key] === "0000-00-00 00:00:00"
+                              ? "Fecha inválida"
+                              : formatearFecha(item[encabezado.key])
+                          }}
+                        </span>
+
                         <span v-else class="text-body-2 font-weight-bold">
                           {{ item[encabezado.key] }}
                         </span>
@@ -320,6 +341,14 @@ export default defineComponent({
     VDataTable,
   },
   setup() {
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
+
     const capacitacionStore = useCapacitacionStore();
 
     const colores = ref({
@@ -331,7 +360,7 @@ export default defineComponent({
 
     const encabezadosEvento = ref([
       { title: "Especialidad", key: "modalidad" },
-      { title: "Fecha", key: "eventos_fecha_inicio" },
+      { title: "Fecha de inicio", key: "eventos_fecha_inicio" },
       { title: "Lugar", key: "eventos_sede" },
       { title: "Puntos generados", key: "puntos" },
       { title: "Estatus", key: "status" },
@@ -397,7 +426,16 @@ export default defineComponent({
       } catch (error) {}
     }
 
+    function formatearFecha(dateString: any) {
+      const date = new Date(dateString);
+      const day = ("0" + date.getDate()).slice(-2);
+      const month = ("0" + (date.getMonth() + 1)).slice(-2);
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
     onIonViewDidEnter(() => {
+      scrollToTop();
       cargarDashboard();
     });
 
@@ -412,6 +450,8 @@ export default defineComponent({
       paginaAvisoCapacitacion,
       busquedaAvisoCapacitacion,
       getColor,
+      contentRef,
+      formatearFecha,
     };
   },
 });
@@ -466,8 +506,9 @@ export default defineComponent({
   }
 
   .tb-avisos.v-data-table tr:not(:first-child) > td:first-child {
-    border-top: medium solid
-      rgba(var(--v-border-color), var(--v-border-opacity));
+    border-top-width: 10px;
+    border-top-style: solid;
+    border-top-color: #eeeeee;
   }
 }
 </style>

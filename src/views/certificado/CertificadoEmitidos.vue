@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container fluid>
         <v-card elevation="0" color="transparent">
           <v-card-item>
@@ -122,7 +122,7 @@
                         Emisión:
                       </td>
                       <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
-                        {{ item.raw.fecha_vigencia }}
+                        {{ formatearFecha(item.raw.fecha_vigencia) }}
                       </td>
                     </tr>
                     <tr>
@@ -130,7 +130,7 @@
                         Vigencia:
                       </td>
                       <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
-                        {{ item.raw.fecha_inicio }}
+                        {{ formatearFecha(item.raw.fecha_inicio) }}
                       </td>
                     </tr>
                     <tr>
@@ -262,6 +262,14 @@ export default defineComponent({
     VDataIterator,
   },
   setup() {
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
+
     const certificadoStore = useCertificadoStore();
 
     let sortBy = ref([]);
@@ -366,7 +374,16 @@ export default defineComponent({
       window.open(ruta, "_blank");
     }
 
+    function formatearFecha(dateString: any) {
+      const date = new Date(dateString);
+      const day = ("0" + date.getDate()).slice(-2);
+      const month = ("0" + (date.getMonth() + 1)).slice(-2);
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
     onIonViewDidEnter(() => {
+      scrollToTop();
       cargarDesglosePorEjercicio();
     });
 
@@ -382,6 +399,8 @@ export default defineComponent({
       getDotColor,
       getIcon,
       descargarCertificado,
+      contentRef,
+      formatearFecha,
     };
   },
 });

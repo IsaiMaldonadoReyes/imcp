@@ -65,7 +65,7 @@ const routes = [
         component: () => import("@/views/certificado/CertificadoPuntosDesglosados.vue"),
       },
       {
-        path: "seleccionAccion/:idCertificado/:estatus", // certificado pago  ISAI
+        path: "seleccionAccion/:idCertificado/:estatus/:tokenCertificado/:idToken", // certificado pago  ISAI
         name: "seleccionAccion",
         component: () => import("@/views/pago/SeleccionAccion.vue"),
       },
@@ -76,12 +76,12 @@ const routes = [
         component: () => import("@/views/pago/PagoSeleccion.vue"),
       },*/
       {
-        path: "actualizacionDatos/:idCertificado", // certificado pago 
+        path: "actualizacionDatos/:idCertificado/:tokenCertificado/:idToken", // certificado pago 
         name: "actualizacionDatos",
         component: () => import("@/views/pago/ActualizacionDatos.vue"),
       },
       {
-        path: "tarjetaDatos/:idCertificado/:estatus", // certificado pago 
+        path: "tarjetaDatos/:idCertificado/:estatus/:tokenCertificado/:idToken", // certificado pago 
         name: "tarjetaDatos",
         component: () => import("@/views/pago/TarjetaDatos.vue"),
       },
@@ -118,6 +118,16 @@ const routes = [
         path: "manifestacionRegistro", // vista registro capacitacion externa
         name: "manifestacionRegistro",
         component: () => import("@/views/manifestacion/RegistroManifestacion.vue"),
+      },
+      {
+        path: "manifestacionCapacitacionListado", // vista registro capacitacion externa
+        name: "manifestacionCapacitacionListado",
+        component: () => import("@/views/manifestacion/ManifestacionCapacitacionListado.vue"),
+      },
+      {
+        path: "manifestacionRegistroCapacitacion", // vista registro capacitacion externa
+        name: "manifestacionRegistroCapacitacion",
+        component: () => import("@/views/manifestacion/ManifestacionRegistroCapacitacion.vue"),
       },
     ],
   },

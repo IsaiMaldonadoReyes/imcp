@@ -14,7 +14,11 @@
               />
             </ion-col>
             <ion-col size="6" class="d-flex align-center justify-end">
-              <v-list bg-color="transparent" class="imcp-header">
+              <v-list
+                bg-color="transparent"
+                class="imcp-header"
+                @click="toggleMenu"
+              >
                 <v-list-item
                   class="text-right"
                   :title="nombreUsuario"
@@ -31,11 +35,12 @@
                           <v-btn
                             v-bind="props"
                             icon="mdi-menu-down"
-                            size="x-small"
+                            size="small"
                             variant="text"
-                            class="ml-3"
                             color="#424242"
-                          ></v-btn>
+                            style="font-size: 20px;"
+                          >
+                        </v-btn>
                         </template>
 
                         <v-card color="transparent">
@@ -50,7 +55,7 @@
                             >
                               <template v-slot:prepend>
                                 <v-avatar color="#AAAAAA" size="small">
-                                  <span class="text-h6">RJ</span>
+                                  <span class="text-h6">{{ iniciales }}</span>
                                 </v-avatar>
                               </template>
                             </v-list-item>
@@ -71,7 +76,9 @@
                                   </svg>
                                 </v-icon>
                               </template>
-                              <v-list-item-title>Mi cuenta</v-list-item-title>
+                              <v-list-item-title @click="miCuenta"
+                                >Mi cuenta</v-list-item-title
+                              >
                             </v-list-item>
                             <v-divider></v-divider>
                             <v-list-item variant="plain" @click="logout">
@@ -174,7 +181,6 @@
             </v-icon>
           </ion-tab-button>
 
-          <!--ion-tab-button tab="emitidos" href="/tabs/actualizacionDatos"-->
           <ion-tab-button tab="emitidos" href="/tabs/emitidos">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
@@ -201,7 +207,10 @@
             </v-icon>
           </ion-tab-button>
 
-          <ion-tab-button tab="manifestaciones" href="/tabs/manifestacionListado">
+          <ion-tab-button
+            tab="manifestaciones"
+            href="/tabs/manifestacionListado"
+          >
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
                 <use xlink:href="../assets/images/ico.svg#ico-menu-m"></use>
@@ -265,9 +274,11 @@ export default defineComponent({
     const message = ref(false);
     const hints = ref(false);
     const icon = ref(null);
+    const iniciales = ref("");
 
     let rfc = ref<string>("");
     let nombreUsuario = ref<string>("");
+    let intervalId: any = null;
 
     let cantidadNotificaciones = ref<number>(0);
 
@@ -290,7 +301,14 @@ export default defineComponent({
 
       rfc.value = await storage.get("rfc");
       nombreUsuario.value = await storage.get("nombreUsuario");
-      cargarNotificaciones();
+
+      const palabras = nombreUsuario.value.split(" "); // Divide la cadena en palabras
+      const inicialesArray = palabras.map((palabra) =>
+        palabra.charAt(0).toUpperCase()
+      ); // Obtiene la primera letra de cada palabra
+      const inicialesCortas = inicialesArray.slice(0, 2).join(""); // Toma las primeras dos iniciales y las une en una cadena
+
+      iniciales.value = inicialesCortas;
     }
 
     async function cargarNotificaciones() {
@@ -298,6 +316,8 @@ export default defineComponent({
       notificaciones.value = [];
 
       await dash.loadNotifications();
+
+      //console.log("Cargar notificaciones");
 
       const notifications = dash.object.notificaciones;
 
@@ -357,15 +377,30 @@ export default defineComponent({
       nombreUsuario.value = "";
 
       cargarTabs();
+
+      intervalId = setInterval(async () => {
+        await cargarNotificaciones();
+      }, 300000);
     });
 
     async function logout() {
+      //console.log("Limpiar intervalo logout");
+      clearInterval(intervalId);
+
       try {
         await session.logout();
         router.push("/login");
       } catch (error) {
         console.log(error);
       }
+    }
+
+    async function miCuenta() {
+      router.push({ name: "cuenta" });
+    }
+
+    function toggleMenu() {
+      menu.value = !menu.value; // Cambia el estado del menú
     }
 
     return {
@@ -384,6 +419,9 @@ export default defineComponent({
       nombreUsuario,
       cantidadNotificaciones,
       logout,
+      miCuenta,
+      iniciales,
+      toggleMenu,
     };
   },
 });
