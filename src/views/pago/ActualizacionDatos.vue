@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container fluid>
         <v-card class="mx-auto" color="transparent" elevation="0">
           <v-card-item>
@@ -49,7 +49,7 @@
               >
               <span class="text-subtitle-1 font-weight-bold">{{
                 certificadoActual.dataset.length > 0
-                  ? certificadoActual.dataset[0].fecha_vigencia
+                  ? formatearFecha(certificadoActual.dataset[0].fecha_vigencia)
                   : ""
               }}</span>
               <br />
@@ -58,7 +58,7 @@
               >
               <span class="text-subtitle-1 font-weight-bold">{{
                 certificadoActual.dataset.length > 0
-                  ? certificadoActual.dataset[0].fecha_inicio
+                  ? formatearFecha(certificadoActual.dataset[0].fecha_inicio)
                   : ""
               }}</span>
             </v-card-text>
@@ -91,6 +91,7 @@
                   v-model="dataModel.cuenta_nombre"
                   readonly
                   selectable="false"
+                  disabled
                 ></v-text-field>
                 <v-text-field
                   class="my-4"
@@ -100,6 +101,7 @@
                   v-model="dataModel.cuenta_apaterno"
                   readonly
                   selectable="false"
+                  disabled
                 ></v-text-field>
                 <v-text-field
                   class="my-4"
@@ -109,6 +111,7 @@
                   v-model="dataModel.cuenta_amatarno"
                   readonly
                   selectable="false"
+                  disabled
                 ></v-text-field>
                 <br />
                 <br />
@@ -127,6 +130,7 @@
                   readonly
                   selectable="false"
                   v-model="dataModel.cuenta_rfc"
+                  disabled
                 ></v-text-field>
                 <v-select
                   class="my-4"
@@ -171,6 +175,7 @@
                   variant="outlined"
                   v-model="dataModel.anhio_nacimiento"
                   :items="dataAnioNacimiento.result"
+                  :rules="[rules.required]"
                   item-value="value"
                   item-title="label"
                 ></v-select>
@@ -246,6 +251,7 @@
                   item-title="label"
                   readonly
                   selectable="false"
+                  disabled
                 ></v-select>
                 <v-text-field
                   class="my-4"
@@ -369,7 +375,7 @@
                   class="my-4"
                   clearable
                   hide-details="auto"
-                  label="C.P."
+                  label="C.P. *"
                   placeholder="Código postal"
                   variant="outlined"
                   v-model="dataModel.direccion_cp"
@@ -441,16 +447,28 @@
                   agradecemos tu colaboración.
                 </span>
                 <br />
+                <Datepicker
+                  v-model="dataModel.empresa_antiguedad"
+                  :enable-time-picker="false"
+                  :format-locale="es"
+                  :rules="[rules.required]"
+                  cancelText="Cancelar"
+                  class="my-4"
+                  format="dd/MM/yyyy"
+                  placeholder="Antigüedad - fecha de inicio *"
+                  selectText="Aceptar"
+                  :teleport="true"
+                />
                 <v-select
+                  v-model="dataModel.empresa_id_sector"
+                  :items="dataSector.result"
                   class="my-4"
                   hide-details="auto"
+                  item-title="label"
+                  item-value="value"
                   label="Sector *"
                   no-data-text="No hay datos disponibles"
                   variant="outlined"
-                  v-model="dataModel.empresa_id_sector"
-                  :items="dataSector.result"
-                  item-value="value"
-                  item-title="label"
                 ></v-select>
                 <v-text-field
                   class="my-4"
@@ -462,27 +480,6 @@
                   v-model="dataModel.empresa_nombre_empresa"
                   :rules="[rules.required]"
                 ></v-text-field>
-                <!--v-text-field
-                  class="my-4"
-                  hide-details="auto"
-                  label="Antiguedad *"
-                  placeholder="Antiguedad"
-                  variant="outlined"
-                  v-model="dataModel.empresa_antiguedad"
-                  type="date"
-                ></v-text-field-->
-
-                <Datepicker
-                  class="my-4"
-                  v-model="dataModel.empresa_antiguedad"
-                  cancelText="Cancelar"
-                  selectText="Aceptar"
-                  :format-locale="es"
-                  format="dd/MM/yyyy"
-                  placeholder="Antiguedad *"
-                  :rules="[rules.required]"
-                  :enable-time-picker="false"
-                />
 
                 <v-text-field
                   class="my-4"
@@ -565,7 +562,7 @@
                       ]"
                       class="my-2"
                       hide-details
-                      label="Eventos por página"
+                      label="Empresas por página"
                       variant="solo"
                     ></v-select>
                     <v-pagination
@@ -651,7 +648,7 @@
                   class="my-4"
                   clearable
                   hide-details="auto"
-                  label="C.P."
+                  label="C.P. *"
                   placeholder="Código postal"
                   variant="outlined"
                   v-model="dataModel.direccion_empresa_cp"
@@ -749,7 +746,7 @@
                   class="my-4"
                   clearable
                   hide-details="auto"
-                  label="C.P."
+                  label="C.P. *"
                   placeholder="Código postal"
                   variant="outlined"
                   v-model="dataModel.facturacion_cp"
@@ -836,43 +833,39 @@
               </span>
             </v-card-text>
           </v-card>
-          <v-card color="transparent" class="mx-auto my-4" elevation="0">
-            <div>
-              <v-btn
-                block
-                class="text-none"
-                prepend-icon="mdi-content-save-edit-outline"
-                rounded="large"
-                size="large"
-                text="GUARDAR"
-                variant="flat"
-                :color="colores.verdeBoton"
-                @click="actualizarDatos"
-              >
-                <template v-slot:prepend>
-                  <v-icon class="mr-3" size="large"></v-icon>
-                </template>
-              </v-btn>
-            </div>
-            <br />
-            <div>
-              <v-btn
-                block
-                class="text-none"
-                prepend-icon="mdi-content-save-off-outline"
-                rounded="large"
-                size="large"
-                text="CANCELAR"
-                variant="flat"
-                :color="colores.rojoIMPC"
-                :to="{ name: 'certificadoEstatus' }"
-              >
-                <template v-slot:prepend>
-                  <v-icon class="mr-3" size="large"></v-icon>
-                </template>
-              </v-btn>
-            </div>
-          </v-card>
+          <div class="d-flex flex-column">
+            <v-btn
+              block
+              class="mt-4"
+              prepend-icon="mdi-content-save-edit-outline"
+              rounded="large"
+              size="large"
+              text="GUARDAR"
+              variant="flat"
+              :color="colores.verdeBoton"
+              @click="actualizarDatos"
+            >
+              <template v-slot:prepend>
+                <v-icon class="mr-3" size="large"></v-icon>
+              </template>
+            </v-btn>
+
+            <v-btn
+              block
+              class="mt-4"
+              prepend-icon="mdi-content-save-off-outline"
+              rounded="large"
+              size="large"
+              text="CANCELAR"
+              variant="flat"
+              :color="colores.rojoIMPC"
+              :to="{ name: 'certificadoEstatus' }"
+            >
+              <template v-slot:prepend>
+                <v-icon class="mr-3" size="large"></v-icon>
+              </template>
+            </v-btn>
+          </div>
         </v-form>
         <v-dialog v-model="dialogFormGradoAcademico" max-width="500px">
           <v-form
@@ -881,8 +874,11 @@
             ref="formGradoAcademico"
           >
             <v-card>
-              <v-card-title>
-                <span class="text-h5">Grado académico</span>
+              <v-card-title
+                class="text-grey-darken-1"
+                style="text-align: center"
+              >
+                Grado académico
               </v-card-title>
 
               <v-card-text>
@@ -925,15 +921,15 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                  color="text-grey-darken-1"
-                  variant="text"
+                  :color="colores.grisOscuro"
+                  variant="flat"
                   @click="cerrarDialogGrado"
                 >
                   Cancelar
                 </v-btn>
                 <v-btn
-                  color="text-grey-darken-1"
-                  variant="text"
+                  :color="colores.verdeBoton"
+                  variant="flat"
                   @click="agregarGrado"
                 >
                   Guardar
@@ -944,20 +940,22 @@
         </v-dialog>
         <v-dialog v-model="dialogConfirmationGradoAcademico" max-width="500px">
           <v-card>
-            <v-card-title class="text-subtitle-1 text-grey-darken-1"
+            <v-card-title
+              class="text-subtitle-1 text-grey-darken-1"
+              style="text-align: center"
               >¿Está seguro de eliminar el registro?</v-card-title
             >
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
-                color="text-grey-darken-1"
-                variant="text"
+                :color="colores.grisOscuro"
+                variant="flat"
                 @click="cerrarDialogConfirmationGrado"
                 >Cancelar</v-btn
               >
               <v-btn
-                color="text-grey-darken-1"
-                variant="text"
+                :color="colores.verdeBoton"
+                variant="flat"
                 @click="confirmarDialogConfirmationGrado"
                 >Aceptar</v-btn
               >
@@ -966,6 +964,48 @@
           </v-card>
         </v-dialog>
       </v-container>
+      <v-dialog v-model="dialogPropiedades.dialog" max-width="500px">
+        <v-card>
+          <v-card-title class="text-grey-darken-1" style="text-align: center">
+            {{ dialogPropiedades.mensajeTitulo }}</v-card-title
+          >
+          <lottie-animation
+            v-if="dialogPropiedades.correcto"
+            ref="anim"
+            :animationData="CorrectAnimation"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <lottie-animation
+            v-else
+            ref="anim"
+            :animationData="IncorrectAnimation"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <v-card-text class="text-justify">
+            <span class="text-subtitle-1 text-grey-darken-1">
+              {{ dialogPropiedades.mensajeCuerpo }}
+            </span>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              :color="colores.verdeBoton"
+              block
+              size="large"
+              variant="flat"
+              @click="cerrardialogPropiedades(dialogPropiedades.correcto)"
+              >Aceptar</v-btn
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </ion-content>
   </ion-page>
 </template>
@@ -986,6 +1026,10 @@ import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import "v-calendar/style.css";
 import { es } from "date-fns/locale";
+
+import { LottieAnimation } from "lottie-web-vue";
+import CorrectAnimation from "../../assets/images/correct.json";
+import IncorrectAnimation from "../../assets/images/incorrect.json";
 
 const showAlert = async (header: string, message: string) => {
   const alert = await alertController.create({
@@ -1278,9 +1322,17 @@ export default defineComponent({
     VDatePicker,
     VDataTable,
     Datepicker,
+    LottieAnimation,
   },
   props: ["label", "color", "modelValue"],
   setup(props, { emit }) {
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
     const pagoStore = usePagoStore();
     const route = useRoute();
     const router: Router = useRouter();
@@ -1318,7 +1370,8 @@ export default defineComponent({
     });
 
     const rfcRegex = /^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z1-9]\d{1}$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     const telefonoRegex = /^\d{10}$/;
 
     const rules = {
@@ -1333,12 +1386,22 @@ export default defineComponent({
     };
 
     const idCertificadoParams = ref(0);
+    const tokenCertificado = ref("");
+    const idTokenCertificado = ref(0);
     const show = ref(false);
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
       grisOscuro: "#222222",
       verdeBoton: "#468C00",
+    });
+
+    let anim = ref();
+    const dialogPropiedades = ref({
+      dialog: false,
+      mensajeTitulo: "",
+      mensajeCuerpo: "",
+      correcto: false,
     });
 
     const dataModel = ref({
@@ -1680,7 +1743,11 @@ export default defineComponent({
       }
     }
 
-    async function cargarDesglosePorEjercicio(idCertificado: any) {
+    async function cargarDesglosePorEjercicio(
+      idCertificado: any,
+      tokenCert: any,
+      idTokenCert: any
+    ) {
       certificadoActual.value = {
         dataset: [],
         totalSize: 0,
@@ -1701,6 +1768,8 @@ export default defineComponent({
         ) as Dataset[];
 
         idCertificadoParams.value = idCertificado;
+        tokenCertificado.value = tokenCert;
+        idTokenCertificado.value = idTokenCert;
       } catch (error) {}
     }
 
@@ -2081,10 +2150,13 @@ export default defineComponent({
     }
 
     onIonViewDidEnter(async () => {
+      scrollToTop();
       const idCertificado = route.params.idCertificado;
+      const token = route.params.tokenCertificado;
+      const idToken = route.params.idToken;
       //const estatus = route.params.estatus;
 
-      await cargarDesglosePorEjercicio(idCertificado);
+      await cargarDesglosePorEjercicio(idCertificado, token, idToken);
       await catalogoGenero();
       await catalogoEstadoCivil();
       await catalogoColegio();
@@ -2127,7 +2199,6 @@ export default defineComponent({
             "cuentas_usuarios[cuenta_amatarno]",
             dataModel.value.cuenta_amatarno
           );
-
           formData.append(
             "cuentas_usuarios[cuenta_rfc]",
             dataModel.value.cuenta_rfc
@@ -2164,7 +2235,6 @@ export default defineComponent({
             "cuentas_usuarios[cuenta_email]",
             dataModel.value.cuenta_email
           );
-
           formData.append(
             "cuentas_usuarios[id_colegio]",
             dataModel.value.id_colegio.toString()
@@ -2173,7 +2243,6 @@ export default defineComponent({
             "cuentas_usuarios[organismo]",
             dataModel.value.otroOrganismo
           );
-
           dataModel.value.grado_academico_listado.forEach((grado, index) => {
             formData.append(
               "grados_academicos_cuentas[grado_academico][]",
@@ -2188,7 +2257,6 @@ export default defineComponent({
               grado.grado_academico_anhio_titulo.toString()
             );
           });
-
           formData.append(
             "direccionesUs[direccion_id]",
             dataModel.value.direccion_id.toString()
@@ -2214,7 +2282,6 @@ export default defineComponent({
             dataModel.value.direccion_estado
           );
           formData.append("direccionesUs[telefono]", dataModel.value.telefono);
-
           formData.append(
             "empresa[0][empresa_id]",
             dataModel.value.empresa_id.toString()
@@ -2232,7 +2299,6 @@ export default defineComponent({
             cambiarFormatoFecha(dataModel.value.empresa_antiguedad)
           );
           formData.append("empresa[0][puesto]", dataModel.value.empresa_puesto);
-
           for (let i = 1; i < dataModel.value.empresa_listado.length; i++) {
             const empresa = dataModel.value.empresa_listado[i];
             formData.append(
@@ -2249,14 +2315,12 @@ export default defineComponent({
             );
             formData.append(`empresa[${i}][puesto]`, empresa.empresa_puesto);
           }
-
           dataModel.value.especialidad_id.forEach((especialidad, index) => {
             formData.append(
               "cuentas_especialidades[catalogo_especialidad_id][]",
               especialidad.toString()
             );
           });
-
           formData.append(
             "direccionesEmpresa[direccion_id]",
             dataModel.value.direccion_empresa_id.toString()
@@ -2285,7 +2349,6 @@ export default defineComponent({
             "direccionesEmpresa[telefono]",
             dataModel.value.direccion_empresa_telefono
           );
-
           formData.append(
             "datos_facturacion[dato_facturacion_id]",
             dataModel.value.dato_facturacion_id.toString()
@@ -2318,7 +2381,6 @@ export default defineComponent({
             "datos_facturacion[estado]",
             dataModel.value.facturacion_estado
           );
-
           formData.append(
             "datos_facturacion[tipo_persona]",
             dataModel.value.tipo_persona
@@ -2327,6 +2389,8 @@ export default defineComponent({
             "datos_facturacion[regimen_fiscal_id]",
             dataModel.value.regimen_fiscal_id
           );
+          formData.append("token", idTokenCertificado.value.toString());
+          formData.append("tokenxx", tokenCertificado.value);
 
           console.log(formData);
 
@@ -2344,11 +2408,19 @@ export default defineComponent({
               params: {
                 idCertificado: idCertificadoParams.value,
                 estatus: "2",
+                tokenCertificado: tokenCertificado.value,
+                idToken: idTokenCertificado.value,
               },
             });
           }
         } else {
-          await showAlert("Actualización de datos", "Revise los datos");
+          //await showAlert("Actualización de datos", "Revise los datos");
+          dialogPropiedades.value = {
+            dialog: true,
+            mensajeTitulo: "Actualización de datos",
+            mensajeCuerpo: "Revise los datos marcados",
+            correcto: false,
+          };
         }
       } catch (error) {
         console.log(error);
@@ -2442,6 +2514,29 @@ export default defineComponent({
       dialogConfirmationGradoAcademico.value = false;
     }
 
+    function cerrardialogPropiedades(estado: boolean) {
+      dialogPropiedades.value.dialog = false;
+      if (estado) {
+        router.push({
+          name: "seleccionAccion",
+          params: {
+            idCertificado: idCertificadoParams.value,
+            estatus: "2",
+            tokenCertificado: tokenCertificado.value,
+            idToken: idTokenCertificado.value,
+          },
+        });
+      }
+    }
+
+    function formatearFecha(dateString: any) {
+      const date = new Date(dateString);
+      const day = ("0" + date.getDate()).slice(-2);
+      const month = ("0" + (date.getMonth() + 1)).slice(-2);
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
     return {
       colores,
       show,
@@ -2486,18 +2581,45 @@ export default defineComponent({
       cerrarDialogConfirmationGrado,
       confirmarDialogConfirmationGrado,
       es,
+      anim,
+      dialogPropiedades,
+      IncorrectAnimation,
+      CorrectAnimation,
+      cerrardialogPropiedades,
+      contentRef,
+      formatearFecha,
     };
   },
 });
 </script>
 
 <style>
+.lottie-container {
+  height: 150px;
+}
+
 .dp__pointer {
   height: 56px;
 }
 
 .tb-grados thead {
   font-size: 0.875rem;
+}
+
+.dp__calendar_row {
+  margin: 0;
+}
+
+.dp__pointer.dp__input_readonly.dp__input.dp__input_icon_pad.dp__input_focus.dp__input_reg {
+  height: 56px;
+}
+
+.dp__pointer.dp__input_readonly.dp__input.dp__input_icon_pad.dp__input_reg {
+  height: 56px;
+}
+
+.dp__cell_inner.dp__pointer.dp--past.dp__date_hover {
+  height: 35px;
 }
 
 @media screen and (max-width: 600px) {

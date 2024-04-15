@@ -93,15 +93,62 @@
         <div class="esquina-br" />
         <div class="esquina-tl" />
       </v-container>
+      <v-dialog v-model="dialogPropiedades.dialog" max-width="500px">
+        <v-card>
+          <v-card-title class="text-grey-darken-1" style="text-align: center">
+            {{ dialogPropiedades.mensajeTitulo }}</v-card-title
+          >
+          <lottie-animation
+            v-if="dialogPropiedades.correcto"
+            ref="anim"
+            :animationData="CorrectAnimation"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <lottie-animation
+            v-else
+            ref="anim"
+            :animationData="IncorrectAnimation"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <v-card-text class="text-justify">
+            <span class="text-subtitle-1 text-grey-darken-1">
+              {{ dialogPropiedades.mensajeCuerpo }}
+            </span>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              :color="colores.verdeBoton"
+              block
+              size="large"
+              variant="flat"
+              @click="cerrardialogPropiedades(dialogPropiedades.correcto)"
+              >Aceptar</v-btn
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
 import { alertController, IonPage, IonContent } from "@ionic/vue";
 import { Storage } from "@ionic/storage";
 import { useSessionStore } from "../store/session";
+import { LottieAnimation } from "lottie-web-vue";
+
+import CorrectAnimation from "../assets/images/correct.json";
+import IncorrectAnimation from "../assets/images/incorrect.json";
 
 const showAlert = async (header: string, message: string) => {
   const alert = await alertController.create({
@@ -117,9 +164,11 @@ export default defineComponent({
   components: {
     IonPage,
     IonContent,
+    LottieAnimation,
   },
   setup() {
     const session = useSessionStore();
+    const router = useRouter();
 
     const rfcRegex = /^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z1-9]\d{1}$/;
 
@@ -133,6 +182,23 @@ export default defineComponent({
       required: (v: string) => !!v || "Este campo es requerido",
       validRFC: (v: string) => rfcRegex.test(v) || "RFC no válido",
     };
+
+    const colores = ref({
+      rojoIMPC: "#B20000",
+      rojoClaro: "#FAE6EA",
+      grisOscuro: "#222222",
+      verdeBoton: "#468C00",
+    });
+
+    let anim = ref();
+
+    const dialogPropiedades = ref({
+      dialog: false,
+      mensajeTitulo: "",
+      mensajeCuerpo: "",
+      correcto: false,
+    });
+
     const tokenAuth = ref(false);
 
     async function sendPassword() {
@@ -144,6 +210,14 @@ export default defineComponent({
 
         await session.resetPassword(data);
 
+        dialogPropiedades.value = {
+          dialog: true,
+          mensajeTitulo: "Recuperación de contraseña",
+          mensajeCuerpo: session.responseMessage,
+          correcto: true,
+        };
+        await formEl.value?.reset();
+        /*
         const alert = await showAlert(
           "Recuperación de contraseña",
           session.responseMessage
@@ -154,12 +228,21 @@ export default defineComponent({
           await alert.onDidDismiss();
           await formEl.value?.reset();
         }
+        */
       } catch (error) {
+        dialogPropiedades.value = {
+          dialog: true,
+          mensajeTitulo: "Recuperación de contraseña",
+          mensajeCuerpo: "Ha ocurrido un error durante el envío de la petición",
+          correcto: false,
+        };
+        /*
         await showAlert(
           "Recuperación de contraseña",
           "Ha ocurrido un error durante el envío de la petición"
         );
         throw new Error("Error al enviar la petición");
+        */
       }
     }
 
@@ -193,19 +276,35 @@ export default defineComponent({
         token.value = await storage.get("token");
 
         if (token.value == "" || token.value == null) {
+          dialogPropiedades.value = {
+            dialog: true,
+            mensajeTitulo: "Ocurrió un problema en la conexión",
+            mensajeCuerpo: "Cierre la aplicación e intente mas tarde",
+            correcto: false,
+          };
+          /*
           await showAlert(
             "Ocurrio un problema con el servidor",
             "Cierre la aplicación e intente más tarde"
           );
+          */
         } else {
           tokenAuth.value = true;
         }
       } catch (error) {
+        dialogPropiedades.value = {
+          dialog: true,
+          mensajeTitulo: "Ocurrió un problema en la conexión",
+          mensajeCuerpo: "Cierre la aplicación e intente mas tarde",
+          correcto: false,
+        };
+        /*
         await showAlert(
           "Ocurrio un problema con el servidor",
           "Cierre la aplicación e intente más tarde"
         );
         throw new Error("Error al obtener el token");
+        */
       }
     }
 
@@ -213,13 +312,26 @@ export default defineComponent({
       form.value[fieldName] = form.value[fieldName].toUpperCase();
     }
 
+    function cerrardialogPropiedades(estado: boolean) {
+      dialogPropiedades.value.dialog = false;
+      if (estado) {
+        //router.push({ name: "login" });
+      }
+    }
+
     return {
+      colores,
       form,
       rules,
       isValid,
       formEl,
       validateAndSend,
       convertToUpperCase,
+      anim,
+      dialogPropiedades,
+      CorrectAnimation,
+      IncorrectAnimation,
+      cerrardialogPropiedades,
     };
   },
 });

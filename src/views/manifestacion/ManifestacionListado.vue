@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container>
         <v-tabs
           v-model="tabs"
@@ -17,7 +17,7 @@
             class="mr-1 text-none"
             rounded="t-lg"
             size="small"
-            text="Nueva manifestación"
+            text="Manifestaciones"
             variant="flat"
           />
           <v-tab
@@ -35,14 +35,17 @@
           <v-window-item :value="1">
             <v-card color="transparent" elevation="0" rounded="b-lg">
               <v-card class="mx-auto" color="transparent" elevation="0">
-                <v-card-item>
-                  <v-card-title
-                    class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
-                    style="white-space: normal"
-                  >
-                    Manifestaciones
-                  </v-card-title>
-                </v-card-item>
+                <v-card-text class="text-justify">
+                  <span class="text-subtitle-1 text-grey-darken-1">
+                    Para iniciar su proceso de manifestación tendrá que contar
+                    con las capacitaciones externas así como datos que se le
+                    preguntarán de acuerdo a su Certificado DPC.
+                  </span>
+                  <br />
+                  <span class="text-subtitle-1 text-grey-darken-1">
+                    De clic en el botón de Manifestaciones
+                  </span>
+                </v-card-text>
               </v-card>
               <v-card class="mx-auto my-4" elevation="0" rounded="lg">
                 <v-divider />
@@ -52,7 +55,7 @@
                     block
                     prepend-icon="mdi-account-school-outline"
                     size="large"
-                    text="Nueva manifestación"
+                    text="Manifestaciones"
                     variant="flat"
                     :to="{ name: 'manifestacionRegistro' }"
                   >
@@ -77,6 +80,7 @@
                 </v-card-item>
               </v-card>
               <v-text-field
+                v-model="busquedaManifestacion"
                 class="ma-3"
                 clearable
                 density="comfortable"
@@ -104,13 +108,55 @@
                         :data-label="encabezado.title"
                         class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
                       >
-                        <v-icon
-                          v-if="encabezado.key == 'status_solicitud'"
+                        <v-chip
                           :color="getColor(item[encabezado.key])"
+                          variant="outlined"
+                          size="small"
+                          label
+                          style="width: fit-content"
                           class="mr-2"
+                          v-if="encabezado.key == 'status_solicitud'"
                         >
-                          mdi-circle
-                        </v-icon>
+                          <v-icon size="x-small" class="mr-2"
+                            >mdi-circle</v-icon
+                          >
+                          {{ item[encabezado.key] }}
+                        </v-chip>
+
+                        <v-btn
+                          v-else-if="
+                            encabezado.key == 'archivo' &&
+                            item[encabezado.key].endsWith('.xlsx')
+                          "
+                          :color="colores.verdeBoton"
+                          block
+                          prepend-icon="mdi-file-download-outline"
+                          size="large"
+                          text="DESCARGAR MANIFESTACIÓN"
+                          variant="flat"
+                          @click="descargarArchivo(item[encabezado.key])"
+                          style="font-size: 14px"
+                        >
+                          <template v-slot:prepend>
+                            <v-icon class="mr-3" size="large"></v-icon>
+                          </template>
+                        </v-btn>
+
+                        <span
+                          v-else-if="
+                            encabezado.key == 'archivo' &&
+                            item[encabezado.key].endsWith('manifestacion/')
+                          "
+                          class="text-body-2 font-weight-bold"
+                        >
+                          Sin archivo
+                        </span>
+                        <span
+                          v-else-if="encabezado.key == 'fecha_solicitada'"
+                          class="text-body-2 font-weight-bold"
+                        >
+                          {{ formatearFecha(item[encabezado.key]) }}
+                        </span>
                         <span v-else class="text-body-2 font-weight-bold">
                           {{ item[encabezado.key] }}
                         </span>
@@ -128,71 +174,13 @@
                         mdi-database-eye-off
                       </v-icon>
                       <v-card-text class="text-grey-darken-1">
-                        No se encontraron manifestaciones que coincidan con la búsqueda.
+                        No se encontraron manifestaciones que coincidan con la
+                        búsqueda.
                       </v-card-text>
                     </v-card>
                   </template>
                   <template v-slot:bottom="{ pageCount }">
                     <v-divider />
-                    <v-row class="my-2" no-gutters>
-                      <v-col class="d-flex align-center justify-end">
-                        <v-chip
-                          color="#FF7F00"
-                          variant="outlined"
-                          size="small"
-                          label
-                          style="width: 50"
-                          class="ma-2"
-                        >
-                          <v-icon size="x-small" class="mr-2"
-                            >mdi-circle</v-icon
-                          >
-                          Solicitud
-                        </v-chip>
-                      </v-col>
-                      <v-col class="d-flex align-center justify-end">
-                        <v-chip
-                          color="#0080FF"
-                          variant="outlined"
-                          size="small"
-                          label
-                          class="ma-2"
-                        >
-                          <v-icon size="x-small" class="mr-2"
-                            >mdi-circle</v-icon
-                          >
-                          Revisión
-                        </v-chip>
-                      </v-col>
-                      <v-col class="d-flex align-center justify-end">
-                        <v-chip
-                          color="#85B201"
-                          variant="outlined"
-                          size="small"
-                          label
-                          class="ma-2"
-                        >
-                          <v-icon size="x-small" class="mr-2"
-                            >mdi-circle</v-icon
-                          >
-                          Autorizado
-                        </v-chip>
-                      </v-col>
-                      <v-col class="d-flex align-center justify-end">
-                        <v-chip
-                          color="#FE4948"
-                          variant="outlined"
-                          size="small"
-                          label
-                          class="ma-2"
-                        >
-                          <v-icon size="x-small" class="mr-2"
-                            >mdi-circle</v-icon
-                          >
-                          Rechazado
-                        </v-chip>
-                      </v-col>
-                    </v-row>
 
                     <div
                       class="text-center my-3 mx-3"
@@ -297,6 +285,14 @@ export default defineComponent({
     VDataTable,
   },
   setup() {
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
+
     const manifestacionStore = useManifestacionStore();
 
     const colores = ref({
@@ -309,7 +305,7 @@ export default defineComponent({
     const encabezadosEvento = ref([
       { title: "Especialidad", key: "especialidad" },
       { title: "Tipo", key: "tipo_solicitud" },
-      { title: "Fecha", key: "fecha_solicitada" },
+      { title: "Fecha de generación", key: "fecha_solicitada" },
       { title: "Estatus", key: "status_solicitud" },
       { title: "Archivo", key: "archivo" },
     ]);
@@ -346,11 +342,11 @@ export default defineComponent({
       switch (status) {
         case "Solicitada":
           return "#FF7F00";
-        case "Revisión":
+        case "Revisada":
           return "#0080FF";
-        case "Autorizado":
+        case "Generada":
           return "#85B201";
-        case "Rechazado":
+        case "Descargada":
           return "#FE4948";
       }
     };
@@ -374,7 +370,20 @@ export default defineComponent({
       } catch (error) {}
     }
 
+    function descargarArchivo(ruta: string) {
+      window.open(ruta, "_blank");
+    }
+
+    function formatearFecha(dateString: any) {
+      const date = new Date(dateString);
+      const day = ("0" + date.getDate()).slice(-2);
+      const month = ("0" + (date.getMonth() + 1)).slice(-2);
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
     onIonViewDidEnter(() => {
+      scrollToTop();
       cargarDashboard();
     });
 
@@ -389,6 +398,9 @@ export default defineComponent({
       paginaManifestacion,
       busquedaManifestacion,
       getColor,
+      descargarArchivo,
+      contentRef,
+      formatearFecha,
     };
   },
 });
@@ -443,8 +455,9 @@ export default defineComponent({
   }
 
   .tb-avisos.v-data-table tr:not(:first-child) > td:first-child {
-    border-top: medium solid
-      rgba(var(--v-border-color), var(--v-border-opacity));
+    border-top-width: 10px;
+    border-top-style: solid;
+    border-top-color: #eeeeee;
   }
 }
 </style>

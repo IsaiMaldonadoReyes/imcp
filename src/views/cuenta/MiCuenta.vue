@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container fluid>
         <v-card color="transparent" elevation="0">
           <v-card-item>
@@ -29,6 +29,7 @@
                 v-model="dataCuenta.cuenta_nombre"
                 readonly
                 selectable="false"
+                disabled
               ></v-text-field>
               <v-text-field
                 class="my-4"
@@ -38,6 +39,7 @@
                 v-model="dataCuenta.cuenta_apaterno"
                 readonly
                 selectable="false"
+                disabled
               ></v-text-field>
               <v-text-field
                 class="my-4"
@@ -47,6 +49,7 @@
                 v-model="dataCuenta.cuenta_amatarno"
                 readonly
                 selectable="false"
+                disabled
               ></v-text-field>
 
               <v-text-field
@@ -57,6 +60,7 @@
                 v-model="dataCuenta.cuenta_rfc"
                 readonly
                 selectable="false"
+                disabled
               ></v-text-field>
 
               <v-text-field
@@ -119,13 +123,10 @@
               </v-checkbox>
             </v-card-text>
           </v-card>
-        </v-form>
-
-        <v-card color="transparent" class="mx-auto my-4" elevation="0">
-          <div>
+          <div class="d-flex flex-column">
             <v-btn
               block
-              class="text-none"
+              class="mt-4"
               prepend-icon="mdi-content-save-edit-outline"
               rounded="large"
               size="large"
@@ -138,12 +139,9 @@
                 <v-icon class="mr-3" size="large"></v-icon>
               </template>
             </v-btn>
-          </div>
-          <br />
-          <div>
             <v-btn
               block
-              class="text-none"
+              class="mt-4"
               prepend-icon="mdi-content-save-off-outline"
               rounded="large"
               size="large"
@@ -157,8 +155,50 @@
               </template>
             </v-btn>
           </div>
-        </v-card>
+        </v-form>
       </v-container>
+      <v-dialog v-model="dialogPropiedades.dialog" max-width="500px">
+        <v-card>
+          <v-card-title class="text-grey-darken-1" style="text-align: center">
+            {{ dialogPropiedades.mensajeTitulo }}</v-card-title
+          >
+          <lottie-animation
+            v-if="dialogPropiedades.correcto"
+            ref="anim"
+            :animationData="CorrectAnimation"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <lottie-animation
+            v-else
+            ref="anim"
+            :animationData="IncorrectAnimation"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <v-card-text class="text-justify">
+            <span class="text-subtitle-1 text-grey-darken-1">
+              {{ dialogPropiedades.mensajeCuerpo }}
+            </span>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              :color="colores.verdeBoton"
+              block
+              size="large"
+              variant="flat"
+              @click="cerrardialogPropiedades(dialogPropiedades.correcto)"
+              >Aceptar</v-btn
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </ion-content>
   </ion-page>
 </template>
@@ -174,6 +214,10 @@ import {
 import { usePagoStore } from "@/store/pago";
 import { useCuentaStore } from "@/store/cuenta";
 import { useRouter, Router } from "vue-router";
+import { LottieAnimation } from "lottie-web-vue";
+
+import CorrectAnimation from "../../assets/images/correct.json";
+import IncorrectAnimation from "../../assets/images/incorrect.json";
 
 const showAlert = async (header: string, message: string) => {
   const alert = await alertController.create({
@@ -282,8 +326,17 @@ export default defineComponent({
   components: {
     IonContent,
     IonPage,
+    LottieAnimation,
   },
   setup() {
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
+
     const pagoStore = usePagoStore();
     const cuentaStore = useCuentaStore();
     const router: Router = useRouter();
@@ -292,6 +345,7 @@ export default defineComponent({
     const formEl = ref<any>(null);
     const show1 = ref(false);
 
+    let anim = ref();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const rules = {
@@ -312,6 +366,13 @@ export default defineComponent({
       rojoClaro: "#FAE6EA",
       grisOscuro: "#222222",
       verdeBoton: "#468C00",
+    });
+
+    const dialogPropiedades = ref({
+      dialog: false,
+      mensajeTitulo: "",
+      mensajeCuerpo: "",
+      correcto: false,
     });
 
     const dataContacto = ref<InformacionUsuario>({
@@ -389,7 +450,7 @@ export default defineComponent({
       registro_imss: "",
       users_usuarios_usuario_id: 0,
       password: "",
-      enviado: false,
+      enviado: true,
     });
 
     async function cargarContacto() {
@@ -404,7 +465,7 @@ export default defineComponent({
         registro_imss: "",
         users_usuarios_usuario_id: 0,
         password: "",
-        enviado: false,
+        enviado: true,
       };
 
       try {
@@ -435,8 +496,7 @@ export default defineComponent({
         dataCuenta.value.users_usuarios_usuario_id =
           dataInformacion.value.info[0].users_usuarios_usuario_id;
 
-        dataCuenta.value.enviado =
-          dataInformacion.value.info[0].enviado == "Si" ? true : false;
+        dataCuenta.value.enviado = true;
       } catch (error) {
         console.log(error);
       }
@@ -448,24 +508,6 @@ export default defineComponent({
         if (isValidForm.valid) {
           const formData = new URLSearchParams();
 
-          /*formData.append("datos[cuenta_rfc]", "CACX610315BD1");
-          formData.append("datos[cuenta_nombre]", "Abel");
-          formData.append("datos[cuenta_apaterno]", "Castro");
-          formData.append("datos[cuenta_amatarno]", "Castro");
-          formData.append("datos[expositor]", "No");
-          formData.append("datos[articulo]", "Inactivo");
-          formData.append("datos[status]", "Activo");
-          formData.append("datos[users_usuarios_usuario_nombre]", "Abel");
-          formData.append("datos[users_usuarios_usuario_apaterno]", "Castro");
-          formData.append("datos[users_usuarios_usuario_amaterno]", "Castro");
-          formData.append("datos[users_usuarios_usuario_alias]", "Prueba");
-          formData.append("datos[users_usuarios_rfc_usuario]", "CACX610315BD1");
-          formData.append(
-            "datos[users_usuarios_usuario_fecha_contrasena]",
-            "2023-12-10 11:51:16"
-            );
-            formData.append("datos[usuario_status_acceso]", "Activo");
-            */
           formData.append(
             "datos[cuentas_usuarios_id]",
             dataCuenta.value.cuentas_usuarios_id.toString()
@@ -478,34 +520,38 @@ export default defineComponent({
             "datos[registro_agaff]",
             dataCuenta.value.registro_agaff
           );
-
           formData.append(
             "datos[registro_imss]",
             dataCuenta.value.registro_imss
           );
-
           formData.append(
             "datos[users_usuarios_usuario_email]",
             dataCuenta.value.cuenta_email
           );
-
-          formData.append(
-            "datos[cuenta_email]",
-            dataCuenta.value.cuenta_email
-          );
+          formData.append("datos[cuenta_email]", dataCuenta.value.cuenta_email);
           formData.append(
             "datos[enviado]",
             dataCuenta.value.enviado == true ? "Si" : "No"
           );
-
           if (dataCuenta.value.password != "") {
             formData.append("datos[password]", dataCuenta.value.password);
           }
           await cuentaStore.actualizarCuenta(formData);
 
+          dialogPropiedades.value = {
+            dialog: true,
+            mensajeTitulo: "Actualización de datos",
+            mensajeCuerpo:
+              cuentaStore.type == "success"
+                ? "La información de su cuenta ha sido actualizada"
+                : cuentaStore.responseMessage,
+            correcto: cuentaStore.type == "success" ? true : false,
+          };
+          /*
           const alert = await showAlert(
             "Actualización de datos",
-            cuentaStore.responseMessage
+            //cuentaStore.responseMessage
+            "La información de su cuenta ha sido actualizada"
           );
 
           if (alert) {
@@ -515,20 +561,29 @@ export default defineComponent({
             await formEl.value?.reset();
 
             router.push({ name: "dashboard" });
-          }
-
-          //if (cuentaStore.type == "success") {
-          //}
-        } else {
-          await showAlert("Actualización de datos", "Revise los datos");
+          }*/
         }
+        /*else {
+          await showAlert(
+            "Actualización de datos",
+            cuentaStore.responseMessage
+          );
+        }*/
       } catch (error) {
         console.log(error);
         return;
       }
     }
 
+    function cerrardialogPropiedades(estado: boolean) {
+      dialogPropiedades.value.dialog = false;
+      if (estado) {
+        router.push({ name: "dashboard" });
+      }
+    }
+
     onIonViewDidEnter(async () => {
+      scrollToTop();
       await cargarContacto();
     });
 
@@ -541,7 +596,18 @@ export default defineComponent({
       isValid,
       show1,
       actualizarRegistro,
+      dialogPropiedades,
+      CorrectAnimation,
+      IncorrectAnimation,
+      anim,
+      cerrardialogPropiedades,
+      contentRef,
     };
   },
 });
 </script>
+<style>
+.lottie-container {
+  height: 150px;
+}
+</style>

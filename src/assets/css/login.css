@@ -40,3 +40,6 @@ body {
     z-index: -1;
     background-size: 20%;
 }
+.lottie-container {
+    height: 150px;
+  }

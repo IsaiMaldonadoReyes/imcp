@@ -70,14 +70,14 @@
                 :rules="[rules.required, rules.validTelefono]"
               ></v-text-field>
               <v-text-field
-                v-model="dataModel.email"
-                :rules="[rules.required, rules.validEmail]"
                 class="my-4"
                 clearable
                 hide-details="auto"
                 label="Email *"
                 placeholder="Email"
                 variant="outlined"
+                v-model="dataModel.email"
+                :rules="[rules.required, rules.validEmail]"
               ></v-text-field>
               <Datepicker
                 v-model="dataModel.eventos_fecha_inicio"
@@ -85,7 +85,7 @@
                 :rules="[rules.required]"
                 :teleport="true"
                 cancelText="Cancelar"
-                class="my-4 datepickerisai"
+                class="my-4"
                 format="dd/MM/yyyy HH:mm"
                 placeholder="Fecha de inicio *"
                 required
@@ -199,7 +199,6 @@
                   label="Seleccione archivos"
                   multiple
                   counter
-                  variant="outlined"
                   v-model="dataModel.archivos"
                 ></v-file-input>
               </v-card-text>
@@ -230,7 +229,7 @@
               text="CANCELAR"
               variant="flat"
               :color="colores.rojoIMPC"
-              :to="{ name: 'capacitacionExternaListado' }"
+              :to="{ name: 'manifestacionCapacitacionListado' }"
             >
               <template v-slot:prepend>
                 <v-icon class="mr-3" size="large"></v-icon>
@@ -408,7 +407,6 @@ import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import "v-calendar/style.css";
 import { es } from "date-fns/locale";
-
 import { LottieAnimation } from "lottie-web-vue";
 
 import CorrectAnimation from "../../assets/images/correct.json";
@@ -527,7 +525,7 @@ const showAlert = async (header: string, message: string) => {
 };
 
 export default defineComponent({
-  name: "RegistroCapacitacion",
+  name: "ManifestacionRegistroCapacitacion",
   components: {
     IonContent,
     IonPage,
@@ -545,7 +543,6 @@ export default defineComponent({
         contentRef.value.scrollTop = 0; // Scrolls to the top of the content
       }
     };
-
     const route = useRoute();
     const router: Router = useRouter();
 
@@ -559,6 +556,7 @@ export default defineComponent({
     const refFormDisciplina = ref<any>(null);
 
     const editedIndex = ref(-1);
+
     let anim = ref();
 
     const dialogPropiedades = ref({
@@ -822,7 +820,7 @@ export default defineComponent({
             "eventos_externos[expositor]",
             dataModel.value.expositor
           );
-          formData.append("eventos_externos[origen]", "Externo");
+          formData.append("eventos_externos[origen]", "Manifestación");
           formData.append(
             "eventos_externos[eventos_fecha_inicio]",
             cambiarFormatoFecha(dataModel.value.eventos_fecha_inicio)
@@ -860,7 +858,6 @@ export default defineComponent({
               "Activo"
             );
           });
-
           for (const [index, archivo] of dataModel.value.archivos.entries()) {
             const base64String: string = await convertirABase64(archivo);
             formData.append(
@@ -872,7 +869,6 @@ export default defineComponent({
               "Activo"
             );
           }
-
           if (dataModel.value.imss_id.length > 0) {
             dataModel.value.imss_id.forEach((imss, index) => {
               formData.append(
@@ -895,13 +891,13 @@ export default defineComponent({
               dialog: true,
               mensajeTitulo: "Capacitación externa",
               mensajeCuerpo:
-                "Su capacitación externa ha sido enviada exitosamente. Se iniciará un proceso de revisión, y en caso de ser favorable se notificará o podrá consultarla en el listado.",
+                "Su capacitación externa ha sido enviada exitosamente. Se iniciará un proceso de revisión, y en caso de ser favorable se notificará o podrá consultarla en el listado de manifestaciones realizadas.",
               correcto: true,
             };
             /*
             const alert = await showAlert(
               "Capacitación externa",
-              "Su capacitación externa ha sido enviada exitosamente. Se iniciará un proceso de revisión, y en caso de ser favorable se notificará o podrá consultarla en el listado."
+              "Su capacitación externa ha sido enviada exitosamente. Se iniciará un proceso de revisión, y en caso de ser favorable se notificará o podrá consultarla en el listado de manifestaciones realizadas."
             );
 
             if (alert) {
@@ -909,7 +905,7 @@ export default defineComponent({
               await alert.onDidDismiss();
 
               router.push({
-                name: "capacitacionExternaListado",
+                name: "manifestacionCapacitacionListado",
               });
             }
             */
@@ -924,8 +920,7 @@ export default defineComponent({
             await showAlert(
               "Capacitación externa",
               "Revise los datos obligatorios"
-            );
-            */
+            );*/
           }
         }
       } catch (error) {}
@@ -1043,7 +1038,7 @@ export default defineComponent({
     function cerrardialogPropiedades(estado: boolean) {
       dialogPropiedades.value.dialog = false;
       if (estado) {
-        router.push({ name: "capacitacionExternaListado" });
+        router.push({ name: "manifestacionCapacitacionListado" });
       }
     }
 
@@ -1093,6 +1088,10 @@ export default defineComponent({
 <style>
 .lottie-container {
   height: 150px;
+}
+
+.dp__pointer {
+  height: 56px;
 }
 
 .tb-grados thead {

@@ -10,10 +10,14 @@ export const useManifestacionStore = defineStore({
     state: () => ({
         object: {
             listado: {},
+            listadoPermisos: {},
             catalogoDisciplina: {}
         },
         responseMessage: "",
-        type: ""
+        type: "",
+        test: "",
+        manifestacionesSeleccionadas: {}
+
     }),
     actions: {
 
@@ -23,34 +27,13 @@ export const useManifestacionStore = defineStore({
 
             const configAuthToken = await storage.get("configToken");
             try {
-                const response = await axios.post("/users/eventos_externos", informacion, configAuthToken);
+                const response = await axios.post("/manifestacion/solicitudes", informacion, configAuthToken);
                 this.responseMessage = response.data.sys.mensaje_operacion;
                 this.type = response.data.type;
             } catch (error) {
                 //throw new Error("Solicitud incorrecta");
             }
         },
-
-        async cargarCatalogoDisciplina() {
-            const storage = new Storage();
-            await storage.create();
-
-            const configAuthToken = await storage.get("configToken");
-
-            try {
-
-                const response = await axios.get("/users/catalogos/especialidades", {
-                    headers: configAuthToken.headers,
-                });
-
-                if (response.data.type === "success") {
-                    this.object.catalogoDisciplina = response.data;
-                }
-            } catch (error) {
-                //throw new Error("Solicitud incorrecta");
-            }
-        },
-
 
         async cargarListado() {
             this.object.listado = {};
@@ -75,6 +58,65 @@ export const useManifestacionStore = defineStore({
 
                 if (response.data.type === "success") {
                     this.object.listado = response.data.result.search;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
+        async cargarListadoCapacitacionExterna() {
+            this.object.listado = {};
+
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+            const rfcParam = await storage.get("rfc");
+
+            try {
+                const params = {
+                    datos: {
+                        cuenta_rfc: rfcParam,
+                        //origen: "Externo"
+                    }
+                };
+
+                const response = await axios.get("/users/eventos_externos", {
+                    params,
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.listado = response.data.result.search;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
+
+        async cargarListadoPermisos() {
+            this.object.listadoPermisos = {};
+
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+            const rfcParam = await storage.get("rfc");
+
+            try {
+                const params = {
+                    datos: {
+                        cuenta_rfc: rfcParam,
+                    }
+                };
+
+                const response = await axios.get("/manifestacion/permitidos", {
+                    params,
+                    headers: configAuthToken.headers,
+                });
+
+                if (response.data.type === "success") {
+                    this.object.listadoPermisos = response.data.result.search;
                 }
             } catch (error) {
                 //throw new Error("Solicitud incorrecta");

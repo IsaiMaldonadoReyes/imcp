@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container fluid>
         <v-card elevation="0" color="transparent">
           <v-card-item>
@@ -118,7 +118,7 @@
                       <td
                         class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify"
                       >
-                        {{ item.raw.fecha_vigencia }}
+                        {{ formatearFecha(item.raw.fecha_vigencia) }}
                       </td>
                     </tr>
                     <tr>
@@ -180,22 +180,20 @@
 
               <v-card-actions>
                 <v-btn
-                  v-if="
-                    item.raw.tipo_certificado == 'Sustentante' ||
-                    item.raw.tipo_certificado == 'Refrendo'
-                  "
+                  v-if="item.raw.token !== ''"
                   :color="colores.verdeBoton"
                   block
                   prepend-icon="mdi-credit-card-outline"
                   size="large"
                   text="Realizar pago"
-                  :to="{
-                    name: 'seleccionAccion',
-                    params: {
-                      idCertificado: item.raw.id_certificado,
-                      estatus: '1',
-                    },
-                  }"
+                  @click="
+                    dirigirSeleccionAccion(
+                      item.raw.id_certificado,
+                      '1',
+                      item.raw.token,
+                      item.raw.token_id
+                    )
+                  "
                   variant="flat"
                 >
                   <template v-slot:prepend>
@@ -287,7 +285,7 @@ import { defineComponent, ref, computed } from "vue";
 import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
 import { VDataIterator } from "vuetify/lib/labs/components.mjs";
 import { useCertificadoStore } from "@/store/certificado";
-import { useRoute } from "vue-router";
+import { useRouter, Router, useRoute } from "vue-router";
 
 export interface Certificados {
   dataset: Dataset[];
@@ -331,6 +329,9 @@ export interface Dataset {
   anhio_fin_vigencia_nuevo: string;
   tipo: string;
   tipo_certificado: string;
+  token_id: number;
+  token: string;
+  token_status: string;
   certificado_dis: string;
   sector: string;
   revisionAnual: RevisionAnual[];
@@ -349,12 +350,23 @@ export default defineComponent({
     VDataIterator,
   },
   setup() {
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
+
     const certificadoStore = useCertificadoStore();
 
     let sortBy = ref([]);
     let sortDesc = ref("asc");
     const itemsPorPagina = ref(3);
     let busquedaCertificado = ref("");
+
+    const route = useRoute();
+    const router: Router = useRouter();
 
     const colores = ref({
       rojoIMPC: "#B20000",
@@ -430,7 +442,33 @@ export default defineComponent({
       } catch (error) {}
     }
 
+    async function dirigirSeleccionAccion(
+      idCertificado: any,
+      estatus: any,
+      tokenCertificado: any,
+      tokenId: any
+    ) {
+      router.push({
+        name: "seleccionAccion",
+        params: {
+          idCertificado: idCertificado,
+          estatus: estatus,
+          tokenCertificado: tokenCertificado,
+          idToken: tokenId,
+        },
+      });
+    }
+
+    function formatearFecha(dateString: any) {
+      const date = new Date(dateString);
+      const day = ("0" + date.getDate()).slice(-2);
+      const month = ("0" + (date.getMonth() + 1)).slice(-2);
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
     onIonViewDidEnter(() => {
+      scrollToTop();
       cargarDesglosePorEjercicio();
     });
 
@@ -445,6 +483,9 @@ export default defineComponent({
       certificadosPendientes,
       getDotColor,
       getIcon,
+      dirigirSeleccionAccion,
+      contentRef,
+      formatearFecha,
     };
   },
 });

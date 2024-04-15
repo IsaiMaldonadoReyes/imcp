@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container>
         <v-tabs
           v-model="tabs"
@@ -246,6 +246,14 @@ export default defineComponent({
   setup() {
     const dashStore = useDashboardStore();
 
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
+
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
@@ -353,7 +361,7 @@ export default defineComponent({
           anioActual.value = ejercicioActual.anhio_aplica;
 
           cursos.value.push({
-            label: "Principales",
+            label: "Principal",
             data:
               ejercicioActual.puntos_principales >
               ejercicioActual.control_puntos_principales
@@ -460,7 +468,7 @@ export default defineComponent({
             });
 
             cursosPor4.value.push({
-              label: "Principales",
+              label: "Principal",
               data: principalesData,
               backgroundColor: "rgba(178, 0, 0, 0.6)",
             });
@@ -484,6 +492,7 @@ export default defineComponent({
     }
 
     onIonViewDidEnter(() => {
+      scrollToTop();
       cargarDashboard();
     });
 
@@ -501,6 +510,7 @@ export default defineComponent({
       tabs,
       title,
       listadoEjercicios,
+      contentRef
     };
   },
 });

@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container fluid>
         <v-card color="transparent" elevation="0">
           <v-card-item>
@@ -12,58 +12,45 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card color="transparent" class="mx-auto my-4" elevation="0">
-          <div>
-            <v-btn
-              block
-              class="text-none"
-              prepend-icon="mdi-file-download-outline"
-              rounded="large"
-              size="x-large"
-              text="ACTUALIZAR DATOS"
-              variant="flat"
-              :color="
-                estatusBotones == '1' ? colores.verdeBoton : colores.grisOscuro
-              "
-              :to="{
-                name: 'actualizacionDatos',
-                params: { idCertificado: idCertificadoActualizacion },
-              }"
-              :disabled="estatusBotones !== '1'"
-            >
-              <template v-slot:prepend>
-                <v-icon class="mr-3" size="large"></v-icon>
-              </template>
-            </v-btn>
-          </div>
-          <br />
-          <div>
-            <v-btn
-              block
-              class="text-none"
-              prepend-icon="mdi-file-download-outline"
-              rounded="large"
-              size="x-large"
-              text="REALIZAR PAGO"
-              variant="flat"
-              :color="
-                estatusBotones === '2' ? colores.verdeBoton : colores.grisOscuro
-              "
-              :to="{
-                name: 'tarjetaDatos',
-                params: {
-                  idCertificado: idCertificadoActualizacion,
-                  estatus: 2,
-                },
-              }"
-              :disabled="estatusBotones !== '2'"
-            >
-              <template v-slot:prepend>
-                <v-icon class="mr-3" size="large"></v-icon>
-              </template>
-            </v-btn>
-          </div>
-        </v-card>
+        <div class="d-flex flex-column">
+          <v-btn
+            block
+            class="mt-4"
+            prepend-icon="mdi-folder-information-outline"
+            rounded="large"
+            size="x-large"
+            text="1. ACTUALIZAR DATOS"
+            variant="flat"
+            :color="
+              estatusBotones == '1' ? colores.verdeBoton : colores.grisOscuro
+            "
+            @click="actualizarDatos"
+            :disabled="estatusBotones !== '1'"
+          >
+            <template v-slot:prepend>
+              <v-icon class="mr-3" size="large"></v-icon>
+            </template>
+          </v-btn>
+
+          <v-btn
+            block
+            class="mt-4"
+            prepend-icon="mdi-account-credit-card-outline"
+            rounded="large"
+            size="x-large"
+            text="2. REALIZAR PAGO"
+            variant="flat"
+            :color="
+              estatusBotones === '2' ? colores.verdeBoton : colores.grisOscuro
+            "
+            @click="realizarPago"
+            :disabled="estatusBotones !== '2'"
+          >
+            <template v-slot:prepend>
+              <v-icon class="mr-3" size="large"></v-icon>
+            </template>
+          </v-btn>
+        </div>
       </v-container>
     </ion-content>
   </ion-page>
@@ -72,7 +59,7 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
-import { useRoute } from "vue-router";
+import { useRouter, Router, useRoute } from "vue-router";
 
 export default defineComponent({
   name: "SeleccionAccion",
@@ -81,8 +68,19 @@ export default defineComponent({
     IonPage,
   },
   setup() {
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
+
     const route = useRoute();
+    const router: Router = useRouter();
     const idCertificadoActualizacion = ref(0);
+    const tokenCertificadoRef = ref("");
+    const idTokenCertificadoRef = ref(0);
     const estatusBotones = ref("");
 
     const show = ref(false);
@@ -93,17 +91,54 @@ export default defineComponent({
       verdeBoton: "#468C00",
     });
 
-    function cargarSeleccion(idCertificado: any, estatus: any) {
+    async function cargarSeleccion(
+      idCertificado: any,
+      estatus: any,
+      tokenParams: any,
+      idTokenParams: any
+    ) {
       idCertificadoActualizacion.value = idCertificado;
-
       estatusBotones.value = estatus;
+      tokenCertificadoRef.value = tokenParams;
+      idTokenCertificadoRef.value = idTokenParams;
     }
 
-    onIonViewDidEnter(() => {
+    function actualizarDatos() {
+      router.push({
+        name: "actualizacionDatos",
+        params: {
+          idCertificado: idCertificadoActualizacion.value,
+          tokenCertificado: tokenCertificadoRef.value,
+          idToken: idTokenCertificadoRef.value,
+        },
+      });
+    }
+
+    function realizarPago() {
+      router.push({
+        name: "tarjetaDatos",
+        params: {
+          idCertificado: idCertificadoActualizacion.value,
+          estatus: "2",
+          tokenCertificado: tokenCertificadoRef.value,
+          idToken: idTokenCertificadoRef.value,
+        },
+      });
+    }
+
+    onIonViewDidEnter(async () => {
+      scrollToTop();
       const idCertificado = route.params.idCertificado;
       const estatusAccion = route.params.estatus;
+      const tokenCerti = route.params.tokenCertificado;
+      const idTokenCerti = route.params.idToken;
 
-      cargarSeleccion(idCertificado, estatusAccion);
+      await cargarSeleccion(
+        idCertificado,
+        estatusAccion,
+        tokenCerti,
+        idTokenCerti
+      );
     });
 
     return {
@@ -111,6 +146,10 @@ export default defineComponent({
       show,
       idCertificadoActualizacion,
       estatusBotones,
+      tokenCertificadoRef,
+      actualizarDatos,
+      realizarPago,
+      contentRef,
     };
   },
 });
