@@ -421,6 +421,10 @@ export default defineComponent({
     }
 
     onIonViewDidEnter(async () => {
+      if (contentRef.value !== null) {
+        contentRef.value.scrollTop = 0;
+      }
+      
       scrollToTop();
       await limpiarFormulario();
       await cargarPermisos();

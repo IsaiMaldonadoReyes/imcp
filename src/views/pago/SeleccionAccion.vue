@@ -127,6 +127,10 @@ export default defineComponent({
     }
 
     onIonViewDidEnter(async () => {
+      if (contentRef.value !== null) {
+        contentRef.value.scrollTop = 0;
+      }
+      
       scrollToTop();
       const idCertificado = route.params.idCertificado;
       const estatusAccion = route.params.estatus;

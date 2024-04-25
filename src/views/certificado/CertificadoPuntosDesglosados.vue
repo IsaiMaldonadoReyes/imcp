@@ -691,6 +691,10 @@ export default defineComponent({
     }
 
     onIonViewDidEnter(() => {
+      if (contentRef.value !== null) {
+        contentRef.value.scrollTop = 0;
+      }
+
       scrollToTop();
       const idCertificado = route.params.idCertificado;
       const anhio = route.params.anhio;

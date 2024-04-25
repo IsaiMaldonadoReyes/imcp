@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container class="big-container" fluid>
         <v-card elevation="0" color="transparent">
           <v-card-item>
@@ -147,6 +147,14 @@ export default defineComponent({
       verdeBoton: "#468C00",
     });
 
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
+
     let anim = ref();
 
     const dialogPropiedades = ref({
@@ -222,6 +230,12 @@ export default defineComponent({
     let intervalId: any = null;
 
     onIonViewDidEnter(async () => {
+
+      scrollToTop();
+      if (contentRef.value !== null) {
+        contentRef.value.scrollTop = 0;
+      }
+
       const idCertificado = route.params.idCertificado;
       const tokenCert = route.params.tokenCertificado;
       const idTokenCert = route.params.idTokenCertificado;
@@ -256,6 +270,7 @@ export default defineComponent({
       PaymentError,
       dialogPropiedades,
       cerrardialogPropiedades,
+      contentRef,
     };
   },
 });

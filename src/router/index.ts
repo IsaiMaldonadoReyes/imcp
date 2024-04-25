@@ -100,7 +100,7 @@ const routes = [
         component: () => import("@/views/cuenta/MiCuenta.vue"),
       },
       {
-        path: "capacitacionExterna", // vista principal capacitacion externa
+        path: "capacitacionExternaListado", // vista principal capacitacion externa
         name: "capacitacionExternaListado",
         component: () => import("@/views/capacitacionExterna/CapacitacionListado.vue"),
       },

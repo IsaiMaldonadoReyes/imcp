@@ -58,8 +58,10 @@
           </v-card-text>
         </v-card>
 
-        <v-card class="my-3" elevation="0" border>
-          <v-card-text style="text-align: center">
+        <v-card class="my-3" color="transparent" elevation="0">
+          <v-card-text
+            style="text-align: center; background-color: transparent"
+          >
             <span class="text-subtitle-1 font-weight-bold">
               Total de puntos por evento
             </span>
@@ -643,6 +645,10 @@ export default defineComponent({
     }
 
     onIonViewDidEnter(() => {
+      if (contentRef.value !== null) {
+        contentRef.value.scrollTop = 0;
+      }
+
       scrollToTop();
       const id = route.params.id;
 
