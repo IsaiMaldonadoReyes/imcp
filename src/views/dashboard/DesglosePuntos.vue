@@ -62,7 +62,10 @@
           <v-card-text
             style="text-align: center; background-color: transparent"
           >
-            <span class="text-subtitle-1 font-weight-bold">
+            <span
+              class="text-subtitle-1 font-weight-bold"
+              style="color: #15141a"
+            >
               Total de puntos por evento
             </span>
           </v-card-text>
@@ -348,6 +351,7 @@
                 inset
                 label="Ver todas las especialidades"
                 true-icon="mdi-eye-outline"
+                style="color: #15141a"
               />
             </div>
             <div
