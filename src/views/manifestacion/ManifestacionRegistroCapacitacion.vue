@@ -153,15 +153,19 @@
                       class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
                     >
                       <v-btn-group v-if="encabezado.key == 'actions'">
-                        <v-btn color="#0080FF" size="small">
-                          <v-icon @click="editarDisciplina(item)">
-                            mdi-pencil
-                          </v-icon>
+                        <v-btn
+                          color="#0080FF"
+                          size="small"
+                          @click="editarDisciplina(item)"
+                        >
+                          <v-icon> mdi-pencil </v-icon>
                         </v-btn>
-                        <v-btn color="#B20000" size="small">
-                          <v-icon @click="eliminarDisciplina(item)">
-                            mdi-delete
-                          </v-icon>
+                        <v-btn
+                          color="#B20000"
+                          size="small"
+                          @click="eliminarDisciplina(item)"
+                        >
+                          <v-icon> mdi-delete </v-icon>
                         </v-btn>
                       </v-btn-group>
                       <span v-else class="text-body-2 font-weight-bold">
@@ -784,6 +788,10 @@ export default defineComponent({
     }
 
     onIonViewDidEnter(async () => {
+      if (contentRef.value !== null) {
+        contentRef.value.scrollTop = 0;
+      }
+
       scrollToTop();
       await limpiarFormulario();
       await catalogoColegio();

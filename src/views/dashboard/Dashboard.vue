@@ -492,6 +492,10 @@ export default defineComponent({
     }
 
     onIonViewDidEnter(() => {
+      if (contentRef.value !== null) {
+        contentRef.value.scrollTop = 0;
+      }
+
       scrollToTop();
       cargarDashboard();
     });
@@ -510,7 +514,7 @@ export default defineComponent({
       tabs,
       title,
       listadoEjercicios,
-      contentRef
+      contentRef,
     };
   },
 });

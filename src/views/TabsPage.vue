@@ -38,9 +38,9 @@
                             size="small"
                             variant="text"
                             color="#424242"
-                            style="font-size: 20px;"
+                            style="font-size: 20px"
                           >
-                        </v-btn>
+                          </v-btn>
                         </template>
 
                         <v-card color="transparent">
@@ -201,7 +201,7 @@
             </v-icon>
           </ion-tab-button>
 
-          <ion-tab-button tab="avisos" href="/tabs/capacitacionExterna">
+          <ion-tab-button tab="avisos" href="/tabs/capacitacionExternaListado">
             <v-icon size="30" class="v-icon">
               mdi-file-certificate-outline
             </v-icon>
