@@ -386,7 +386,7 @@ export default defineComponent({
       if (contentRef.value !== null) {
         contentRef.value.scrollTop = 0;
       }
-      
+
       scrollToTop();
       cargarDesglosePorEjercicio();
     });
@@ -423,5 +423,9 @@ export default defineComponent({
 
 .v-field__input > input {
   color: #333333;
+}
+
+.mdi-menu-down.mdi.v-icon {
+  color: black;
 }
 </style>

@@ -719,5 +719,8 @@ export default defineComponent({
 .v-field__input > input {
   color: #333333;
 }
+.mdi-menu-down.mdi.v-icon {
+  color: black;
+}
 /** }*/
 </style>
