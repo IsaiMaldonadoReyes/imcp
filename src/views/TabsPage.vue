@@ -312,6 +312,8 @@ export default defineComponent({
     }
 
     async function cargarNotificaciones() {
+
+      console.log("cargar notificaciones cada 5 minutos");
       notificaciones.value.length = 0;
       notificaciones.value = [];
 

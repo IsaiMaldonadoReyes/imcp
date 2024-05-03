@@ -110,10 +110,31 @@
         <div class="esquina-tl" />
       </v-container>
       <v-dialog v-model="dialogPropiedades.dialog" max-width="500px">
-        <v-card>
-          <v-card-title class="text-grey-darken-1" style="text-align: center">
-            {{ dialogPropiedades.mensajeTitulo }}</v-card-title
-          >
+        <v-card class="">
+          <div class="icon-box">
+            <lottie-animation
+              ref="anim"
+              :animationData="IncorrectAnimation"
+              :loop="false"
+              :autoPlay="true"
+              :speed="0.5"
+              class="lottie-container"
+            />
+          </div>
+
+          <v-toolbar flat color="transparent">
+            <v-toolbar-title>
+              <!--v-card-title
+                class="text-grey-darken-1"
+                style="text-align: center"
+                :color="colores.rojoIMPC"
+              >
+                {{ dialogPropiedades.mensajeTitulo }}
+              </v-card-title-->
+            </v-toolbar-title>
+          </v-toolbar>
+
+          <v-divider></v-divider>
           <lottie-animation
             v-if="dialogPropiedades.correcto"
             ref="anim"
@@ -140,7 +161,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
-              :color="colores.verdeBoton"
+              :color="colores.rojoIMPC"
               block
               size="large"
               variant="flat"
