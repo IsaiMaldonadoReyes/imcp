@@ -16,9 +16,7 @@
           <v-card class="my-3" elevation="0" border>
             <v-card-title
               >Estimado(a):
-              <span class="font-weight-bold">{{
-                dataModel.nombre
-              }}</span></v-card-title
+              <span class="font-weight-bold">{{ dataModel.nombre }}</span></v-card-title
             >
             <v-card-text>
               <span class="text-subtitle-1 text-grey-darken-1">
@@ -26,36 +24,28 @@
               </span>
             </v-card-text>
             <v-card-text>
-              <span class="text-subtitle-1 text-grey-darken-1"
-                >Certificado:</span
-              >
+              <span class="text-subtitle-1 text-grey-darken-1">Certificado:</span>
               <span class="text-subtitle-1 font-weight-bold">{{
                 certificadoActual.dataset.length > 0
                   ? certificadoActual.dataset[0].certificado_dis
                   : ""
               }}</span>
               <br />
-              <span class="text-subtitle-1 text-grey-darken-1"
-                >No. de certificado:</span
-              >
+              <span class="text-subtitle-1 text-grey-darken-1">No. de certificado:</span>
               <span class="text-subtitle-1 font-weight-bold">{{
                 certificadoActual.dataset.length > 0
                   ? certificadoActual.dataset[0].num_certificado
                   : ""
               }}</span>
               <br />
-              <span class="text-subtitle-1 text-grey-darken-1"
-                >Fecha emisión:</span
-              >
+              <span class="text-subtitle-1 text-grey-darken-1">Fecha emisión:</span>
               <span class="text-subtitle-1 font-weight-bold">{{
                 certificadoActual.dataset.length > 0
                   ? certificadoActual.dataset[0].fecha_vigencia
                   : ""
               }}</span>
               <br />
-              <span class="text-subtitle-1 text-grey-darken-1"
-                >Fecha vigencia:</span
-              >
+              <span class="text-subtitle-1 text-grey-darken-1">Fecha vigencia:</span>
               <span class="text-subtitle-1 font-weight-bold">{{
                 certificadoActual.dataset.length > 0
                   ? certificadoActual.dataset[0].fecha_inicio
@@ -64,9 +54,9 @@
             </v-card-text>
             <v-card-text>
               <span class="text-subtitle-1 text-grey-darken-1"
-                >Por medio de este formulario se actualizará su información en
-                el sistema DPC (Sistema de puntos de control) del Instituto
-                Mexicano de Contadores Públicos.</span
+                >Por medio de este formulario se actualizará su información en el sistema
+                DPC (Sistema de puntos de control) del Instituto Mexicano de Contadores
+                Públicos.</span
               >
             </v-card-text>
           </v-card>
@@ -113,9 +103,8 @@
                 <br />
                 <br />
                 <span class="text-body text-red-darken-1">
-                  * En caso de requerir actualizar el nombre y/o apellidos,
-                  favor de enviar un correo a la dirección
-                  soporte.certificacion@imcp.org.mx
+                  * En caso de requerir actualizar el nombre y/o apellidos, favor de
+                  enviar un correo a la dirección soporte.certificacion@imcp.org.mx
                 </span>
                 <br />
                 <br />
@@ -305,22 +294,20 @@
                       :data-label="encabezado.title"
                       class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
                     >
-                      <v-btn-toggle
+                      <v-btn-group
                         v-if="encabezado.key == 'actions'"
                         color="primary"
                         divided
+                        variant="flat"
+                        mandatory
                       >
-                        <v-btn color="#85B201">
-                          <v-icon @click="editarGrado(item)">
-                            mdi-pencil
-                          </v-icon>
+                        <v-btn color="#85B201" variant="flat">
+                          <v-icon @click="editarGrado(item)"> mdi-pencil </v-icon>
                         </v-btn>
-                        <v-btn color="grey">
-                          <v-icon @click="eliminarGrado(item)">
-                            mdi-delete
-                          </v-icon>
+                        <v-btn color="#B20000" variant="flat">
+                          <v-icon @click="eliminarGrado(item)"> mdi-delete </v-icon>
                         </v-btn>
-                      </v-btn-toggle>
+                      </v-btn-group>
                       <span v-else class="text-body-2 font-weight-bold">
                         {{ item[encabezado.key] }}
                       </span>
@@ -334,9 +321,7 @@
                     color="transparent"
                     elevation="0"
                   >
-                    <v-icon color="grey-lighten-1" size="60">
-                      mdi-school
-                    </v-icon>
+                    <v-icon color="grey-lighten-1" size="60"> mdi-school </v-icon>
                     <v-card-text class="text-grey-darken-1">
                       Aún no hay grados académicos registrados.
                     </v-card-text>
@@ -438,11 +423,11 @@
             <v-card border class="ma-3" elevation="0">
               <v-card-text class="text-justify">
                 <span class="text-body text-red-darken-1">
-                  * Importante: Solo podrás actualizar el año en curso, si
-                  necesitas modificar información de otros años favor de enviar
-                  un correo electrónico a soporte.certificacion@imcp.org.mx con
-                  el asunto "Actualización de nombre para Certificación",
-                  agradecemos tu colaboración.
+                  * Importante: Solo podrás actualizar el año en curso, si necesitas
+                  modificar información de otros años favor de enviar un correo
+                  electrónico a soporte.certificacion@imcp.org.mx con el asunto
+                  "Actualización de nombre para Certificación", agradecemos tu
+                  colaboración.
                 </span>
                 <br />
                 <v-select
@@ -480,9 +465,9 @@
                   </template>
                   <v-date-picker
                     v-model="selectedDate"
+                    :color="colores.rojoClaro"
                     hide-actions
                     title="Seleccione fecha"
-                    :color="colores.rojoClaro"
                   >
                     <template v-slot:header></template>
                   </v-date-picker>
@@ -535,8 +520,8 @@
                   class="text-uppercase text-center"
                   style="white-space: normal"
                 >
-                  Domicilio: Lugar de residencia de empresa, institución o
-                  despacho en que labora
+                  Domicilio: Lugar de residencia de empresa, institución o despacho en que
+                  labora
                 </v-card-title>
               </v-card-item>
             </v-card>
@@ -720,24 +705,17 @@
               </v-card-text>
             </v-card>
           </v-card>
-          <v-card
-            color="transparent"
-            rounded="lg"
-            class="mx-auto my-4"
-            elevation="0"
-          >
+          <v-card color="transparent" rounded="lg" class="mx-auto my-4" elevation="0">
             <v-card-text class="text-justify">
               <span class="text-body text-grey-darken-1"
-                >Instituto Mexicano de Contadores Públicos, A.C. aprovecha para
-                informarle que de conformidad con la Ley Federal de Protección
-                de Datos Personales en Posesión de Particulares, se entenderá
-                que usted está de acuerdo con la recopilación, uso,
-                transferencia y almacenamiento de datos personales,
-                patrimoniales y, en su caso, sensibles que nos sean
-                proporcionados con motivo de "Solicitud de Exámen Uniforme de
-                Certificación, Certificación por Disciplinas", para mayor
-                información respecto a nuestras políticas de privacidad por
-                favor consulte la página (www.imcp.org.mx).
+                >Instituto Mexicano de Contadores Públicos, A.C. aprovecha para informarle
+                que de conformidad con la Ley Federal de Protección de Datos Personales en
+                Posesión de Particulares, se entenderá que usted está de acuerdo con la
+                recopilación, uso, transferencia y almacenamiento de datos personales,
+                patrimoniales y, en su caso, sensibles que nos sean proporcionados con
+                motivo de "Solicitud de Exámen Uniforme de Certificación, Certificación
+                por Disciplinas", para mayor información respecto a nuestras políticas de
+                privacidad por favor consulte la página (www.imcp.org.mx).
               </span>
             </v-card-text>
           </v-card>
@@ -836,11 +814,7 @@
                 >
                   Cancelar
                 </v-btn>
-                <v-btn
-                  color="text-grey-darken-1"
-                  variant="text"
-                  @click="agregarGrado"
-                >
+                <v-btn color="text-grey-darken-1" variant="text" @click="agregarGrado">
                   Guardar
                 </v-btn>
               </v-card-actions>
@@ -877,12 +851,7 @@
 
 <script lang="ts">
 import { ref, computed, defineComponent, watch, reactive } from "vue";
-import {
-  IonPage,
-  IonContent,
-  onIonViewDidEnter,
-  alertController,
-} from "@ionic/vue";
+import { IonPage, IonContent, onIonViewDidEnter, alertController } from "@ionic/vue";
 import { usePagoStore } from "@/store/pago";
 import { useCertificadoStore } from "@/store/certificado";
 import { useRouter, Router, useRoute } from "vue-router";
@@ -895,7 +864,7 @@ const showAlert = async (header: string, message: string) => {
     buttons: ["OK"],
   });
 
-  await alert.present();
+  return alert;
 };
 
 export interface Certificados {
@@ -1212,10 +1181,8 @@ export default defineComponent({
 
     const rules = {
       validRFC: (v: string) => rfcRegex.test(v) || "RFC no válido",
-      validEmail: (v: string) =>
-        emailRegex.test(v) || "Correo electrónico no válido",
-      validTelefono: (v: string) =>
-        telefonoRegex.test(v) || "Teléfono no válido",
+      validEmail: (v: string) => emailRegex.test(v) || "Correo electrónico no válido",
+      validTelefono: (v: string) => telefonoRegex.test(v) || "Teléfono no válido",
       required: (v: string) => !!v || "Este campo es requerido",
       requiredSelection: (v: string | null | undefined) =>
         !!v || "Por favor, selecciona una opción",
@@ -1467,16 +1434,13 @@ export default defineComponent({
     async function catalogoTipoRegimen() {
       try {
         await pagoStore.cargarCatalogoTipoPersona();
-        dataTipoPersona.value = pagoStore.object
-          .catalogoTipoPersona as TipoPersona;
+        dataTipoPersona.value = pagoStore.object.catalogoTipoPersona as TipoPersona;
 
         await pagoStore.cargarCatalogoTipoPersonaFisica();
-        dataTipoPersonaFisico.value = pagoStore.object
-          .catalogoFisico as RegimenFisico;
+        dataTipoPersonaFisico.value = pagoStore.object.catalogoFisico as RegimenFisico;
 
         await pagoStore.cargarCatalogoTipoPersonaMoral();
-        dataTipoPersonaMoral.value = pagoStore.object
-          .catalogoMoral as RegimenMoral;
+        dataTipoPersonaMoral.value = pagoStore.object.catalogoMoral as RegimenMoral;
       } catch (error) {
         console.log(error);
       }
@@ -1504,8 +1468,7 @@ export default defineComponent({
     async function catalogoEstadoCivil() {
       try {
         await pagoStore.cargarCatalogoEstadoCivil();
-        dataEstadoCivil.value = pagoStore.object
-          .catalogoEstadoCivil as EstadoCivil;
+        dataEstadoCivil.value = pagoStore.object.catalogoEstadoCivil as EstadoCivil;
       } catch (error) {
         console.log(error);
       }
@@ -1550,8 +1513,7 @@ export default defineComponent({
       try {
         await pagoStore.cargarCatalogoEspecialidad();
 
-        dataEspecialidad.value = pagoStore.object
-          .catalogoEspecialidad as Especialidad;
+        dataEspecialidad.value = pagoStore.object.catalogoEspecialidad as Especialidad;
       } catch (error) {
         console.log(error);
       }
@@ -1571,9 +1533,8 @@ export default defineComponent({
         certificadoActual.value = certificadoStore.object
           .certificadosPendientes as Certificados;
 
-        certificadoActual.value.dataset = (
-          certificadoActual.value.dataset as Dataset[]
-        ).filter(
+        certificadoActual.value.dataset = (certificadoActual.value
+          .dataset as Dataset[]).filter(
           (certificado) => certificado.id_certificado == idCertificado
         ) as Dataset[];
 
@@ -1615,36 +1576,26 @@ export default defineComponent({
         dataModel.value.cuentas_usuarios_id =
           dataContacto.value.informacion.cuentas_usuarios_id;
         dataModel.value.nombre = dataContacto.value.informacion.nombre;
-        dataModel.value.cuenta_nombre =
-          dataContacto.value.informacion.cuenta_nombre;
-        dataModel.value.cuenta_apaterno =
-          dataContacto.value.informacion.cuenta_apaterno;
-        dataModel.value.cuenta_amatarno =
-          dataContacto.value.informacion.cuenta_amatarno;
+        dataModel.value.cuenta_nombre = dataContacto.value.informacion.cuenta_nombre;
+        dataModel.value.cuenta_apaterno = dataContacto.value.informacion.cuenta_apaterno;
+        dataModel.value.cuenta_amatarno = dataContacto.value.informacion.cuenta_amatarno;
 
         // cuenta_usuarios[] DATOS PERSONALES
         dataModel.value.cuenta_rfc = dataContacto.value.informacion.cuenta_rfc;
-        dataModel.value.cuenta_sexo =
-          dataContacto.value.informacion.cuenta_sexo;
-        dataModel.value.cuenta_civil =
-          dataContacto.value.informacion.cuenta_civil;
+        dataModel.value.cuenta_sexo = dataContacto.value.informacion.cuenta_sexo;
+        dataModel.value.cuenta_civil = dataContacto.value.informacion.cuenta_civil;
         dataModel.value.lugar_nacimiento =
           dataContacto.value.informacion.lugar_nacimiento;
-        dataModel.value.anhio_titulo =
-          dataContacto.value.informacion.anhio_titulo;
+        dataModel.value.anhio_titulo = dataContacto.value.informacion.anhio_titulo;
         dataModel.value.anhio_nacimiento =
           dataContacto.value.informacion.anhio_nacimiento;
-        dataModel.value.registro_agaff =
-          dataContacto.value.informacion.registro_agaff;
-        dataModel.value.registro_imss =
-          dataContacto.value.informacion.registro_imss;
-        dataModel.value.cuenta_email =
-          dataContacto.value.informacion.cuenta_email;
+        dataModel.value.registro_agaff = dataContacto.value.informacion.registro_agaff;
+        dataModel.value.registro_imss = dataContacto.value.informacion.registro_imss;
+        dataModel.value.cuenta_email = dataContacto.value.informacion.cuenta_email;
 
         // cuenta_usuarios[] ORGANISMOS PROFESIONALES A LOS QUE PERTENECE
         dataModel.value.id_colegio = dataContacto.value.informacion.id_colegio;
-        dataModel.value.otroOrganismo =
-          dataContacto.value.informacion.organismo;
+        dataModel.value.otroOrganismo = dataContacto.value.informacion.organismo;
 
         // grados_academicos_cuentas[]
         /*
@@ -1682,8 +1633,10 @@ export default defineComponent({
           dataContacto.value.informacion.direccion_colonia_personal;
         dataModel.value.direccion_estado =
           dataContacto.value.informacion.direccion_estado_personal;
-        dataModel.value.telefono =
-          dataContacto.value.informacion.num_personal.replace(/\s/g, "");
+        dataModel.value.telefono = dataContacto.value.informacion.num_personal.replace(
+          /\s/g,
+          ""
+        );
 
         // empresa[0][]
         dataModel.value.empresa_id =
@@ -1728,9 +1681,7 @@ export default defineComponent({
             */
         if (dataContacto.value.especialidad.length > 0) {
           dataContacto.value.especialidad.forEach((especialidad) => {
-            dataModel.value.especialidad_id.push(
-              especialidad.catalogoEspecialidadId
-            );
+            dataModel.value.especialidad_id.push(especialidad.catalogoEspecialidadId);
           });
         }
 
@@ -1747,34 +1698,30 @@ export default defineComponent({
           dataContacto.value.informacion.direccion_delegacion_empresa;
         dataModel.value.direccion_empresa_estado =
           dataContacto.value.informacion.direccion_estado_empresa;
-        dataModel.value.direccion_empresa_telefono =
-          dataContacto.value.informacion.num_empresa.replace(/\s/g, "");
+        dataModel.value.direccion_empresa_telefono = dataContacto.value.informacion.num_empresa.replace(
+          /\s/g,
+          ""
+        );
 
         // datos_facturacion[]
         dataModel.value.dato_facturacion_id =
           dataContacto.value.informacion.dato_facturacion_id;
-        dataModel.value.facturacion_nombre =
-          dataContacto.value.informacion.nombre;
+        dataModel.value.facturacion_nombre = dataContacto.value.informacion.nombre;
         dataModel.value.facturacion_rfc = dataContacto.value.informacion.rfc;
-        dataModel.value.facturacion_calle =
-          dataContacto.value.informacion.calle;
+        dataModel.value.facturacion_calle = dataContacto.value.informacion.calle;
         dataModel.value.facturacion_cp = dataContacto.value.informacion.cp;
-        dataModel.value.facturacion_colonia =
-          dataContacto.value.informacion.colinia;
+        dataModel.value.facturacion_colonia = dataContacto.value.informacion.colinia;
         dataModel.value.facturacion_delegacion =
           dataContacto.value.informacion.delegacion;
-        dataModel.value.facturacion_estado =
-          dataContacto.value.informacion.estado;
+        dataModel.value.facturacion_estado = dataContacto.value.informacion.estado;
 
         //
-        dataModel.value.tipo_persona =
-          dataContacto.value.informacion.tipo_persona;
+        dataModel.value.tipo_persona = dataContacto.value.informacion.tipo_persona;
         dataModel.value.regimen_fiscal_id =
           dataContacto.value.informacion.regimen_fiscal_id;
 
         if (dataContacto.value.informacion.tipo_persona == "1") {
-          dataRegimenFiscal.value =
-            dataTipoPersonaFisico.value as RegimenFiscal;
+          dataRegimenFiscal.value = dataTipoPersonaFisico.value as RegimenFiscal;
         } else if (dataContacto.value.informacion.tipo_persona == "2") {
           dataRegimenFiscal.value = dataTipoPersonaMoral.value as RegimenFiscal;
         }
@@ -1804,12 +1751,10 @@ export default defineComponent({
       nuevasColoniasEmpresaOptions.value = [];
 
       try {
-        const coloniasOptions = dataCodigoPostal.value.result.map(
-          (colonia) => ({
-            value: colonia.colonia,
-            label: colonia.colonia,
-          })
-        );
+        const coloniasOptions = dataCodigoPostal.value.result.map((colonia) => ({
+          value: colonia.colonia,
+          label: colonia.colonia,
+        }));
 
         nuevasColoniasEmpresaOptions.value = coloniasOptions;
       } catch (error) {
@@ -1837,8 +1782,7 @@ export default defineComponent({
       if (dataCodigoPostal.value.result.length > 0) {
         dataModel.value.facturacion_delegacion =
           dataCodigoPostal.value.result[0].delegacion;
-        dataModel.value.facturacion_estado =
-          dataCodigoPostal.value.result[0].estado;
+        dataModel.value.facturacion_estado = dataCodigoPostal.value.result[0].estado;
       }
 
       await cargarColoniasFacturacion();
@@ -1848,12 +1792,10 @@ export default defineComponent({
       nuevasColoniasFacturacionOptions.value = [];
 
       try {
-        const coloniasOptions = dataCodigoPostal.value.result.map(
-          (colonia) => ({
-            value: colonia.colonia,
-            label: colonia.colonia,
-          })
-        );
+        const coloniasOptions = dataCodigoPostal.value.result.map((colonia) => ({
+          value: colonia.colonia,
+          label: colonia.colonia,
+        }));
 
         nuevasColoniasFacturacionOptions.value = coloniasOptions;
       } catch (error) {
@@ -1880,8 +1822,7 @@ export default defineComponent({
       if (dataCodigoPostal.value.result.length > 0) {
         dataModel.value.direccion_delegacion =
           dataCodigoPostal.value.result[0].delegacion;
-        dataModel.value.direccion_estado =
-          dataCodigoPostal.value.result[0].estado;
+        dataModel.value.direccion_estado = dataCodigoPostal.value.result[0].estado;
       }
 
       await cargarColonias();
@@ -1891,12 +1832,10 @@ export default defineComponent({
       nuevasColoniasOptions.value = [];
 
       try {
-        const coloniasOptions = dataCodigoPostal.value.result.map(
-          (colonia) => ({
-            value: colonia.colonia,
-            label: colonia.colonia,
-          })
-        );
+        const coloniasOptions = dataCodigoPostal.value.result.map((colonia) => ({
+          value: colonia.colonia,
+          label: colonia.colonia,
+        }));
 
         nuevasColoniasOptions.value = coloniasOptions;
       } catch (error) {
@@ -1963,14 +1902,8 @@ export default defineComponent({
             "cuentas_usuarios[cuentas_usuarios_id]",
             dataModel.value.cuentas_usuarios_id.toString()
           );
-          formData.append(
-            "cuentas_usuarios[cuenta_rfc]",
-            dataModel.value.cuenta_rfc
-          );
-          formData.append(
-            "cuentas_usuarios[cuenta_email]",
-            dataModel.value.cuenta_email
-          );
+          formData.append("cuentas_usuarios[cuenta_rfc]", dataModel.value.cuenta_rfc);
+          formData.append("cuentas_usuarios[cuenta_email]", dataModel.value.cuenta_email);
           formData.append(
             "cuentas_usuarios[cuenta_nombre]",
             dataModel.value.cuenta_nombre
@@ -1983,14 +1916,8 @@ export default defineComponent({
             "cuentas_usuarios[cuenta_amatarno]",
             dataModel.value.cuenta_amatarno
           );
-          formData.append(
-            "cuentas_usuarios[cuenta_sexo]",
-            dataModel.value.cuenta_sexo
-          );
-          formData.append(
-            "cuentas_usuarios[cuenta_civil]",
-            dataModel.value.cuenta_civil
-          );
+          formData.append("cuentas_usuarios[cuenta_sexo]", dataModel.value.cuenta_sexo);
+          formData.append("cuentas_usuarios[cuenta_civil]", dataModel.value.cuenta_civil);
           formData.append(
             "cuentas_usuarios[registro_agaff]",
             dataModel.value.registro_agaff
@@ -2025,10 +1952,7 @@ export default defineComponent({
             "direccionesUs[direccion_calle_numero]",
             dataModel.value.direccion_calle_numero
           );
-          formData.append(
-            "direccionesUs[direccion_cp]",
-            dataModel.value.direccion_cp
-          );
+          formData.append("direccionesUs[direccion_cp]", dataModel.value.direccion_cp);
           formData.append(
             "direccionesUs[direccion_colonia]",
             dataModel.value.direccion_colonia
@@ -2055,10 +1979,7 @@ export default defineComponent({
             "empresa[0][nombre_empresa]",
             dataModel.value.empresa_nombre_empresa
           );
-          formData.append(
-            "empresa[0][antiguedad]",
-            dataModel.value.empresa_antiguedad
-          );
+          formData.append("empresa[0][antiguedad]", dataModel.value.empresa_antiguedad);
           formData.append("empresa[0][puesto]", dataModel.value.empresa_puesto);
           //formData.append("empresa[0][anhio_aplica_sector]", dataModel.value.empresa_id_sector);
 
@@ -2104,18 +2025,9 @@ export default defineComponent({
             "datos_facturacion[nombre]",
             dataModel.value.facturacion_nombre
           );
-          formData.append(
-            "datos_facturacion[rfc]",
-            dataModel.value.facturacion_rfc
-          );
-          formData.append(
-            "datos_facturacion[calle]",
-            dataModel.value.facturacion_calle
-          );
-          formData.append(
-            "datos_facturacion[cp]",
-            dataModel.value.facturacion_cp
-          );
+          formData.append("datos_facturacion[rfc]", dataModel.value.facturacion_rfc);
+          formData.append("datos_facturacion[calle]", dataModel.value.facturacion_calle);
+          formData.append("datos_facturacion[cp]", dataModel.value.facturacion_cp);
           formData.append(
             "datos_facturacion[DatosFacturacionColiniax]",
             dataModel.value.facturacion_colonia
@@ -2165,6 +2077,8 @@ export default defineComponent({
     }
 
     function buscarRegimen() {
+      dataRegimenFiscal.value.result = [];
+
       if (dataModel.value.tipo_persona == "1") {
         dataRegimenFiscal.value = dataTipoPersonaFisico.value as RegimenFiscal;
       } else if (dataModel.value.tipo_persona == "2") {
@@ -2177,10 +2091,8 @@ export default defineComponent({
       if (isValidForm.valid) {
         const nuevoGradoAcademico = {
           grado_academico: dataModel.value.grado_academico,
-          grado_academico_institucion:
-            dataModel.value.grado_academico_institucion,
-          grado_academico_anhio_titulo:
-            dataModel.value.grado_academico_anhio_titulo,
+          grado_academico_institucion: dataModel.value.grado_academico_institucion,
+          grado_academico_anhio_titulo: dataModel.value.grado_academico_anhio_titulo,
         };
 
         if (!Array.isArray(dataModel.value.grado_academico_listado)) {
@@ -2220,10 +2132,8 @@ export default defineComponent({
     function editarGrado(item) {
       editedIndex.value = dataModel.value.grado_academico_listado.indexOf(item);
       dataModel.value.grado_academico = item.grado_academico;
-      dataModel.value.grado_academico_institucion =
-        item.grado_academico_institucion;
-      dataModel.value.grado_academico_anhio_titulo =
-        item.grado_academico_anhio_titulo;
+      dataModel.value.grado_academico_institucion = item.grado_academico_institucion;
+      dataModel.value.grado_academico_anhio_titulo = item.grado_academico_anhio_titulo;
 
       dialogFormGradoAcademico.value = true;
     }
@@ -2319,8 +2229,7 @@ export default defineComponent({
   }
 
   .tb-grados.v-data-table td {
-    border-bottom: thin solid
-      rgba(var(--v-border-color), var(--v-border-opacity));
+    border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
     display: grid;
     text-align: justify;
     line-height: none;
@@ -2336,8 +2245,11 @@ export default defineComponent({
   }
 
   .tb-grados.v-data-table tr:not(:first-child) > td:first-child {
-    border-top: medium solid
-      rgba(var(--v-border-color), var(--v-border-opacity));
+    border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
   }
+}
+
+.imcp-toggle .v-btn[disabled] {
+  opacity: 0.6;
 }
 </style>

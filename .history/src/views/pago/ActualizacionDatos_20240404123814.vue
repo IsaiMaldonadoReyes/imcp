@@ -294,18 +294,20 @@
                       :data-label="encabezado.title"
                       class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
                     >
-                      <v-btn-toggle
+                      <v-btn-group
                         v-if="encabezado.key == 'actions'"
                         color="primary"
                         divided
+                        variant="flat"
+                        mandatory
                       >
-                        <v-btn color="#85B201">
+                        <v-btn color="#85B201" variant="flat">
                           <v-icon @click="editarGrado(item)"> mdi-pencil </v-icon>
                         </v-btn>
-                        <v-btn color="grey">
+                        <v-btn color="#B20000" variant="flat">
                           <v-icon @click="eliminarGrado(item)"> mdi-delete </v-icon>
                         </v-btn>
-                      </v-btn-toggle>
+                      </v-btn-group>
                       <span v-else class="text-body-2 font-weight-bold">
                         {{ item[encabezado.key] }}
                       </span>
@@ -862,7 +864,7 @@ const showAlert = async (header: string, message: string) => {
     buttons: ["OK"],
   });
 
-  await alert.present();
+  return alert;
 };
 
 export interface Certificados {
@@ -2245,5 +2247,9 @@ export default defineComponent({
   .tb-grados.v-data-table tr:not(:first-child) > td:first-child {
     border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
   }
+}
+
+.imcp-toggle .v-btn[disabled] {
+  opacity: 0.6;
 }
 </style>
