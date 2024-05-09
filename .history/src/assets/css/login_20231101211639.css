@@ -1,7 +1,0 @@
-body {
-    background: url("../images/back.jpg") center no-repeat,
-        url("../images/esquina_inferior_derecha.png") bottom right no-repeat,
-        url("../images/esquina_superior_izquierda.png") top left no-repeat;
-    background-size: 50%, 10%, 50vw 50vh;;
-    z-index: 0, 2, 3;
-}
