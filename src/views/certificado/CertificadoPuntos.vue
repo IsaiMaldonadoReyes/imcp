@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container fluid>
         <v-card elevation="0" color="transparent">
           <v-card-item>
@@ -255,6 +255,14 @@ export default defineComponent({
     VDataIterator,
   },
   setup() {
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
+
     const certificadoStore = useCertificadoStore();
     const route = useRoute();
 
@@ -320,6 +328,11 @@ export default defineComponent({
     }
 
     onIonViewDidEnter(() => {
+      if (contentRef.value !== null) {
+        contentRef.value.scrollTop = 0;
+      }
+
+      scrollToTop();
       const idCertificado = route.params.idCertificado;
       const anhioInicio = route.params.anhioInicio;
       const anhioFin = route.params.anhioFin;
@@ -342,6 +355,7 @@ export default defineComponent({
       ejercicioInicio,
       ejercicioFin,
       numCertificado,
+      contentRef,
     };
   },
 });

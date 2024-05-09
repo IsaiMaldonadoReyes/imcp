@@ -1,36 +1,103 @@
 <template>
   <ion-page>
     <ion-content>
-      <v-container class="ma-# pa-# fill-height" fluid style="align-items:normal;">
-        <v-row align="start" style="height: 25%" class="d-flex align-center justify-center">
-          <img style="max-width:240px; max-height: 200px" src="../assets/images/logotipo.svg" />
+      <v-container
+        class="ma-# pa-# fill-height"
+        fluid
+        style="align-items: normal"
+      >
+        <v-row
+          align="start"
+          style="height: 25%"
+          class="d-flex align-center justify-center"
+        >
+          <img
+            style="max-width: 240px; max-height: 200px"
+            src="../assets/images/logotipo.svg"
+          />
         </v-row>
-        <v-row align="start" style="height: 62%" class="d-flex align-start justify-center">
+        <v-row
+          align="start"
+          style="height: 62%"
+          class="d-flex align-start justify-center"
+        >
           <v-card color="transparent" elevation="0">
-            <v-form v-model="isValid" @submit.prevent="validateAndLogin" lazy-validation ref="formEl">
+            <v-form
+              v-model="isValid"
+              @submit.prevent="validateAndLogin"
+              lazy-validation
+              ref="formEl"
+            >
               <v-row dense>
-                <v-col class="d-flex justify-center align-center pb-10" cols="12" lg="12" md="12" sm="12">
-                  <v-label style="font-size: 28px; font-weight: bold; color: #424242;">Acceso al Sistema</v-label>
+                <v-col
+                  class="d-flex justify-center align-center pb-10"
+                  cols="12"
+                  lg="12"
+                  md="12"
+                  sm="12"
+                >
+                  <v-label
+                    style="font-size: 28px; font-weight: bold; color: #424242"
+                    >Acceso al Sistema</v-label
+                  >
                 </v-col>
                 <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
-                  <v-text-field v-model="form.rfc" :rules="[rules.required, rules.validRFC]" clearable hide-details="auto"
-                    label="RFC" rounded="lg" style="font-weight: bold" variant="solo"
-                    @input="() => convertToUpperCase('rfc')" />
+                  <v-text-field
+                    v-model="form.rfc"
+                    :rules="[rules.required, rules.validRFC]"
+                    clearable
+                    hide-details="auto"
+                    label="RFC"
+                    rounded="lg"
+                    style="font-weight: bold"
+                    variant="solo"
+                    @input="() => convertToUpperCase('rfc')"
+                  />
                 </v-col>
                 <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
-                  <v-text-field v-model="form.password" :append-inner-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                    :rules="[rules.required]" :type="show1 ? 'text' : 'password'" clearable hide-details="auto"
-                    label="Contraseña" rounded="lg" style="font-weight: bold" variant="solo"
-                    @click:append-inner="show1 = !show1" />
+                  <v-text-field
+                    v-model="form.password"
+                    :append-inner-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="[rules.required]"
+                    :type="show1 ? 'text' : 'password'"
+                    clearable
+                    hide-details="auto"
+                    label="Contraseña"
+                    rounded="lg"
+                    style="font-weight: bold"
+                    variant="solo"
+                    @click:append-inner="show1 = !show1"
+                  />
                 </v-col>
-                <v-col cols="12" lg="12" md="12" sm="12" class="px-10 " align="right">
-                  <v-btn :to="{ path: '/resetPassword' }" class="text-caption text-disabled ms-1 text-capitalize"
-                    color="#C6092F" rounded="lg" size="x-small" style="font-weight: bold" variant="plain">
+                <v-col
+                  cols="12"
+                  lg="12"
+                  md="12"
+                  sm="12"
+                  class="px-10"
+                  align="right"
+                >
+                  <v-btn
+                    :to="{ path: '/resetPassword' }"
+                    class="text-caption text-disabled ms-1 text-capitalize"
+                    color="#C6092F"
+                    rounded="lg"
+                    size="x-small"
+                    style="font-weight: bold"
+                    variant="plain"
+                  >
                     Recuperar contraseña
                   </v-btn>
                 </v-col>
                 <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
-                  <v-btn block color="#C6092F" rounded="lg" size="x-large" style="font-weight: bold" type="submit">
+                  <v-btn
+                    block
+                    color="#C6092F"
+                    rounded="lg"
+                    size="x-large"
+                    style="font-weight: bold"
+                    type="submit"
+                  >
                     ENTRAR
                   </v-btn>
                 </v-col>
@@ -42,6 +109,69 @@
         <div class="esquina-br" />
         <div class="esquina-tl" />
       </v-container>
+      <v-dialog v-model="dialogPropiedades.dialog" max-width="500px">
+        <v-card class="">
+          <div class="icon-box">
+            <lottie-animation
+              ref="anim"
+              :animationData="IncorrectAnimation"
+              :loop="false"
+              :autoPlay="true"
+              :speed="0.5"
+              class="lottie-container"
+            />
+          </div>
+
+          <v-toolbar flat color="transparent">
+            <v-toolbar-title>
+              <!--v-card-title
+                class="text-grey-darken-1"
+                style="text-align: center"
+                :color="colores.rojoIMPC"
+              >
+                {{ dialogPropiedades.mensajeTitulo }}
+              </v-card-title-->
+            </v-toolbar-title>
+          </v-toolbar>
+
+          <v-divider></v-divider>
+          <lottie-animation
+            v-if="dialogPropiedades.correcto"
+            ref="anim"
+            :animationData="CorrectAnimation"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <lottie-animation
+            v-else
+            ref="anim"
+            :animationData="IncorrectAnimation"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <v-card-text class="text-justify">
+            <span class="text-subtitle-1 text-grey-darken-1">
+              {{ dialogPropiedades.mensajeCuerpo }}
+            </span>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              :color="colores.rojoIMPC"
+              block
+              size="large"
+              variant="flat"
+              @click="cerrardialogPropiedades(dialogPropiedades.correcto)"
+              >Aceptar</v-btn
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </ion-content>
   </ion-page>
 </template>
@@ -53,11 +183,16 @@ import { useRouter } from "vue-router";
 import { Storage } from "@ionic/storage";
 import { useSessionStore } from "../store/session";
 
+import { LottieAnimation } from "lottie-web-vue";
+
+import CorrectAnimation from "../assets/images/correct.json";
+import IncorrectAnimation from "../assets/images/incorrect.json";
+
 const showAlert = async (header: string, message: string) => {
   const alert = await alertController.create({
     header,
     message,
-    buttons: ["OK"]
+    buttons: ["OK"],
   });
 
   await alert.present();
@@ -68,6 +203,7 @@ export default defineComponent({
   components: {
     IonPage,
     IonContent,
+    LottieAnimation,
   },
   setup() {
     const session = useSessionStore();
@@ -91,12 +227,27 @@ export default defineComponent({
       required: (v: string) => !!v || "Este campo es requerido",
     };
 
+    const colores = ref({
+      rojoIMPC: "#B20000",
+      rojoClaro: "#FAE6EA",
+      grisOscuro: "#222222",
+      verdeBoton: "#468C00",
+    });
+
+    let anim = ref();
+
+    const dialogPropiedades = ref({
+      dialog: false,
+      mensajeTitulo: "",
+      mensajeCuerpo: "",
+      correcto: false,
+    });
+
     async function login() {
       try {
-
         let data = new FormData();
-        data.append('email', form.value.rfc);
-        data.append('password', form.value.password);
+        data.append("email", form.value.rfc);
+        data.append("password", form.value.password);
 
         await session.login(data);
 
@@ -104,7 +255,18 @@ export default defineComponent({
           await formEl.value?.reset();
           router.push({ name: "dashboard" });
         } else {
-          await showAlert("Inicio de sesión", "Usuario y/o contraseña invalida");
+          dialogPropiedades.value = {
+            dialog: true,
+            mensajeTitulo: "Inicio de sesión",
+            mensajeCuerpo: "Usuario y/o contraseña incorrecta",
+            correcto: false,
+          };
+          /*
+          await showAlert(
+            "Inicio de sesión",
+            "Usuario y/o contraseña invalida"
+          );
+          */
         }
       } catch (error) {
         console.log(error);
@@ -146,18 +308,47 @@ export default defineComponent({
         token.value = await storage.get("token");
 
         if (token.value == "" || token.value == null) {
-          await showAlert("Ocurrio un problema con el servidor", "Cierre la aplicación e intente más tarde");
+          dialogPropiedades.value = {
+            dialog: true,
+            mensajeTitulo: "Ocurrió un problema en la conexión",
+            mensajeCuerpo: "Cierre la aplicación e intente mas tarde",
+            correcto: false,
+          };
+          /*
+          await showAlert(
+            "Ocurrio un problema con el servidor",
+            "Cierre la aplicación e intente más tarde"
+            );
+          */
         } else {
           tokenAuth.value = true;
         }
+      } catch (error) {
+        dialogPropiedades.value = {
+          dialog: true,
+          mensajeTitulo: "Ocurrió un problema en la conexión",
+          mensajeCuerpo: "Cierre la aplicación e intente mas tarde",
+          correcto: false,
+        };
+        /*
+        await showAlert(
+          "Ocurrio un problema con el servidor",
+          "Cierre la aplicación e intente más tarde"
+        );
+        */
+        //throw new Error("Error al obtener el token");
       }
-      catch (error) {
-        await showAlert("Ocurrio un problema con el servidor", "Cierre la aplicación e intente más tarde");
-        throw new Error("Error al obtener el token");
+    }
+
+    function cerrardialogPropiedades(estado: boolean) {
+      dialogPropiedades.value.dialog = false;
+      if (estado) {
+        router.push({ name: "dashboard" });
       }
     }
 
     return {
+      colores,
       form,
       rules,
       show1,
@@ -165,6 +356,12 @@ export default defineComponent({
       formEl,
       validateAndLogin,
       convertToUpperCase,
+
+      anim,
+      dialogPropiedades,
+      CorrectAnimation,
+      IncorrectAnimation,
+      cerrardialogPropiedades,
     };
   },
 });

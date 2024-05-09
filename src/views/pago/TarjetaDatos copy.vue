@@ -13,6 +13,12 @@
           </v-card-item>
         </v-card>
         <v-card class="" elevation="0" border="">
+          <iframe
+            src="https://ultreya.xpertpay.com.mx/payme/inicio/i/1234567890"
+            width="390px"
+            height="600px"
+            frameborder="0"
+          ></iframe>
           <v-card-text>
             <v-select
               class="my-4"
@@ -297,9 +303,10 @@ import {
   IonDatetime,
 } from "@ionic/vue";
 import { VDatePicker, VDatePickerMonth } from "vuetify/lib/labs/components.mjs";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
-  name: "PagoSeleccion",
+  name: "TarjetaDatos",
   components: {
     IonContent,
     IonPage,
@@ -317,6 +324,8 @@ export default defineComponent({
       grisOscuro: "#222222",
       verdeBoton: "#468C00",
     });
+
+    const route = useRoute();
 
     let tooltipVisible = ref(false);
 
@@ -338,6 +347,9 @@ export default defineComponent({
     }
 
     onIonViewDidEnter(() => {
+      const idCertificado = route.params.idCertificado;
+      //const estatusAccion = route.params.estatus;
+
       document.addEventListener("click", closeTooltipOnClickOutside);
     });
 

@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content ref="contentRef">
       <v-container fluid>
         <v-card class="mx-auto" color="transparent" elevation="0">
           <v-card-item>
@@ -8,13 +8,13 @@
               class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
               style="white-space: normal"
             >
-              Desglose de puntos <span class="font-weight-bold">DCP</span>
+              Desglose de puntos <span class="font-weight-bold">DPC</span>
             </v-card-title>
           </v-card-item>
         </v-card>
         <v-card class="my-3" elevation="0" border>
           <v-card-title class="text-h6 font-weight-bold">
-            Total de puntos por certificado
+            Datos generales
           </v-card-title>
 
           <v-card-text>
@@ -59,6 +59,19 @@
           </v-card-text>
         </v-card>
 
+        <v-card class="my-3" color="transparent" elevation="0">
+          <v-card-text
+            style="text-align: center; background-color: transparent"
+          >
+            <span
+              class="text-subtitle-1 font-weight-bold"
+              style="color: #15141a"
+            >
+              Total de puntos por evento
+            </span>
+          </v-card-text>
+        </v-card>
+
         <v-data-iterator
           :items-per-page="itemsPorPagina"
           :items="desgloseEspecialidades.PuntosEvento || []"
@@ -66,7 +79,7 @@
           :sort-by="sortBy"
           item-value="areaEspecialidad"
         >
-          <template v-slot:header>
+          <template v-slot:header="{ page, pageCount, prevPage, nextPage }">
             <v-row dense>
               <!--v-col cols="12" lg="6" md="12" sm="12" xs="12">
                 <v-text-field
@@ -111,6 +124,34 @@
                 </v-row>
               </v-col>
             </v-row>
+            <div
+              class="d-flex align-center justify-center pa-4"
+              v-if="desgloseEspecialidades.PuntosEvento.length > 3"
+            >
+              <v-btn
+                :color="colores.rojoIMPC"
+                :disabled="page === 1"
+                icon="mdi-arrow-left"
+                rounded
+                size="small"
+                @click="prevPage"
+              />
+
+              <div
+                class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold"
+              >
+                Página {{ page }} de {{ pageCount }}
+              </div>
+
+              <v-btn
+                :color="colores.rojoIMPC"
+                :disabled="page >= pageCount"
+                icon="mdi-arrow-right"
+                rounded
+                size="small"
+                @click="nextPage"
+              />
+            </div>
           </template>
 
           <template v-slot:no-data>
@@ -312,6 +353,7 @@
                 inset
                 label="Ver todas las especialidades"
                 true-icon="mdi-eye-outline"
+                style="color: #15141a"
               />
             </div>
             <div
@@ -354,7 +396,6 @@
           <v-card-actions>
             <v-btn
               :color="colores.verdeBoton"
-              @click="descargarPdf"
               block
               class="text-none"
               prepend-icon="mdi-file-download-outline"
@@ -362,6 +403,7 @@
               size="large"
               text="DESCARGAR REPORTE PDF"
               variant="flat"
+              @click="descargarPdf"
             >
               <template v-slot:prepend>
                 <v-icon class="mr-3" size="large"></v-icon>
@@ -475,6 +517,13 @@ export default defineComponent({
     VDataTable,
   },
   setup() {
+    const contentRef = ref<HTMLElement | null>(null);
+
+    const scrollToTop = () => {
+      if (contentRef.value) {
+        contentRef.value.scrollTop = 0; // Scrolls to the top of the content
+      }
+    };
     const certificadoStore = useCertificadoStore();
     const eventosPorPagina = ref<{ [key: string]: number }>({});
     const itemsPorPagina = ref(3);
@@ -684,6 +733,11 @@ export default defineComponent({
     }
 
     onIonViewDidEnter(() => {
+      if (contentRef.value !== null) {
+        contentRef.value.scrollTop = 0;
+      }
+
+      scrollToTop();
       const idCertificado = route.params.idCertificado;
       const anhio = route.params.anhio;
       cargarDesglosePorEjercicio(idCertificado, anhio);
@@ -704,6 +758,7 @@ export default defineComponent({
       sortDesc,
       desgloseEspecialidades,
       descargarPdf,
+      contentRef,
     };
   },
 });
@@ -745,6 +800,11 @@ export default defineComponent({
 .v-data-table tr:not(:first-child) > td:first-child {
   border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
 }
-
+.v-field__input > input {
+  color: #333333;
+}
+.mdi-menu-down.mdi.v-icon {
+  color: black;
+}
 /** }*/
 </style>

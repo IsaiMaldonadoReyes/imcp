@@ -24,10 +24,40 @@ export const usePagoStore = defineStore({
             contacto: {},
             informacion: {},
             codigoPostal: {},
+            pago: {},
         },
         responseMessage: null,
     }),
     actions: {
+
+        async cargarPago(token: any) {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+            const rfcParam = await storage.get("rfc");
+
+            try {
+
+                const params = {
+                    datos: {
+                        cuenta_rfc: rfcParam,
+                        token: token
+                    }
+                };
+
+                const response = await axios.get("/users/cron", {
+                    headers: configAuthToken.headers,
+                    params
+                });
+
+                if (response.data.type === "success") {
+                    this.object.pago = response.data.result;
+                }
+            } catch (error) {
+                //throw new Error("Solicitud incorrecta");
+            }
+        },
 
         async cargarContacto() {
             const storage = new Storage();
