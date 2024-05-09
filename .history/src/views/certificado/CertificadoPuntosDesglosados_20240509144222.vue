@@ -21,7 +21,7 @@
               {{ desgloseEspecialidades.CuentasUsuarios.colegio }}
             </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Sector: </span>
+            <span class="text-subtitle-1 text-grey-darken-1">Sector:</span>
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.CuentasUsuarios.sector }}
             </span>
@@ -33,17 +33,17 @@
               {{ desgloseEspecialidades.CuentasUsuarios.articulo }}
             </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Registro Agaff: </span>
+            <span class="text-subtitle-1 text-grey-darken-1">Registro Agaff:</span>
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.CuentasUsuarios.registroAgaff }}</span
             >
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Registro IMSS: </span>
+            <span class="text-subtitle-1 text-grey-darken-1">Registro IMSS:</span>
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.CuentasUsuarios.registroImss }}
             </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Total de puntos: </span>
+            <span class="text-subtitle-1 text-grey-darken-1">Total de puntos:</span>
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.total }}
             </span>

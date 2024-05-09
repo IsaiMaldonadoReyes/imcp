@@ -443,7 +443,6 @@
                 <br />
                 <Datepicker
                   v-model="dataModel.empresa_antiguedad"
-                  :auto-apply="true"
                   :enable-time-picker="false"
                   :format-locale="es"
                   :rules="[rules.required]"
@@ -974,6 +973,8 @@ import DialogAction from "../helper/DialogAction.vue";
 export interface Certificados {
   dataset: Dataset[];
   totalSize: number;
+  pageSize: number;
+  nombreListado: string;
 }
 
 export interface Dataset {
@@ -1293,6 +1294,8 @@ export default defineComponent({
     const certificadoActual = ref<Certificados>({
       dataset: [],
       totalSize: 0,
+      pageSize: 0,
+      nombreListado: "",
     });
 
     const rfcRegex = /^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z1-9]\d{1}$/;
@@ -1672,19 +1675,20 @@ export default defineComponent({
       certificadoActual.value = {
         dataset: [],
         totalSize: 0,
+        pageSize: 0,
+        nombreListado: "",
       };
 
       try {
         await certificadoStore.cargarCertificadosPendientes();
 
-        if (certificadoStore.object.certificadosPendientes.totalSize >= 0) {
-          certificadoActual.value = certificadoStore.object.certificadosPendientes;
+        certificadoActual.value = certificadoStore.object
+          .certificadosPendientes as Certificados;
 
-          certificadoActual.value.dataset = (certificadoActual.value
-            .dataset as Dataset[]).filter(
-            (certificado) => certificado.id_certificado == idCertificado
-          ) as Dataset[];
-        }
+        certificadoActual.value.dataset = (certificadoActual.value
+          .dataset as Dataset[]).filter(
+          (certificado) => certificado.id_certificado == idCertificado
+        ) as Dataset[];
 
         idCertificadoParams.value = idCertificado;
         tokenCertificado.value = tokenCert;
@@ -2271,6 +2275,7 @@ export default defineComponent({
             });
           }
         } else {
+          //await showAlert("Actualización de datos", "Revise los datos");
           dialogPropiedades.value = {
             dialog: true,
             titulo: "Actualización de datos",
@@ -2381,6 +2386,17 @@ export default defineComponent({
 
     function cerrardialogPropiedades() {
       dialogPropiedades.value.dialog = false;
+      if (estado) {
+        router.push({
+          name: "seleccionAccion",
+          params: {
+            idCertificado: idCertificadoParams.value,
+            estatus: "2",
+            tokenCertificado: tokenCertificado.value,
+            idToken: idTokenCertificado.value,
+          },
+        });
+      }
     }
 
     function formatearFecha(dateString: any) {
@@ -2502,9 +2518,7 @@ export default defineComponent({
   }
 
   .tb-grados.v-data-table tr:not(:first-child) > td:first-child {
-    border-top-width: 10px;
-    border-top-style: solid;
-    border-top-color: #eeeeee;
+    border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
   }
 }
 </style>

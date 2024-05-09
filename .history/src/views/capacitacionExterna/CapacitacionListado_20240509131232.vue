@@ -114,16 +114,24 @@
                         :data-label="encabezado.title"
                         class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
                       >
+                        <v-icon
+                          v-if="encabezado.key == 'status'"
+                          :color="getColor(item[encabezado.key])"
+                          class="mr-2"
+                        >
+                          mdi-circle
+                        </v-icon>
                         <v-chip
                           v-if="encabezado.key == 'status'"
                           :color="getColor(item[encabezado.key])"
-                          class="mr-2 my-2"
-                          label
-                          size="small"
-                          style="width: fit-content"
                           variant="outlined"
+                          size="small"
+                          label
+                          style="width: fit-content"
+                          class="mr-2"
+                          v-if="encabezado.key == 'status_solicitud'"
                         >
-                          <v-icon class="mr-2">mdi-circle</v-icon>
+                          <v-icon size="x-small" class="mr-2">mdi-circle</v-icon>
                           {{ item[encabezado.key] }}
                         </v-chip>
                         <span
@@ -160,6 +168,57 @@
                   </template>
                   <template v-slot:bottom="{ pageCount }">
                     <v-divider />
+                    <v-row class="my-2" no-gutters>
+                      <v-col class="d-flex align-center justify-end">
+                        <v-chip
+                          color="#FF7F00"
+                          variant="outlined"
+                          size="small"
+                          label
+                          style="width: 50"
+                          class="ma-2"
+                        >
+                          <v-icon size="x-small" class="mr-2">mdi-circle</v-icon>
+                          Solicitud
+                        </v-chip>
+                      </v-col>
+                      <v-col class="d-flex align-center justify-end">
+                        <v-chip
+                          color="#0080FF"
+                          variant="outlined"
+                          size="small"
+                          label
+                          class="ma-2"
+                        >
+                          <v-icon size="x-small" class="mr-2">mdi-circle</v-icon>
+                          Revisión
+                        </v-chip>
+                      </v-col>
+                      <v-col class="d-flex align-center justify-end">
+                        <v-chip
+                          color="#85B201"
+                          variant="outlined"
+                          size="small"
+                          label
+                          class="ma-2"
+                        >
+                          <v-icon size="x-small" class="mr-2">mdi-circle</v-icon>
+                          Autorizado
+                        </v-chip>
+                      </v-col>
+                      <v-col class="d-flex align-center justify-end">
+                        <v-chip
+                          color="#FE4948"
+                          variant="outlined"
+                          size="small"
+                          label
+                          class="ma-2"
+                        >
+                          <v-icon size="x-small" class="mr-2">mdi-circle</v-icon>
+                          Rechazado
+                        </v-chip>
+                      </v-col>
+                    </v-row>
 
                     <div
                       class="text-center my-3 mx-3"

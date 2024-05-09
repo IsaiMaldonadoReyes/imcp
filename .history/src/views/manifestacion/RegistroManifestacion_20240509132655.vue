@@ -94,12 +94,7 @@
                 </v-table>
               </v-card-text>
               <v-divider />
-              <v-card
-                v-if="itemH.raw.manifestaciones && itemH.raw.manifestaciones.length > 0"
-                border
-                class="ma-3"
-                elevation="0"
-              >
+              <v-card v-if="itemH.raw.manifestaciones" border class="ma-3" elevation="0">
                 <v-card-text class="text-justify">
                   <template
                     v-for="(manifestacion, index) in itemH.raw.manifestaciones"
@@ -107,15 +102,15 @@
                     :value="itemH.raw.id_certificado"
                   >
                     <v-checkbox
+                      :center-affix="true"
+                      color="#468C00"
+                      false-icon="mdi-checkbox-blank-outline"
+                      true-icon="mdi-checkbox-marked"
                       v-model="
                         manifestacionListado[
                           `${manifestacion.label}_${itemH.raw.id_certificado}`
                         ]
                       "
-                      :center-affix="true"
-                      color="#468C00"
-                      false-icon="mdi-checkbox-blank-outline"
-                      true-icon="mdi-checkbox-marked"
                     >
                       <template v-slot:label>
                         Solicitar {{ manifestacion.label }}</template
@@ -129,23 +124,22 @@
                       "
                     >
                       <v-text-field
+                        class="my-4"
+                        clearable
+                        hide-details="auto"
                         v-for="(value, index) in manifestacion.value"
                         :key="index"
-                        v-model="
-                          manifestacionListado[
-                            `${manifestacion.label}_${itemH.raw.id_certificado}_${value}`
-                          ]
-                        "
                         :label="value"
                         :required="
                           manifestacionListado[
                             `${manifestacion.label}_${itemH.raw.id_certificado}_${manifestacion.value}`
                           ]
                         "
-                        class="my-4"
-                        clearable
-                        hide-details="auto"
-                        variant="outlined"
+                        v-model="
+                          manifestacionListado[
+                            `${manifestacion.label}_${itemH.raw.id_certificado}_${value}`
+                          ]
+                        "
                       ></v-text-field>
                     </template>
                   </template>

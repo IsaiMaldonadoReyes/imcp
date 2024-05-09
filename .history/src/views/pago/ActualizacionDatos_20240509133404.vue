@@ -443,7 +443,6 @@
                 <br />
                 <Datepicker
                   v-model="dataModel.empresa_antiguedad"
-                  :auto-apply="true"
                   :enable-time-picker="false"
                   :format-locale="es"
                   :rules="[rules.required]"
@@ -944,16 +943,48 @@
           </v-card>
         </v-dialog>
       </v-container>
-      <dialog-action
-        :dialogView="dialogPropiedades.dialog"
-        :dialog-title="dialogPropiedades.titulo"
-        :dialog-content="dialogPropiedades.cuerpo"
-        :dialog-route="dialogPropiedades.ruta"
-        :dialog-colour="dialogPropiedades.color"
-        :dialog-text-button="dialogPropiedades.boton"
-        :dialog-speed="dialogPropiedades.velocidad"
-        @cerrarDialog="cerrardialogPropiedades"
-      />
+      <v-dialog v-model="dialogPropiedades.dialog" max-width="500px">
+        <v-card>
+          <v-card-title class="text-grey-darken-1" style="text-align: center">
+            {{ dialogPropiedades.mensajeTitulo }}</v-card-title
+          >
+          <lottie-animation
+            v-if="dialogPropiedades.correcto"
+            ref="anim"
+            :animationData="CorrectAnimation"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <lottie-animation
+            v-else
+            ref="anim"
+            :animationData="IncorrectAnimation"
+            :loop="false"
+            :autoPlay="true"
+            :speed="0.5"
+            class="lottie-container"
+          />
+          <v-card-text class="text-justify">
+            <span class="text-subtitle-1 text-grey-darken-1">
+              {{ dialogPropiedades.mensajeCuerpo }}
+            </span>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              :color="colores.verdeBoton"
+              block
+              size="large"
+              variant="flat"
+              @click="cerrardialogPropiedades(dialogPropiedades.correcto)"
+              >Aceptar</v-btn
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </ion-content>
   </ion-page>
 </template>
@@ -969,11 +1000,26 @@ import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import "v-calendar/style.css";
 import { es } from "date-fns/locale";
-import DialogAction from "../helper/DialogAction.vue";
+
+import { LottieAnimation } from "lottie-web-vue";
+import CorrectAnimation from "../../assets/images/correct.json";
+import IncorrectAnimation from "../../assets/images/incorrect.json";
+
+const showAlert = async (header: string, message: string) => {
+  const alert = await alertController.create({
+    header,
+    message,
+    buttons: ["OK"],
+  });
+
+  return alert;
+};
 
 export interface Certificados {
   dataset: Dataset[];
   totalSize: number;
+  pageSize: number;
+  nombreListado: string;
 }
 
 export interface Dataset {
@@ -1250,7 +1296,7 @@ export default defineComponent({
     VDatePicker,
     VDataTable,
     Datepicker,
-    DialogAction,
+    LottieAnimation,
   },
   props: ["label", "color", "modelValue"],
   setup(props, { emit }) {
@@ -1293,6 +1339,8 @@ export default defineComponent({
     const certificadoActual = ref<Certificados>({
       dataset: [],
       totalSize: 0,
+      pageSize: 0,
+      nombreListado: "",
     });
 
     const rfcRegex = /^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z1-9]\d{1}$/;
@@ -1319,15 +1367,12 @@ export default defineComponent({
       verdeBoton: "#468C00",
     });
 
+    let anim = ref();
     const dialogPropiedades = ref({
       dialog: false,
-      titulo: "",
-      cuerpo: "",
-      ruta: "",
-      color: "",
-      boton: "",
-      velocidad: 0,
-      componente: "",
+      mensajeTitulo: "",
+      mensajeCuerpo: "",
+      correcto: false,
     });
 
     const dataModel = ref({
@@ -1672,19 +1717,20 @@ export default defineComponent({
       certificadoActual.value = {
         dataset: [],
         totalSize: 0,
+        pageSize: 0,
+        nombreListado: "",
       };
 
       try {
         await certificadoStore.cargarCertificadosPendientes();
 
-        if (certificadoStore.object.certificadosPendientes.totalSize >= 0) {
-          certificadoActual.value = certificadoStore.object.certificadosPendientes;
+        certificadoActual.value = certificadoStore.object
+          .certificadosPendientes as Certificados;
 
-          certificadoActual.value.dataset = (certificadoActual.value
-            .dataset as Dataset[]).filter(
-            (certificado) => certificado.id_certificado == idCertificado
-          ) as Dataset[];
-        }
+        certificadoActual.value.dataset = (certificadoActual.value
+          .dataset as Dataset[]).filter(
+          (certificado) => certificado.id_certificado == idCertificado
+        ) as Dataset[];
 
         idCertificadoParams.value = idCertificado;
         tokenCertificado.value = tokenCert;
@@ -2271,16 +2317,12 @@ export default defineComponent({
             });
           }
         } else {
+          //await showAlert("Actualización de datos", "Revise los datos");
           dialogPropiedades.value = {
             dialog: true,
-            titulo: "Actualización de datos",
-            cuerpo:
-              "Por favor, asegúrese de llenar todos los campos requeridos para poder continuar.",
-            ruta: "incorrect",
-            color: colores.value.rojoIMPC,
-            boton: "Cerrar",
-            velocidad: 0.5,
-            componente: "",
+            mensajeTitulo: "Actualización de datos",
+            mensajeCuerpo: "Revise los datos marcados",
+            correcto: false,
           };
         }
       } catch (error) {
@@ -2379,8 +2421,19 @@ export default defineComponent({
       editedIndex.value = -1;
     }
 
-    function cerrardialogPropiedades() {
+    function cerrardialogPropiedades(estado: boolean) {
       dialogPropiedades.value.dialog = false;
+      if (estado) {
+        router.push({
+          name: "seleccionAccion",
+          params: {
+            idCertificado: idCertificadoParams.value,
+            estatus: "2",
+            tokenCertificado: tokenCertificado.value,
+            idToken: idTokenCertificado.value,
+          },
+        });
+      }
     }
 
     function formatearFecha(dateString: any) {
@@ -2435,7 +2488,10 @@ export default defineComponent({
       cerrarDialogConfirmationGrado,
       confirmarDialogConfirmationGrado,
       es,
+      anim,
       dialogPropiedades,
+      IncorrectAnimation,
+      CorrectAnimation,
       cerrardialogPropiedades,
       contentRef,
       formatearFecha,
@@ -2502,9 +2558,7 @@ export default defineComponent({
   }
 
   .tb-grados.v-data-table tr:not(:first-child) > td:first-child {
-    border-top-width: 10px;
-    border-top-style: solid;
-    border-top-color: #eeeeee;
+    border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
   }
 }
 </style>

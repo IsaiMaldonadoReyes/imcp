@@ -94,12 +94,7 @@
                 </v-table>
               </v-card-text>
               <v-divider />
-              <v-card
-                v-if="itemH.raw.manifestaciones && itemH.raw.manifestaciones.length > 0"
-                border
-                class="ma-3"
-                elevation="0"
-              >
+              <v-card v-if="itemH.raw.manifestaciones" border class="ma-3" elevation="0">
                 <v-card-text class="text-justify">
                   <template
                     v-for="(manifestacion, index) in itemH.raw.manifestaciones"

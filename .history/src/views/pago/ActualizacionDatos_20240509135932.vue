@@ -2505,6 +2505,5 @@ export default defineComponent({
     border-top-width: 10px;
     border-top-style: solid;
     border-top-color: #eeeeee;
-  }
 }
 </style>

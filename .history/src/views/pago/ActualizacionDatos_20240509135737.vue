@@ -2502,9 +2502,7 @@ export default defineComponent({
   }
 
   .tb-grados.v-data-table tr:not(:first-child) > td:first-child {
-    border-top-width: 10px;
-    border-top-style: solid;
-    border-top-color: #eeeeee;
+    border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
   }
 }
 </style>
