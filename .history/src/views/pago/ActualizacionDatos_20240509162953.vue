@@ -611,6 +611,12 @@
                   no-data-text="No hay datos disponibles"
                   variant="outlined"
                 >
+                  <template v-slot:item="{ props, item }">
+                    <v-list-item
+                      v-bind="props"
+                      style="white-space: nowrap; word-wrap: break-word"
+                    ></v-list-item>
+                  </template>
                 </v-select>
               </v-card-text>
             </v-card>

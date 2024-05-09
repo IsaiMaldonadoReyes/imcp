@@ -600,18 +600,17 @@
             <v-card border class="ma-3" elevation="0">
               <v-card-text>
                 <v-select
-                  v-model="dataModel.especialidad_id"
-                  :items="dataEspecialidad.result"
                   class="my-4"
                   hide-details="auto"
-                  item-title="label"
-                  item-value="value"
                   label="Especilidad *"
-                  multiple
                   no-data-text="No hay datos disponibles"
                   variant="outlined"
-                >
-                </v-select>
+                  v-model="dataModel.especialidad_id"
+                  :items="dataEspecialidad.result"
+                  item-value="value"
+                  item-title="label"
+                  multiple
+                ></v-select>
               </v-card-text>
             </v-card>
           </v-card>
@@ -807,7 +806,7 @@
               </v-card-text>
             </v-card>
           </v-card>
-          <v-card color="transparent" rounded="lg" class="mx-auto mt-3" elevation="0">
+          <v-card color="transparent" rounded="lg" class="mx-auto mt-4" elevation="0">
             <v-card-text class="text-justify">
               <span class="text-body text-grey-darken-1"
                 >Instituto Mexicano de Contadores Públicos, A.C. aprovecha para informarle

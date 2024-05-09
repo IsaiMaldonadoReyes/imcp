@@ -2508,4 +2508,7 @@ export default defineComponent({
     border-top-color: #eeeeee;
   }
 }
+.v-select .vs__selected-options {
+  flex-wrap: nowrap;
+}
 </style>

@@ -2508,4 +2508,11 @@ export default defineComponent({
     border-top-color: #eeeeee;
   }
 }
+.vs__selected {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  overflow: hidden;
+}
 </style>

@@ -611,6 +611,11 @@
                   no-data-text="No hay datos disponibles"
                   variant="outlined"
                 >
+                  <template v-slot:selection="{ index }">
+                    <span v-if="index === 0">
+                      Area ({{ dataModel.especialidad_id.length }})</span
+                    >
+                  </template>
                 </v-select>
               </v-card-text>
             </v-card>

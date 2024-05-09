@@ -316,8 +316,8 @@
                 hide-details
                 inset
                 label="Ver todas las especialidades"
-                style="color: #15141a"
                 true-icon="mdi-eye-outline"
+                style="color: #15141a"
               />
             </div>
             <div

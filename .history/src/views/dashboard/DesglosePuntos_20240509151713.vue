@@ -299,11 +299,9 @@
           </template>
 
           <template v-slot:footer="{ page, pageCount, prevPage, nextPage }">
-            <div
-              v-if="desgloseEspecialidades.PuntosEvento.length > 3"
-              class="d-flex align-center justify-center pa-4"
-            >
+            <div class="d-flex align-center justify-center pa-4">
               <v-switch
+                v-if="desgloseEspecialidades.PuntosEvento.length > 3"
                 v-model="itemsPorPagina"
                 :base-color="colores.grisOscuro"
                 :color="colores.rojoIMPC"
@@ -316,8 +314,8 @@
                 hide-details
                 inset
                 label="Ver todas las especialidades"
-                style="color: #15141a"
                 true-icon="mdi-eye-outline"
+                style="color: #15141a"
               />
             </div>
             <div

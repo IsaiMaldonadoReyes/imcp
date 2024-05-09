@@ -67,7 +67,7 @@
               <v-card v-if="dataLoaded" class="mx-auto my-4" elevation="0">
                 <v-list
                   bg-color="transparent"
-                  class="d-flex flex-column justify-end"
+                  class="d-flex flex-column justify-center"
                   density="compact"
                 >
                   <v-list-item
@@ -81,7 +81,7 @@
                       height="15"
                     />
                     <template v-slot:append>
-                      <div class="rating-values text-end">
+                      <div class="rating-values justify-end">
                         <span>{{ item.data[1] }}/{{ item.data[0] }}</span>
                       </div>
                     </template>
@@ -168,7 +168,7 @@
                       height="15"
                     />
                     <template v-slot:append>
-                      <div class="rating-values text-end">
+                      <div class="rating-values">
                         <span>{{ item.data[h * 2 + 1] }} / {{ item.data[h * 2] }}</span>
                       </div>
                     </template>

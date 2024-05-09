@@ -299,11 +299,9 @@
           </template>
 
           <template v-slot:footer="{ page, pageCount, prevPage, nextPage }">
-            <div
-              v-if="desgloseEspecialidades.PuntosEvento.length > 3"
-              class="d-flex align-center justify-center pa-4"
-            >
+            <div class="d-flex align-center justify-center pa-4">
               <v-switch
+                v-if="desgloseEspecialidades.PuntosEvento.length > 3"
                 v-model="itemsPorPagina"
                 :base-color="colores.grisOscuro"
                 :color="colores.rojoIMPC"
@@ -316,13 +314,13 @@
                 hide-details
                 inset
                 label="Ver todas las especialidades"
-                style="color: #15141a"
                 true-icon="mdi-eye-outline"
+                style="color: #15141a"
               />
             </div>
             <div
-              v-if="desgloseEspecialidades.PuntosEvento.length > 3"
               class="d-flex align-center justify-center pa-4"
+              v-if="desgloseEspecialidades.PuntosEvento.length > 3"
             >
               <v-btn
                 :color="colores.rojoIMPC"
@@ -351,7 +349,7 @@
         <v-card
           color="transparent"
           rounded="lg"
-          class="mx-auto my-4"
+          class="mx-auto"
           elevation="0"
           v-if="desgloseEspecialidades.PuntosEvento.length > 0"
         >
@@ -363,7 +361,7 @@
               prepend-icon="mdi-file-download-outline"
               rounded="large"
               size="large"
-              text="DESCARGAR REPORTE PDF"
+              text="DESCARGAR REPORTE PDFs"
               variant="flat"
               @click="descargarPdf"
             >
