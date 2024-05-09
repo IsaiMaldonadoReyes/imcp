@@ -45,7 +45,7 @@
                 </v-card-item>
               </v-card>
 
-              <v-card v-if="dataLoaded" class="mx-auto my-2" elevation="0">
+              <v-card v-if="dataLoaded" class="mx-auto my-2" elevation="0" rounded="lg">
                 <v-card-text>
                   <BarChart v-bind="barChartPropsAnual" />
                 </v-card-text>
@@ -57,14 +57,14 @@
                   color="transparent"
                   elevation="0"
                 >
-                  <v-icon color="grey-lighten-1" size="60">mdi-database-eye-off</v-icon>
+                  <v-icon color="grey-lighten-1" size="60"> mdi-database-eye-off </v-icon>
                   <v-card-text class="text-grey-darken-1">
                     No se encontraron datos a mostrar.
                   </v-card-text>
                 </v-card>
               </template>
 
-              <v-card v-if="dataLoaded" class="mx-auto my-4" elevation="0">
+              <v-card v-if="dataLoaded" class="mx-auto my-4" elevation="0" rounded="lg">
                 <v-list
                   bg-color="transparent"
                   class="d-flex flex-column justify-end"
@@ -123,7 +123,7 @@
                 </v-card-item>
               </v-card>
 
-              <v-card v-if="dataLoaded" class="mx-auto my-2" elevation="0">
+              <v-card v-if="dataLoaded" class="mx-auto my-2" elevation="0" rounded="lg">
                 <v-card-text>
                   <BarChart v-bind="barChartPropsPor4" />
                 </v-card-text>
@@ -147,6 +147,7 @@
                 :key="h"
                 class="mx-auto my-4"
                 elevation="0"
+                rounded="lg"
               >
                 <v-card-title class="text-none text-center" style="white-space: normal">
                   {{ itm.label }} {{ itm.year }}

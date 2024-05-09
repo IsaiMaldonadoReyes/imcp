@@ -12,16 +12,16 @@
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-card class="my-3" elevation="0" border>
-          <v-card-title class="text-h6 font-weight-bold"> Datos generales </v-card-title>
+        <v-card class="my-3 pa-2" elevation="0" border>
+          <v-card-title class="text-h6 font-weight-bold">Datos generales</v-card-title>
 
           <v-card-text>
-            <span class="text-subtitle-1 text-grey-darken-1">Colegio: </span>
+            <span class="text-subtitle-1 text-grey-darken-1">Colegio:</span>
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.CuentasUsuarios.colegio }}
             </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Sector: </span>
+            <span class="text-subtitle-1 text-grey-darken-1">Sector:</span>
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.CuentasUsuarios.sector }}
             </span>
@@ -33,21 +33,20 @@
               {{ desgloseEspecialidades.CuentasUsuarios.articulo }}
             </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Registro Agaff: </span>
+            <span class="text-subtitle-1 text-grey-darken-1"> Registro Agaff: </span>
             <span class="text-subtitle-1 font-weight-bold">
-              {{ desgloseEspecialidades.CuentasUsuarios.registroAgaff }}</span
-            >
+              {{ desgloseEspecialidades.CuentasUsuarios.registroAgaff }}
+            </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Registro IMSS: </span>
+            <span class="text-subtitle-1 text-grey-darken-1">Registro IMSS:</span>
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.CuentasUsuarios.registroImss }}
             </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Total de puntos: </span>
+            <span class="text-subtitle-1 text-grey-darken-1">Total de puntos:</span>
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.total }}
             </span>
-            <br />
           </v-card-text>
         </v-card>
 
@@ -218,7 +217,6 @@
                           <v-icon color="grey-lighten-1" size="60">
                             mdi-database-eye-off
                           </v-icon>
-
                           <v-card-text class="text-grey-darken-1">
                             No se encontraron eventos que coincidan con la búsqueda.
                           </v-card-text>
@@ -382,13 +380,12 @@
 import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
 import { defineComponent, ref } from "vue";
 import { VDataIterator, VDataTable } from "vuetify/lib/labs/components.mjs";
-import { useCertificadoStore } from "@/store/certificado";
+import { useDashboardStore } from "@/store/dashboard";
 import { useRoute } from "vue-router";
 
 export interface Result {
   anhio: string;
   CuentasUsuarios: CuentasUsuarios;
-  certificado: Certificado;
   total: number;
   PuntosEvento: PuntosEvento[];
   totales_general: TotalesGeneral;
@@ -416,33 +413,6 @@ export interface CuentasUsuarios {
   sector: string;
 }
 
-export interface Certificado {
-  idCertificado: number;
-  idEstudiante: number;
-  idColegio: number;
-  idTipo: number;
-  idTipoCertificado: number;
-  idCertificadoDis: number;
-  numCertificado: string;
-  fechaVigencia: string;
-  fechaInicio: string;
-  cadenaCertificado: string;
-  cadenaUrl: string;
-  statusCertificado: string;
-  proviene: string;
-  idCertificadoNuevo: number;
-  status: string;
-  idCertificadoViejo: number;
-  nombre: string;
-  puntosObtenidos: number;
-  puntosTotales: number;
-  statusAutorizar: string;
-  infoCertificado: string;
-  noPedidoXpertshop: string;
-  dateupdate: string;
-  datecreation: string;
-}
-
 export interface PuntosEvento {
   areaEspecialidad: string;
   dataset: Dataset[];
@@ -450,6 +420,7 @@ export interface PuntosEvento {
 }
 
 export interface Dataset {
+  NombreEspecialidad: string;
   EventosNombreEvento: string;
   NombreColegio: string;
   NumeroRegistro: string;
@@ -471,7 +442,7 @@ export interface TotalesGeneral {
 }
 
 export default defineComponent({
-  name: "CertificadoPuntosDesglose",
+  name: "DesglosePuntos",
   components: {
     IonContent,
     IonPage,
@@ -486,13 +457,14 @@ export default defineComponent({
         contentRef.value.scrollTop = 0; // Scrolls to the top of the content
       }
     };
-    const certificadoStore = useCertificadoStore();
+
+    const dashStore = useDashboardStore();
     const eventosPorPagina = ref<{ [key: string]: number }>({});
     const itemsPorPagina = ref(3);
     const paginaEvento = ref([]);
     const route = useRoute();
     let busquedaEspecialidad = ref("");
-    let busquedaEvento = ref("");
+    let busquedaEvento = ref([]);
     let sortBy = ref([]);
     let sortDesc = ref("asc");
     let rutaPdf = ref("");
@@ -535,32 +507,6 @@ export default defineComponent({
         status: "",
         colegio: "",
         sector: "",
-      },
-      certificado: {
-        idCertificado: 0,
-        idEstudiante: 0,
-        idColegio: 0,
-        idTipo: 0,
-        idTipoCertificado: 0,
-        idCertificadoDis: 0,
-        numCertificado: "",
-        fechaVigencia: "",
-        fechaInicio: "",
-        cadenaCertificado: "",
-        cadenaUrl: "",
-        statusCertificado: "",
-        proviene: "",
-        idCertificadoNuevo: 0,
-        status: "",
-        idCertificadoViejo: 0,
-        nombre: "",
-        puntosObtenidos: 0,
-        puntosTotales: 0,
-        statusAutorizar: "",
-        infoCertificado: "",
-        noPedidoXpertshop: "",
-        dateupdate: "",
-        datecreation: "",
       },
       total: 0,
       PuntosEvento: [],
@@ -608,7 +554,7 @@ export default defineComponent({
       }
     });
 
-    async function cargarDesglosePorEjercicio(idCertificado: any, anhio: any) {
+    async function cargarDesglosePorEjercicio(id: any) {
       try {
         desgloseEspecialidades.value = {
           anhio: "",
@@ -633,32 +579,6 @@ export default defineComponent({
             colegio: "",
             sector: "",
           },
-          certificado: {
-            idCertificado: 0,
-            idEstudiante: 0,
-            idColegio: 0,
-            idTipo: 0,
-            idTipoCertificado: 0,
-            idCertificadoDis: 0,
-            numCertificado: "",
-            fechaVigencia: "",
-            fechaInicio: "",
-            cadenaCertificado: "",
-            cadenaUrl: "",
-            statusCertificado: "",
-            proviene: "",
-            idCertificadoNuevo: 0,
-            status: "",
-            idCertificadoViejo: 0,
-            nombre: "",
-            puntosObtenidos: 0,
-            puntosTotales: 0,
-            statusAutorizar: "",
-            infoCertificado: "",
-            noPedidoXpertshop: "",
-            dateupdate: "",
-            datecreation: "",
-          },
           total: 0,
           PuntosEvento: [],
           totales_general: {
@@ -667,16 +587,21 @@ export default defineComponent({
             sumEspecialidadTotalHora: 0,
           },
         };
-        await certificadoStore.desglosePuntosPorCertificado(idCertificado, anhio);
-        desgloseEspecialidades.value = certificadoStore.object.desglosePuntos as Result;
+        await dashStore.desglosePuntosPorEjercicio(id);
+        desgloseEspecialidades.value = dashStore.object.desglosePuntos as Result;
+
+        desgloseEspecialidades.value.PuntosEvento.forEach((item) => {
+          eventosPorPagina.value[item.areaEspecialidad] = 1; // Puedes ajustar el valor predeterminado si es necesario
+        });
       } catch (error) {}
     }
 
-    async function cargarPdfDesglosePorEjercicio(idCertificado: any, anhio: any) {
+    async function cargarPdfDesglosePorEjercicio(id: any) {
       rutaPdf.value = "";
+
       try {
-        await certificadoStore.desglosePuntosPorEjercicioPdf(idCertificado, anhio);
-        rutaPdf.value = certificadoStore.object.rutaPdf;
+        await dashStore.desglosePuntosPorEjercicioPdf(id);
+        rutaPdf.value = dashStore.object.rutaPdf;
       } catch (error) {}
     }
 
@@ -690,10 +615,10 @@ export default defineComponent({
       }
 
       scrollToTop();
-      const idCertificado = route.params.idCertificado;
-      const anhio = route.params.anhio;
-      cargarDesglosePorEjercicio(idCertificado, anhio);
-      cargarPdfDesglosePorEjercicio(idCertificado, anhio);
+      const id = route.params.id;
+
+      cargarDesglosePorEjercicio(id);
+      cargarPdfDesglosePorEjercicio(id);
     });
 
     return {

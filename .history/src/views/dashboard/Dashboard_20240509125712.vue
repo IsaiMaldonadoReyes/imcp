@@ -64,7 +64,7 @@
                 </v-card>
               </template>
 
-              <v-card v-if="dataLoaded" class="mx-auto my-4" elevation="0">
+              <v-card v-if="dataLoaded" class="mx-auto my-4" elevation="0" rounded="lg">
                 <v-list
                   bg-color="transparent"
                   class="d-flex flex-column justify-end"
@@ -147,6 +147,7 @@
                 :key="h"
                 class="mx-auto my-4"
                 elevation="0"
+                rounded="lg"
               >
                 <v-card-title class="text-none text-center" style="white-space: normal">
                   {{ itm.label }} {{ itm.year }}

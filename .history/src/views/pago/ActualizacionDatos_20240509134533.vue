@@ -443,7 +443,6 @@
                 <br />
                 <Datepicker
                   v-model="dataModel.empresa_antiguedad"
-                  :auto-apply="true"
                   :enable-time-picker="false"
                   :format-locale="es"
                   :rules="[rules.required]"
@@ -1679,12 +1678,12 @@ export default defineComponent({
 
         if (certificadoStore.object.certificadosPendientes.totalSize >= 0) {
           certificadoActual.value = certificadoStore.object.certificadosPendientes;
-
-          certificadoActual.value.dataset = (certificadoActual.value
-            .dataset as Dataset[]).filter(
-            (certificado) => certificado.id_certificado == idCertificado
-          ) as Dataset[];
         }
+
+        certificadoActual.value.dataset = (certificadoActual.value
+          .dataset as Dataset[]).filter(
+          (certificado) => certificado.id_certificado == idCertificado
+        ) as Dataset[];
 
         idCertificadoParams.value = idCertificado;
         tokenCertificado.value = tokenCert;
@@ -2271,6 +2270,7 @@ export default defineComponent({
             });
           }
         } else {
+          //await showAlert("Actualización de datos", "Revise los datos");
           dialogPropiedades.value = {
             dialog: true,
             titulo: "Actualización de datos",
@@ -2502,9 +2502,7 @@ export default defineComponent({
   }
 
   .tb-grados.v-data-table tr:not(:first-child) > td:first-child {
-    border-top-width: 10px;
-    border-top-style: solid;
-    border-top-color: #eeeeee;
+    border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
   }
 }
 </style>

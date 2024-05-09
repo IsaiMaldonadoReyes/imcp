@@ -443,7 +443,6 @@
                 <br />
                 <Datepicker
                   v-model="dataModel.empresa_antiguedad"
-                  :auto-apply="true"
                   :enable-time-picker="false"
                   :format-locale="es"
                   :rules="[rules.required]"
@@ -454,6 +453,7 @@
                   label="Antigüedad - fecha de inicio *"
                   placeholder="Antigüedad - fecha de inicio *"
                   selectText="Aceptar"
+                  
                 />
                 <v-select
                   v-model="dataModel.empresa_id_sector"
@@ -2502,9 +2502,7 @@ export default defineComponent({
   }
 
   .tb-grados.v-data-table tr:not(:first-child) > td:first-child {
-    border-top-width: 10px;
-    border-top-style: solid;
-    border-top-color: #eeeeee;
+    border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
   }
 }
 </style>

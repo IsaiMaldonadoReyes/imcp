@@ -115,15 +115,15 @@
                         class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
                       >
                         <v-chip
-                          v-if="encabezado.key == 'status'"
                           :color="getColor(item[encabezado.key])"
-                          class="mr-2 my-2"
-                          label
-                          size="small"
-                          style="width: fit-content"
                           variant="outlined"
+                          size="small"
+                          label
+                          style="width: fit-content"
+                          class="mr-2"
+                          v-if="encabezado.key == 'status'"
                         >
-                          <v-icon class="mr-2">mdi-circle</v-icon>
+                          <v-icon size="x-small" class="mr-2">mdi-circle</v-icon>
                           {{ item[encabezado.key] }}
                         </v-chip>
                         <span
@@ -157,51 +157,6 @@
                         No se encontraron eventos que coincidan con la búsqueda.
                       </v-card-text>
                     </v-card>
-                  </template>
-                  <template v-slot:bottom="{ pageCount }">
-                    <v-divider />
-
-                    <div
-                      class="text-center my-3 mx-3"
-                      v-if="listadoCapacitaciones.dataset.length > 4"
-                    >
-                      <v-select
-                        v-model="avisosCapacitacionPorPagina"
-                        :items="[
-                          { value: 1, title: '1' },
-                          { value: 3, title: '3' },
-                          { value: 5, title: '5' },
-                          { value: 10, title: '10' },
-                          { value: -1, title: 'Todos' },
-                        ]"
-                        class="my-2"
-                        hide-details
-                        label="Eventos por página"
-                        variant="solo"
-                      ></v-select>
-                      <v-pagination
-                        v-model="paginaAvisoCapacitacion"
-                        :active-color="colores.rojoIMPC"
-                        :color="colores.grisOscuro"
-                        :length="pageCount"
-                        :show-first-last-page="true"
-                        ellipsis="..."
-                        next-icon="mdi-arrow-right"
-                        prev-icon="mdi-arrow-left"
-                        size="small"
-                        total-visible="1"
-                        variant="flat"
-                        v-if="listadoCapacitaciones.dataset.length > 1"
-                      >
-                        <template v-slot:item="{ page }">
-                          <div
-                            class="mx-2 my-1 text-subtitle-1 text-grey-darken-1 font-weight-bold"
-                          >
-                            {{ page }} de {{ pageCount }}
-                          </div>
-                        </template>
-                      </v-pagination>
-                    </div>
                   </template>
                 </v-data-table>
               </v-card>

@@ -115,15 +115,15 @@
                         class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
                       >
                         <v-chip
-                          v-if="encabezado.key == 'status'"
                           :color="getColor(item[encabezado.key])"
-                          class="mr-2 my-2"
-                          label
-                          size="small"
-                          style="width: fit-content"
                           variant="outlined"
+                          size="small"
+                          label
+                          style="width: fit-content"
+                          class="mr-2"
+                          v-if="encabezado.key == 'status'"
                         >
-                          <v-icon class="mr-2">mdi-circle</v-icon>
+                          <v-icon size="x-small" class="mr-2">mdi-circle</v-icon>
                           {{ item[encabezado.key] }}
                         </v-chip>
                         <span
@@ -177,7 +177,7 @@
                         class="my-2"
                         hide-details
                         label="Eventos por página"
-                        variant="solo"
+                        variant="flat"
                       ></v-select>
                       <v-pagination
                         v-model="paginaAvisoCapacitacion"

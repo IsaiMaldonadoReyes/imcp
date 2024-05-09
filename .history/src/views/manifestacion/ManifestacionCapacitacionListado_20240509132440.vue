@@ -89,7 +89,7 @@
                     <v-chip
                       v-if="encabezado.key == 'status'"
                       :color="getColor(item[encabezado.key])"
-                      class="mr-2 my-2"
+                      class="mr-2 my-3"
                       label
                       size="small"
                       style="width: fit-content"

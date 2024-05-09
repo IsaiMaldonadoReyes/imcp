@@ -123,7 +123,7 @@
                           style="width: fit-content"
                           variant="outlined"
                         >
-                          <v-icon class="mr-2">mdi-circle</v-icon>
+                          <v-icon size="x-small" class="mr-2">mdi-circle</v-icon>
                           {{ item[encabezado.key] }}
                         </v-chip>
                         <span

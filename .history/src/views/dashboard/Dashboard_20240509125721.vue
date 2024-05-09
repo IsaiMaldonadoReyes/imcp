@@ -147,6 +147,7 @@
                 :key="h"
                 class="mx-auto my-4"
                 elevation="0"
+                rounded="lg"
               >
                 <v-card-title class="text-none text-center" style="white-space: normal">
                   {{ itm.label }} {{ itm.year }}
