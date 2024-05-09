@@ -85,6 +85,7 @@
                         <span>{{ item.data[1] }}/{{ item.data[0] }}</span>
                       </div>
                     </template>
+                    <v-divider />
                   </v-list-item>
                 </v-list>
                 <v-divider />
@@ -168,7 +169,7 @@
                       height="15"
                     />
                     <template v-slot:append>
-                      <div class="rating-values text-end">
+                      <div class="rating-values">
                         <span>{{ item.data[h * 2 + 1] }} / {{ item.data[h * 2] }}</span>
                       </div>
                     </template>

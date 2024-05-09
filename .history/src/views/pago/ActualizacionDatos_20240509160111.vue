@@ -610,8 +610,7 @@
                   multiple
                   no-data-text="No hay datos disponibles"
                   variant="outlined"
-                >
-                </v-select>
+                ></v-select>
               </v-card-text>
             </v-card>
           </v-card>

@@ -351,7 +351,7 @@
         <v-card
           color="transparent"
           rounded="lg"
-          class="mx-auto my-4"
+          class="mx-auto my-3"
           elevation="0"
           v-if="desgloseEspecialidades.PuntosEvento.length > 0"
         >

@@ -20,7 +20,7 @@
           item-value="tipo_certificado"
         >
           <template v-slot:header>
-            <v-row dense class="mt-3">
+            <v-row dense class="">
               <v-col cols="12" lg="6" md="12" sm="12" xs="12">
                 <v-text-field
                   v-model="busquedaCertificado"

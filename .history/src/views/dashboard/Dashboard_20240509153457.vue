@@ -74,6 +74,7 @@
                     v-for="(item, i) in cursos"
                     :title="'Puntaje ' + item.label"
                     :key="i"
+                    border=""
                   >
                     <v-progress-linear
                       :model-value="(item.data[1] * 100) / item.data[0]"
@@ -168,7 +169,7 @@
                       height="15"
                     />
                     <template v-slot:append>
-                      <div class="rating-values text-end">
+                      <div class="rating-values">
                         <span>{{ item.data[h * 2 + 1] }} / {{ item.data[h * 2] }}</span>
                       </div>
                     </template>

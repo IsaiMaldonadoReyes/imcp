@@ -79,12 +79,12 @@
                       :model-value="(item.data[1] * 100) / item.data[0]"
                       :color="item.backgroundColor"
                       height="15"
-                    />
-                    <template v-slot:append>
-                      <div class="rating-values text-end">
-                        <span>{{ item.data[1] }}/{{ item.data[0] }}</span>
-                      </div>
-                    </template>
+                      ><template v-slot:append>
+                        <div class="rating-values justify-end">
+                          <span>{{ item.data[1] }}/{{ item.data[0] }}</span>
+                        </div>
+                      </template></v-progress-linear
+                    >
                   </v-list-item>
                 </v-list>
                 <v-divider />
@@ -168,7 +168,7 @@
                       height="15"
                     />
                     <template v-slot:append>
-                      <div class="rating-values text-end">
+                      <div class="rating-values">
                         <span>{{ item.data[h * 2 + 1] }} / {{ item.data[h * 2] }}</span>
                       </div>
                     </template>

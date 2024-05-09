@@ -81,7 +81,7 @@
                       height="15"
                     />
                     <template v-slot:append>
-                      <div class="rating-values text-end">
+                      <div class="rating-values">
                         <span>{{ item.data[1] }}/{{ item.data[0] }}</span>
                       </div>
                     </template>
@@ -168,8 +168,10 @@
                       height="15"
                     />
                     <template v-slot:append>
-                      <div class="rating-values text-end">
-                        <span>{{ item.data[h * 2 + 1] }} / {{ item.data[h * 2] }}</span>
+                      <div class="rating-values">
+                        <span class="mt-1"
+                          >{{ item.data[h * 2 + 1] }} / {{ item.data[h * 2] }}s</span
+                        >
                       </div>
                     </template>
                   </v-list-item>

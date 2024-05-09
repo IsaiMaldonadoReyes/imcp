@@ -316,14 +316,11 @@
                 hide-details
                 inset
                 label="Ver todas las especialidades"
-                style="color: #15141a"
                 true-icon="mdi-eye-outline"
+                style="color: #15141a"
               />
             </div>
-            <div
-              v-if="desgloseEspecialidades.PuntosEvento.length > 3"
-              class="d-flex align-center justify-center pa-4"
-            >
+            <div class="d-flex align-center justify-center pa-4">
               <v-btn
                 :color="colores.rojoIMPC"
                 :disabled="page === 1"
@@ -351,7 +348,7 @@
         <v-card
           color="transparent"
           rounded="lg"
-          class="mx-auto my-4"
+          class="mx-auto"
           elevation="0"
           v-if="desgloseEspecialidades.PuntosEvento.length > 0"
         >
