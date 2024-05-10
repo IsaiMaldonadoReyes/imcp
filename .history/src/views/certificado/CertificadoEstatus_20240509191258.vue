@@ -8,16 +8,16 @@
               class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
               style="white-space: normal"
             >
-              Certificados emitidos
+              Certificados en proceso
             </v-card-title>
           </v-card-item>
         </v-card>
         <v-data-iterator
           :items-per-page="itemsPorPagina"
-          :items="certificadosEmitidos.dataset || []"
+          :items="certificadosPendientes.dataset || []"
           :search="busquedaCertificado"
           :sort-by="sortBy"
-          item-value="cert_tipo"
+          item-value="tipo_certificado"
         >
           <template v-slot:header>
             <v-row dense class="mt-3">
@@ -86,73 +86,132 @@
               elevation="0"
               border
               v-for="item in items"
-              :key="item.raw.num_certificado"
+              :key="item.raw.certificado_dis"
             >
-              <!--v-card-title
-                class="text-none text-center"
-                style="white-space: normal"
-              >
-                Disciplina: {{ item.raw.cert_disciplina }}
-              </v-card-title>
-              <v-divider></v-divider-->
-              <v-divider></v-divider>
               <v-card-text>
                 <v-table density="compact">
                   <tbody>
                     <tr>
-                      <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">Tipo:</td>
+                      <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
+                        Certificado:
+                      </td>
                       <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
-                        {{ item.raw.cert_tipo }}
+                        {{ item.raw.certificado_dis }}
                       </td>
                     </tr>
                     <tr>
                       <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
-                        No. certificado:
+                        Núm. Certificado:
                       </td>
-                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
+                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify">
                         {{ item.raw.num_certificado }}
                       </td>
                     </tr>
                     <tr>
                       <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
-                        Emisión:
+                        Fecha vigencia:
                       </td>
-                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
+                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify">
                         {{ formatearFecha(item.raw.fecha_vigencia) }}
                       </td>
                     </tr>
                     <tr>
                       <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
-                        Vigencia:
+                        Sector:
                       </td>
-                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
-                        {{ formatearFecha(item.raw.fecha_inicio) }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
-                        Estatus:
-                      </td>
-                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
-                        {{ item.raw.status }}
+                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify">
+                        {{ item.raw.sector }}
                       </td>
                     </tr>
                   </tbody>
                 </v-table>
               </v-card-text>
               <v-divider />
-              <v-card-actions v-if="item.raw.Descargar !== ''">
+              <v-card
+                v-if="item.raw.tipo_certificado !== 'Sustentante'"
+                elevation="0"
+                rounded="0"
+                class="ma-1"
+              >
+                <v-slide-group show-arrows class="imcp-slide-group">
+                  <v-slide-group-item
+                    v-for="(revision, i) in item.raw.revisionAnual"
+                    :key="i"
+                  >
+                    <v-card
+                      class="ma-1 pa-1 text-center"
+                      height="90"
+                      width="30%"
+                      elevation="0"
+                      border
+                    >
+                      <div
+                        class="text-subtitle-1 font-weight-bold"
+                        :style="`color: ${getDotColor(revision.status)}`"
+                        v-text="revision.anhio"
+                      ></div>
+                      <v-divider></v-divider>
+                      <v-icon
+                        :color="getDotColor(revision.status)"
+                        :icon="getIcon(revision.status)"
+                        class="my-1"
+                      ></v-icon>
+                      <div>
+                        <h6
+                          class="ma-0 pa-0 font-weight-light text-grey-darken-1"
+                          style="font-size: 0.88rem"
+                        >
+                          {{ revision.status }}
+                        </h6>
+                      </div>
+                    </v-card>
+                  </v-slide-group-item>
+                </v-slide-group>
+              </v-card>
+              <v-divider />
+
+              <v-card-actions>
                 <v-btn
+                  v-if="item.raw.token !== ''"
                   :color="colores.verdeBoton"
                   block
-                  prepend-icon="mdi-file-download-outline"
+                  prepend-icon="mdi-credit-card-outline"
                   size="large"
-                  text="DESCARGAR CERTIFICADO"
-                  @click="descargarCertificado(item.raw.Descargar)"
+                  text="Realizar pago"
+                  @click="
+                    dirigirSeleccionAccion(
+                      item.raw.id_certificado,
+                      '1',
+                      item.raw.token,
+                      item.raw.token_id
+                    )
+                  "
                   variant="flat"
                 >
                   <template v-slot:prepend>
                     <v-icon size="large"></v-icon>
+                  </template>
+                </v-btn>
+                <v-btn
+                  v-else
+                  :color="colores.grisOscuro"
+                  block
+                  prepend-icon="mdi-eye-arrow-right-outline"
+                  size="large"
+                  text="Ver detalle"
+                  variant="flat"
+                  :to="{
+                    name: 'certificadoPuntos',
+                    params: {
+                      idCertificado: item.raw.id_certificado_dis,
+                      anhioInicio: item.raw.anhio_inicio_vigencia,
+                      anhioFin: item.raw.anhio_fin_vigencia,
+                      numCertificado: item.raw.num_certificado,
+                    },
+                  }"
+                >
+                  <template v-slot:prepend>
+                    <v-icon class="mr-3" size="large"></v-icon>
                   </template>
                 </v-btn>
               </v-card-actions>
@@ -167,7 +226,7 @@
                 :color="colores.rojoIMPC"
                 :false-value="3"
                 :inline="false"
-                :true-value="certificadosEmitidos.dataset.length"
+                :true-value="certificadosPendientes.dataset.length"
                 class="switch-all font-weight-bold d-flex justify-center"
                 density="compact"
                 false-icon="mdi-eye-off-outline"
@@ -175,12 +234,12 @@
                 inset
                 label="Ver todos los certificados"
                 true-icon="mdi-eye-outline"
-                v-if="certificadosEmitidos.dataset.length > 3"
+                v-if="certificadosPendientes.dataset.length > 3"
               />
             </div>
             <div
               class="d-flex align-center justify-center pa-4"
-              v-if="certificadosEmitidos.dataset.length > 3"
+              v-if="certificadosPendientes.dataset.length > 3"
             >
               <v-btn
                 :color="colores.rojoIMPC"
@@ -216,7 +275,7 @@ import { defineComponent, ref, computed } from "vue";
 import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
 import { VDataIterator } from "vuetify/lib/labs/components.mjs";
 import { useCertificadoStore } from "@/store/certificado";
-import { useRoute } from "vue-router";
+import { useRouter, Router, useRoute } from "vue-router";
 
 export interface Certificados {
   dataset: Dataset[];
@@ -225,29 +284,54 @@ export interface Certificados {
 
 export interface Dataset {
   id_certificado: number;
-  cuentas_usuarios_id: number;
-  cuenta_nombre: string;
-  cuenta_apaterno: string;
-  cuenta_amatarno: string;
-  nombre_colegio: string;
-  cuenta_rfc: string;
-  cert_tipo: string;
-  cert_tipo_certificado: string;
-  cert_disciplina: string;
+  id_estudiante: number;
+  id_colegio: number;
+  id_tipo: number;
+  id_tipo_certificado: number;
+  id_certificado_dis: number;
   num_certificado: string;
   fecha_vigencia: string;
   fecha_inicio: string;
+  status_certificado: string;
+  proviene: string;
+  id_certificado_nuevo: number;
   status: string;
+  id_certificado_viejo: number;
+  nombre: string;
+  puntos_obtenidos: number;
+  puntos_totales: number;
+  status_autorizar: string;
+  info_certificado: string;
+  dateupdate: string;
+  datecreation: string;
   anhio_inicio_vigencia: string;
   anhio_fin_vigencia: string;
-  status_certificado: string;
-  clasificacion: string;
-  tipo_entrega: string;
-  Descargar: string;
+  cuenta_rfc: string;
+  cuenta_nombre: string;
+  cuenta_apaterno: string;
+  cuenta_amatarno: string;
+  cuenta_email: string;
+  status_contacto: string;
+  registro_agaff: string;
+  anhio_inicio_vigencia_nuevo: string;
+  anhio_fin_vigencia_nuevo: string;
+  tipo: string;
+  tipo_certificado: string;
+  token_id: number;
+  token: string;
+  token_status: string;
+  certificado_dis: string;
+  sector: string;
+  revisionAnual: RevisionAnual[];
+}
+
+export interface RevisionAnual {
+  anhio: string;
+  status: string;
 }
 
 export default defineComponent({
-  name: "emitidos",
+  name: "certificado",
   components: {
     IonPage,
     IonContent,
@@ -269,6 +353,9 @@ export default defineComponent({
     const itemsPorPagina = ref(3);
     let busquedaCertificado = ref("");
 
+    const route = useRoute();
+    const router: Router = useRouter();
+
     const colores = ref({
       rojoIMPC: "#B20000",
       rojoClaro: "#FAE6EA",
@@ -276,14 +363,14 @@ export default defineComponent({
       verdeBoton: "#468C00",
     });
 
-    const certificadosEmitidos = ref<Certificados>({
+    const certificadosPendientes = ref<Certificados>({
       dataset: [],
       totalSize: 0,
     });
 
     const keys = ref([
       {
-        key: "cert_tipo",
+        key: "certificado_dis",
         order: sortDesc,
       },
       {
@@ -291,7 +378,7 @@ export default defineComponent({
         order: sortDesc,
       },
       {
-        key: "fecha_vigencia",
+        key: "sector",
         order: sortDesc,
       },
     ]);
@@ -305,19 +392,19 @@ export default defineComponent({
 
     const keysProps = ref((item: any) => {
       switch (item.key) {
-        case "cert_tipo":
+        case "certificado_dis":
           return {
-            title: "Tipo",
+            title: "Certificado",
             value: [item],
           };
         case "num_certificado":
           return {
-            title: "No. certificado",
+            title: "Núm. Certificado",
             value: [item],
           };
-        case "fecha_vigencia":
+        case "sector":
           return {
-            title: "Fecha de emisión",
+            title: "Sector",
             value: [item],
           };
         default:
@@ -326,27 +413,35 @@ export default defineComponent({
     });
 
     async function cargarDesglosePorEjercicio() {
-      certificadosEmitidos.value = {
+      certificadosPendientes.value = {
         dataset: [],
         totalSize: 0,
       };
 
       try {
-        await certificadoStore.cargarCertificadosEmitidos();
+        await certificadoStore.cargarCertificadosPendientes();
 
-        if (certificadoStore.object.certificadosEmitidos.totalSize >= 0) {
-          certificadosEmitidos.value = {
-            dataset: certificadoStore.object.certificadosEmitidos.dataset.filter(
-              (certificado: Dataset) => certificado.Descargar !== ""
-            ),
-            totalSize: certificadoStore.object.certificadosEmitidos.totalSize,
-          };
+        if (certificadoStore.object.certificadosPendientes.totalSize >= 0) {
+          certificadosPendientes.value = certificadoStore.object.certificadosPendientes;
         }
       } catch (error) {}
     }
 
-    function descargarCertificado(ruta: string) {
-      window.open(ruta, "_blank");
+    async function dirigirSeleccionAccion(
+      idCertificado: any,
+      estatus: any,
+      tokenCertificado: any,
+      tokenId: any
+    ) {
+      router.push({
+        name: "seleccionAccion",
+        params: {
+          idCertificado: idCertificado,
+          estatus: estatus,
+          tokenCertificado: tokenCertificado,
+          idToken: tokenId,
+        },
+      });
     }
 
     function formatearFecha(dateString: any) {
@@ -361,7 +456,6 @@ export default defineComponent({
       if (contentRef.value !== null) {
         contentRef.value.scrollTop = 0;
       }
-
       scrollToTop();
       cargarDesglosePorEjercicio();
     });
@@ -374,10 +468,10 @@ export default defineComponent({
       busquedaCertificado,
       keys,
       keysProps,
-      certificadosEmitidos,
+      certificadosPendientes,
       getDotColor,
       getIcon,
-      descargarCertificado,
+      dirigirSeleccionAccion,
       contentRef,
       formatearFecha,
     };
@@ -391,15 +485,10 @@ export default defineComponent({
   flex: 0px !important;
   min-width: 15px !important;
 }
-.rating-values {
-  margin-left: 10px;
-  min-width: 65px;
-}
 
 .v-field__input > input {
   color: #333333;
 }
-
 .mdi-menu-down.mdi.v-icon {
   color: black;
 }

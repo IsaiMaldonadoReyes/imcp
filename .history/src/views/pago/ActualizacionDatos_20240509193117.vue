@@ -610,7 +610,11 @@
                   multiple
                   no-data-text="No hay datos disponibles"
                   variant="outlined"
+                  style="white-space: normal"
                 >
+                  <template v-slot:item="{ props, item }">
+                    <v-list-item style="white-space: normal" v-bind="props"></v-list-item>
+                  </template>
                 </v-select>
               </v-card-text>
             </v-card>
