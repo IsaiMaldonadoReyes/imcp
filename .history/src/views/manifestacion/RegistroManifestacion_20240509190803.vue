@@ -182,7 +182,7 @@
             :to="{ name: 'manifestacionListado' }"
           >
             <template v-slot:prepend>
-              <v-icon size="large"></v-icon>
+              <v-icon class="mr-3" size="large"></v-icon>
             </template>
           </v-btn>
         </div>

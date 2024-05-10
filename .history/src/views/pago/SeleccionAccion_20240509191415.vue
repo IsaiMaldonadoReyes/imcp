@@ -16,7 +16,7 @@
           <v-btn
             block
             class="mt-4"
-            prepend-icon="mdi-file-document-edit"
+            prepend-icon="mdi-folder-information-outline"
             rounded="large"
             size="x-large"
             text="1. ACTUALIZAR DATOS"
@@ -33,7 +33,7 @@
           <v-btn
             block
             class="mt-4"
-            prepend-icon="mdi-account-credit-card"
+            prepend-icon="mdi-account-credit-card-outline"
             rounded="large"
             size="x-large"
             text="2. REALIZAR PAGO"

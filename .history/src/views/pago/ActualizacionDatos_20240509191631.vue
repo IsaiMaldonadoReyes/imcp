@@ -290,14 +290,14 @@
                     <v-spacer></v-spacer>
                     <v-btn
                       :color="colores.verdeBoton"
-                      class="ma-3"
+                      class="text-none ma-3"
                       prepend-icon="mdi-plus-box"
                       text="Agregar grado"
                       variant="flat"
                       @click="openDialogGrado"
                     >
                       <template v-slot:prepend>
-                        <v-icon size="large"></v-icon>
+                        <v-icon class="" size="large"></v-icon>
                       </template>
                     </v-btn>
                   </v-toolbar>

@@ -6,7 +6,6 @@
           <v-card-item>
             <v-card-title
               class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
-              style="white-space: normal"
             >
               Nueva capacitación externa
             </v-card-title>
@@ -81,7 +80,6 @@
               ></v-text-field>
               <Datepicker
                 v-model="dataModel.eventos_fecha_inicio"
-                :auto-apply="true"
                 :format-locale="es"
                 :rules="[rules.required]"
                 :teleport="true"
@@ -94,7 +92,6 @@
               />
               <Datepicker
                 v-model="dataModel.eventos_fecha_fin"
-                :auto-apply="true"
                 :format-locale="es"
                 :rules="[rules.required]"
                 :teleport="true"
@@ -133,14 +130,14 @@
                     <v-spacer></v-spacer>
                     <v-btn
                       :color="colores.verdeBoton"
-                      class="ma-3"
+                      class="text-none ma-3"
                       prepend-icon="mdi-content-save-edit-outline"
                       text="Agregar disciplinas"
                       variant="flat"
                       @click="openDialogDisciplina"
                     >
                       <template v-slot:prepend>
-                        <v-icon size="large"></v-icon>
+                        <v-icon class="mr-3" size="large"></v-icon>
                       </template>
                     </v-btn>
                   </v-toolbar>
@@ -222,7 +219,7 @@
               @click="guardarDatos"
             >
               <template v-slot:prepend>
-                <v-icon size="large"></v-icon>
+                <v-icon class="mr-3" size="large"></v-icon>
               </template>
             </v-btn>
             <v-btn
@@ -237,7 +234,7 @@
               :to="{ name: 'capacitacionExternaListado' }"
             >
               <template v-slot:prepend>
-                <v-icon size="large"></v-icon>
+                <v-icon class="mr-3" size="large"></v-icon>
               </template>
             </v-btn>
           </div>

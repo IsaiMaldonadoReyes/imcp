@@ -14,10 +14,10 @@
         </v-card>
         <v-form v-model="isValid" lazy-validation ref="formEl">
           <v-card class="my-3 pa-2" elevation="0" border>
-            <v-card-text class="text-h6 text-justify">
+            <v-card-title class="text-justify">
               <span class="text-grey-darken-1">Estimado(a): </span>
               <span class="font-weight-bold">{{ dataModel.nombre }}</span>
-            </v-card-text>
+            </v-card-title>
             <v-card-text class="text-justify">
               <span class="text-subtitle-1 text-grey-darken-1">
                 La información del certificado que esta actualizando es:

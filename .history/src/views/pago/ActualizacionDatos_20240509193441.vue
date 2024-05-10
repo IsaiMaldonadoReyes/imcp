@@ -115,7 +115,7 @@
                   variant="outlined"
                 ></v-text-field>
                 <br />
-                <span class="text-body text-red-darken-1">
+                <span class="text-body text-red-darken-1 ma-1">
                   * En caso de requerir actualizar el nombre y/o apellidos, favor de
                   enviar un correo a la dirección soporte.certificacion@imcp.org.mx
                 </span>
