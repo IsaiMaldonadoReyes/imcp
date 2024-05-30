@@ -70,14 +70,14 @@
                 :rules="[rules.required, rules.validTelefono]"
               ></v-text-field>
               <v-text-field
+                v-model="dataModel.email"
+                :rules="[rules.required, rules.validEmail]"
                 class="my-4"
                 clearable
                 hide-details="auto"
                 label="Email *"
                 placeholder="Email"
                 variant="outlined"
-                v-model="dataModel.email"
-                :rules="[rules.required, rules.validEmail]"
               ></v-text-field>
               <Datepicker
                 v-model="dataModel.eventos_fecha_inicio"
@@ -86,7 +86,7 @@
                 :rules="[rules.required]"
                 :teleport="true"
                 cancelText="Cancelar"
-                class="my-4"
+                class="my-4 datepickerisai"
                 format="dd/MM/yyyy HH:mm"
                 placeholder="Fecha de inicio *"
                 required
@@ -133,14 +133,14 @@
                     <v-spacer></v-spacer>
                     <v-btn
                       :color="colores.verdeBoton"
-                      class="ma-4"
+                      class="ma-3"
                       prepend-icon="mdi-content-save-edit-outline"
                       text="Agregar disciplinas"
                       variant="flat"
                       @click="openDialogDisciplina"
                     >
                       <template v-slot:prepend>
-                        <v-icon class="mr-3" size="large"></v-icon>
+                        <v-icon size="large"></v-icon>
                       </template>
                     </v-btn>
                   </v-toolbar>
@@ -203,6 +203,7 @@
                   label="Seleccione archivos"
                   multiple
                   counter
+                  variant="outlined"
                   v-model="dataModel.archivos"
                 ></v-file-input>
               </v-card-text>
@@ -221,7 +222,7 @@
               @click="guardarDatos"
             >
               <template v-slot:prepend>
-                <v-icon class="mr-3" size="large"></v-icon>
+                <v-icon size="large"></v-icon>
               </template>
             </v-btn>
             <v-btn
@@ -233,10 +234,10 @@
               text="CANCELAR"
               variant="flat"
               :color="colores.rojoIMPC"
-              :to="{ name: 'manifestacionCapacitacionListado' }"
+              :to="{ name: 'capacitacionExternaListado' }"
             >
               <template v-slot:prepend>
-                <v-icon class="mr-3" size="large"></v-icon>
+                <v-icon size="large"></v-icon>
               </template>
             </v-btn>
           </div>
@@ -356,14 +357,8 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onMounted } from "vue";
-import {
-  IonPage,
-  IonContent,
-  onIonViewDidEnter,
-  alertController,
-  IonSpinner,
-} from "@ionic/vue";
+import { ref, defineComponent } from "vue";
+import { IonPage, IonContent, onIonViewDidEnter, IonSpinner } from "@ionic/vue";
 import { usePagoStore } from "@/store/pago";
 import { useCapacitacionStore } from "@/store/capacitacionExterna";
 import { useRouter, Router, useRoute } from "vue-router";
@@ -474,7 +469,7 @@ export interface Informacion {
 }
 
 export default defineComponent({
-  name: "ManifestacionRegistroCapacitacion",
+  name: "RegistroCapacitacion",
   components: {
     IonContent,
     IonPage,
@@ -485,6 +480,12 @@ export default defineComponent({
   },
   props: ["label", "color", "modelValue"],
   setup() {
+    const route = useRoute();
+    const router: Router = useRouter();
+
+    const pagoStore = usePagoStore();
+    const capacitacionStore = useCapacitacionStore();
+
     const contentRef = ref<HTMLElement | null>(null);
 
     const scrollToTop = () => {
@@ -492,11 +493,6 @@ export default defineComponent({
         contentRef.value.scrollTop = 0; // Scrolls to the top of the content
       }
     };
-    const route = useRoute();
-    const router: Router = useRouter();
-
-    const pagoStore = usePagoStore();
-    const capacitacionStore = useCapacitacionStore();
 
     const isValidForm = ref(true);
     const refForm = ref<any>(null);
@@ -664,7 +660,6 @@ export default defineComponent({
     async function catalogoColegio() {
       try {
         await pagoStore.cargarContacto();
-
         dataContacto.value = pagoStore.object.contacto as InformacionUsuario;
 
         if (Object.keys(dataContacto.value.informacion).length !== 0) {
@@ -706,6 +701,7 @@ export default defineComponent({
     async function catalogoImss() {
       try {
         await capacitacionStore.cargarCatalogoImss();
+
         if (capacitacionStore.object.catalogoImss.result.length >= 0) {
           dataImss.value = {
             result: capacitacionStore.object.catalogoImss.result,
@@ -760,6 +756,7 @@ export default defineComponent({
     async function guardarDatos() {
       try {
         const isValidForm = await refForm.value?.validate();
+
         if (isValidForm.valid && dataColegio.value.result.length > 0) {
           const formData = new FormData();
 
@@ -779,7 +776,7 @@ export default defineComponent({
           );
           formData.append("eventos_externos[eventos_sede]", dataModel.value.eventos_sede);
           formData.append("eventos_externos[expositor]", dataModel.value.expositor);
-          formData.append("eventos_externos[origen]", "Manifestación");
+          formData.append("eventos_externos[origen]", "Externo");
           formData.append(
             "eventos_externos[eventos_fecha_inicio]",
             cambiarFormatoFecha(dataModel.value.eventos_fecha_inicio)
@@ -814,6 +811,7 @@ export default defineComponent({
               "Activo"
             );
           });
+
           for (const [index, archivo] of dataModel.value.archivos.entries()) {
             const base64String: string = await convertirABase64(archivo);
             formData.append(
@@ -825,6 +823,7 @@ export default defineComponent({
               "Activo"
             );
           }
+
           if (dataModel.value.imss_id.length > 0) {
             dataModel.value.imss_id.forEach((imss, index) => {
               formData.append(
@@ -847,12 +846,12 @@ export default defineComponent({
               dialog: true,
               titulo: "Capacitación externa",
               cuerpo:
-                "Su capacitación externa ha sido enviada exitosamente. Se iniciará un proceso de revisión, y en caso de ser favorable se notificará o podrá consultarla en el listado de manifestaciones realizadas.",
+                "Su capacitación externa ha sido enviada exitosamente. Se iniciará un proceso de revisión, y en caso de ser favorable se notificará o podrá consultarla en el listado.",
               ruta: "correct",
               color: colores.value.verdeBoton,
               boton: "Aceptar",
               velocidad: 1,
-              componente: "manifestacionCapacitacionListado",
+              componente: "capacitacionExternaListado",
             };
           } else {
             dialogPropiedades.value = {
@@ -927,6 +926,8 @@ export default defineComponent({
       dataModel.value.horas = "";
       dataModel.value.modalidad = "";
       dialogFormDisciplina.value = false;
+
+      editedIndex.value = -1;
     }
 
     function cerrarDialogConfirmationDisciplina() {
@@ -936,6 +937,8 @@ export default defineComponent({
       dataModel.value.modalidad = "";
 
       dialogConfirmationDisciplina.value = false;
+
+      editedIndex.value = -1;
     }
 
     function openDialogDisciplina() {
@@ -956,12 +959,16 @@ export default defineComponent({
     function eliminarDisciplina(item) {
       editedIndex.value = dataModel.value.listado_eventos.indexOf(item);
       dialogConfirmationDisciplina.value = true;
+
+      editedIndex.value = -1;
     }
 
     function confirmarDialogDisciplina() {
       dataModel.value.listado_eventos.splice(editedIndex.value, 1);
 
       dialogConfirmationDisciplina.value = false;
+
+      editedIndex.value = -1;
     }
 
     async function agregarDisciplina() {
@@ -999,6 +1006,7 @@ export default defineComponent({
         dataModel.value.modalidad = "";
 
         dialogFormDisciplina.value = false;
+        editedIndex.value = -1;
       }
     }
 
@@ -1052,10 +1060,6 @@ export default defineComponent({
 <style>
 .lottie-container {
   height: 150px;
-}
-
-.dp__pointer {
-  height: 56px;
 }
 
 .tb-grados thead {

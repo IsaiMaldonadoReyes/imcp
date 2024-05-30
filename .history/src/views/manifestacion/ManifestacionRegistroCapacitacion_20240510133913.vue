@@ -81,7 +81,6 @@
               ></v-text-field>
               <Datepicker
                 v-model="dataModel.eventos_fecha_inicio"
-                :auto-apply="true"
                 :format-locale="es"
                 :rules="[rules.required]"
                 :teleport="true"
@@ -91,10 +90,10 @@
                 placeholder="Fecha de inicio *"
                 required
                 selectText="Aceptar"
+                :auto-apply="true"
               />
               <Datepicker
                 v-model="dataModel.eventos_fecha_fin"
-                :auto-apply="true"
                 :format-locale="es"
                 :rules="[rules.required]"
                 :teleport="true"
@@ -104,6 +103,7 @@
                 placeholder="Fecha de fin *"
                 required
                 selectText="Aceptar"
+                :auto-apply="true"
               />
               <v-select
                 class="my-4"
