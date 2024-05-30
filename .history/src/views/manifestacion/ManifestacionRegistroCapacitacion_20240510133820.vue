@@ -81,7 +81,6 @@
               ></v-text-field>
               <Datepicker
                 v-model="dataModel.eventos_fecha_inicio"
-                :auto-apply="true"
                 :format-locale="es"
                 :rules="[rules.required]"
                 :teleport="true"
@@ -94,7 +93,6 @@
               />
               <Datepicker
                 v-model="dataModel.eventos_fecha_fin"
-                :auto-apply="true"
                 :format-locale="es"
                 :rules="[rules.required]"
                 :teleport="true"
@@ -154,20 +152,20 @@
                       :data-label="encabezado.title"
                       class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
                     >
-                      <v-btn-group v-if="encabezado.key == 'actions'" class="justify-end">
+                      <v-btn-group v-if="encabezado.key == 'actions'">
                         <v-btn
                           color="#0080FF"
                           size="small"
                           @click="editarDisciplina(item)"
                         >
-                          <v-icon>mdi-pencil</v-icon>
+                          <v-icon> mdi-pencil </v-icon>
                         </v-btn>
                         <v-btn
                           color="#B20000"
                           size="small"
                           @click="eliminarDisciplina(item)"
                         >
-                          <v-icon>mdi-delete</v-icon>
+                          <v-icon> mdi-delete </v-icon>
                         </v-btn>
                       </v-btn-group>
                       <span v-else class="text-body-2 font-weight-bold">
