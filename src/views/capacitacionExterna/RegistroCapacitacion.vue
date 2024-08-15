@@ -341,6 +341,15 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-dialog v-model="loading">
+          <div class="text-center">
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </v-dialog>
       </v-container>
       <dialog-action
         :dialogView="dialogPropiedades.dialog"
@@ -350,6 +359,7 @@
         :dialog-colour="dialogPropiedades.color"
         :dialog-text-button="dialogPropiedades.boton"
         :dialog-speed="dialogPropiedades.velocidad"
+        :dialog-loop="dialogPropiedades.repetir"
         @cerrarDialog="cerrardialogPropiedades"
       />
     </ion-content>
@@ -502,6 +512,8 @@ export default defineComponent({
 
     const editedIndex = ref(-1);
 
+    const loading = ref(false);
+
     const dialogPropiedades = ref({
       dialog: false,
       titulo: "",
@@ -511,6 +523,7 @@ export default defineComponent({
       boton: "",
       velocidad: 0,
       componente: "",
+      repetir: false,
     });
 
     const encabezadosEspecilidad = ref([
@@ -658,6 +671,7 @@ export default defineComponent({
     });
 
     async function catalogoColegio() {
+      loading.value = true;
       try {
         await pagoStore.cargarContacto();
         dataContacto.value = pagoStore.object.contacto as InformacionUsuario;
@@ -696,6 +710,7 @@ export default defineComponent({
           };
         }
       } catch (error) {}
+      loading.value = false;
     }
 
     async function catalogoImss() {
@@ -852,6 +867,7 @@ export default defineComponent({
               boton: "Aceptar",
               velocidad: 1,
               componente: "capacitacionExternaListado",
+              repetir: false,
             };
           } else {
             dialogPropiedades.value = {
@@ -863,6 +879,7 @@ export default defineComponent({
               boton: "Cerrar",
               velocidad: 0.5,
               componente: "",
+              repetir: false,
             };
           }
         } else if (!isValidForm.valid && dataColegio.value.result.length > 0) {
@@ -876,6 +893,7 @@ export default defineComponent({
             boton: "Cerrar",
             velocidad: 0.5,
             componente: "",
+            repetir: false,
           };
         } else if (dataColegio.value.result.length == 0) {
           dialogPropiedades.value = {
@@ -887,6 +905,7 @@ export default defineComponent({
             boton: "Cerrar",
             velocidad: 0.5,
             componente: "",
+            repetir: false,
           };
         }
       } catch (error) {}
@@ -945,7 +964,7 @@ export default defineComponent({
       dialogFormDisciplina.value = true;
     }
 
-    function editarDisciplina(item) {
+    function editarDisciplina(item : any) {
       editedIndex.value = dataModel.value.listado_eventos.indexOf(item);
 
       dataModel.value.id_disciplina = item.id_disciplina;
@@ -956,7 +975,7 @@ export default defineComponent({
       dialogFormDisciplina.value = true;
     }
 
-    function eliminarDisciplina(item) {
+    function eliminarDisciplina(item: any) {
       editedIndex.value = dataModel.value.listado_eventos.indexOf(item);
       dialogConfirmationDisciplina.value = true;
 
@@ -1052,6 +1071,7 @@ export default defineComponent({
       dialogPropiedades,
       cerrardialogPropiedades,
       contentRef,
+      loading
     };
   },
 });

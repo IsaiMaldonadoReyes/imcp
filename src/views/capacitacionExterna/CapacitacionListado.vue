@@ -47,11 +47,17 @@
               </v-card>
               <v-card class="my-5" color="transparent" elevation="0" border>
                 <v-card-text class="text-justify">
-                  <v-card class="pa-10 text-center" color="transparent" elevation="0">
-                    <v-icon color="grey-lighten-1" size="60">mdi-account-school</v-icon>
+                  <v-card
+                    class="pa-10 text-center"
+                    color="transparent"
+                    elevation="0"
+                  >
+                    <v-icon color="grey-lighten-1" size="60"
+                      >mdi-account-school</v-icon
+                    >
                     <v-card-text class="text-grey-darken-1">
-                      Para iniciar su proceso de capacitación externa de clic en el
-                      siguiente botón
+                      Para iniciar su proceso de capacitación externa de clic en
+                      el siguiente botón
                     </v-card-text>
                   </v-card>
                 </v-card-text>
@@ -208,6 +214,15 @@
             </v-card>
           </v-window-item>
         </v-window>
+        <v-dialog v-model="loading">
+          <div class="text-center">
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </v-dialog>
       </v-container>
     </ion-content>
   </ion-page>
@@ -311,8 +326,9 @@ export default defineComponent({
     const avisosCapacitacionPorPagina = ref(5);
     const paginaAvisoCapacitacion = ref(1);
     const busquedaAvisoCapacitacion = ref("");
+    const loading = ref(false);
 
-    const tabs = ref(null);
+    const tabs = ref(1);
     const dataLoaded = ref(false);
 
     const options = ref({
@@ -348,6 +364,8 @@ export default defineComponent({
 
     async function cargarDashboard() {
       dataLoaded.value = false;
+      loading.value = true;
+      tabs.value = 1;
 
       listadoCapacitaciones.value = {
         dataset: [],
@@ -361,6 +379,7 @@ export default defineComponent({
           listadoCapacitaciones.value = capacitacionStore.object.listado;
         }
       } catch (error) {}
+      loading.value = false;
     }
 
     function formatearFecha(dateString: any) {
@@ -393,14 +412,15 @@ export default defineComponent({
       getColor,
       contentRef,
       formatearFecha,
+      loading,
     };
   },
 });
 </script>
 
 <style>
-.v-btn[aria-selected="false"] .v-btn__content {
-  color: #333333 !important; /* Cambia el color del texto a verde */
+.v-slide-group-item--active .v-btn__content {
+  color: white !important;
 }
 
 .blue-tab {
@@ -430,7 +450,8 @@ export default defineComponent({
   }
 
   .tb-avisos.v-data-table td {
-    border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+    border-bottom: thin solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
     display: grid;
     text-align: justify;
     line-height: none;

@@ -373,6 +373,15 @@
             </v-btn>
           </v-card-actions>
         </v-card>
+        <v-dialog v-model="loading">
+          <div class="text-center">
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </v-dialog>
       </v-container>
     </ion-content>
   </ion-page>
@@ -496,6 +505,7 @@ export default defineComponent({
     let sortBy = ref([]);
     let sortDesc = ref("asc");
     let rutaPdf = ref("");
+    const loading = ref(false);
 
     const encabezadosEvento = ref([
       { title: "Evento", key: "EventosNombreEvento" },
@@ -609,6 +619,7 @@ export default defineComponent({
     });
 
     async function cargarDesglosePorEjercicio(idCertificado: any, anhio: any) {
+      loading.value = true;
       try {
         desgloseEspecialidades.value = {
           anhio: "",
@@ -678,6 +689,8 @@ export default defineComponent({
         await certificadoStore.desglosePuntosPorEjercicioPdf(idCertificado, anhio);
         rutaPdf.value = certificadoStore.object.rutaPdf;
       } catch (error) {}
+
+      loading.value = false;
     }
 
     function descargarPdf() {
@@ -711,6 +724,7 @@ export default defineComponent({
       desgloseEspecialidades,
       descargarPdf,
       contentRef,
+      loading
     };
   },
 });

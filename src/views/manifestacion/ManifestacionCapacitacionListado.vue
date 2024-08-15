@@ -122,7 +122,9 @@
                   color="transparent"
                   elevation="0"
                 >
-                  <v-icon color="grey-lighten-1" size="60"> mdi-database-eye-off </v-icon>
+                  <v-icon color="grey-lighten-1" size="60">
+                    mdi-database-eye-off
+                  </v-icon>
                   <v-card-text class="text-grey-darken-1">
                     No se encontraron eventos que coincidan con la búsqueda.
                   </v-card-text>
@@ -179,8 +181,9 @@
           <v-card border class="ma-3" elevation="0">
             <v-card-text class="text-justify">
               <span class="text-body text-grey-darken-1">
-                Si usted cuenta con capacitaciones externas al colegio que no aparezcan en
-                este listado, puede agregarlas dando clic en el siguiente botón
+                Si usted cuenta con capacitaciones externas al colegio que no
+                aparezcan en este listado, puede agregarlas dando clic en el
+                siguiente botón
               </span>
             </v-card-text>
             <v-card-actions>
@@ -206,8 +209,8 @@
           <v-card border class="ma-3" elevation="0">
             <v-card-text class="text-justify">
               <span class="text-body text-grey-darken-1">
-                Si usted no cuenta con manifestaciones adicionales de clic en el siguiente
-                botón
+                Si usted no cuenta con manifestaciones adicionales de clic en el
+                siguiente botón
               </span>
             </v-card-text>
             <v-card-actions>
@@ -229,6 +232,15 @@
             </v-card-actions>
           </v-card>
         </v-card>
+        <v-dialog v-model="loading">
+          <div class="text-center">
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </v-dialog>
       </v-container>
       <dialog-action
         :dialogView="dialogPropiedades.dialog"
@@ -359,6 +371,17 @@ export interface ManifestacionSeleccionada {
   [key: string]: boolean;
 }
 
+interface ValorManifestacion {
+  label: string;
+  value: string;
+}
+
+interface Manifestacion {
+  label: string;
+  id_certificado: string;
+  valores: ValorManifestacion[];
+}
+
 export default defineComponent({
   name: "ManifestacionCapacitacionExterna",
   components: {
@@ -411,6 +434,7 @@ export default defineComponent({
     const avisosCapacitacionPorPagina = ref(5);
     const paginaAvisoCapacitacion = ref(1);
     const busquedaAvisoCapacitacion = ref("");
+    const loading = ref(false);
 
     const options = ref({
       indexAxis: "x",
@@ -455,7 +479,8 @@ export default defineComponent({
       await manifestacionStore.cargarListadoPermisos();
 
       if (manifestacionStore.object.listadoPermisos.totalSize >= 0) {
-        const listadoPermisos = manifestacionStore.object.listadoPermisos as Permisos;
+        const listadoPermisos = manifestacionStore.object
+          .listadoPermisos as Permisos;
 
         listadoPermisos.dataset.forEach((data) => {
           const manifestaciones: manifestaciones[] = [];
@@ -466,7 +491,9 @@ export default defineComponent({
             );
             if (info) {
               // Verificar si label es un array o un string
-              const label = Array.isArray(info.label) ? info.label : [info.label];
+              const label = Array.isArray(info.label)
+                ? info.label
+                : [info.label];
               manifestaciones.push({
                 value: label,
                 label: permitido.label,
@@ -485,9 +512,11 @@ export default defineComponent({
 
         permisosListado.value = listadoPermisos;
       }
+      loading.value = false;
     }
 
     async function cargarDashboard() {
+      loading.value = true;
       listadoCapacitaciones.value = {
         dataset: [],
         totalSize: 0,
@@ -521,9 +550,10 @@ export default defineComponent({
         );
 
         if (permisosByCertificado) {
-          const manifestacionesByLabel = permisosByCertificado.manifestaciones.find(
-            (data) => data.label == label
-          );
+          const manifestacionesByLabel =
+            permisosByCertificado.manifestaciones.find(
+              (data) => data.label == label
+            );
 
           if (manifestacionesByLabel) {
             // cuando una manifestación no tiene campos que llenar
@@ -551,7 +581,10 @@ export default defineComponent({
               } else {
                 for (const valor of valores) {
                   if (valor.label == "REGISTRO CONTRIBUCIONES LOCALES") {
-                    formData.append("solicitudes[registro_contribuciones]", valor.value);
+                    formData.append(
+                      "solicitudes[registro_contribuciones]",
+                      valor.value
+                    );
                   }
                   if (valor.label == "DICTAMINA FISCALMENTE") {
                     formData.append("dictamina_fiscalmente]", valor.value);
@@ -574,7 +607,8 @@ export default defineComponent({
       dialogPropiedades.value = {
         dialog: true,
         titulo: "Su manifestación ha sido creada",
-        cuerpo: "Se notificará cuando sea autorizada para que pueda descargarla",
+        cuerpo:
+          "Se notificará cuando sea autorizada para que pueda descargarla",
         ruta: "correct",
         color: colores.value.verdeBoton,
         boton: "Aceptar",
@@ -622,6 +656,7 @@ export default defineComponent({
       cerrardialogPropiedades,
       contentRef,
       formatearFecha,
+      loading,
     };
   },
 });
@@ -663,7 +698,8 @@ export default defineComponent({
   }
 
   .tb-avisos.v-data-table td {
-    border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+    border-bottom: thin solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
     display: grid;
     text-align: justify;
     line-height: none;

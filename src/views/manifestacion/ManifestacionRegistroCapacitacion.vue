@@ -154,7 +154,10 @@
                       :data-label="encabezado.title"
                       class="v-data-table__td v-data-table-column--align-start text-body-2 text-medium-emphasis py-1"
                     >
-                      <v-btn-group v-if="encabezado.key == 'actions'" class="justify-end">
+                      <v-btn-group
+                        v-if="encabezado.key == 'actions'"
+                        class="justify-end"
+                      >
                         <v-btn
                           color="#0080FF"
                           size="small"
@@ -183,7 +186,9 @@
                     color="transparent"
                     elevation="0"
                   >
-                    <v-icon color="grey-lighten-1" size="60"> mdi-school </v-icon>
+                    <v-icon color="grey-lighten-1" size="60">
+                      mdi-school
+                    </v-icon>
                     <v-card-text class="text-grey-darken-1">
                       Aún no hay disciplinas registradas.
                     </v-card-text>
@@ -242,9 +247,15 @@
           </div>
         </v-form>
         <v-dialog v-model="dialogFormDisciplina" max-width="500px">
-          <v-form v-model="isValidFormDisciplina" lazy-validation ref="refFormDisciplina">
+          <v-form
+            v-model="isValidFormDisciplina"
+            lazy-validation
+            ref="refFormDisciplina"
+          >
             <v-card>
-              <v-card-title class="text-grey-darken-1" style="text-align: center"
+              <v-card-title
+                class="text-grey-darken-1"
+                style="text-align: center"
                 >Disciplina
               </v-card-title>
 
@@ -340,6 +351,15 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-dialog v-model="loading">
+          <div class="text-center">
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </v-dialog>
       </v-container>
       <dialog-action
         :dialogView="dialogPropiedades.dialog"
@@ -349,6 +369,7 @@
         :dialog-colour="dialogPropiedades.color"
         :dialog-text-button="dialogPropiedades.boton"
         :dialog-speed="dialogPropiedades.velocidad"
+        :dialog-loop="dialogPropiedades.repetir"
         @cerrarDialog="cerrardialogPropiedades"
       />
     </ion-content>
@@ -505,6 +526,7 @@ export default defineComponent({
     const refFormDisciplina = ref<any>(null);
 
     const editedIndex = ref(-1);
+    const loading = ref(false);
 
     const dialogPropiedades = ref({
       dialog: false,
@@ -515,6 +537,7 @@ export default defineComponent({
       boton: "",
       velocidad: 0,
       componente: "",
+      repetir: false,
     });
 
     const encabezadosEspecilidad = ref([
@@ -532,8 +555,10 @@ export default defineComponent({
     const telefonoRegex = /^\d{10}$/;
 
     const rules = {
-      validEmail: (v: string) => emailRegex.test(v) || "Correo electrónico no válido",
-      validTelefono: (v: string) => telefonoRegex.test(v) || "Teléfono no válido",
+      validEmail: (v: string) =>
+        emailRegex.test(v) || "Correo electrónico no válido",
+      validTelefono: (v: string) =>
+        telefonoRegex.test(v) || "Teléfono no válido",
       required: (v: string) => !!v || "Este campo es requerido",
       requiredSelection: (v: string | null | undefined) =>
         !!v || "Por favor, selecciona una opción",
@@ -662,19 +687,23 @@ export default defineComponent({
     });
 
     async function catalogoColegio() {
+      loading.value = true;
       try {
         await pagoStore.cargarContacto();
 
         dataContacto.value = pagoStore.object.contacto as InformacionUsuario;
 
         if (Object.keys(dataContacto.value.informacion).length !== 0) {
-          dataModel.value.id_colegio = dataContacto.value.informacion.id_colegio;
+          dataModel.value.id_colegio =
+            dataContacto.value.informacion.id_colegio;
         }
 
         await capacitacionStore.cargarCatalogoColegios();
 
         if (capacitacionStore.object.catalogoColegio.result.length >= 0) {
-          dataColegio.value = { result: capacitacionStore.object.catalogoColegio.result };
+          dataColegio.value = {
+            result: capacitacionStore.object.catalogoColegio.result,
+          };
         }
       } catch (error) {}
     }
@@ -701,6 +730,7 @@ export default defineComponent({
           };
         }
       } catch (error) {}
+      loading.value = false;
     }
 
     async function catalogoImss() {
@@ -777,8 +807,14 @@ export default defineComponent({
             "eventos_externos[nombre_evento]",
             dataModel.value.nombre_evento
           );
-          formData.append("eventos_externos[eventos_sede]", dataModel.value.eventos_sede);
-          formData.append("eventos_externos[expositor]", dataModel.value.expositor);
+          formData.append(
+            "eventos_externos[eventos_sede]",
+            dataModel.value.eventos_sede
+          );
+          formData.append(
+            "eventos_externos[expositor]",
+            dataModel.value.expositor
+          );
           formData.append("eventos_externos[origen]", "Manifestación");
           formData.append(
             "eventos_externos[eventos_fecha_inicio]",
@@ -788,7 +824,10 @@ export default defineComponent({
             "eventos_externos[eventos_fecha_fin]",
             cambiarFormatoFecha(dataModel.value.eventos_fecha_fin)
           );
-          formData.append("eventos_externos[telefono]", dataModel.value.telefono);
+          formData.append(
+            "eventos_externos[telefono]",
+            dataModel.value.telefono
+          );
           formData.append("eventos_externos[temas_imss]", "No");
           formData.append("eventos_externos[email]", dataModel.value.email);
           formData.append("eventos_externos[status]", "Solicitud");
@@ -853,6 +892,7 @@ export default defineComponent({
               boton: "Aceptar",
               velocidad: 1,
               componente: "manifestacionCapacitacionListado",
+              repetir: false,
             };
           } else {
             dialogPropiedades.value = {
@@ -864,6 +904,7 @@ export default defineComponent({
               boton: "Cerrar",
               velocidad: 0.5,
               componente: "",
+              repetir: false,
             };
           }
         } else if (!isValidForm.valid && dataColegio.value.result.length > 0) {
@@ -877,6 +918,7 @@ export default defineComponent({
             boton: "Cerrar",
             velocidad: 0.5,
             componente: "",
+            repetir: false,
           };
         } else if (dataColegio.value.result.length == 0) {
           dialogPropiedades.value = {
@@ -888,6 +930,7 @@ export default defineComponent({
             boton: "Cerrar",
             velocidad: 0.5,
             componente: "",
+            repetir: false,
           };
         }
       } catch (error) {}
@@ -942,7 +985,7 @@ export default defineComponent({
       dialogFormDisciplina.value = true;
     }
 
-    function editarDisciplina(item) {
+    function editarDisciplina(item: any) {
       editedIndex.value = dataModel.value.listado_eventos.indexOf(item);
 
       dataModel.value.id_disciplina = item.id_disciplina;
@@ -953,7 +996,7 @@ export default defineComponent({
       dialogFormDisciplina.value = true;
     }
 
-    function eliminarDisciplina(item) {
+    function eliminarDisciplina(item: any) {
       editedIndex.value = dataModel.value.listado_eventos.indexOf(item);
       dialogConfirmationDisciplina.value = true;
     }
@@ -1044,6 +1087,7 @@ export default defineComponent({
       dialogPropiedades,
       cerrardialogPropiedades,
       contentRef,
+      loading,
     };
   },
 });
@@ -1091,7 +1135,8 @@ export default defineComponent({
   }
 
   .tb-grados.v-data-table td {
-    border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+    border-bottom: thin solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
     display: grid;
     text-align: justify;
     line-height: none;
@@ -1107,7 +1152,8 @@ export default defineComponent({
   }
 
   .tb-grados.v-data-table tr:not(:first-child) > td:first-child {
-    border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
+    border-top: medium solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
   }
 }
 </style>

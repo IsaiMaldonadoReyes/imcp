@@ -91,6 +91,7 @@
       :dialog-colour="dialogPropiedades.color"
       :dialog-text-button="dialogPropiedades.boton"
       :dialog-speed="dialogPropiedades.velocidad"
+      :dialog-loop="dialogPropiedades.repetir"
       @cerrarDialog="cerrardialogPropiedades"
     />
   </ion-page>
@@ -144,6 +145,7 @@ export default defineComponent({
       boton: "",
       velocidad: 0,
       componente: "",
+      repetir: false,
     });
 
     const tokenAuth = ref(false);
@@ -166,6 +168,7 @@ export default defineComponent({
           boton: "Aceptar",
           velocidad: 0.5,
           componente: "",
+          repetir: false,
         };
 
         await formEl.value?.reset();
@@ -179,6 +182,7 @@ export default defineComponent({
           boton: "Cerrar",
           velocidad: 0.5,
           componente: "",
+          repetir: false,
         };
       }
     }
@@ -222,6 +226,7 @@ export default defineComponent({
             boton: "Cerrar",
             velocidad: 0.5,
             componente: "",
+            repetir: false,
           };
         } else {
           tokenAuth.value = true;
@@ -236,6 +241,7 @@ export default defineComponent({
           boton: "Cerrar",
           velocidad: 0.5,
           componente: "",
+          repetir: false,
         };
       }
     }

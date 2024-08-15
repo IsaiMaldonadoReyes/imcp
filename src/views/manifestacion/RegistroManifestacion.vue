@@ -195,8 +195,18 @@
         :dialog-colour="dialogPropiedades.color"
         :dialog-text-button="dialogPropiedades.boton"
         :dialog-speed="dialogPropiedades.velocidad"
+        :dialog-loop="dialogPropiedades.repetir"
         @cerrarDialog="cerrardialogPropiedades"
       />
+      <v-dialog v-model="loading">
+          <div class="text-center">
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </v-dialog>
     </ion-content>
   </ion-page>
 </template>
@@ -263,6 +273,32 @@ export interface ManifestacionSeleccionada {
   [key: string]: boolean;
 }
 
+// Define el tipo para cada manifestación
+interface ValorManifestacion {
+  label: string;
+  value: string;
+}
+
+interface Manifestacion {
+  label: string;
+  id_certificado: string;
+  valores: ValorManifestacion[];
+}
+
+// Define el tipo para los datos de permisos
+interface Permiso {
+  id_certificado: number;
+  disciplina: string;
+  manifestaciones: {
+    label: string;
+    value: string[];
+  }[];
+}
+
+interface PermisosListado {
+  dataset: Permiso[];
+}
+
 export default defineComponent({
   name: "RegistroManifestacion",
   components: {
@@ -292,6 +328,7 @@ export default defineComponent({
     const itemsPorPagina = ref(3);
 
     const eventosPermitidos = ref([]);
+    const loading = ref(false);
 
     const permisosListado = ref<Permisos>({
       dataset: [],
@@ -314,6 +351,7 @@ export default defineComponent({
       boton: "",
       velocidad: 0,
       componente: "",
+      repetir: false,
     });
 
     async function limpiarFormulario() {
@@ -324,6 +362,7 @@ export default defineComponent({
     }
 
     async function cargarPermisos() {
+      loading.value = true;
       permisosListado.value = {
         dataset: [],
         totalSize: 0,
@@ -362,6 +401,7 @@ export default defineComponent({
 
         permisosListado.value = listadoPermisos;
       }
+      loading.value = false;
     }
 
     onIonViewDidEnter(async () => {
@@ -377,7 +417,7 @@ export default defineComponent({
     async function capturarCapacitaciones() {
       let contadorSolicitudes = 0;
       let mensajeError = "";
-      const manifestacionesSeleccionadas = [];
+      const manifestacionesSeleccionadas: Manifestacion[] = [];
 
       for (const key in manifestacionListado.value) {
         const value = manifestacionListado.value[key];
@@ -470,6 +510,7 @@ export default defineComponent({
           boton: "Cerrar",
           velocidad: 0.5,
           componente: "",
+          repetir: false,
         };
 
         //const alert = await showAlert("Verifica lo siguiente", mensajeError);
@@ -501,6 +542,7 @@ export default defineComponent({
       dialogPropiedades,
       cerrardialogPropiedades,
       contentRef,
+      loading
     };
   },
 });

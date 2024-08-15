@@ -16,6 +16,7 @@
             size="small"
             text="Periodo anual"
             variant="flat"
+            
           />
           <v-tab
             :color="colores.rojoIMPC"
@@ -57,7 +58,9 @@
                   color="transparent"
                   elevation="0"
                 >
-                  <v-icon color="grey-lighten-1" size="60">mdi-database-eye-off</v-icon>
+                  <v-icon color="grey-lighten-1" size="60"
+                    >mdi-database-eye-off</v-icon
+                  >
                   <v-card-text class="text-grey-darken-1">
                     No se encontraron datos a mostrar.
                   </v-card-text>
@@ -135,7 +138,9 @@
                   color="transparent"
                   elevation="0"
                 >
-                  <v-icon color="grey-lighten-1" size="60">mdi-database-eye-off</v-icon>
+                  <v-icon color="grey-lighten-1" size="60"
+                    >mdi-database-eye-off</v-icon
+                  >
                   <v-card-text class="text-grey-darken-1">
                     No se encontraron datos a mostrar.
                   </v-card-text>
@@ -148,7 +153,10 @@
                 class="mx-auto my-4"
                 elevation="0"
               >
-                <v-card-title class="text-none text-center" style="white-space: normal">
+                <v-card-title
+                  class="text-none text-center"
+                  style="white-space: normal"
+                >
                   {{ itm.label }} {{ itm.year }}
                 </v-card-title>
                 <v-divider></v-divider>
@@ -164,12 +172,17 @@
                   >
                     <v-progress-linear
                       :color="item.backgroundColor"
-                      :model-value="(item.data[h * 2 + 1] * 100) / item.data[h * 2]"
+                      :model-value="
+                        (item.data[h * 2 + 1] * 100) / item.data[h * 2]
+                      "
                       height="15"
                     />
                     <template v-slot:append>
                       <div class="rating-values text-end">
-                        <span>{{ item.data[h * 2 + 1] }} / {{ item.data[h * 2] }}</span>
+                        <span
+                          >{{ item.data[h * 2 + 1] }} /
+                          {{ item.data[h * 2] }}</span
+                        >
                       </div>
                     </template>
                   </v-list-item>
@@ -193,6 +206,15 @@
             </v-card>
           </v-window-item>
         </v-window>
+        <v-dialog v-model="loading">
+          <div class="text-center">
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </v-dialog>
       </v-container>
     </ion-content>
   </ion-page>
@@ -235,10 +257,11 @@ export default defineComponent({
     const title = ref("Estatus de capacitación");
     const subtitlePeriodoAnual = ref("");
     const subtitlePeriodo4 = ref("");
-    const tabs = ref(null);
+    const tabs = ref(1);
     const anioActual = ref("");
 
     const dataLoaded = ref(false);
+    const loading = ref(false);
 
     const listadoEjercicios = ref<
       Array<{
@@ -304,6 +327,8 @@ export default defineComponent({
       labels4.value = [];
       listadoEjercicios.value = [];
       dataLoaded.value = false;
+      loading.value = true;
+      tabs.value = 1;
 
       const storage = new Storage();
       storage.create();
@@ -313,16 +338,22 @@ export default defineComponent({
       try {
         await dashStore.loadEjercicios();
 
-        const ejercicios: any[] = Array.isArray(dashStore.object.ejercicios.dataset)
+        const ejercicios: any[] = Array.isArray(
+          dashStore.object.ejercicios.dataset
+        )
           ? dashStore.object.ejercicios.dataset
           : [];
 
         if (Array.isArray(ejercicios) && ejercicios.length > 0) {
-          ejercicios.sort((a, b) => parseInt(b.anhio_aplica) - parseInt(a.anhio_aplica));
+          ejercicios.sort(
+            (a, b) => parseInt(b.anhio_aplica) - parseInt(a.anhio_aplica)
+          );
 
           const ejercicioActual = ejercicios[0];
-          subtitlePeriodoAnual.value = dashStore.object.ejercicios.titulo_periodo_anual;
-          subtitlePeriodo4.value = dashStore.object.ejercicios.titulo_periodo_4_anios;
+          subtitlePeriodoAnual.value =
+            dashStore.object.ejercicios.titulo_periodo_anual;
+          subtitlePeriodo4.value =
+            dashStore.object.ejercicios.titulo_periodo_4_anios;
 
           anioActual.value = ejercicioActual.anhio_aplica;
 
@@ -361,12 +392,16 @@ export default defineComponent({
           cursos.value.push({
             label: "Ética",
             data:
-              ejercicioActual.puntos_etica > ejercicioActual.control_puntos_etica
+              ejercicioActual.puntos_etica >
+              ejercicioActual.control_puntos_etica
                 ? [
                     ejercicioActual.control_puntos_etica,
                     ejercicioActual.control_puntos_etica,
                   ]
-                : [ejercicioActual.control_puntos_etica, ejercicioActual.puntos_etica],
+                : [
+                    ejercicioActual.control_puntos_etica,
+                    ejercicioActual.puntos_etica,
+                  ],
             backgroundColor: "rgba(166, 166, 166, 0.6)",
           });
 
@@ -381,7 +416,10 @@ export default defineComponent({
               labels4.value.push("Esperado " + ejercicio.anhio_aplica);
               labels4.value.push("Obtenido " + ejercicio.anhio_aplica);
 
-              if (ejercicio.puntos_principales > ejercicio.control_puntos_principales) {
+              if (
+                ejercicio.puntos_principales >
+                ejercicio.control_puntos_principales
+              ) {
                 principalesData.push(
                   ejercicio.control_puntos_principales,
                   ejercicio.control_puntos_principales
@@ -393,7 +431,10 @@ export default defineComponent({
                 );
               }
 
-              if (ejercicio.puntos_otros_cursos > ejercicio.control_puntos_otros_cursos) {
+              if (
+                ejercicio.puntos_otros_cursos >
+                ejercicio.control_puntos_otros_cursos
+              ) {
                 OtrosCursosData.push(
                   ejercicio.control_puntos_otros_cursos,
                   ejercicio.control_puntos_principales
@@ -411,7 +452,10 @@ export default defineComponent({
                   ejercicio.control_puntos_etica
                 );
               } else {
-                eticaData.push(ejercicio.control_puntos_etica, ejercicio.puntos_etica);
+                eticaData.push(
+                  ejercicio.control_puntos_etica,
+                  ejercicio.puntos_etica
+                );
               }
 
               listadoEjercicios.value.push({
@@ -442,6 +486,7 @@ export default defineComponent({
           dataLoaded.value = true;
         }
       } catch (error) {}
+      loading.value = false;
     }
 
     onIonViewDidEnter(() => {
@@ -468,14 +513,15 @@ export default defineComponent({
       title,
       listadoEjercicios,
       contentRef,
+      loading,
     };
   },
 });
 </script>
 
 <style>
-.v-btn[aria-selected="false"] .v-btn__content {
-  color: #333333 !important; /* Cambia el color del texto a verde */
+.v-slide-group-item--active .v-btn__content {
+  color: white !important;
 }
 </style>
 

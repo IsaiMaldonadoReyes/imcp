@@ -73,7 +73,9 @@
               color="transparent"
               elevation="0"
             >
-              <v-icon color="grey-lighten-1" size="60">mdi-database-eye-off</v-icon>
+              <v-icon color="grey-lighten-1" size="60"
+                >mdi-database-eye-off</v-icon
+              >
               <v-card-text class="text-grey-darken-1">
                 No se encontraron certificados que coincidan con la búsqueda.
               </v-card-text>
@@ -103,7 +105,9 @@
                       <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
                         Núm. Certificado:
                       </td>
-                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify">
+                      <td
+                        class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify"
+                      >
                         {{ item.raw.num_certificado }}
                       </td>
                     </tr>
@@ -111,7 +115,9 @@
                       <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
                         Fecha vigencia:
                       </td>
-                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify">
+                      <td
+                        class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify"
+                      >
                         {{ formatearFecha(item.raw.fecha_vigencia) }}
                       </td>
                     </tr>
@@ -119,20 +125,31 @@
                       <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
                         Sector:
                       </td>
-                      <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify">
+                      <td
+                        class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify"
+                      >
                         {{ item.raw.sector }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
+                        Estatus:
+                      </td>
+                      <td
+                        class="ma-0 pa-1 text-subtitle-1 font-weight-bold text-justify"
+                      >
+                        {{
+                          item.raw.status_autorizar === "Autorizar"
+                            ? "Autorizado"
+                            : "Por autorizar"
+                        }}
                       </td>
                     </tr>
                   </tbody>
                 </v-table>
               </v-card-text>
               <v-divider />
-              <v-card
-                v-if="item.raw.tipo_certificado !== 'Sustentante'"
-                elevation="0"
-                rounded="0"
-                class="ma-1"
-              >
+              <v-card elevation="0" rounded="0" class="ma-1">
                 <v-slide-group show-arrows class="imcp-slide-group">
                   <v-slide-group-item
                     v-for="(revision, i) in item.raw.revisionAnual"
@@ -172,12 +189,15 @@
 
               <v-card-actions>
                 <v-btn
-                  v-if="item.raw.token !== ''"
+                  v-if="
+                    item.raw.status_certificado === 'Autorizado Refrendo' &&
+                    item.raw.status_autorizar === 'Autorizar'
+                  "
                   :color="colores.verdeBoton"
                   block
-                  prepend-icon="mdi-credit-card-outline"
+                  prepend-icon="mdi-eye-arrow-right-outline"
                   size="large"
-                  text="Realizar pago"
+                  text="Actualizar datos"
                   @click="
                     dirigirSeleccionAccion(
                       item.raw.id_certificado,
@@ -193,7 +213,83 @@
                   </template>
                 </v-btn>
                 <v-btn
-                  v-else
+                  v-else-if="
+                    item.raw.status_certificado === 'Actualizar Datos' &&
+                    item.raw.status_autorizar === 'Autorizar'
+                  "
+                  :color="colores.verdeBoton"
+                  block
+                  prepend-icon="mdi-credit-card-outline"
+                  size="large"
+                  text="Realizar pago"
+                  @click="
+                    dirigirSeleccionAccion(
+                      item.raw.id_certificado,
+                      '2',
+                      item.raw.token,
+                      item.raw.token_id
+                    )
+                  "
+                  variant="flat"
+                >
+                  <template v-slot:prepend>
+                    <v-icon size="large"></v-icon>
+                  </template>
+                </v-btn>
+                <v-btn
+                  v-else-if="item.raw.status_certificado === 'Pago Realizado'"
+                  :color="colores.grisOscuro"
+                  block
+                  prepend-icon="mdi-eye-arrow-right-outline"
+                  size="large"
+                  text="Pago realizado"
+                  variant="flat"
+                  disabled
+                >
+                  <template v-slot:prepend>
+                    <v-icon size="large"></v-icon>
+                  </template>
+                </v-btn>
+                <v-btn
+                  v-else-if="item.raw.status_certificado === 'Generado'"
+                  :color="colores.grisOscuro"
+                  block
+                  prepend-icon="mdi-eye-arrow-right-outline"
+                  size="large"
+                  text="En espera"
+                  variant="flat"
+                  disabled
+                >
+                  <template v-slot:prepend>
+                    <v-icon size="large"></v-icon>
+                  </template>
+                </v-btn>
+                <v-btn
+                  v-else-if="
+                    item.raw.status_certificado === 'Puntos no Cubiertos'
+                  "
+                  :color="colores.grisOscuro"
+                  block
+                  prepend-icon="mdi-eye-arrow-right-outline"
+                  size="large"
+                  text="Ver detalle"
+                  variant="flat"
+                  :to="{
+                    name: 'certificadoPuntos',
+                    params: {
+                      idCertificado: item.raw.id_certificado_dis,
+                      anhioInicio: item.raw.anhio_inicio_vigencia,
+                      anhioFin: item.raw.anhio_fin_vigencia,
+                      numCertificado: item.raw.num_certificado,
+                    },
+                  }"
+                >
+                  <template v-slot:prepend>
+                    <v-icon size="large"></v-icon>
+                  </template>
+                </v-btn>
+                <v-btn
+                  v-else-if="item.raw.status_autorizar !== 'Autorizar'"
                   :color="colores.grisOscuro"
                   block
                   prepend-icon="mdi-eye-arrow-right-outline"
@@ -250,7 +346,9 @@
                 @click="prevPage"
               />
 
-              <div class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold">
+              <div
+                class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold"
+              >
                 Página {{ page }} de {{ pageCount }}
               </div>
 
@@ -265,6 +363,15 @@
             </div>
           </template>
         </v-data-iterator>
+        <v-dialog v-model="loading">
+          <div class="text-center">
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </v-dialog>
       </v-container>
     </ion-content>
   </ion-page>
@@ -352,6 +459,7 @@ export default defineComponent({
     let sortDesc = ref("asc");
     const itemsPorPagina = ref(3);
     let busquedaCertificado = ref("");
+    const loading = ref(false);
 
     const route = useRoute();
     const router: Router = useRouter();
@@ -383,11 +491,12 @@ export default defineComponent({
       },
     ]);
 
-    const getDotColor = computed(() => (status: string) =>
-      status === "Cumplido" ? "#468C00" : "#B20000"
+    const getDotColor = computed(
+      () => (status: string) => status === "Cumplido" ? "#468C00" : "#B20000"
     );
-    const getIcon = computed(() => (status: string) =>
-      status === "Cumplido" ? "mdi-check-circle" : "mdi-close-circle"
+    const getIcon = computed(
+      () => (status: string) =>
+        status === "Cumplido" ? "mdi-check-circle" : "mdi-close-circle"
     );
 
     const keysProps = ref((item: any) => {
@@ -413,6 +522,7 @@ export default defineComponent({
     });
 
     async function cargarDesglosePorEjercicio() {
+      loading.value = true;
       certificadosPendientes.value = {
         dataset: [],
         totalSize: 0,
@@ -422,9 +532,20 @@ export default defineComponent({
         await certificadoStore.cargarCertificadosPendientes();
 
         if (certificadoStore.object.certificadosPendientes.totalSize >= 0) {
-          certificadosPendientes.value = certificadoStore.object.certificadosPendientes;
+          const filtrados =
+            certificadoStore.object.certificadosPendientes.dataset.filter(
+              (certificado: Dataset) =>
+                certificado.status_certificado !== "Liberado"
+            );
+
+          certificadosPendientes.value = {
+            dataset: filtrados,
+            totalSize: filtrados.length,
+          };
         }
       } catch (error) {}
+
+      loading.value = false;
     }
 
     async function dirigirSeleccionAccion(
@@ -474,6 +595,7 @@ export default defineComponent({
       dirigirSeleccionAccion,
       contentRef,
       formatearFecha,
+      loading,
     };
   },
 });

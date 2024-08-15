@@ -15,7 +15,7 @@
 
         <v-card class="" elevation="0" border="">
           <iframe
-            :src="`https://tienda.imcp.org.mx/api/datos_inv_dpc.php?token=${token}`"
+            :src="token"
             width="100%"
             height="600px"
             frameborder="0"
@@ -33,80 +33,34 @@
           <v-divider></v-divider>
         </v-card>
       </v-container>
-      <v-dialog v-model="dialogPropiedades.dialog" max-width="500px">
-        <v-card>
-          <v-card-title class="text-grey-darken-1" style="text-align: center">
-            {{ dialogPropiedades.mensajeTitulo }}</v-card-title
-          >
-          <lottie-animation
-            v-if="dialogPropiedades.correcto"
-            ref="anim"
-            :animationData="PaymentSuccess"
-            :loop="false"
-            :autoPlay="true"
-            :speed="0.5"
-            class="lottie-container"
-          />
-          <lottie-animation
-            v-else
-            ref="anim"
-            :animationData="PaymentError"
-            :loop="false"
-            :autoPlay="true"
-            :speed="0.5"
-            class="lottie-container"
-          />
-          <v-card-text class="text-justify">
-            <span class="text-subtitle-1 text-grey-darken-1">
-              {{ dialogPropiedades.mensajeCuerpo }}
-            </span>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              :color="colores.verdeBoton"
-              block
-              size="large"
-              variant="flat"
-              @click="cerrardialogPropiedades(dialogPropiedades.correcto)"
-              >Aceptar</v-btn
-            >
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <dialog-action
+        :dialogView="dialogPropiedades.dialog"
+        :dialog-title="dialogPropiedades.titulo"
+        :dialog-content="dialogPropiedades.cuerpo"
+        :dialog-route="dialogPropiedades.ruta"
+        :dialog-colour="dialogPropiedades.color"
+        :dialog-text-button="dialogPropiedades.boton"
+        :dialog-speed="dialogPropiedades.velocidad"
+        :dialog-loop="dialogPropiedades.repetir"
+        @cerrarDialog="cerrardialogPropiedades"
+      />
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onMounted, onUnmounted } from "vue";
+import { ref, defineComponent } from "vue";
 import {
   IonPage,
   IonContent,
   onIonViewDidEnter,
   onIonViewDidLeave,
   IonDatetime,
-  alertController,
 } from "@ionic/vue";
 import { VDatePicker, VDatePickerMonth } from "vuetify/lib/labs/components.mjs";
 import { useRouter, Router, useRoute } from "vue-router";
 import { usePagoStore } from "@/store/pago";
-import { LottieAnimation } from "lottie-web-vue";
-
-import PaymentLoading from "../../assets/images/payment-loading.json";
-import PaymentError from "../../assets/images/payment-error.json";
-import PaymentSuccess from "../../assets/images/payment-success.json";
-
-const showAlert = async (header: string, message: string) => {
-  const alert = await alertController.create({
-    header,
-    message,
-    buttons: ["OK"],
-  });
-
-  return alert;
-};
+import DialogAction from "../helper/DialogAction.vue";
 
 export interface Pagos {
   tienda: Tienda[];
@@ -131,7 +85,7 @@ export default defineComponent({
     VDatePicker,
     VDatePickerMonth,
     IonDatetime,
-    LottieAnimation,
+    DialogAction,
   },
 
   setup() {
@@ -155,68 +109,212 @@ export default defineComponent({
       }
     };
 
-    let anim = ref();
+    const getCurrentFormattedDate = () => {
+      const now = new Date();
+      const day = String(now.getDate()).padStart(2, "0");
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const year = now.getFullYear();
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      return `${day}/${month}/${year} ${hours}:${minutes}`;
+    };
 
     const dialogPropiedades = ref({
       dialog: false,
-      mensajeTitulo: "",
-      mensajeCuerpo: "",
-      correcto: false,
+      titulo: "",
+      cuerpo: "",
+      ruta: "",
+      color: "",
+      boton: "",
+      velocidad: 0,
+      componente: "",
+      repetir: false,
     });
 
     const idToken = ref(0);
     const token = ref("");
+    const fechaActual = ref("");
 
     const dataPagos = ref<Pagos>({
       tienda: [],
     });
 
-    async function validarPago(tokenParams: any) {
-      await pagoStore.cargarPago(tokenParams);
+    async function validarPago(tokenParams: any, fecha: any) {
+      await pagoStore.cargarPago(tokenParams, fecha);
 
       dataPagos.value = pagoStore.object.pago as Pagos;
 
       console.log("esperando pago");
       console.log(dataPagos);
-      /*
+
       if (dataPagos.value && dataPagos.value.tienda) {
         console.log(dataPagos.value);
         console.log(dataPagos.value.tienda?.length);
 
         if (dataPagos.value.tienda?.length > 0) {
-          if (dataPagos.value.tienda[0].status == "Entregado") {
-            console.log("Intervalo limpiado");
-            clearInterval(intervalId);
+          const forma_pago = dataPagos.value.tienda[0].forma_pago;
+          const status = dataPagos.value.tienda[0].status;
 
-            dialogPropiedades.value = {
-              dialog: true,
-              mensajeTitulo: "Información de pago",
-              mensajeCuerpo: "Su pago se ha registrado con éxito",
-              correcto: true,
-            };
-          } else if (dataPagos.value.tienda[0].status == "Pago Pendiente") {
-            clearInterval(intervalId);
-            dialogPropiedades.value = {
-              dialog: true,
-              mensajeTitulo: "Información de pago",
-              mensajeCuerpo: "Se generó un error en su pago",
-              correcto: true,
-            };
-          } else {
-            clearInterval(intervalId);
-            dialogPropiedades.value = {
-              dialog: true,
-              mensajeTitulo: "Información de pago",
-              mensajeCuerpo: "Se generó un error en su pago",
-              correcto: true,
-            };
-            console.log("Pago incorrecto:");
-            console.log(dataPagos.value.tienda[0]);
-            console.log(dataPagos.value.tienda[0].status);
+          console.log(forma_pago);
+          console.log(status);
+
+          switch (forma_pago) {
+            case "Visa/Mastercard":
+            case "Visa/Mastercard Banamex":
+              switch (status) {
+                case "Pagado":
+                case "Enviado":
+                case "Entregado":
+                case "Pagado y facturado":
+                case "Preparación":
+                  dialogPropiedades.value = {
+                    dialog: true,
+                    titulo: "Información de pago",
+                    cuerpo: `Su pago se ha registrado con éxito, método de pago: ${forma_pago}`,
+                    ruta: "payment-success",
+                    color: colores.value.verdeBoton,
+                    boton: "Aceptar",
+                    velocidad: 1,
+                    componente: "",
+                    repetir: true,
+                  };
+                  clearInterval(intervalId);
+                  break;
+                case "Pago Pendiente":
+                case "Incompleto":
+                case "Cancelado":
+                  dialogPropiedades.value = {
+                    dialog: true,
+                    titulo: "Información de pago",
+                    cuerpo: `Se generó un error en su pago, método de pago: ${forma_pago}`,
+                    ruta: "payment-error",
+                    color: colores.value.rojoIMPC,
+                    boton: "Cerrar",
+                    velocidad: 0.5,
+                    componente: "",
+                    repetir: true,
+                  };
+                  break;
+              }
+              break;
+
+            case "American Express":
+              switch (status) {
+                case "Pagado":
+                case "Enviado":
+                case "Entregado":
+                case "Pagado y facturado":
+                case "Preparación":
+                  dialogPropiedades.value = {
+                    dialog: true,
+                    titulo: "Información de pago",
+                    cuerpo: `Su pago se ha registrado con éxito, método de pago: ${forma_pago}`,
+                    ruta: "payment-success",
+                    color: colores.value.verdeBoton,
+                    boton: "Aceptar",
+                    velocidad: 1,
+                    componente: "",
+                    repetir: true,
+                  };
+                  clearInterval(intervalId);
+                  break;
+                case "Pago Pendiente":
+                case "Incompleto":
+                case "Cancelado":
+                  dialogPropiedades.value = {
+                    dialog: true,
+                    titulo: "Información de pago",
+                    cuerpo: `Se generó un error en su pago, método de pago: ${forma_pago}`,
+                    ruta: "payment-error",
+                    color: colores.value.rojoIMPC,
+                    boton: "Cerrar",
+                    velocidad: 0.5,
+                    componente: "",
+                    repetir: true,
+                  };
+                  break;
+              }
+              break;
+
+            case "Oxxo":
+            case "7Eleven":
+            case "Paypal":
+              switch (status) {
+                case "Pagado":
+                case "Enviado":
+                case "Entregado":
+                case "Pagado y facturado":
+                case "Preparación":
+                case "Pago Pendiente":
+                  dialogPropiedades.value = {
+                    dialog: true,
+                    titulo: "Información de pago",
+                    cuerpo: `Su pago se ha registrado con éxito, método de pago: ${forma_pago}`,
+                    ruta: "payment-success",
+                    color: colores.value.verdeBoton,
+                    boton: "Aceptar",
+                    velocidad: 1,
+                    componente: "",
+                    repetir: true,
+                  };
+                  clearInterval(intervalId);
+                  break;
+                case "Incompleto" || "Cancelado":
+                  dialogPropiedades.value = {
+                    dialog: true,
+                    titulo: "Información de pago",
+                    cuerpo: `Se generó un error en su pago, método de pago: ${forma_pago}`,
+                    ruta: "payment-error",
+                    color: colores.value.rojoIMPC,
+                    boton: "Cerrar",
+                    velocidad: 0.5,
+                    componente: "",
+                    repetir: true,
+                  };
+                  break;
+              }
+              break;
+
+            case "ReferenciaBanorte":
+            case "ReferenciaBanamex":
+              switch (status) {
+                case "Pagado":
+                case "Enviado":
+                case "Entregado":
+                case "Pagado y facturado":
+                case "Preparación":
+                  dialogPropiedades.value = {
+                    dialog: true,
+                    titulo: "Información de pago",
+                    cuerpo: `Su pago se ha registrado con éxito, método de pago: ${forma_pago}`,
+                    ruta: "payment-success",
+                    color: colores.value.verdeBoton,
+                    boton: "Aceptar",
+                    velocidad: 1,
+                    componente: "",
+                    repetir: true,
+                  };
+                  clearInterval(intervalId);
+                  break;
+                case "Incompleto":
+                case "Cancelado":
+                  dialogPropiedades.value = {
+                    dialog: true,
+                    titulo: "Información de pago",
+                    cuerpo: `Se generó un error en su pago, método de pago: ${forma_pago}`,
+                    ruta: "payment-error",
+                    color: colores.value.rojoIMPC,
+                    boton: "Cerrar",
+                    velocidad: 0.5,
+                    componente: "",
+                    repetir: true,
+                  };
+                  break;
+              }
+              break;
           }
         }
       }
-      */
     }
 
     async function inicializar(
@@ -225,12 +323,13 @@ export default defineComponent({
       idTokenParams: any
     ) {
       token.value = tokenParams;
+
+      token.value = `https://tienda.imcp.org.mx/api/datos_inv_dpc.php?token=${tokenParams}&debug=1&timestamp=${Date.now()}`;
     }
 
     let intervalId: any = null;
 
     onIonViewDidEnter(async () => {
-
       scrollToTop();
       if (contentRef.value !== null) {
         contentRef.value.scrollTop = 0;
@@ -240,34 +339,34 @@ export default defineComponent({
       const tokenCert = route.params.tokenCertificado;
       const idTokenCert = route.params.idTokenCertificado;
 
-      await inicializar(idCertificado, tokenCert, idTokenCert);
-      //await validarPago(tokenCert);
+      token.value = "";
+      fechaActual.value = "";
 
+      await inicializar(idCertificado, tokenCert, idTokenCert);
+
+      fechaActual.value = getCurrentFormattedDate();
       intervalId = setInterval(async () => {
         const tokenCert = route.params.tokenCertificado;
-        await validarPago(tokenCert);
+
+        await validarPago(tokenCert, fechaActual.value);
       }, 15000); // 10 segundos en milisegundos
     });
 
     onIonViewDidLeave(() => {
-      console.log("Intervalo limpiado");
+      token.value = "";
       clearInterval(intervalId); // Detener las peticiones cuando sales de la ventana
     });
 
-    function cerrardialogPropiedades(estado: boolean) {
+    function cerrardialogPropiedades() {
       dialogPropiedades.value.dialog = false;
-      if (estado) {
-        router.push({ name: "certificadoEstatus" });
+      if (dialogPropiedades.value.componente != "") {
+        router.push({ name: dialogPropiedades.value.componente });
       }
     }
 
     return {
       colores,
       token,
-      anim,
-      PaymentLoading,
-      PaymentSuccess,
-      PaymentError,
       dialogPropiedades,
       cerrardialogPropiedades,
       contentRef,

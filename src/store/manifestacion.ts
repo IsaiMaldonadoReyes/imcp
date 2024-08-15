@@ -4,19 +4,28 @@ import { Storage } from '@ionic/storage';
 
 axios.defaults.baseURL = import.meta.env.VITE_APP_API_URL;
 
+interface ValorManifestacion {
+    label: string;
+    value: string;
+}
+interface Manifestacion {
+    label: string;
+    id_certificado: string;
+    valores: ValorManifestacion[];
+}
 
 export const useManifestacionStore = defineStore({
     id: 'manifestacion',
     state: () => ({
         object: {
-            listado: {dataset: [], totalSize : 0},
-            listadoPermisos: {dataset : [], totalSize : 0},
+            listado: { dataset: [], totalSize: 0 },
+            listadoPermisos: { dataset: [], totalSize: 0 },
             catalogoDisciplina: {}
         },
         responseMessage: "",
         type: "",
         test: "",
-        manifestacionesSeleccionadas: {}
+        manifestacionesSeleccionadas: [] as Manifestacion[]
 
     }),
     actions: {
@@ -36,7 +45,7 @@ export const useManifestacionStore = defineStore({
         },
 
         async cargarListado() {
-            this.object.listado = {dataset : [], totalSize : 0};
+            this.object.listado = { dataset: [], totalSize: 0 };
 
             const storage = new Storage();
             await storage.create();
@@ -65,7 +74,7 @@ export const useManifestacionStore = defineStore({
         },
 
         async cargarListadoCapacitacionExterna() {
-            this.object.listado = {dataset : [], totalSize : 0};
+            this.object.listado = { dataset: [], totalSize: 0 };
 
             const storage = new Storage();
             await storage.create();
@@ -95,7 +104,7 @@ export const useManifestacionStore = defineStore({
         },
 
         async cargarListadoPermisos() {
-            this.object.listadoPermisos = {dataset : [], totalSize : 0};
+            this.object.listadoPermisos = { dataset: [], totalSize: 0 };
 
             const storage = new Storage();
             await storage.create();
