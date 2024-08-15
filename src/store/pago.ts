@@ -30,7 +30,7 @@ export const usePagoStore = defineStore({
     }),
     actions: {
 
-        async cargarPago(token: any) {
+        async cargarPago(token: any, fecha : any) {
             const storage = new Storage();
             await storage.create();
 
@@ -42,7 +42,8 @@ export const usePagoStore = defineStore({
                 const params = {
                     datos: {
                         cuenta_rfc: rfcParam,
-                        token: token
+                        token: token,
+                        date: fecha
                     }
                 };
 

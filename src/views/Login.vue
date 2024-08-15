@@ -1,7 +1,11 @@
 <template>
   <ion-page>
     <ion-content>
-      <v-container class="ma-# pa-# fill-height" fluid style="align-items: normal">
+      <v-container
+        class="ma-# pa-# fill-height"
+        fluid
+        style="align-items: normal"
+      >
         <v-row
           align="start"
           style="height: 25%"
@@ -32,7 +36,8 @@
                   md="12"
                   sm="12"
                 >
-                  <v-label style="font-size: 28px; font-weight: bold; color: #424242"
+                  <v-label
+                    style="font-size: 28px; font-weight: bold; color: #424242"
                     >Acceso al Sistema</v-label
                   >
                 </v-col>
@@ -64,7 +69,14 @@
                     @click:append-inner="show1 = !show1"
                   />
                 </v-col>
-                <v-col cols="12" lg="12" md="12" sm="12" class="px-10" align="right">
+                <v-col
+                  cols="12"
+                  lg="12"
+                  md="12"
+                  sm="12"
+                  class="px-10"
+                  align="right"
+                >
                   <v-btn
                     :to="{ path: '/resetPassword' }"
                     class="text-caption text-disabled ms-1 text-capitalize"
@@ -105,6 +117,7 @@
         :dialog-colour="dialogPropiedades.color"
         :dialog-text-button="dialogPropiedades.boton"
         :dialog-speed="dialogPropiedades.velocidad"
+        :dialog-loop="dialogPropiedades.repetir"
         @cerrarDialog="cerrardialogPropiedades"
       />
     </ion-content>
@@ -140,10 +153,17 @@ export default defineComponent({
     const token = ref("");
 
     const form = ref({
+      rfc: "",
+      password: "",
+    });
+
+    /*
+    const form = ref({
       rfc: "CACX610315BD1",
       password: "temporal",
     });
 
+    */
     const rules = {
       validRFC: (v: string) => rfcRegex.test(v) || "RFC no válido",
       required: (v: string) => !!v || "Este campo es requerido",
@@ -165,6 +185,7 @@ export default defineComponent({
       boton: "",
       velocidad: 0,
       componente: "",
+      repetir: false,
     });
 
     async function login() {
@@ -188,6 +209,7 @@ export default defineComponent({
             boton: "Cerrar",
             velocidad: 0.5,
             componente: "",
+            repetir: false,
           };
         }
       } catch (error) {
@@ -239,6 +261,7 @@ export default defineComponent({
             boton: "Cerrar",
             velocidad: 0.5,
             componente: "",
+            repetir: false,
           };
         } else {
           tokenAuth.value = true;
@@ -253,6 +276,7 @@ export default defineComponent({
           boton: "Cerrar",
           velocidad: 0.5,
           componente: "",
+          repetir: false,
         };
       }
     }

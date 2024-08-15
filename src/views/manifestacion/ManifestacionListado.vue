@@ -229,6 +229,15 @@
             </v-card>
           </v-window-item>
         </v-window>
+        <v-dialog v-model="loading">
+          <div class="text-center">
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </v-dialog>
       </v-container>
     </ion-content>
   </ion-page>
@@ -309,8 +318,9 @@ export default defineComponent({
     const manifestacionesPorPagina = ref(5);
     const paginaManifestacion = ref(1);
     const busquedaManifestacion = ref("");
+    const loading = ref(false);
 
-    const tabs = ref(null);
+    const tabs = ref(1);
     const dataLoaded = ref(false);
 
     const options = ref({
@@ -345,7 +355,9 @@ export default defineComponent({
     };
 
     async function cargarDashboard() {
+      loading.value = true;
       dataLoaded.value = false;
+      tabs.value = 1;
 
       listadoManifestaciones.value = {
         dataset: [],
@@ -359,6 +371,7 @@ export default defineComponent({
           listadoManifestaciones.value = manifestacionStore.object.listado;
         }
       } catch (error) {}
+      loading.value = false;
     }
 
     function descargarArchivo(ruta: string) {
@@ -396,14 +409,15 @@ export default defineComponent({
       descargarArchivo,
       contentRef,
       formatearFecha,
+      loading
     };
   },
 });
 </script>
 
 <style>
-.v-btn[aria-selected="false"] .v-btn__content {
-  color: #333333 !important; /* Cambia el color del texto a verde */
+.v-slide-group-item--active .v-btn__content {
+  color: white !important;
 }
 
 .blue-tab {

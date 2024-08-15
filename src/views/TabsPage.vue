@@ -290,7 +290,8 @@ export default defineComponent({
     }
 
     async function cargarNotificaciones() {
-      //console.log("cargar notificaciones cada 5 minutos");
+
+      menuNotificacion.value = false;
       notificaciones.value.length = 0;
       notificaciones.value = [];
 
@@ -346,6 +347,8 @@ export default defineComponent({
         });
 
         //console.error("Hubo un error al cargar las notificaciones");
+
+        console.log(notificaciones);
       }
     }
 

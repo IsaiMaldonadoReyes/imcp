@@ -160,6 +160,15 @@
             </v-btn>
           </div>
         </v-form>
+        <v-dialog v-model="loading">
+          <div class="text-center">
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </v-dialog>
       </v-container>
       <dialog-action
         :dialogView="dialogPropiedades.dialog"
@@ -169,6 +178,7 @@
         :dialog-colour="dialogPropiedades.color"
         :dialog-text-button="dialogPropiedades.boton"
         :dialog-speed="dialogPropiedades.velocidad"
+        :dialog-loop="dialogPropiedades.repetir"
         @cerrarDialog="cerrardialogPropiedades"
       />
     </ion-content>
@@ -300,6 +310,8 @@ export default defineComponent({
     const formEl = ref<any>(null);
     const show1 = ref(false);
 
+    const loading = ref(false);
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const rules = {
@@ -330,6 +342,7 @@ export default defineComponent({
       boton: "",
       velocidad: 0,
       componente: "",
+      repetir: false,
     });
 
     const dataContacto = ref<InformacionUsuario>({
@@ -425,6 +438,8 @@ export default defineComponent({
         enviado: true,
       };
 
+      loading.value = true;
+
       try {
         await pagoStore.cargarContacto();
 
@@ -459,6 +474,8 @@ export default defineComponent({
       } catch (error) {
         console.log(error);
       }
+
+      loading.value = false;
     }
 
     async function actualizarRegistro() {
@@ -500,6 +517,7 @@ export default defineComponent({
             boton: "Aceptar",
             velocidad: 1,
             componente: "dashboard",
+            repetir: false,
           };
         } else if (!isValidForm.valid && dataContacto.value.informacion) {
           dialogPropiedades.value = {
@@ -512,6 +530,7 @@ export default defineComponent({
             boton: "Cerrar",
             velocidad: 0.5,
             componente: "",
+            repetir: false,
           };
         } else if (!dataContacto.value.informacion) {
           dialogPropiedades.value = {
@@ -523,6 +542,7 @@ export default defineComponent({
             boton: "Cerrar",
             velocidad: 0.5,
             componente: "",
+            repetir: false,
           };
         }
       } catch (error) {
@@ -535,6 +555,7 @@ export default defineComponent({
           boton: "Cerrar",
           velocidad: 0.5,
           componente: "",
+          repetir: false,
         };
         return;
       }
@@ -568,6 +589,7 @@ export default defineComponent({
       dialogPropiedades,
       cerrardialogPropiedades,
       contentRef,
+      loading
     };
   },
 });

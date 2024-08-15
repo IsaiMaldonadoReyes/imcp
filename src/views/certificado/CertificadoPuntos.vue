@@ -57,14 +57,20 @@
           :key="item.anhio_aplica"
         >
           <div class="d-flex justify-space-between px-3 my-3">
-            <div class="d-flex align-center text-caption text-medium-emphasis me-1">
+            <div
+              class="d-flex align-center text-caption text-medium-emphasis me-1"
+            >
               <span class="text-h6 text-grey-darken-3 font-weight-bold">
                 {{ item.anhio_aplica }}
               </span>
             </div>
 
-            <div class="d-flex align-center text-caption text-medium-emphasis me-1">
-              <span class="text-h6 text-grey-darken-1 font-weight-bold"> TOTAL: </span>
+            <div
+              class="d-flex align-center text-caption text-medium-emphasis me-1"
+            >
+              <span class="text-h6 text-grey-darken-1 font-weight-bold">
+                TOTAL:
+              </span>
               <span class="text-h6 font-weight-bold" style="color: #b80000">
                 {{ item.sumatoria_puntos_totales }} puntos
               </span>
@@ -76,7 +82,10 @@
               <v-card
                 class="ms-1 my-1 text-center"
                 :color="
-                  getColor(item.puntos_principales, item.control_puntos_principales)
+                  getColor(
+                    item.puntos_principales,
+                    item.control_puntos_principales
+                  )
                 "
                 elevation="0"
                 rounded="0"
@@ -162,7 +171,9 @@
                 </v-card-text>
                 <v-card-item style="line-height: 1 !important; height: 50px">
                   <span class="text-h6 text-grey-darken-1"
-                    >{{ item.puntos_etica }}/{{ item.control_puntos_etica }}</span
+                    >{{ item.puntos_etica }}/{{
+                      item.control_puntos_etica
+                    }}</span
                   >
                 </v-card-item>
               </v-card>
@@ -189,6 +200,15 @@
             </v-btn>
           </v-card-actions>
         </v-card>
+        <v-dialog v-model="loading">
+          <div class="text-center">
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </v-dialog>
       </v-container>
     </ion-content>
   </ion-page>
@@ -257,17 +277,20 @@ export default defineComponent({
       totalSize: 0,
     });
 
-    const getColor = computed(() => (value1: number, value2: number) =>
-      value1 > value2 ? "#ECF3E4" : "#FAE6EA"
+    const getColor = computed(
+      () => (value1: number, value2: number) =>
+        value1 > value2 ? "#ECF3E4" : "#FAE6EA"
     );
-    const getColorFuerte = computed(() => (value1: number, value2: number) =>
-      value1 > value2 ? "#468C00" : "#B20000"
+    const getColorFuerte = computed(
+      () => (value1: number, value2: number) =>
+        value1 > value2 ? "#468C00" : "#B20000"
     );
     const idCertificadoDesglose = ref(0);
 
     const ejercicioInicio = ref("");
     const ejercicioFin = ref("");
     const numCertificado = ref("");
+    const loading = ref(false);
 
     const colores = ref({
       rojoIMPC: "#B20000",
@@ -283,6 +306,7 @@ export default defineComponent({
       anhioFin: any,
       numCertificadox: any
     ) {
+      loading.value = true;
       certificadosPendientes.value = {
         dataset: [],
         totalSize: 0,
@@ -296,7 +320,8 @@ export default defineComponent({
         );
 
         if (certificadoStore.object.puntosPorCertificado.totalSize >= 0) {
-          certificadosPendientes.value = certificadoStore.object.puntosPorCertificado;
+          certificadosPendientes.value =
+            certificadoStore.object.puntosPorCertificado;
         }
 
         idCertificadoDesglose.value = idCertificado;
@@ -304,6 +329,7 @@ export default defineComponent({
         ejercicioFin.value = anhioFin;
         numCertificado.value = numCertificadox;
       } catch (error) {}
+      loading.value = false;
     }
 
     onIonViewDidEnter(() => {
@@ -317,7 +343,12 @@ export default defineComponent({
       const anhioFin = route.params.anhioFin;
       const numCertificado = route.params.numCertificado;
 
-      cargarPuntosPorCertificado(idCertificado, anhioInicio, anhioFin, numCertificado);
+      cargarPuntosPorCertificado(
+        idCertificado,
+        anhioInicio,
+        anhioFin,
+        numCertificado
+      );
     });
 
     return {
@@ -330,6 +361,7 @@ export default defineComponent({
       ejercicioFin,
       numCertificado,
       contentRef,
+      loading,
     };
   },
 });

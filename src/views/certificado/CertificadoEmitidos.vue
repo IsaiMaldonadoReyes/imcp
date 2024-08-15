@@ -73,7 +73,9 @@
               color="transparent"
               elevation="0"
             >
-              <v-icon color="grey-lighten-1" size="60">mdi-database-eye-off</v-icon>
+              <v-icon color="grey-lighten-1" size="60"
+                >mdi-database-eye-off</v-icon
+              >
               <v-card-text class="text-grey-darken-1">
                 No se encontraron certificados que coincidan con la búsqueda.
               </v-card-text>
@@ -100,7 +102,9 @@
                 <v-table density="compact">
                   <tbody>
                     <tr>
-                      <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">Tipo:</td>
+                      <td class="ma-0 pa-1 text-subtitle-1 text-grey-darken-1">
+                        Tipo:
+                      </td>
                       <td class="ma-0 pa-1 text-subtitle-1 font-weight-bold">
                         {{ item.raw.cert_tipo }}
                       </td>
@@ -191,7 +195,9 @@
                 @click="prevPage"
               />
 
-              <div class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold">
+              <div
+                class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold"
+              >
                 Página {{ page }} de {{ pageCount }}
               </div>
 
@@ -206,6 +212,15 @@
             </div>
           </template>
         </v-data-iterator>
+        <v-dialog v-model="loading">
+          <div class="text-center">
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </v-dialog>
       </v-container>
     </ion-content>
   </ion-page>
@@ -268,6 +283,7 @@ export default defineComponent({
     let sortDesc = ref("asc");
     const itemsPorPagina = ref(3);
     let busquedaCertificado = ref("");
+    const loading = ref(false);
 
     const colores = ref({
       rojoIMPC: "#B20000",
@@ -296,11 +312,12 @@ export default defineComponent({
       },
     ]);
 
-    const getDotColor = computed(() => (status: string) =>
-      status === "Cumplido" ? "#468C00" : "#B20000"
+    const getDotColor = computed(
+      () => (status: string) => status === "Cumplido" ? "#468C00" : "#B20000"
     );
-    const getIcon = computed(() => (status: string) =>
-      status === "Cumplido" ? "mdi-check-circle" : "mdi-close-circle"
+    const getIcon = computed(
+      () => (status: string) =>
+        status === "Cumplido" ? "mdi-check-circle" : "mdi-close-circle"
     );
 
     const keysProps = ref((item: any) => {
@@ -326,6 +343,7 @@ export default defineComponent({
     });
 
     async function cargarDesglosePorEjercicio() {
+      loading.value = true;
       certificadosEmitidos.value = {
         dataset: [],
         totalSize: 0,
@@ -336,13 +354,15 @@ export default defineComponent({
 
         if (certificadoStore.object.certificadosEmitidos.totalSize >= 0) {
           certificadosEmitidos.value = {
-            dataset: certificadoStore.object.certificadosEmitidos.dataset.filter(
-              (certificado: Dataset) => certificado.Descargar !== ""
-            ),
+            dataset:
+              certificadoStore.object.certificadosEmitidos.dataset.filter(
+                (certificado: Dataset) => certificado.Descargar !== ""
+              ),
             totalSize: certificadoStore.object.certificadosEmitidos.totalSize,
           };
         }
       } catch (error) {}
+      loading.value = false;
     }
 
     function descargarCertificado(ruta: string) {
@@ -380,6 +400,7 @@ export default defineComponent({
       descargarCertificado,
       contentRef,
       formatearFecha,
+      loading,
     };
   },
 });

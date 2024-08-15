@@ -2,7 +2,7 @@
   <v-dialog v-model="dialogPropiedades.dialog" max-width="500px">
     <div class="icon-box">
       <vue3-lottie
-        :loop="false"
+        :loop="dialogPropiedades.repetir"
         :speed="dialogPropiedades.velocidad"
         :animation-link="animationLink"
       />
@@ -41,7 +41,6 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, watch } from "vue";
 import { Vue3Lottie } from "vue3-lottie";
-import CorrectAnimation from "../../assets/images/incorrect.json";
 
 export default defineComponent({
   name: "DialogAction",
@@ -56,6 +55,7 @@ export default defineComponent({
     dialogColour: String,
     dialogTextButton: String,
     dialogSpeed: Number,
+    dialogLoop: Boolean,
   },
   setup(props, { emit }) {
     const dialogPropiedades = ref({
@@ -66,6 +66,7 @@ export default defineComponent({
       color: ref(props.dialogColour),
       boton: ref(props.dialogTextButton),
       velocidad: ref(props.dialogSpeed),
+      repetir: ref(props.dialogLoop),
     });
 
     const cerrarDialogPropiedades = () => {
@@ -85,6 +86,7 @@ export default defineComponent({
           color: props.dialogColour,
           boton: props.dialogTextButton,
           velocidad: props.dialogSpeed,
+          repetir: props.dialogLoop,
         };
         if (newDialogView && newDialogRoute != "") {
           animationLink.value = `images/${props.dialogRoute}.json`;
@@ -94,7 +96,6 @@ export default defineComponent({
 
     return {
       dialogPropiedades,
-      CorrectAnimation,
       cerrarDialogPropiedades,
       animationLink,
     };
