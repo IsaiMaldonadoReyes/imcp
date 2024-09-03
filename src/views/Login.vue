@@ -8,7 +8,7 @@
       >
         <v-row
           align="start"
-          style="height: 25%"
+          style="height: 25%; width: 100%"
           class="d-flex align-center justify-center"
         >
           <img
@@ -18,7 +18,7 @@
         </v-row>
         <v-row
           align="start"
-          style="height: 62%"
+          style="height: 62%; width: 100%"
           class="d-flex align-start justify-center"
         >
           <v-card color="transparent" elevation="0">
