@@ -99,6 +99,7 @@
                   item-value="EventosNombreEvento"
                   style="background-color: transparent"
                   class="tb-avisos pa-2"
+                  @update:page="(page) => detectaValorPaginador()"
                 >
                   <template v-slot:[`item`]="{ item }">
                     <tr class="v-data-table__tr">
@@ -367,6 +368,8 @@ export default defineComponent({
       try {
         await manifestacionStore.cargarListado();
 
+        //console.log(manifestacionStore.object.listado);
+        
         if (manifestacionStore.object.listado.totalSize >= 0) {
           listadoManifestaciones.value = manifestacionStore.object.listado;
         }
@@ -395,6 +398,10 @@ export default defineComponent({
       cargarDashboard();
     });
 
+    function detectaValorPaginador() {
+      paginaManifestacion.value = 1;
+    }
+
     return {
       dataLoaded,
       colores,
@@ -409,7 +416,8 @@ export default defineComponent({
       descargarArchivo,
       contentRef,
       formatearFecha,
-      loading
+      loading,
+      detectaValorPaginador
     };
   },
 });
