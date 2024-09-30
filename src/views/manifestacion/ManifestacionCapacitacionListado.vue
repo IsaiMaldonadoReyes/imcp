@@ -33,6 +33,7 @@
               item-value="EventosNombreEvento"
               style="background-color: transparent"
               class="tb-avisos pa-2"
+              @update:page="(page) => detectaValorPaginador()"
             >
               <template v-slot:top="{ pageCount }">
                 <v-divider />
@@ -642,6 +643,10 @@ export default defineComponent({
       }
     }
 
+    function detectaValorPaginador() {
+      paginaAvisoCapacitacion.value = 1;
+    }
+
     return {
       colores,
       options,
@@ -657,6 +662,7 @@ export default defineComponent({
       contentRef,
       formatearFecha,
       loading,
+      detectaValorPaginador,
     };
   },
 });

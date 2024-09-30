@@ -111,6 +111,7 @@
                   item-value="EventosNombreEvento"
                   style="background-color: transparent"
                   class="tb-avisos pa-2"
+                  @update:page="(page) => detectaValorPaginador()"
                 >
                   <template v-slot:[`item`]="{ item }">
                     <tr class="v-data-table__tr">
@@ -399,6 +400,10 @@ export default defineComponent({
       cargarDashboard();
     });
 
+    function detectaValorPaginador() {
+      paginaAvisoCapacitacion.value = 1;
+    }
+
     return {
       dataLoaded,
       colores,
@@ -413,6 +418,7 @@ export default defineComponent({
       contentRef,
       formatearFecha,
       loading,
+      detectaValorPaginador
     };
   },
 });

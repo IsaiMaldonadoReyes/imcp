@@ -24,7 +24,9 @@
               color="transparent"
               elevation="0"
             >
-              <v-icon color="grey-lighten-1" size="60">mdi-database-eye-off</v-icon>
+              <v-icon color="grey-lighten-1" size="60"
+                >mdi-database-eye-off</v-icon
+              >
               <v-card-text class="text-grey-darken-1">
                 No se encontró información.
               </v-card-text>
@@ -95,7 +97,10 @@
               </v-card-text>
               <v-divider />
               <v-card
-                v-if="itemH.raw.manifestaciones && itemH.raw.manifestaciones.length > 0"
+                v-if="
+                  itemH.raw.manifestaciones &&
+                  itemH.raw.manifestaciones.length > 0
+                "
                 border
                 class="ma-3"
                 elevation="0"
@@ -128,25 +133,54 @@
                         ]
                       "
                     >
-                      <v-text-field
+                      <template
                         v-for="(value, index) in manifestacion.value"
                         :key="index"
-                        v-model="
-                          manifestacionListado[
-                            `${manifestacion.label}_${itemH.raw.id_certificado}_${value}`
-                          ]
-                        "
-                        :label="value"
-                        :required="
-                          manifestacionListado[
-                            `${manifestacion.label}_${itemH.raw.id_certificado}_${manifestacion.value}`
-                          ]
-                        "
-                        class="my-4"
-                        clearable
-                        hide-details="auto"
-                        variant="outlined"
-                      ></v-text-field>
+                      >
+                        <template
+                          v-if="
+                            value === 'DICTAMINA FISCALMENTE' ||
+                            value === 'CONTADOR PÚBLICO CERTIFICADO'
+                          "
+                        >
+                          <v-select
+                            v-model="
+                              manifestacionListado[
+                                `${manifestacion.label}_${itemH.raw.id_certificado}_${value}`
+                              ]
+                            "
+                            :label="value"
+                            :items="['Si', 'No', 'No Aplica']"
+                            class="my-4"
+                            :required="
+                              manifestacionListado[
+                                `${manifestacion.label}_${itemH.raw.id_certificado}_${manifestacion.value}`
+                              ]
+                            "
+                            hide-details="auto"
+                            variant="outlined"
+                          ></v-select>
+                        </template>
+                        <template v-else>
+                          <v-text-field
+                            v-model="
+                              manifestacionListado[
+                                `${manifestacion.label}_${itemH.raw.id_certificado}_${value}`
+                              ]
+                            "
+                            :label="value"
+                            :required="
+                              manifestacionListado[
+                                `${manifestacion.label}_${itemH.raw.id_certificado}_${manifestacion.value}`
+                              ]
+                            "
+                            class="my-4"
+                            clearable
+                            hide-details="auto"
+                            variant="outlined"
+                          ></v-text-field>
+                        </template>
+                      </template>
                     </template>
                   </template>
                 </v-card-text>
@@ -199,14 +233,14 @@
         @cerrarDialog="cerrardialogPropiedades"
       />
       <v-dialog v-model="loading">
-          <div class="text-center">
-            <v-progress-circular
-              :size="60"
-              :color="colores.rojoIMPC"
-              indeterminate
-            ></v-progress-circular>
-          </div>
-        </v-dialog>
+        <div class="text-center">
+          <v-progress-circular
+            :size="60"
+            :color="colores.rojoIMPC"
+            indeterminate
+          ></v-progress-circular>
+        </div>
+      </v-dialog>
     </ion-content>
   </ion-page>
 </template>
@@ -270,7 +304,7 @@ export interface manifestaciones {
 }
 
 export interface ManifestacionSeleccionada {
-  [key: string]: boolean;
+  [key: string]: string;
 }
 
 // Define el tipo para cada manifestación
@@ -371,7 +405,8 @@ export default defineComponent({
       await manifestacionStore.cargarListadoPermisos();
 
       if (manifestacionStore.object.listadoPermisos.totalSize >= 0) {
-        const listadoPermisos = manifestacionStore.object.listadoPermisos as Permisos;
+        const listadoPermisos = manifestacionStore.object
+          .listadoPermisos as Permisos;
 
         listadoPermisos.dataset.forEach((data) => {
           const manifestaciones: manifestaciones[] = [];
@@ -382,7 +417,9 @@ export default defineComponent({
             );
             if (info) {
               // Verificar si label es un array o un string
-              const label = Array.isArray(info.label) ? info.label : [info.label];
+              const label = Array.isArray(info.label)
+                ? info.label
+                : [info.label];
               manifestaciones.push({
                 value: label,
                 label: permitido.label,
@@ -444,7 +481,7 @@ export default defineComponent({
             };
             manifestacionesSeleccionadas.push(manifestacionActual);
           }
-        } else if (typeof value === "string") {
+        } else if (typeof value === "string" && value.trim() !== "") {
           // Si es un string
           // Añadimos el valor a la lista de valores de la manifestación actual
           const [label, idCertificado, texto] = key.split("_");
@@ -474,9 +511,10 @@ export default defineComponent({
         );
 
         if (permisosByCertificado) {
-          const manifestacionesByLabel = permisosByCertificado.manifestaciones.find(
-            (data) => data.label == label
-          );
+          const manifestacionesByLabel =
+            permisosByCertificado.manifestaciones.find(
+              (data) => data.label == label
+            );
 
           if (manifestacionesByLabel) {
             // Crear un conjunto con los valores de manifestacionesByLabel.value
@@ -516,7 +554,8 @@ export default defineComponent({
         //const alert = await showAlert("Verifica lo siguiente", mensajeError);
         //await alert.present();
       } else {
-        manifestacionStore.manifestacionesSeleccionadas = manifestacionesSeleccionadas;
+        manifestacionStore.manifestacionesSeleccionadas =
+          manifestacionesSeleccionadas;
         router.push({ name: "manifestacionCapacitacionListado" });
       }
     }
@@ -542,7 +581,7 @@ export default defineComponent({
       dialogPropiedades,
       cerrardialogPropiedades,
       contentRef,
-      loading
+      loading,
     };
   },
 });
@@ -574,7 +613,8 @@ export default defineComponent({
   }
 
   .tb-grados.v-data-table td {
-    border-bottom: thin solid rgba(var(--v-border-color), var(--v-border-opacity));
+    border-bottom: thin solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
     display: grid;
     text-align: justify;
     line-height: none;
@@ -590,7 +630,8 @@ export default defineComponent({
   }
 
   .tb-grados.v-data-table tr:not(:first-child) > td:first-child {
-    border-top: medium solid rgba(var(--v-border-color), var(--v-border-opacity));
+    border-top: medium solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
   }
 }
 </style>
