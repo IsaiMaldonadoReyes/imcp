@@ -206,6 +206,7 @@
                   variant="outlined"
                   v-model="dataModel.archivos"
                 ></v-file-input>
+                  <input type="file" />
               </v-card-text>
             </v-card>
           </v-card>
