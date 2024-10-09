@@ -197,8 +197,8 @@
                 <v-file-input
                   :rules="[rules.fileRule]"
                   :show-size="1000"
-                  accept="image/png, image/jpeg, image/bmp, application/pdf, "
-                  placeholder="Seleccione hasta 5 archivos"
+                  accept="application/pdf, "
+                  placeholder="Seleccione hasta 5 archivos PDF"
                   prepend-icon="mdi-file-multiple-outline"
                   label="Seleccione archivos"
                   multiple
@@ -206,7 +206,6 @@
                   variant="outlined"
                   v-model="dataModel.archivos"
                 ></v-file-input>
-                  <input type="file" />
               </v-card-text>
             </v-card>
           </v-card>
