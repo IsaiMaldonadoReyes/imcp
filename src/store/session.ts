@@ -33,7 +33,8 @@ export const useSessionStore = defineStore({
     state: () => ({
         auth: false,
         object: {},
-        responseMessage: ""
+        responseMessage: "",
+        type: ""
     }),
     actions: {
 
@@ -65,17 +66,6 @@ export const useSessionStore = defineStore({
             await storage.create();
 
             const configAuthToken = await storage.get("configToken");
-            // desarrollo
-            /*
-            if (data == "SOTJ841111Q39") {
-                this.auth = true;
-
-                await storage.set('logged', true);
-                await storage.set('rfc', "SOTJ841111Q39");
-                this.userInformation("SOTJ841111Q39");
-            }*/
-
-            // production
 
             if (user !== undefined && pass !== undefined) {
                 try {
@@ -146,6 +136,31 @@ export const useSessionStore = defineStore({
                 this.responseMessage = "Se enviará un correo con instrucciones para recuperar su contraseña";
             } catch (error) {
                 throw new Error("Error al enviar la petición de cambio de contraseña");
+            }
+        },
+
+        async createAccount(data: any) {
+            const storage = new Storage();
+            await storage.create();
+
+            const configAuthToken = await storage.get("configToken");
+            try {
+                const response = await axios.post("/users/dummy_contactos", data, configAuthToken);
+                this.responseMessage = response.data.sys;
+                this.type = response.data.type;
+                //this.responseMessage = "Se enviará un correo con instrucciones para recuperar su contraseña";
+            } catch (error: any) {
+                // Verifica si el error tiene una respuesta de Axios
+                let errorResult = error.response?.data?.result;
+
+                // Si es un array, une los mensajes en un string
+                let errorReq = Array.isArray(errorResult)
+                    ? errorResult.join(' ')
+                    : errorResult || "Ocurrió un problema en la petición";
+
+
+                this.responseMessage = errorReq;
+                this.type = "error";
             }
         },
 

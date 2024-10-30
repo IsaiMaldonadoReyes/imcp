@@ -24,7 +24,7 @@
           <v-card color="transparent" elevation="0">
             <v-form
               v-model="isValid"
-              @submit.prevent="validateAndLogin"
+              @submit.prevent="validateAndCreate"
               lazy-validation
               ref="formEl"
             >
@@ -180,7 +180,7 @@
 </template>
 
 <script lang="ts">
-import { IonPage, IonContent } from "@ionic/vue";
+import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { Storage } from "@ionic/storage";
@@ -247,36 +247,55 @@ export default defineComponent({
       repetir: false,
     });
 
-    async function login() {
+    async function createAccount() {
       try {
         let data = new FormData();
-        data.append("nombre", form.value.nombre);
-        data.append("apellido", form.value.apellido);
-        data.append("email", form.value.email);
-        data.append("telefono", form.value.telefono);
-        data.append("rfc", form.value.rfc);
+        data.append("datos[nombre]", form.value.nombre);
+        data.append("datos[apellidos]", form.value.apellido);
+        data.append("datos[email]", form.value.email);
+        data.append("datos[telefono]", form.value.telefono);
+        data.append("datos[rfc]", form.value.rfc);
 
-        await session.login(data);
+        await session.createAccount(data);
 
-        if (session.auth == true) {
+        if (session.type != "error") {
           await formEl.value?.reset();
-          router.push({ name: "dashboard" });
-        } else {
-          dialogPropiedades.value = {
-            dialog: true,
-            titulo: "Inicio de sesión",
-            cuerpo: "Usuario y/o contraseña incorrecta",
-            ruta: "incorrect",
-            color: colores.value.rojoIMPC,
-            boton: "Cerrar",
-            velocidad: 0.5,
-            componente: "",
-            repetir: false,
-          };
         }
+
+        dialogPropiedades.value = {
+          dialog: true,
+          titulo: "Preregistro de cuenta",
+          cuerpo:
+            session.type == "error"
+              ? session.responseMessage
+              : "Hemos recibido tu información de preregistro. Nos pondremos en contacto contigo pronto para confirmar los siguientes pasos.",
+          ruta: session.type == "error" ? "incorrect" : "correct",
+          color:
+            session.type == "error"
+              ? colores.value.rojoIMPC
+              : colores.value.verdeBoton,
+          boton: "Aceptar",
+          velocidad: 0.5,
+          componente: "login",
+          repetir: false,
+        };
       } catch (error) {
-        console.log(error);
-        throw new Error("Error al iniciar sesión");
+        let errorReq =
+          error instanceof Error
+            ? error.message
+            : "Ocurrió un problema en la petición";
+
+        dialogPropiedades.value = {
+          dialog: true,
+          titulo: "Preregistro de cuenta",
+          cuerpo: errorReq,
+          ruta: "incorrect",
+          color: colores.value.rojoIMPC,
+          boton: "Cerrar",
+          velocidad: 0.5,
+          componente: "",
+          repetir: false,
+        };
       }
     }
 
@@ -284,7 +303,7 @@ export default defineComponent({
       form.value[fieldName] = form.value[fieldName].toUpperCase();
     }
 
-    async function validateAndLogin() {
+    async function validateAndCreate() {
       try {
         const isValidForm = await formEl.value?.validate();
 
@@ -293,7 +312,7 @@ export default defineComponent({
 
           if (tokenAuth.value == true) {
             try {
-              await login();
+              await createAccount();
             } catch (error) {
               console.log(error);
             }
@@ -346,9 +365,24 @@ export default defineComponent({
     function cerrardialogPropiedades() {
       dialogPropiedades.value.dialog = false;
       if (dialogPropiedades.value.componente != "") {
-        router.push({ name: "/" });
+        router.push({ name: "login" });
       }
     }
+
+    async function limpiarFormulario() {
+      form.value = {
+        nombre: "",
+        apellido: "",
+        email: "",
+        telefono: "",
+        rfc: "",
+      };
+      await formEl.value?.reset();
+    }
+
+    onIonViewDidEnter(async () => {
+      await limpiarFormulario();
+    });
 
     return {
       colores,
@@ -357,7 +391,7 @@ export default defineComponent({
       show1,
       isValid,
       formEl,
-      validateAndLogin,
+      validateAndCreate,
       convertToUpperCase,
       dialogPropiedades,
       cerrardialogPropiedades,
