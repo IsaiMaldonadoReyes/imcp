@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 
 import Login from "../views/Login.vue";
 import ResetPassword from "../views/ResetPassword.vue";
+import CreateAccount from "../views/CreateAccount.vue";
 
 //import Dashboard from "../views/dashboard/Dashboard.vue";
 //import DesglosePuntos from "../views/dashboard/DesglosePuntos.vue";
@@ -24,6 +25,12 @@ const routes = [
     path: "/resetPassword",
     name: "resetPassword",
     component: ResetPassword,
+    meta: { requiresAuth: false },
+  },
+  {
+    path: "/createAccount",
+    name: "createAccount",
+    component: CreateAccount,
     meta: { requiresAuth: false },
   },
   {

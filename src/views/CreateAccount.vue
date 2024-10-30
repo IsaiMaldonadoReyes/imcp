@@ -18,13 +18,13 @@
         </v-row>
         <v-row
           align="start"
-          style="height: 62%; width: 100%"
+          style="height: 75%; width: 100%"
           class="d-flex align-start justify-center"
         >
           <v-card color="transparent" elevation="0">
             <v-form
               v-model="isValid"
-              @submit.prevent="validateAndLogin"
+              @submit.prevent="validateAndCreate"
               lazy-validation
               ref="formEl"
             >
@@ -38,8 +38,58 @@
                 >
                   <v-label
                     style="font-size: 28px; font-weight: bold; color: #424242"
-                    >Acceso al Sistema</v-label
+                    >Preregistro</v-label
                   >
+                </v-col>
+                <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
+                  <v-text-field
+                    v-model="form.nombre"
+                    :rules="[rules.required, rules.noWhitespace]"
+                    clearable
+                    hide-details="auto"
+                    label="Nombre"
+                    rounded="lg"
+                    style="font-weight: bold"
+                    variant="solo"
+                    @input="() => convertToUpperCase('nombre')"
+                  />
+                </v-col>
+                <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
+                  <v-text-field
+                    v-model="form.apellido"
+                    :rules="[rules.required, rules.noWhitespace]"
+                    clearable
+                    hide-details="auto"
+                    label="Apellido"
+                    rounded="lg"
+                    style="font-weight: bold"
+                    variant="solo"
+                    @input="() => convertToUpperCase('apellido')"
+                  />
+                </v-col>
+                <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
+                  <v-text-field
+                    v-model="form.email"
+                    :rules="[rules.required, rules.validEmail]"
+                    clearable
+                    hide-details="auto"
+                    label="E-mail"
+                    rounded="lg"
+                    style="font-weight: bold"
+                    variant="solo"
+                  />
+                </v-col>
+                <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
+                  <v-text-field
+                    v-model="form.telefono"
+                    :rules="[rules.required, rules.validTelefono]"
+                    clearable
+                    hide-details="auto"
+                    label="Teléfono"
+                    rounded="lg"
+                    style="font-weight: bold"
+                    variant="solo"
+                  />
                 </v-col>
                 <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
                   <v-text-field
@@ -54,21 +104,6 @@
                     @input="() => convertToUpperCase('rfc')"
                   />
                 </v-col>
-                <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
-                  <v-text-field
-                    v-model="form.password"
-                    :append-inner-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                    :rules="[rules.required]"
-                    :type="show1 ? 'text' : 'password'"
-                    clearable
-                    hide-details="auto"
-                    label="Contraseña"
-                    rounded="lg"
-                    style="font-weight: bold"
-                    variant="solo"
-                    @click:append-inner="show1 = !show1"
-                  />
-                </v-col>
                 <v-col
                   cols="6"
                   lg="12"
@@ -78,7 +113,7 @@
                   align="left"
                 >
                   <v-btn
-                    :to="{ path: '/createAccount' }"
+                    :to="{ path: '/' }"
                     class="text-caption text-disabled ms-1 text-capitalize"
                     color="#C6092F"
                     rounded="lg"
@@ -86,7 +121,7 @@
                     style="font-weight: bold"
                     variant="plain"
                   >
-                    Crear cuenta
+                    Iniciar sesión
                   </v-btn>
                 </v-col>
                 <v-col
@@ -145,7 +180,7 @@
 </template>
 
 <script lang="ts">
-import { IonPage, IonContent } from "@ionic/vue";
+import { IonPage, IonContent, onIonViewDidEnter } from "@ionic/vue";
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { Storage } from "@ionic/storage";
@@ -154,7 +189,7 @@ import { useSessionStore } from "../store/session";
 import DialogAction from "./helper/DialogAction.vue";
 
 export default defineComponent({
-  name: "Login",
+  name: "Account",
   components: {
     IonPage,
     IonContent,
@@ -164,6 +199,9 @@ export default defineComponent({
     const session = useSessionStore();
     const router = useRouter();
     const rfcRegex = /^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z1-9]\d{1}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const telefonoRegex = /^\d{10}$/;
+    const noWhitespaceRegex = /^\S+$/; // No permite espacios en blanco
 
     const isValid = ref(true);
     const formEl = ref<any>(null);
@@ -173,20 +211,21 @@ export default defineComponent({
     const token = ref("");
 
     const form = ref({
+      nombre: "",
+      apellido: "",
+      email: "",
+      telefono: "",
       rfc: "",
-      password: "",
     });
-
-    /*
-    const form = ref({
-      rfc: "CACX610315BD1",
-      password: "temporal",
-    });
-
-    */
     const rules = {
       validRFC: (v: string) => rfcRegex.test(v) || "RFC no válido",
       required: (v: string) => !!v || "Este campo es requerido",
+      validEmail: (v: string) =>
+        emailRegex.test(v) || "Correo electrónico no válido",
+      validTelefono: (v: string) =>
+        telefonoRegex.test(v) || "Teléfono no válido",
+      noWhitespace: (v: string) =>
+        noWhitespaceRegex.test(v) || "No se permiten espacios en blanco",
     };
 
     const colores = ref({
@@ -208,33 +247,55 @@ export default defineComponent({
       repetir: false,
     });
 
-    async function login() {
+    async function createAccount() {
       try {
         let data = new FormData();
-        data.append("email", form.value.rfc);
-        data.append("password", form.value.password);
+        data.append("datos[nombre]", form.value.nombre);
+        data.append("datos[apellidos]", form.value.apellido);
+        data.append("datos[email]", form.value.email);
+        data.append("datos[telefono]", form.value.telefono);
+        data.append("datos[rfc]", form.value.rfc);
 
-        await session.login(data);
+        await session.createAccount(data);
 
-        if (session.auth == true) {
+        if (session.type != "error") {
           await formEl.value?.reset();
-          router.push({ name: "dashboard" });
-        } else {
-          dialogPropiedades.value = {
-            dialog: true,
-            titulo: "Inicio de sesión",
-            cuerpo: "Usuario y/o contraseña incorrecta",
-            ruta: "incorrect",
-            color: colores.value.rojoIMPC,
-            boton: "Cerrar",
-            velocidad: 0.5,
-            componente: "",
-            repetir: false,
-          };
         }
+
+        dialogPropiedades.value = {
+          dialog: true,
+          titulo: "Preregistro de cuenta",
+          cuerpo:
+            session.type == "error"
+              ? session.responseMessage
+              : "Hemos recibido tu información de preregistro. Nos pondremos en contacto contigo pronto para confirmar los siguientes pasos.",
+          ruta: session.type == "error" ? "incorrect" : "correct",
+          color:
+            session.type == "error"
+              ? colores.value.rojoIMPC
+              : colores.value.verdeBoton,
+          boton: "Aceptar",
+          velocidad: 0.5,
+          componente: "login",
+          repetir: false,
+        };
       } catch (error) {
-        console.log(error);
-        throw new Error("Error al iniciar sesión");
+        let errorReq =
+          error instanceof Error
+            ? error.message
+            : "Ocurrió un problema en la petición";
+
+        dialogPropiedades.value = {
+          dialog: true,
+          titulo: "Preregistro de cuenta",
+          cuerpo: errorReq,
+          ruta: "incorrect",
+          color: colores.value.rojoIMPC,
+          boton: "Cerrar",
+          velocidad: 0.5,
+          componente: "",
+          repetir: false,
+        };
       }
     }
 
@@ -242,7 +303,7 @@ export default defineComponent({
       form.value[fieldName] = form.value[fieldName].toUpperCase();
     }
 
-    async function validateAndLogin() {
+    async function validateAndCreate() {
       try {
         const isValidForm = await formEl.value?.validate();
 
@@ -251,7 +312,7 @@ export default defineComponent({
 
           if (tokenAuth.value == true) {
             try {
-              await login();
+              await createAccount();
             } catch (error) {
               console.log(error);
             }
@@ -304,9 +365,24 @@ export default defineComponent({
     function cerrardialogPropiedades() {
       dialogPropiedades.value.dialog = false;
       if (dialogPropiedades.value.componente != "") {
-        router.push({ name: "dashboard" });
+        router.push({ name: "login" });
       }
     }
+
+    async function limpiarFormulario() {
+      form.value = {
+        nombre: "",
+        apellido: "",
+        email: "",
+        telefono: "",
+        rfc: "",
+      };
+      await formEl.value?.reset();
+    }
+
+    onIonViewDidEnter(async () => {
+      await limpiarFormulario();
+    });
 
     return {
       colores,
@@ -315,7 +391,7 @@ export default defineComponent({
       show1,
       isValid,
       formEl,
-      validateAndLogin,
+      validateAndCreate,
       convertToUpperCase,
       dialogPropiedades,
       cerrardialogPropiedades,
