@@ -140,6 +140,15 @@
         :dialog-loop="dialogPropiedades.repetir"
         @cerrarDialog="cerrardialogPropiedades"
       />
+      <v-dialog v-model="loading">
+        <div class="text-center">
+          <v-progress-circular
+            :size="60"
+            :color="colores.rojoIMPC"
+            indeterminate
+          ></v-progress-circular>
+        </div>
+      </v-dialog>
     </ion-content>
   </ion-page>
 </template>
@@ -163,7 +172,8 @@ export default defineComponent({
   setup() {
     const session = useSessionStore();
     const router = useRouter();
-    const rfcRegex = /^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z1-9]\d{1}$/;
+    const rfcRegex =
+      /^([A-ZÑ&]{3,4})\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])[A-Z0-9]{3}$/;
 
     const isValid = ref(true);
     const formEl = ref<any>(null);
@@ -171,6 +181,8 @@ export default defineComponent({
 
     const tokenAuth = ref(false);
     const token = ref("");
+
+    const loading = ref(false);
 
     const form = ref({
       rfc: "",
@@ -209,6 +221,7 @@ export default defineComponent({
     });
 
     async function login() {
+      loading.value = true;
       try {
         let data = new FormData();
         data.append("email", form.value.rfc);
@@ -218,8 +231,10 @@ export default defineComponent({
 
         if (session.auth == true) {
           await formEl.value?.reset();
+          loading.value = false;
           router.push({ name: "dashboard" });
         } else {
+          loading.value = false;
           dialogPropiedades.value = {
             dialog: true,
             titulo: "Inicio de sesión",
@@ -319,6 +334,7 @@ export default defineComponent({
       convertToUpperCase,
       dialogPropiedades,
       cerrardialogPropiedades,
+      loading,
     };
   },
 });

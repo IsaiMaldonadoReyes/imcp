@@ -153,7 +153,7 @@
                     style="font-weight: bold"
                     type="submit"
                   >
-                    ENTRAR
+                    ENVIAR
                   </v-btn>
                 </v-col>
               </v-row>
@@ -175,6 +175,15 @@
         :dialog-loop="dialogPropiedades.repetir"
         @cerrarDialog="cerrardialogPropiedades"
       />
+      <v-dialog v-model="loading">
+        <div class="text-center">
+          <v-progress-circular
+            :size="60"
+            :color="colores.rojoIMPC"
+            indeterminate
+          ></v-progress-circular>
+        </div>
+      </v-dialog>
     </ion-content>
   </ion-page>
 </template>
@@ -198,7 +207,8 @@ export default defineComponent({
   setup() {
     const session = useSessionStore();
     const router = useRouter();
-    const rfcRegex = /^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z1-9]\d{1}$/;
+    const rfcRegex =
+      /^([A-ZÑ&]{3,4})\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])[A-Z0-9]{3}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const telefonoRegex = /^\d{10}$/;
     const noWhitespaceRegex = /^\S+$/; // No permite espacios en blanco
@@ -209,6 +219,8 @@ export default defineComponent({
 
     const tokenAuth = ref(false);
     const token = ref("");
+
+    const loading = ref(false);
 
     const form = ref({
       nombre: "",
@@ -248,6 +260,7 @@ export default defineComponent({
     });
 
     async function createAccount() {
+      loading.value = true;
       try {
         let data = new FormData();
         data.append("datos[nombre]", form.value.nombre);
@@ -262,6 +275,7 @@ export default defineComponent({
           await formEl.value?.reset();
         }
 
+        loading.value = false;
         dialogPropiedades.value = {
           dialog: true,
           titulo: "Preregistro de cuenta",
@@ -285,6 +299,7 @@ export default defineComponent({
             ? error.message
             : "Ocurrió un problema en la petición";
 
+        loading.value = false;
         dialogPropiedades.value = {
           dialog: true,
           titulo: "Preregistro de cuenta",
@@ -395,6 +410,7 @@ export default defineComponent({
       convertToUpperCase,
       dialogPropiedades,
       cerrardialogPropiedades,
+      loading
     };
   },
 });
