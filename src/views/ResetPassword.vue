@@ -1,10 +1,14 @@
 <template>
   <ion-page>
     <ion-content>
-      <v-container class="ma-# pa-# fill-height" fluid style="align-items: normal">
+      <v-container
+        class="ma-# pa-# fill-height"
+        fluid
+        style="align-items: normal"
+      >
         <v-row
           align="start"
-          style="height: 25%"
+          style="height: 25%; width: 100%"
           class="d-flex align-center justify-center"
         >
           <img
@@ -14,7 +18,7 @@
         </v-row>
         <v-row
           align="start"
-          style="height: 55%"
+          style="height: 62%; width: 100%"
           class="d-flex align-start justify-center"
         >
           <v-card color="transparent" elevation="0">
@@ -49,7 +53,14 @@
                     @input="convertToUpperCase('rfc')"
                   />
                 </v-col>
-                <v-col cols="12" lg="12" md="12" sm="12" class="px-10" align="right">
+                <v-col
+                  cols="12"
+                  lg="12"
+                  md="12"
+                  sm="12"
+                  class="px-10"
+                  align="right"
+                >
                   <v-btn
                     :to="{ path: '/login' }"
                     class="text-caption text-disabled ms-1 text-capitalize"
@@ -82,6 +93,15 @@
         <div class="esquina-br" />
         <div class="esquina-tl" />
       </v-container>
+      <v-dialog v-model="loading">
+        <div class="text-center">
+          <v-progress-circular
+            :size="60"
+            :color="colores.rojoIMPC"
+            indeterminate
+          ></v-progress-circular>
+        </div>
+      </v-dialog>
     </ion-content>
     <dialog-action
       :dialogView="dialogPropiedades.dialog"
@@ -116,13 +136,16 @@ export default defineComponent({
     const session = useSessionStore();
     const router = useRouter();
 
-    const rfcRegex = /^[A-Z&Ñ]{3,4}\d{6}[A-V1-9][A-Z1-9]\d{1}$/;
+    const rfcRegex =
+      /^([A-ZÑ&]{3,4})\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])[A-Z0-9]{3}$/;
 
     const isValid = ref(true);
     const formEl = ref<any>(null);
 
     const form = ref({ rfc: "" });
     const token = ref("");
+
+    const loading = ref(false);
 
     const rules = {
       required: (v: string) => !!v || "Este campo es requerido",
@@ -151,6 +174,7 @@ export default defineComponent({
     const tokenAuth = ref(false);
 
     async function sendPassword() {
+      loading.value = true;
       const rfc = form.value.rfc;
       try {
         let data = new FormData();
@@ -159,6 +183,7 @@ export default defineComponent({
 
         await session.resetPassword(data);
 
+        loading.value = false;
         dialogPropiedades.value = {
           dialog: true,
           titulo: "Recuperación de contraseña",
@@ -173,6 +198,7 @@ export default defineComponent({
 
         await formEl.value?.reset();
       } catch (error) {
+        loading.value = false;
         dialogPropiedades.value = {
           dialog: true,
           titulo: "Recuperación de contraseña",
@@ -266,6 +292,7 @@ export default defineComponent({
       convertToUpperCase,
       dialogPropiedades,
       cerrardialogPropiedades,
+      loading,
     };
   },
 });
