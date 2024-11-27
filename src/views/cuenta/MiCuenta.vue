@@ -322,7 +322,8 @@ export default defineComponent({
         return regexPassword.test(v) || "Contraseña no válida";
       },
       required: (v: string) => !!v || "Este campo es requerido",
-      validEmail: (v: string) => emailRegex.test(v) || "Correo electrónico no válido",
+      validEmail: (v: string) =>
+        emailRegex.test(v) || "Correo electrónico no válido",
     };
 
     const show = ref(false);
@@ -446,20 +447,26 @@ export default defineComponent({
         await pagoStore.cargarContactoInformacion();
 
         dataContacto.value = pagoStore.object.contacto as InformacionUsuario;
-        dataInformacion.value = pagoStore.object.informacion as InformacionUsuarioArray;
+        dataInformacion.value = pagoStore.object
+          .informacion as InformacionUsuarioArray;
 
         if (dataContacto.value.informacion) {
           dataCuenta.value.cuentas_usuarios_id =
             dataContacto.value.informacion.cuentas_usuarios_id;
-          dataCuenta.value.cuenta_nombre = dataContacto.value.informacion.cuenta_nombre;
+          dataCuenta.value.cuenta_nombre =
+            dataContacto.value.informacion.cuenta_nombre;
           dataCuenta.value.cuenta_apaterno =
             dataContacto.value.informacion.cuenta_apaterno;
           dataCuenta.value.cuenta_amatarno =
             dataContacto.value.informacion.cuenta_amatarno;
-          dataCuenta.value.cuenta_email = dataContacto.value.informacion.cuenta_email;
-          dataCuenta.value.cuenta_rfc = dataContacto.value.informacion.cuenta_rfc;
-          dataCuenta.value.registro_agaff = dataContacto.value.informacion.registro_agaff;
-          dataCuenta.value.registro_imss = dataContacto.value.informacion.registro_imss;
+          dataCuenta.value.cuenta_email =
+            dataContacto.value.informacion.cuenta_email;
+          dataCuenta.value.cuenta_rfc =
+            dataContacto.value.informacion.cuenta_rfc;
+          dataCuenta.value.registro_agaff =
+            dataContacto.value.informacion.registro_agaff;
+          dataCuenta.value.registro_imss =
+            dataContacto.value.informacion.registro_imss;
         }
 
         if (
@@ -492,8 +499,14 @@ export default defineComponent({
             "datos[users_usuarios_usuario_id]",
             dataCuenta.value.users_usuarios_usuario_id.toString()
           );
-          formData.append("datos[registro_agaff]", dataCuenta.value.registro_agaff);
-          formData.append("datos[registro_imss]", dataCuenta.value.registro_imss);
+          formData.append(
+            "datos[registro_agaff]",
+            dataCuenta.value.registro_agaff
+          );
+          formData.append(
+            "datos[registro_imss]",
+            dataCuenta.value.registro_imss
+          );
           formData.append(
             "datos[users_usuarios_usuario_email]",
             dataCuenta.value.cuenta_email
@@ -503,22 +516,48 @@ export default defineComponent({
             "datos[enviado]",
             dataCuenta.value.enviado == true ? "Si" : "No"
           );
-          if (dataCuenta.value.password != "") {
+
+          if (
+            typeof dataCuenta.value.password === "string" &&
+            dataCuenta.value.password.trim() !== ""
+          ) {
             formData.append("datos[password]", dataCuenta.value.password);
           }
+
+          formData.append("datos[cuenta_rfc]", dataCuenta.value.cuenta_rfc);
+          formData.append(
+            "datos[users_usuarios_rfc_usuario]",
+            dataCuenta.value.cuenta_rfc
+          );
+
           await cuentaStore.actualizarCuenta(formData);
 
-          dialogPropiedades.value = {
-            dialog: true,
-            titulo: "Actualización de datos",
-            cuerpo: "La información de su cuenta ha sido actualizada correctamente",
-            ruta: "correct",
-            color: colores.value.verdeBoton,
-            boton: "Aceptar",
-            velocidad: 1,
-            componente: "dashboard",
-            repetir: false,
-          };
+          if (cuentaStore.type == "success") {
+            dialogPropiedades.value = {
+              dialog: true,
+              titulo: "Actualización de datos",
+              cuerpo:
+                "La información de su cuenta ha sido actualizada correctamente",
+              ruta: "correct",
+              color: colores.value.verdeBoton,
+              boton: "Aceptar",
+              velocidad: 1,
+              componente: "dashboard",
+              repetir: false,
+            };
+          } else {
+            dialogPropiedades.value = {
+              dialog: true,
+              titulo: "Ocurrió un problema al actualizar los datos",
+              cuerpo: "Cierre la aplicación e inténtelo más tarde.",
+              ruta: "incorrect",
+              color: colores.value.rojoIMPC,
+              boton: "Cerrar",
+              velocidad: 0.5,
+              componente: "",
+              repetir: false,
+            };
+          }
         } else if (!isValidForm.valid && dataContacto.value.informacion) {
           dialogPropiedades.value = {
             dialog: true,
@@ -589,7 +628,7 @@ export default defineComponent({
       dialogPropiedades,
       cerrardialogPropiedades,
       contentRef,
-      loading
+      loading,
     };
   },
 });

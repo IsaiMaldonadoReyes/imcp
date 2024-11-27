@@ -14,7 +14,11 @@
               />
             </ion-col>
             <ion-col size="6" class="d-flex align-center justify-end">
-              <v-list bg-color="transparent" class="imcp-header" @click="toggleMenu">
+              <v-list
+                bg-color="transparent"
+                class="imcp-header"
+                @click="toggleMenu"
+              >
                 <v-list-item
                   class="text-right"
                   :title="nombreUsuario"
@@ -40,7 +44,10 @@
                         </template>
 
                         <v-card color="transparent">
-                          <v-list class="imcp-header mx-auto pa-2" color="transparent">
+                          <v-list
+                            class="imcp-header mx-auto pa-2"
+                            color="transparent"
+                          >
                             <v-list-item
                               :title="nombreUsuario"
                               :subtitle="'RFC ' + rfc"
@@ -76,9 +83,13 @@
                             <v-divider></v-divider>
                             <v-list-item variant="plain" @click="logout">
                               <template v-slot:prepend>
-                                <v-icon size="16" color="#B20000">mdi-logout</v-icon>
+                                <v-icon size="16" color="#B20000"
+                                  >mdi-logout</v-icon
+                                >
                               </template>
-                              <v-list-item-title>Cerrar sesión</v-list-item-title>
+                              <v-list-item-title
+                                >Cerrar sesión</v-list-item-title
+                              >
                             </v-list-item>
                           </v-list>
                         </v-card>
@@ -163,7 +174,9 @@
           <ion-tab-button tab="pendientes" href="/tabs/certificadoEstatus">
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-certificados"></use>
+                <use
+                  xlink:href="../assets/images/ico.svg#ico-certificados"
+                ></use>
               </svg>
             </v-icon>
           </ion-tab-button>
@@ -178,22 +191,28 @@
             </v-icon>
           </ion-tab-button>
 
-          <ion-tab-button tab="cuenta" href="/tabs/cuenta">
-            <v-icon size="30">
-              <svg ref="icon" class="v-icon">
-                <use xlink:href="../assets/images/ico.svg#ico-menu-micuenta"></use>
-              </svg>
+          <ion-tab-button tab="avisos" href="/tabs/capacitacionExternaListado">
+            <v-icon size="30" class="v-icon">
+              mdi-file-certificate-outline
             </v-icon>
           </ion-tab-button>
 
-          <ion-tab-button tab="avisos" href="/tabs/capacitacionExternaListado">
-            <v-icon size="30" class="v-icon"> mdi-file-certificate-outline </v-icon>
-          </ion-tab-button>
-
-          <ion-tab-button tab="manifestaciones" href="/tabs/manifestacionListado">
+          <ion-tab-button
+            tab="manifestaciones"
+            href="/tabs/manifestacionListado"
+          >
             <v-icon size="30">
               <svg ref="icon" class="v-icon">
                 <use xlink:href="../assets/images/ico.svg#ico-menu-m"></use>
+              </svg>
+            </v-icon>
+          </ion-tab-button>
+          <ion-tab-button tab="cuenta" href="/tabs/cuenta">
+            <v-icon size="30">
+              <svg ref="icon" class="v-icon">
+                <use
+                  xlink:href="../assets/images/ico.svg#ico-menu-micuenta"
+                ></use>
               </svg>
             </v-icon>
           </ion-tab-button>
@@ -283,14 +302,15 @@ export default defineComponent({
       nombreUsuario.value = await storage.get("nombreUsuario");
 
       const palabras = nombreUsuario.value.split(" "); // Divide la cadena en palabras
-      const inicialesArray = palabras.map((palabra) => palabra.charAt(0).toUpperCase()); // Obtiene la primera letra de cada palabra
+      const inicialesArray = palabras.map((palabra) =>
+        palabra.charAt(0).toUpperCase()
+      ); // Obtiene la primera letra de cada palabra
       const inicialesCortas = inicialesArray.slice(0, 2).join(""); // Toma las primeras dos iniciales y las une en una cadena
 
       iniciales.value = inicialesCortas;
     }
 
     async function cargarNotificaciones() {
-
       menuNotificacion.value = false;
       notificaciones.value.length = 0;
       notificaciones.value = [];
@@ -307,7 +327,8 @@ export default defineComponent({
         notificaciones.value.push({
           type: "subheader",
           inset: false,
-          title: notifications.length > 0 ? "Notificaciones" : "Sin notificaciones",
+          title:
+            notifications.length > 0 ? "Notificaciones" : "Sin notificaciones",
           subtitle: "",
           url: "",
         });
@@ -465,7 +486,8 @@ ion-tab-button.tab-selected {
 }
 
 .esquina-tl-toolbar {
-  background: url("../assets/images/esquina_superior_izquierda.png") top left no-repeat;
+  background: url("../assets/images/esquina_superior_izquierda.png") top left
+    no-repeat;
   z-index: -1;
   background-size: 22px;
 }

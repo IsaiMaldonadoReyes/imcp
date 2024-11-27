@@ -11,17 +11,16 @@
           <v-tab
             :color="colores.rojoIMPC"
             :value="1"
-            class="mr-1 text-none"
+            class="mr-1 text-none tab-dashboard"
             rounded="t-lg"
             size="small"
             text="Periodo anual"
             variant="flat"
-            
           />
           <v-tab
             :color="colores.rojoIMPC"
             :value="2"
-            class="text-none"
+            class="text-none tab-dashboard"
             rounded="t-lg"
             size="small"
             text="Periodo 4 años"
@@ -520,24 +519,17 @@ export default defineComponent({
 </script>
 
 <style>
-.v-slide-group-item--active .v-btn__content {
+.tab-dashboard .v-btn__content {
+  color: #424242 !important;
+}
+.tab-dashboard.v-slide-group-item--active .v-btn__content {
   color: white !important;
 }
 </style>
 
 <style scoped lang="scss">
-.blue-tab {
-  background-color: white !important;
-  /* Cambia 'blue' por el color que desees */
-}
 .rating-values {
   margin-left: 10px;
   min-width: 65px;
-}
-.active {
-  color: white !important;
-}
-.inactive-tab {
-  color: #424242; /* Set the desired color for the inactive tabs */
 }
 </style>

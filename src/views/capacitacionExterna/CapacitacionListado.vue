@@ -14,7 +14,7 @@
             :color="colores.rojoIMPC"
             :slider-color="colores.rojoIMPC"
             :value="1"
-            class="mr-1 text-none"
+            class="mr-1 text-none tab-capacitacion"
             rounded="t-lg"
             size="small"
             text="Aviso de capacitación externa"
@@ -24,7 +24,7 @@
             :color="colores.rojoIMPC"
             :slider-color="colores.rojoIMPC"
             :value="2"
-            class="text-none"
+            class="text-none tab-capacitacion"
             rounded="t-lg"
             size="small"
             text="Avisos realizados"
@@ -418,25 +418,18 @@ export default defineComponent({
       contentRef,
       formatearFecha,
       loading,
-      detectaValorPaginador
+      detectaValorPaginador,
     };
   },
 });
 </script>
 
 <style>
-.v-slide-group-item--active .v-btn__content {
+.tab-capacitacion .v-btn__content {
+  color: #424242 !important;
+}
+.tab-capacitacion.v-slide-group-item--active .v-btn__content {
   color: white !important;
-}
-
-.blue-tab {
-  background-color: white !important;
-  /* Cambia 'blue' por el color que desees */
-}
-
-.rating-values {
-  margin-left: 10px;
-  min-width: 65px;
 }
 
 .tb-avisos thead {
