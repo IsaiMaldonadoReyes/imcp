@@ -104,17 +104,10 @@
                     @input="() => convertToUpperCase('rfc')"
                   />
                 </v-col>
-                <v-col
-                  cols="6"
-                  lg="12"
-                  md="12"
-                  sm="12"
-                  class="px-6"
-                  align="left"
-                >
+                <v-col class="d-flex flex-row px-10">
                   <v-btn
                     :to="{ path: '/' }"
-                    class="text-caption text-disabled ms-1 text-capitalize"
+                    class="text-caption text-disabled text-capitalize pa-0"
                     color="#C6092F"
                     rounded="lg"
                     size="x-small"
@@ -122,6 +115,18 @@
                     variant="plain"
                   >
                     Iniciar sesión
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    :to="{ path: '/resetPassword' }"
+                    class="text-caption text-disabled text-capitalize pa-0"
+                    color="#C6092F"
+                    rounded="lg"
+                    size="x-small"
+                    style="font-weight: bold"
+                    variant="plain"
+                  >
+                    Recuperar contraseña
                   </v-btn>
                 </v-col>
                 <v-col
@@ -132,17 +137,6 @@
                   class="px-4"
                   align="left"
                 >
-                  <v-btn
-                    :to="{ path: '/resetPassword' }"
-                    class="text-caption text-disabled ms-1 text-capitalize"
-                    color="#C6092F"
-                    rounded="lg"
-                    size="x-small"
-                    style="font-weight: bold"
-                    variant="plain"
-                  >
-                    Recuperar contraseña
-                  </v-btn>
                 </v-col>
                 <v-col cols="12" lg="12" md="12" sm="12" class="px-10">
                   <v-btn
@@ -410,7 +404,7 @@ export default defineComponent({
       convertToUpperCase,
       dialogPropiedades,
       cerrardialogPropiedades,
-      loading
+      loading,
     };
   },
 });

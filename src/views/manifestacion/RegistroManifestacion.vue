@@ -12,6 +12,15 @@
             </v-card-title>
           </v-card-item>
         </v-card>
+
+        <v-card-text
+          v-if="permisosListado.dataset.length > 0"
+          class="text-grey-darken-1 text-justify"
+        >
+          Por favor, seleccione al menos uno de los siguientes certificados y
+          haga clic en el botón "IR A CAPTURA DE CAPACITACIONES".
+        </v-card-text>
+
         <v-data-iterator
           :items="permisosListado.dataset || []"
           :sort-by="sortBy"

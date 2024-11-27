@@ -53,24 +53,29 @@
                     @input="convertToUpperCase('rfc')"
                   />
                 </v-col>
-                <v-col
-                  cols="12"
-                  lg="12"
-                  md="12"
-                  sm="12"
-                  class="px-10"
-                  align="right"
-                >
+                <v-col class="d-flex flex-row px-10">
                   <v-btn
                     :to="{ path: '/login' }"
-                    class="text-caption text-disabled ms-1 text-capitalize"
+                    class="text-caption text-disabled text-capitalize pa-0"
                     color="#C6092F"
                     rounded="lg"
                     size="x-small"
                     style="font-weight: bold"
                     variant="plain"
                   >
-                    Ir a acceso al sistema
+                    Iniciar sesión
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    :to="{ path: '/createAccount' }"
+                    class="text-caption text-disabled text-capitalize pa-0"
+                    color="#C6092F"
+                    rounded="lg"
+                    size="x-small"
+                    style="font-weight: bold"
+                    variant="plain"
+                  >
+                    Crear cuenta
                   </v-btn>
                 </v-col>
                 <v-col cols="12" lg="12" md="12" sm="12" class="px-10">

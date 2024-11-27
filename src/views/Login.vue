@@ -69,17 +69,10 @@
                     @click:append-inner="show1 = !show1"
                   />
                 </v-col>
-                <v-col
-                  cols="6"
-                  lg="12"
-                  md="12"
-                  sm="12"
-                  class="px-6"
-                  align="left"
-                >
+                <v-col class="d-flex flex-row px-10">
                   <v-btn
                     :to="{ path: '/createAccount' }"
-                    class="text-caption text-disabled ms-1 text-capitalize"
+                    class="text-caption text-disabled text-capitalize pa-0"
                     color="#C6092F"
                     rounded="lg"
                     size="x-small"
@@ -88,22 +81,18 @@
                   >
                     Crear cuenta
                   </v-btn>
-                </v-col>
-                <v-col
-                  cols="6"
-                  lg="12"
-                  md="12"
-                  sm="12"
-                  class="px-4"
-                  align="left"
-                >
+                  <v-spacer></v-spacer>
                   <v-btn
                     :to="{ path: '/resetPassword' }"
-                    class="text-caption text-disabled ms-1 text-capitalize"
+                    class="text-caption text-disabled text-capitalize pa-0"
                     color="#C6092F"
                     rounded="lg"
                     size="x-small"
-                    style="font-weight: bold"
+                    style="
+                      font-weight: bold;
+                      white-space: normal;
+                      text-align: center;
+                    "
                     variant="plain"
                   >
                     Recuperar contraseña

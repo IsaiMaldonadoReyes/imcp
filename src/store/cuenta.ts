@@ -21,12 +21,14 @@ export const useCuentaStore = defineStore({
             await storage.create();
 
             const configAuthToken = await storage.get("configToken");
+
             try {
                 const response = await axios.put("/users/informacion", informacion, configAuthToken);
                 this.responseMessage = response.data.sys.mensaje_operacion;
                 this.type = response.data.type;
             } catch (error) {
                 //throw new Error("Solicitud incorrecta");
+                this.type = "error";
             }
         },
     }

@@ -14,7 +14,7 @@
             :color="colores.rojoIMPC"
             :slider-color="colores.rojoIMPC"
             :value="1"
-            class="mr-1 text-none"
+            class="mr-1 text-none tab-manifestacion"
             rounded="t-lg"
             size="small"
             text="Manifestaciones"
@@ -24,7 +24,7 @@
             :color="colores.rojoIMPC"
             :slider-color="colores.rojoIMPC"
             :value="2"
-            class="text-none"
+            class="text-none tab-manifestacion"
             rounded="t-lg"
             size="small"
             text="Manifestaciones realizadas"
@@ -424,13 +424,11 @@ export default defineComponent({
 </script>
 
 <style>
-.v-slide-group-item--active .v-btn__content {
-  color: white !important;
+.tab-manifestacion .v-btn__content {
+  color: #424242 !important;
 }
-
-.blue-tab {
-  background-color: white !important;
-  /* Cambia 'blue' por el color que desees */
+.tab-manifestacion.v-slide-group-item--active .v-btn__content {
+  color: white !important;
 }
 
 .rating-values {
