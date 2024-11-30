@@ -424,4 +424,8 @@ export default defineComponent({
 .mdi-menu-down.mdi.v-icon {
   color: black;
 }
+
+.v-select__selection.v-select__selection-text {
+  color: #333333;
+}
 </style>
