@@ -81,11 +81,10 @@
 
               <v-text-field
                 v-model="dataCuenta.registro_agaff"
-                :rules="[rules.required]"
                 class="my-4"
                 clearable
                 hide-details="auto"
-                label="AGAFF *"
+                label="AGAFF"
                 placeholder="Dato AGAFF"
                 selectable="false"
                 variant="outlined"
@@ -486,6 +485,7 @@ export default defineComponent({
     }
 
     async function actualizarRegistro() {
+      loading.value = true;
       try {
         const isValidForm = await formEl.value?.validate();
         if (isValidForm.valid && dataContacto.value.informacion) {
@@ -598,6 +598,7 @@ export default defineComponent({
         };
         return;
       }
+      loading.value = false;
     }
 
     function cerrardialogPropiedades() {

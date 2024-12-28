@@ -86,12 +86,27 @@
                 :rules="[rules.required]"
                 :teleport="true"
                 cancelText="Cancelar"
-                class="my-4"
+                :class="{ 'my-4': !errors.eventos_fecha_inicio }"
                 format="dd/MM/yyyy HH:mm"
                 placeholder="Fecha de inicio *"
                 required
                 selectText="Aceptar"
               />
+              <div
+                v-if="errors.eventos_fecha_inicio"
+                class="v-input__details"
+                style="
+                  padding-inline-start: 16px;
+                  padding-inline-end: 16px;
+                  margin-bottom: 16px !important;
+                "
+              >
+                <div class="v-messages" role="alert" aria-live="polite">
+                  <div class="v-messages__message" style="color: #b00020">
+                    {{ errors.eventos_fecha_inicio }}
+                  </div>
+                </div>
+              </div>
               <Datepicker
                 v-model="dataModel.eventos_fecha_fin"
                 :auto-apply="true"
@@ -99,13 +114,38 @@
                 :rules="[rules.required]"
                 :teleport="true"
                 cancelText="Cancelar"
-                class="my-4"
+                :class="{ 'my-4': !errors.eventos_fecha_fin }"
                 format="dd/MM/yyyy HH:mm"
                 placeholder="Fecha de fin *"
                 required
                 selectText="Aceptar"
               />
+              <div
+                v-if="errors.eventos_fecha_fin"
+                class="v-input__details"
+                style="
+                  padding-inline-start: 16px;
+                  padding-inline-end: 16px;
+                  margin-bottom: 16px !important;
+                "
+              >
+                <div class="v-messages" role="alert" aria-live="polite">
+                  <div class="v-messages__message" style="color: #b00020">
+                    {{ errors.eventos_fecha_fin }}
+                  </div>
+                </div>
+              </div>
+              <v-checkbox
+                v-model="dataModel.requiereImss"
+                :center-affix="true"
+                :color="colores.verdeBoton"
+                hide-details
+                true-icon="mdi-medical-bag"
+              >
+                <template v-slot:label>Requiere IMSS</template>
+              </v-checkbox>
               <v-select
+                v-if="dataModel.requiereImss"
                 class="my-4"
                 hide-details="auto"
                 label="IMSS *"
@@ -116,6 +156,7 @@
                 item-value="value"
                 item-title="label"
                 multiple
+                :rules="[imssSelectRule]"
               ></v-select>
             </v-card-text>
 
@@ -140,7 +181,7 @@
                       @click="openDialogDisciplina"
                     >
                       <template v-slot:prepend>
-                        <v-icon class="mr-3" size="large"></v-icon>
+                        <v-icon size="large"></v-icon>
                       </template>
                     </v-btn>
                   </v-toolbar>
@@ -189,7 +230,7 @@
                     <v-icon color="grey-lighten-1" size="60">
                       mdi-school
                     </v-icon>
-                    <v-card-text class="text-grey-darken-1">
+                    <v-card-text style="color: #b00020">
                       Aún no hay disciplinas registradas.
                     </v-card-text>
                   </v-card>
@@ -208,6 +249,7 @@
                   label="Seleccione archivos"
                   multiple
                   counter
+                  variant="outlined"
                   v-model="dataModel.archivos"
                 ></v-file-input>
               </v-card-text>
@@ -226,7 +268,7 @@
               @click="guardarDatos"
             >
               <template v-slot:prepend>
-                <v-icon class="mr-3" size="large"></v-icon>
+                <v-icon size="large"></v-icon>
               </template>
             </v-btn>
             <v-btn
@@ -241,7 +283,7 @@
               :to="{ name: 'manifestacionCapacitacionListado' }"
             >
               <template v-slot:prepend>
-                <v-icon class="mr-3" size="large"></v-icon>
+                <v-icon size="large"></v-icon>
               </template>
             </v-btn>
           </div>
@@ -263,7 +305,7 @@
                 <v-select
                   class="my-4"
                   hide-details="auto"
-                  label="Disciplina *"
+                  label="Especilidad *"
                   no-data-text="No hay datos disponibles"
                   variant="outlined"
                   v-model="dataModel.id_disciplina"
@@ -377,7 +419,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onMounted } from "vue";
+import { ref, defineComponent, computed } from "vue";
 import {
   IonPage,
   IonContent,
@@ -554,6 +596,11 @@ export default defineComponent({
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const telefonoRegex = /^\d{10}$/;
 
+    const errors = ref({
+      eventos_fecha_inicio: "",
+      eventos_fecha_fin: "",
+    });
+
     const rules = {
       validEmail: (v: string) =>
         emailRegex.test(v) || "Correo electrónico no válido",
@@ -578,6 +625,16 @@ export default defineComponent({
       onlyNumbers: (v: string) => /^\d+$/.test(v) || "Solo se permiten números",
     };
 
+    const imssSelectRule = computed(() => {
+      return (value: any) => {
+        // Si requiere IMSS, validamos que se haya seleccionado al menos un valor
+        if (dataModel.value.requiereImss && (!value || value.length === 0)) {
+          return "Debes seleccionar al menos una opción.";
+        }
+        return true; // Si no es necesario, la validación pasa
+      };
+    });
+
     const dataModel = ref({
       id_colegio: 0,
       nombre_evento: "",
@@ -601,6 +658,7 @@ export default defineComponent({
         modalidad: string;
       }[],
       archivos: [] as File[],
+      requiereImss: false,
     });
 
     const dataEspecialidad = ref<Especilidad>({
@@ -693,17 +751,17 @@ export default defineComponent({
 
         dataContacto.value = pagoStore.object.contacto as InformacionUsuario;
 
-        if (Object.keys(dataContacto.value.informacion).length !== 0) {
-          dataModel.value.id_colegio =
-            dataContacto.value.informacion.id_colegio;
-        }
-
         await capacitacionStore.cargarCatalogoColegios();
 
         if (capacitacionStore.object.catalogoColegio.result.length >= 0) {
           dataColegio.value = {
             result: capacitacionStore.object.catalogoColegio.result,
           };
+        }
+
+        if (Object.keys(dataContacto.value.informacion).length !== 0) {
+          dataModel.value.id_colegio =
+            dataContacto.value.informacion.id_colegio;
         }
       } catch (error) {}
     }
@@ -769,7 +827,11 @@ export default defineComponent({
           modalidad: string;
         }[],
         archivos: [] as File[],
+        requiereImss: false,
       };
+
+      errors.value.eventos_fecha_inicio = "";
+      errors.value.eventos_fecha_fin = "";
 
       await refForm.value?.reset();
     }
@@ -787,10 +849,72 @@ export default defineComponent({
       await catalogoModalidad();
     });
 
+    const validateStartDate = () => {
+      if (
+        !dataModel.value.eventos_fecha_inicio ||
+        dataModel.value.eventos_fecha_inicio == null
+      ) {
+        errors.value.eventos_fecha_inicio = "La fecha de inicio es obligatoria";
+      } else if (
+        dataModel.value.eventos_fecha_fin &&
+        new Date(dataModel.value.eventos_fecha_inicio) >
+          new Date(dataModel.value.eventos_fecha_fin)
+      ) {
+        errors.value.eventos_fecha_inicio =
+          "La fecha de inicio debe ser menor o igual a la fecha de fin";
+      } else {
+        errors.value.eventos_fecha_inicio = "";
+      }
+    };
+
+    const validateEndDate = () => {
+      if (
+        !dataModel.value.eventos_fecha_fin ||
+        dataModel.value.eventos_fecha_fin == null
+      ) {
+        errors.value.eventos_fecha_fin = "La fecha de fin es obligatoria";
+      } else if (
+        dataModel.value.eventos_fecha_inicio &&
+        new Date(dataModel.value.eventos_fecha_fin) <
+          new Date(dataModel.value.eventos_fecha_inicio)
+      ) {
+        errors.value.eventos_fecha_fin =
+          "La fecha de fin debe ser posterior o igual a la fecha de inicio";
+      } else {
+        errors.value.eventos_fecha_fin = "";
+      }
+    };
+
     async function guardarDatos() {
+      loading.value = true;
       try {
         const isValidForm = await refForm.value?.validate();
-        if (isValidForm.valid && dataColegio.value.result.length > 0) {
+
+        validateStartDate();
+        validateEndDate();
+
+        if (
+          !isValidForm.valid ||
+          dataModel.value.listado_eventos.length == 0 ||
+          errors.value.eventos_fecha_inicio !== "" ||
+          errors.value.eventos_fecha_fin !== ""
+        ) {
+          dialogPropiedades.value = {
+            dialog: true,
+            titulo: "Capacitación externa",
+            cuerpo:
+              "Por favor, asegúrese de llenar todos los campos requeridos para poder continuar.",
+            ruta: "incorrect",
+            color: colores.value.rojoIMPC,
+            boton: "Cerrar",
+            velocidad: 0.5,
+            componente: "",
+            repetir: false,
+          };
+        } else if (
+          isValidForm.valid &&
+          dataModel.value.listado_eventos.length > 0
+        ) {
           const formData = new FormData();
 
           const storage = new Storage();
@@ -907,19 +1031,6 @@ export default defineComponent({
               repetir: false,
             };
           }
-        } else if (!isValidForm.valid && dataColegio.value.result.length > 0) {
-          dialogPropiedades.value = {
-            dialog: true,
-            titulo: "Capacitación externa",
-            cuerpo:
-              "Por favor, asegúrese de llenar todos los campos requeridos para poder continuar.",
-            ruta: "incorrect",
-            color: colores.value.rojoIMPC,
-            boton: "Cerrar",
-            velocidad: 0.5,
-            componente: "",
-            repetir: false,
-          };
         } else if (dataColegio.value.result.length == 0) {
           dialogPropiedades.value = {
             dialog: true,
@@ -933,6 +1044,7 @@ export default defineComponent({
             repetir: false,
           };
         }
+        loading.value = false;
       } catch (error) {}
     }
 
@@ -970,6 +1082,8 @@ export default defineComponent({
       dataModel.value.horas = "";
       dataModel.value.modalidad = "";
       dialogFormDisciplina.value = false;
+
+      editedIndex.value = -1;
     }
 
     function cerrarDialogConfirmationDisciplina() {
@@ -979,6 +1093,8 @@ export default defineComponent({
       dataModel.value.modalidad = "";
 
       dialogConfirmationDisciplina.value = false;
+
+      editedIndex.value = -1;
     }
 
     function openDialogDisciplina() {
@@ -999,12 +1115,16 @@ export default defineComponent({
     function eliminarDisciplina(item: any) {
       editedIndex.value = dataModel.value.listado_eventos.indexOf(item);
       dialogConfirmationDisciplina.value = true;
+
+      editedIndex.value = -1;
     }
 
     function confirmarDialogDisciplina() {
       dataModel.value.listado_eventos.splice(editedIndex.value, 1);
 
       dialogConfirmationDisciplina.value = false;
+
+      editedIndex.value = -1;
     }
 
     async function agregarDisciplina() {
@@ -1042,6 +1162,8 @@ export default defineComponent({
         dataModel.value.modalidad = "";
 
         dialogFormDisciplina.value = false;
+
+        editedIndex.value = -1;
       }
     }
 
@@ -1088,6 +1210,8 @@ export default defineComponent({
       cerrardialogPropiedades,
       contentRef,
       loading,
+      errors,
+      imssSelectRule,
     };
   },
 });

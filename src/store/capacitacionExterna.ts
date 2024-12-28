@@ -44,7 +44,7 @@ export const useCapacitacionStore = defineStore({
 
             try {
 
-                const response = await axios.get("/users/catalogos/especialidades", {
+                const response = await axios.get("/users/catalogos/catalogoEspecialidad", {
                     headers: configAuthToken.headers,
                 });
 

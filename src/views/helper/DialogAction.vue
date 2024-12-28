@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialogPropiedades.dialog" max-width="500px">
+  <v-dialog v-model="dialogPropiedades.dialog" max-width="500px" persistent>
     <div class="icon-box">
       <vue3-lottie
         :loop="dialogPropiedades.repetir"
