@@ -36,7 +36,7 @@
             </span>
             <br />
             <span class="text-subtitle-1 text-grey-darken-1">
-              Registro Agaff:
+              Registro AGAFF:
             </span>
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.CuentasUsuarios.registroAgaff }}

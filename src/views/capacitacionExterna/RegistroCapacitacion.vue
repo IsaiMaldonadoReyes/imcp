@@ -18,7 +18,7 @@
               <v-select
                 class="my-4"
                 hide-details="auto"
-                label="Colegio *"
+                label="Colegio a autorizar capacitación *"
                 no-data-text="No hay datos disponibles"
                 variant="outlined"
                 item-value="value"
@@ -29,6 +29,16 @@
                 readonly
                 disabled
               ></v-select>
+              <v-text-field
+                class="my-4"
+                clearable
+                hide-details="auto"
+                label="Institucion emisora *"
+                placeholder="Institucion emisora"
+                variant="outlined"
+                v-model="dataModel.institucion_emisora"
+                :rules="[rules.required]"
+              ></v-text-field>
               <v-text-field
                 class="my-4"
                 clearable
@@ -635,6 +645,7 @@ export default defineComponent({
 
     const dataModel = ref({
       id_colegio: 0,
+      institucion_emisora: "",
       nombre_evento: "",
       eventos_sede: "",
       expositor: "",
@@ -805,6 +816,7 @@ export default defineComponent({
     async function limpiarFormulario() {
       dataModel.value = {
         id_colegio: 0,
+        institucion_emisora: "",
         nombre_evento: "",
         eventos_sede: "",
         expositor: "",
@@ -925,6 +937,11 @@ export default defineComponent({
             "eventos_externos[id_colegio]",
             dataModel.value.id_colegio.toString()
           );
+          formData.append(
+            "eventos_externos[institucion]",
+            dataModel.value.institucion_emisora.toString()
+          );
+          
           formData.append(
             "eventos_externos[nombre_evento]",
             dataModel.value.nombre_evento

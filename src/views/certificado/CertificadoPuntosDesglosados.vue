@@ -33,7 +33,7 @@
               {{ desgloseEspecialidades.CuentasUsuarios.articulo }}
             </span>
             <br />
-            <span class="text-subtitle-1 text-grey-darken-1">Registro Agaff: </span>
+            <span class="text-subtitle-1 text-grey-darken-1">Registro AGAFF: </span>
             <span class="text-subtitle-1 font-weight-bold">
               {{ desgloseEspecialidades.CuentasUsuarios.registroAgaff }}</span
             >

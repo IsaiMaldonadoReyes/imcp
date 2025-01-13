@@ -18,8 +18,10 @@
       <v-divider></v-divider>
 
       <v-card-text class="text-center">
-        <span class="text-subtitle-1 text-grey-darken-1">
-          {{ dialogPropiedades.mensajeCuerpo }}
+        <span
+          class="text-subtitle-1 text-grey-darken-1"
+          v-html="dialogPropiedades.mensajeCuerpo"
+        >
         </span>
       </v-card-text>
       <v-card-actions>
