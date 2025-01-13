@@ -33,6 +33,16 @@
                 class="my-4"
                 clearable
                 hide-details="auto"
+                label="Institucion emisora *"
+                placeholder="Institucion emisora"
+                variant="outlined"
+                v-model="dataModel.institucion_emisora"
+                :rules="[rules.required]"
+              ></v-text-field>
+              <v-text-field
+                class="my-4"
+                clearable
+                hide-details="auto"
                 label="Nombre del evento *"
                 placeholder="Nombre del evento"
                 variant="outlined"
@@ -637,6 +647,7 @@ export default defineComponent({
 
     const dataModel = ref({
       id_colegio: 0,
+      institucion_emisora: "",
       nombre_evento: "",
       eventos_sede: "",
       expositor: "",
@@ -806,6 +817,7 @@ export default defineComponent({
     async function limpiarFormulario() {
       dataModel.value = {
         id_colegio: 0,
+        institucion_emisora: "",
         nombre_evento: "",
         eventos_sede: "",
         expositor: "",
@@ -926,6 +938,10 @@ export default defineComponent({
           formData.append(
             "eventos_externos[id_colegio]",
             dataModel.value.id_colegio.toString()
+          );
+          formData.append(
+            "eventos_externos[institucion]",
+            dataModel.value.institucion_emisora.toString()
           );
           formData.append(
             "eventos_externos[nombre_evento]",

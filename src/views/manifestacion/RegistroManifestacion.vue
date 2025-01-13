@@ -178,11 +178,6 @@
                               ]
                             "
                             :label="value"
-                            :required="
-                              manifestacionListado[
-                                `${manifestacion.label}_${itemH.raw.id_certificado}_${manifestacion.value}`
-                              ]
-                            "
                             class="my-4"
                             clearable
                             hide-details="auto"
@@ -513,6 +508,8 @@ export default defineComponent({
         }
       }
 
+      const erroresPorCertificado = new Map<string, string[]>();
+
       for (const manifestacion of manifestacionesSeleccionadas) {
         const { label, id_certificado, valores } = manifestacion;
         const permisosByCertificado = permisosListado.value.dataset.find(
@@ -536,15 +533,44 @@ export default defineComponent({
             );
 
             // Mostrar las diferencias encontradas
+            /*
             diferencias.forEach((diferencia: any) => {
-              mensajeError += ` El campo '${diferencia}' debe ser ingresado del certificado: ${permisosByCertificado.disciplina} \n`;
+              if (diferencia !== "REGISTRO CONTRIBUCIONES LOCALES") {
+                mensajeError += ` El campo '${diferencia}' debe ser llenado en el certificado: <span style="color: black;">${permisosByCertificado.disciplina}</span> <br>`;
+              }
             });
+            */
+            const diferenciasFiltradas = diferencias.filter(
+              (diferencia: string) =>
+                diferencia !== "REGISTRO CONTRIBUCIONES LOCALES"
+            );
+
+            if (diferenciasFiltradas.length > 0) {
+              // Agrupar errores por certificado
+              if (
+                !erroresPorCertificado.has(permisosByCertificado.disciplina)
+              ) {
+                erroresPorCertificado.set(permisosByCertificado.disciplina, []);
+              }
+              erroresPorCertificado
+                .get(permisosByCertificado.disciplina)!
+                .push(...diferenciasFiltradas);
+            }
           }
         }
       }
 
+      erroresPorCertificado.forEach((campos, disciplina) => {
+        mensajeError += `
+    <p>Del certificado <span style="color: black;">${disciplina}</span> debe llenar los campos:</p>
+    <ul>
+      ${campos.map((campo) => `<li>${campo}</li>`).join("")}
+    </ul>
+  `;
+      });
+
       if (contadorSolicitudes == 0) {
-        mensajeError += ` No fue seleccionada al menos una manifestación \n`;
+        mensajeError += ` No fue seleccionada al menos una manifestación <br>`;
       }
 
       if (mensajeError != "") {

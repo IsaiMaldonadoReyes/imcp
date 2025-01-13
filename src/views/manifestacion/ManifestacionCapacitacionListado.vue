@@ -3,6 +3,34 @@
     <ion-content ref="contentRef">
       <v-container>
         <v-card border class="mb-3" color="transparent" elevation="0">
+          <v-card border class="ma-3" elevation="0">
+            <v-card-text class="text-justify">
+              <span class="text-body text-grey-darken-1">
+                Si usted cuenta con capacitaciones externas al colegio que no
+                aparezcan en este listado, puede agregarlas dando clic en el
+                siguiente botón
+              </span>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                block
+                class="text-none"
+                prepend-icon="mdi-note-plus-outline"
+                rounded="large"
+                size="large"
+                text="NUEVA CAPACITACIÓN EXTERNA"
+                variant="flat"
+                :color="colores.verdeBoton"
+                :to="{ name: 'manifestacionRegistroCapacitacion' }"
+              >
+                <template v-slot:prepend>
+                  <v-icon class="mr-3" size="large"></v-icon>
+                </template>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-card>
+        <v-card border class="mb-3" color="transparent" elevation="0">
           <v-card class="py-1" elevation="0" border rounded="0">
             <v-card-item>
               <v-card-title
@@ -178,34 +206,7 @@
             </v-data-table>
           </v-card>
         </v-card>
-        <v-card border class="mb-3" color="transparent" elevation="0">
-          <v-card border class="ma-3" elevation="0">
-            <v-card-text class="text-justify">
-              <span class="text-body text-grey-darken-1">
-                Si usted cuenta con capacitaciones externas al colegio que no
-                aparezcan en este listado, puede agregarlas dando clic en el
-                siguiente botón
-              </span>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn
-                block
-                class="text-none"
-                prepend-icon="mdi-note-plus-outline"
-                rounded="large"
-                size="large"
-                text="NUEVA CAPACITACIÓN EXTERNA"
-                variant="flat"
-                :color="colores.verdeBoton"
-                :to="{ name: 'manifestacionRegistroCapacitacion' }"
-              >
-                <template v-slot:prepend>
-                  <v-icon class="mr-3" size="large"></v-icon>
-                </template>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-card>
+
         <v-card border class="mb-3" color="transparent" elevation="0">
           <v-card border class="ma-3" elevation="0">
             <v-card-text class="text-justify">
