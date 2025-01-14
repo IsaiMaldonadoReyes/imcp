@@ -651,8 +651,8 @@ export default defineComponent({
       nombre_evento: "",
       eventos_sede: "",
       expositor: "",
-      eventos_fecha_inicio: "",
-      eventos_fecha_fin: "",
+      eventos_fecha_inicio: new Date(),
+      eventos_fecha_fin: new Date(),
       telefono: "",
       email: "",
       imss_id: [] as number[],
@@ -821,8 +821,8 @@ export default defineComponent({
         nombre_evento: "",
         eventos_sede: "",
         expositor: "",
-        eventos_fecha_inicio: "",
-        eventos_fecha_fin: "",
+        eventos_fecha_inicio: new Date(),
+        eventos_fecha_fin: new Date(),
         telefono: "",
         email: "",
         imss_id: [] as number[],
@@ -958,11 +958,11 @@ export default defineComponent({
           formData.append("eventos_externos[origen]", "Manifestación");
           formData.append(
             "eventos_externos[eventos_fecha_inicio]",
-            cambiarFormatoFecha(dataModel.value.eventos_fecha_inicio)
+            cambiarFormatoFecha(dataModel.value.eventos_fecha_inicio.toString())
           );
           formData.append(
             "eventos_externos[eventos_fecha_fin]",
-            cambiarFormatoFecha(dataModel.value.eventos_fecha_fin)
+            cambiarFormatoFecha(dataModel.value.eventos_fecha_fin.toString())
           );
           formData.append(
             "eventos_externos[telefono]",

@@ -17,8 +17,8 @@ export const usePagoStore = defineStore({
             catalogoAnioTitulacion: {},
             catalogoAnioNacimiento: {},
             catalogoTipoPersona: {},
-            catalogoFisico: {},
-            catalogoMoral: {},
+            catalogoFisico: { result: [], type: "" },
+            catalogoMoral: { result: [], type: "" },
             catalogoGradoAcademico: {},
             puntosPorCertificado: {},
             contacto: {},
@@ -30,7 +30,7 @@ export const usePagoStore = defineStore({
     }),
     actions: {
 
-        async cargarPago(token: any, fecha : any) {
+        async cargarPago(token: any, fecha: any) {
             const storage = new Storage();
             await storage.create();
 
