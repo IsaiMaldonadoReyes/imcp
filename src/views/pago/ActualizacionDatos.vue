@@ -201,27 +201,36 @@
                   :items="dataAnioTitulacion.result"
                   item-value="value"
                   item-title="label"
+                  :rules="[rules.requiredSelection]"
                 ></v-select>
                 <v-text-field
                   class="my-4"
                   clearable
                   hide-details="auto"
-                  label="AGAFF *"
+                  label="AGAFF "
                   placeholder="Dato AGAFF"
                   variant="outlined"
                   v-model="dataModel.registro_agaff"
-                  :rules="[rules.required]"
                 ></v-text-field>
 
                 <v-text-field
                   class="my-4"
                   clearable
                   hide-details="auto"
-                  label="IMSS *"
+                  label="IMSS "
                   placeholder="Dato IMMS"
                   variant="outlined"
                   v-model="dataModel.registro_imss"
-                  :rules="[rules.required]"
+                ></v-text-field>
+
+                <v-text-field
+                  class="my-4"
+                  clearable
+                  hide-details="auto"
+                  label="INFONAVIT "
+                  placeholder="Dato IMMS"
+                  variant="outlined"
+                  v-model="dataModel.infonavit"
                 ></v-text-field>
 
                 <v-text-field
@@ -357,7 +366,7 @@
                     <v-icon color="grey-lighten-1" size="60">
                       mdi-school
                     </v-icon>
-                    <v-card-text class="text-grey-darken-1">
+                    <v-card-text style="color: #b00020">
                       Aún no hay grados académicos registrados.
                     </v-card-text>
                   </v-card>
@@ -752,6 +761,7 @@
                   variant="outlined"
                   v-model="dataModel.facturacion_rfc"
                   :rules="[rules.required, rules.validRFC]"
+                  @update:modelValue="convertToUpperCase('facturacion_rfc')"
                 ></v-text-field>
                 <v-text-field
                   class="my-4"
@@ -817,6 +827,7 @@
                   item-value="value"
                   item-title="label"
                   @update:modelValue="buscarRegimen"
+                  :rules="[rules.requiredSelection]"
                 ></v-select>
                 <v-select
                   class="my-4"
@@ -829,6 +840,7 @@
                   :items="dataRegimenFiscal.result"
                   item-value="value"
                   item-title="label"
+                  :rules="[rules.requiredSelection]"
                 ></v-select>
               </v-card-text>
             </v-card>
@@ -1410,6 +1422,9 @@ export default defineComponent({
       anhio_titulo: "",
       registro_agaff: "",
       registro_imss: "",
+
+      infonavit: "",
+
       cuenta_email: "",
 
       id_colegio: 0,
@@ -1646,12 +1661,14 @@ export default defineComponent({
           .catalogoTipoPersona as TipoPersona;
 
         await pagoStore.cargarCatalogoTipoPersonaFisica();
-        dataTipoPersonaFisico.value = pagoStore.object
-          .catalogoFisico as RegimenFisico;
+        dataTipoPersonaFisico.value.result =
+          pagoStore.object.catalogoFisico.result;
+        dataTipoPersonaFisico.value.type = pagoStore.object.catalogoFisico.type;
 
         await pagoStore.cargarCatalogoTipoPersonaMoral();
-        dataTipoPersonaMoral.value = pagoStore.object
-          .catalogoMoral as RegimenMoral;
+        dataTipoPersonaMoral.value.result =
+          pagoStore.object.catalogoMoral.result;
+        dataTipoPersonaMoral.value.type = pagoStore.object.catalogoMoral.type;
       } catch (error) {
         console.log(error);
       }
@@ -1782,6 +1799,7 @@ export default defineComponent({
         anhio_titulo: "",
         registro_agaff: "",
         registro_imss: "",
+        infonavit: "",
         cuenta_email: "",
 
         id_colegio: 0,
@@ -1850,15 +1868,21 @@ export default defineComponent({
 
         dataContacto.value = pagoStore.object.contacto as InformacionUsuario;
 
-        await cargarCodigoPostal(dataContacto.value.informacion.cp);
+        if (dataContacto.value.informacion.cp != "") {
+          await cargarCodigoPostal(dataContacto.value.informacion.cp);
+        }
 
-        await cargarCodigoPostalFacturacion(
-          dataContacto.value.informacion.direccion_cp_personal
-        );
+        if (dataContacto.value.informacion.direccion_cp_personal != "") {
+          await cargarCodigoPostalFacturacion(
+            dataContacto.value.informacion.direccion_cp_personal
+          );
+        }
 
-        await cargarCodigoPostalEmpresa(
-          dataContacto.value.informacion.direccion_cp_empresa
-        );
+        if (dataContacto.value.informacion.direccion_cp_empresa != "") {
+          await cargarCodigoPostalEmpresa(
+            dataContacto.value.informacion.direccion_cp_empresa
+          );
+        }
 
         // cuenta_usuarios[]
         dataModel.value.cuentas_usuarios_id =
@@ -1924,8 +1948,9 @@ export default defineComponent({
           dataContacto.value.informacion.direccion_colonia_personal;
         dataModel.value.direccion_estado =
           dataContacto.value.informacion.direccion_estado_personal;
-        dataModel.value.telefono =
-          dataContacto.value.informacion.num_personal.replace(/\s/g, "");
+        dataModel.value.telefono = dataContacto.value.informacion.num_personal
+          ? dataContacto.value.informacion.num_personal.replace(/\s/g, "")
+          : "";
 
         // empresa[0][]
         if (dataContacto.value.empresa.length > 0) {
@@ -1975,8 +2000,11 @@ export default defineComponent({
           dataContacto.value.informacion.direccion_delegacion_empresa;
         dataModel.value.direccion_empresa_estado =
           dataContacto.value.informacion.direccion_estado_empresa;
-        dataModel.value.direccion_empresa_telefono =
-          dataContacto.value.informacion.num_empresa.replace(/\s/g, "");
+
+        dataModel.value.direccion_empresa_telefono = dataContacto.value
+          .informacion.num_empresa
+          ? dataContacto.value.informacion.num_empresa.replace(/\s/g, "")
+          : "";
 
         // datos_facturacion[]
         dataModel.value.dato_facturacion_id =
@@ -2001,10 +2029,15 @@ export default defineComponent({
           dataContacto.value.informacion.regimen_fiscal_id;
 
         if (dataContacto.value.informacion.tipo_persona == "1") {
-          dataRegimenFiscal.value =
-            dataTipoPersonaFisico.value as RegimenFiscal;
+          dataRegimenFiscal.value.result = [
+            ...dataTipoPersonaFisico.value.result,
+          ];
+          dataRegimenFiscal.value.type = dataTipoPersonaFisico.value.type;
         } else if (dataContacto.value.informacion.tipo_persona == "2") {
-          dataRegimenFiscal.value = dataTipoPersonaMoral.value as RegimenFiscal;
+          dataRegimenFiscal.value.result = [
+            ...dataTipoPersonaMoral.value.result,
+          ];
+          dataRegimenFiscal.value.type = dataTipoPersonaMoral.value.type;
         }
         await catalogoSector();
       } catch (error) {
@@ -2177,7 +2210,24 @@ export default defineComponent({
     async function actualizarDatos() {
       try {
         const isValidForm = await formEl.value?.validate();
-        if (isValidForm.valid) {
+
+        if (
+          !isValidForm.valid ||
+          dataModel.value.grado_academico_listado.length == 0
+        ) {
+          dialogPropiedades.value = {
+            dialog: true,
+            titulo: "Actualización de datos",
+            cuerpo:
+              "Por favor, asegúrese de llenar todos los campos requeridos para poder continuar.",
+            ruta: "incorrect",
+            color: colores.value.rojoIMPC,
+            boton: "Cerrar",
+            velocidad: 0.5,
+            componente: "",
+            repetir: false,
+          };
+        } else {
           const formData = new URLSearchParams();
 
           formData.append(
@@ -2235,6 +2285,10 @@ export default defineComponent({
           formData.append(
             "cuentas_usuarios[registro_imss]",
             dataModel.value.registro_imss
+          );
+          formData.append(
+            "cuentas_usuarios[usuario]",
+            dataModel.value.infonavit
           );
           formData.append(
             "cuentas_usuarios[cuenta_email]",
@@ -2401,8 +2455,6 @@ export default defineComponent({
           formData.append("token", idTokenCertificado.value.toString());
           formData.append("tokenxx", tokenCertificado.value);
 
-          console.log(formData);
-
           await certificadoStore.actualizarDatos(formData);
           /*
           await showAlert(
@@ -2424,19 +2476,6 @@ export default defineComponent({
 
             await limpiarCampos();
           }
-        } else {
-          dialogPropiedades.value = {
-            dialog: true,
-            titulo: "Actualización de datos",
-            cuerpo:
-              "Por favor, asegúrese de llenar todos los campos requeridos para poder continuar.",
-            ruta: "incorrect",
-            color: colores.value.rojoIMPC,
-            boton: "Cerrar",
-            velocidad: 0.5,
-            componente: "",
-            repetir: false,
-          };
         }
       } catch (error) {
         console.log(error);
@@ -2445,13 +2484,21 @@ export default defineComponent({
     }
 
     function buscarRegimen() {
+      // Limpiar la lista antes de asignar valores
       dataRegimenFiscal.value.result = [];
+      dataRegimenFiscal.value.type = "";
 
       if (dataModel.value.tipo_persona == "1") {
-        dataRegimenFiscal.value = dataTipoPersonaFisico.value as RegimenFiscal;
+        dataRegimenFiscal.value.result = [
+          ...dataTipoPersonaFisico.value.result,
+        ];
+        dataRegimenFiscal.value.type = dataTipoPersonaFisico.value.type;
       } else if (dataModel.value.tipo_persona == "2") {
-        dataRegimenFiscal.value = dataTipoPersonaMoral.value as RegimenFiscal;
+        dataRegimenFiscal.value.result = [...dataTipoPersonaMoral.value.result];
+        dataRegimenFiscal.value.type = dataTipoPersonaMoral.value.type;
       }
+
+      dataModel.value.regimen_fiscal_id = "";
     }
 
     function cambiarFormatoFecha(fecha: string): string {
@@ -2550,6 +2597,14 @@ export default defineComponent({
       return `${day}/${month}/${year}`;
     }
 
+    function convertToUpperCase(fieldName: keyof typeof dataModel.value) {
+      const fieldValue = dataModel.value[fieldName];
+
+      if (typeof fieldValue === "string") {
+        dataModel.value.facturacion_rfc = fieldValue.toUpperCase();
+      }
+    }
+
     return {
       colores,
       show,
@@ -2599,6 +2654,7 @@ export default defineComponent({
       contentRef,
       formatearFecha,
       loading,
+      convertToUpperCase,
     };
   },
 });

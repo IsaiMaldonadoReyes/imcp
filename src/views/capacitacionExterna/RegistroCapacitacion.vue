@@ -94,6 +94,8 @@
                 v-model="dataModel.eventos_fecha_inicio"
                 :auto-apply="true"
                 :format-locale="es"
+                locale="en-US"
+                month-name-format="long"
                 :rules="[rules.required]"
                 :teleport="true"
                 cancelText="Cancelar"
@@ -649,8 +651,8 @@ export default defineComponent({
       nombre_evento: "",
       eventos_sede: "",
       expositor: "",
-      eventos_fecha_inicio: "",
-      eventos_fecha_fin: "",
+      eventos_fecha_inicio: new Date(),
+      eventos_fecha_fin: new Date(),
       telefono: "",
       email: "",
       imss_id: [] as number[],
@@ -820,8 +822,8 @@ export default defineComponent({
         nombre_evento: "",
         eventos_sede: "",
         expositor: "",
-        eventos_fecha_inicio: "",
-        eventos_fecha_fin: "",
+        eventos_fecha_inicio: new Date(),
+        eventos_fecha_fin: new Date(),
         telefono: "",
         email: "",
         imss_id: [] as number[],
@@ -941,7 +943,7 @@ export default defineComponent({
             "eventos_externos[institucion]",
             dataModel.value.institucion_emisora.toString()
           );
-          
+
           formData.append(
             "eventos_externos[nombre_evento]",
             dataModel.value.nombre_evento
@@ -957,11 +959,11 @@ export default defineComponent({
           formData.append("eventos_externos[origen]", "Externo");
           formData.append(
             "eventos_externos[eventos_fecha_inicio]",
-            cambiarFormatoFecha(dataModel.value.eventos_fecha_inicio)
+            cambiarFormatoFecha(dataModel.value.eventos_fecha_inicio.toString())
           );
           formData.append(
             "eventos_externos[eventos_fecha_fin]",
-            cambiarFormatoFecha(dataModel.value.eventos_fecha_fin)
+            cambiarFormatoFecha(dataModel.value.eventos_fecha_fin.toString())
           );
           formData.append(
             "eventos_externos[telefono]",
