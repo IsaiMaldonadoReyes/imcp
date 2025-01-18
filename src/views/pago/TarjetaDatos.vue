@@ -144,9 +144,6 @@ export default defineComponent({
 
       dataPagos.value = pagoStore.object.pago as Pagos;
 
-      console.log("esperando pago");
-      console.log(dataPagos);
-
       if (dataPagos.value && dataPagos.value.tienda) {
         console.log(dataPagos.value);
         console.log(dataPagos.value.tienda?.length);
@@ -154,9 +151,6 @@ export default defineComponent({
         if (dataPagos.value.tienda?.length > 0) {
           const forma_pago = dataPagos.value.tienda[0].forma_pago;
           const status = dataPagos.value.tienda[0].status;
-
-          console.log(forma_pago);
-          console.log(status);
 
           switch (forma_pago) {
             case "Visa/Mastercard":
@@ -245,7 +239,6 @@ export default defineComponent({
                 case "Entregado":
                 case "Pagado y facturado":
                 case "Preparación":
-                case "Pago Pendiente":
                   dialogPropiedades.value = {
                     dialog: true,
                     titulo: "Información de pago",
@@ -259,7 +252,22 @@ export default defineComponent({
                   };
                   clearInterval(intervalId);
                   break;
-                case "Incompleto" || "Cancelado":
+                case "Pago Pendiente":
+                  dialogPropiedades.value = {
+                    dialog: true,
+                    titulo: "Información de pago",
+                    cuerpo: `Su pago se esta procesando, método de pago: ${forma_pago}`,
+                    ruta: "payment-success",
+                    color: colores.value.verdeBoton,
+                    boton: "Aceptar",
+                    velocidad: 1,
+                    componente: "",
+                    repetir: true,
+                  };
+                  clearInterval(intervalId);
+                  break;
+                case "Incompleto":
+                case "Cancelado":
                   dialogPropiedades.value = {
                     dialog: true,
                     titulo: "Información de pago",
@@ -349,7 +357,7 @@ export default defineComponent({
         const tokenCert = route.params.tokenCertificado;
 
         await validarPago(tokenCert, fechaActual.value);
-      }, 15000); // 10 segundos en milisegundos
+      }, 45000); // 10 segundos en milisegundos
     });
 
     onIonViewDidLeave(() => {
