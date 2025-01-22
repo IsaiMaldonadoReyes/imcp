@@ -92,11 +92,10 @@
 
               <v-text-field
                 v-model="dataCuenta.registro_imss"
-                :rules="[rules.required]"
                 class="my-4"
                 clearable
                 hide-details="auto"
-                label="IMSS *"
+                label="IMSS"
                 placeholder="Dato IMMS"
                 selectable="false"
                 variant="outlined"
