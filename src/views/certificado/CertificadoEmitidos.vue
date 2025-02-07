@@ -369,12 +369,15 @@ export default defineComponent({
       window.open(ruta, "_blank");
     }
 
-    function formatearFecha(dateString: any) {
-      const date = new Date(dateString);
-      const day = ("0" + date.getDate()).slice(-2);
-      const month = ("0" + (date.getMonth() + 1)).slice(-2);
-      const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
+    function formatearFecha(dateString: string) {
+      const [year, month, day] = dateString.split("-").map(Number); // Extraer partes
+      const date = new Date(Date.UTC(year, month - 1, day)); // Crear la fecha en UTC
+
+      const formattedDay = ("0" + date.getUTCDate()).slice(-2);
+      const formattedMonth = ("0" + (date.getUTCMonth() + 1)).slice(-2);
+      const formattedYear = date.getUTCFullYear();
+
+      return `${formattedDay}/${formattedMonth}/${formattedYear}`;
     }
 
     onIonViewDidEnter(() => {
