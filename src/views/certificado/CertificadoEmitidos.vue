@@ -4,30 +4,61 @@
       <v-container fluid>
         <v-card elevation="0" color="transparent">
           <v-card-item>
-            <v-card-title class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
-              style="white-space: normal">
+            <v-card-title
+              class="text-uppercase text-grey-darken-3 font-weight-bold text-center"
+              style="white-space: normal"
+            >
               Certificados emitidos
             </v-card-title>
           </v-card-item>
         </v-card>
-        <v-data-iterator :items-per-page="itemsPorPagina" :items="certificadosEmitidos.dataset || []"
-          :search="busquedaCertificado" :sort-by="sortBy" item-value="cert_tipo">
+        <v-data-iterator
+          :items-per-page="itemsPorPagina"
+          :items="certificadosEmitidos.dataset || []"
+          :search="busquedaCertificado"
+          :sort-by="sortBy"
+          item-value="cert_tipo"
+        >
           <template v-slot:header>
             <v-row dense class="mt-3">
               <v-col cols="12" lg="6" md="12" sm="12" xs="12">
-                <v-text-field v-model="busquedaCertificado" clearable density="comfortable" hide-details
-                  placeholder="Buscar certificado" prepend-inner-icon="mdi-magnify" variant="solo" />
+                <v-text-field
+                  v-model="busquedaCertificado"
+                  clearable
+                  density="comfortable"
+                  hide-details
+                  placeholder="Buscar certificado"
+                  prepend-inner-icon="mdi-magnify"
+                  variant="solo"
+                />
               </v-col>
               <v-col cols="12" lg="6" md="12" sm="12" xs="12">
                 <v-row dense>
                   <v-col cols="8">
-                    <v-select v-model="sortBy" :item-props="keysProps" :items="keys" density="comfortable" hide-details
-                      placeholder="Ordenar por" variant="solo" />
+                    <v-select
+                      v-model="sortBy"
+                      :item-props="keysProps"
+                      :items="keys"
+                      density="comfortable"
+                      hide-details
+                      placeholder="Ordenar por"
+                      variant="solo"
+                    />
                   </v-col>
                   <v-col cols="4" class="d-flex justify-end">
                     <v-btn-toggle v-model="sortDesc" elevation="2">
-                      <v-btn :value="'asc'" color="#B20000" icon="mdi-arrow-up" size="small" />
-                      <v-btn :value="'desc'" color="#B20000" icon="mdi-arrow-down" size="small" />
+                      <v-btn
+                        :value="'asc'"
+                        color="#B20000"
+                        icon="mdi-arrow-up"
+                        size="small"
+                      />
+                      <v-btn
+                        :value="'desc'"
+                        color="#B20000"
+                        icon="mdi-arrow-down"
+                        size="small"
+                      />
                     </v-btn-toggle>
                   </v-col>
                 </v-row>
@@ -36,8 +67,15 @@
           </template>
 
           <template v-slot:no-data>
-            <v-card border class="my-5 pa-10 text-center" color="transparent" elevation="0">
-              <v-icon color="grey-lighten-1" size="60">mdi-database-eye-off</v-icon>
+            <v-card
+              border
+              class="my-5 pa-10 text-center"
+              color="transparent"
+              elevation="0"
+            >
+              <v-icon color="grey-lighten-1" size="60"
+                >mdi-database-eye-off</v-icon
+              >
               <v-card-text class="text-grey-darken-1">
                 No se encontraron certificados que coincidan con la búsqueda.
               </v-card-text>
@@ -45,7 +83,13 @@
           </template>
 
           <template v-slot:default="{ items }">
-            <v-card class="my-4" elevation="0" border v-for="item in items" :key="item.raw.num_certificado">
+            <v-card
+              class="my-4"
+              elevation="0"
+              border
+              v-for="item in items"
+              :key="item.raw.num_certificado"
+            >
               <!--v-card-title
                 class="text-none text-center"
                 style="white-space: normal"
@@ -102,8 +146,15 @@
               </v-card-text>
               <v-divider />
               <v-card-actions v-if="item.raw.Descargar !== ''">
-                <v-btn :color="colores.verdeBoton" block prepend-icon="mdi-file-download-outline" size="large"
-                  text="DESCARGAR CERTIFICADO" @click="descargarCertificado(item.raw.Descargar)" variant="flat">
+                <v-btn
+                  :color="colores.verdeBoton"
+                  block
+                  prepend-icon="mdi-file-download-outline"
+                  size="large"
+                  text="DESCARGAR CERTIFICADO"
+                  @click="descargarCertificado(item.raw.Descargar)"
+                  variant="flat"
+                >
                   <template v-slot:prepend>
                     <v-icon size="large"></v-icon>
                   </template>
@@ -114,28 +165,60 @@
 
           <template v-slot:footer="{ page, pageCount, prevPage, nextPage }">
             <div class="d-flex align-center justify-center pa-4">
-              <v-switch v-model="itemsPorPagina" :base-color="colores.grisOscuro" :color="colores.rojoIMPC"
-                :false-value="3" :inline="false" :true-value="certificadosEmitidos.dataset.length"
-                class="switch-all font-weight-bold d-flex justify-center" density="compact"
-                false-icon="mdi-eye-off-outline" hide-details inset label="Ver todos los certificados"
-                true-icon="mdi-eye-outline" v-if="certificadosEmitidos.dataset.length > 3" />
+              <v-switch
+                v-model="itemsPorPagina"
+                :base-color="colores.grisOscuro"
+                :color="colores.rojoIMPC"
+                :false-value="3"
+                :inline="false"
+                :true-value="certificadosEmitidos.dataset.length"
+                class="switch-all font-weight-bold d-flex justify-center"
+                density="compact"
+                false-icon="mdi-eye-off-outline"
+                hide-details
+                inset
+                label="Ver todos los certificados"
+                true-icon="mdi-eye-outline"
+                v-if="certificadosEmitidos.dataset.length > 3"
+              />
             </div>
-            <div class="d-flex align-center justify-center pa-4" v-if="certificadosEmitidos.dataset.length > 3">
-              <v-btn :color="colores.rojoIMPC" :disabled="page === 1" icon="mdi-arrow-left" rounded size="small"
-                @click="prevPage" />
+            <div
+              class="d-flex align-center justify-center pa-4"
+              v-if="certificadosEmitidos.dataset.length > 3"
+            >
+              <v-btn
+                :color="colores.rojoIMPC"
+                :disabled="page === 1"
+                icon="mdi-arrow-left"
+                rounded
+                size="small"
+                @click="prevPage"
+              />
 
-              <div class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold">
+              <div
+                class="mx-2 text-subtitle-1 text-grey-darken-1 font-weight-bold"
+              >
                 Página {{ page }} de {{ pageCount }}
               </div>
 
-              <v-btn :color="colores.rojoIMPC" :disabled="page >= pageCount" icon="mdi-arrow-right" rounded size="small"
-                @click="nextPage" />
+              <v-btn
+                :color="colores.rojoIMPC"
+                :disabled="page >= pageCount"
+                icon="mdi-arrow-right"
+                rounded
+                size="small"
+                @click="nextPage"
+              />
             </div>
           </template>
         </v-data-iterator>
         <v-dialog v-model="loading">
           <div class="text-center">
-            <v-progress-circular :size="60" :color="colores.rojoIMPC" indeterminate></v-progress-circular>
+            <v-progress-circular
+              :size="60"
+              :color="colores.rojoIMPC"
+              indeterminate
+            ></v-progress-circular>
           </div>
         </v-dialog>
       </v-container>
@@ -278,7 +361,7 @@ export default defineComponent({
             totalSize: certificadoStore.object.certificadosEmitidos.totalSize,
           };
         }
-      } catch (error) { }
+      } catch (error) {}
       loading.value = false;
     }
 
@@ -332,13 +415,12 @@ export default defineComponent({
   flex: 0px !important;
   min-width: 15px !important;
 }
-
 .rating-values {
   margin-left: 10px;
   min-width: 65px;
 }
 
-.v-field__input>input {
+.v-field__input > input {
   color: #333333;
 }
 
